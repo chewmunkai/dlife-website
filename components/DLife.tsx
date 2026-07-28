@@ -27,8 +27,8 @@ const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${pat
 
 /**
  * Every image is D'Life's own — the client photography plus stills lifted from
- * the advisor films. No stock, so no attribution chips: the `.credit` element
- * and its Unsplash plumbing are gone with them.
+ * the advisor films. No stock, so no attribution chips are needed — the credit
+ * element and its Unsplash plumbing are gone with them.
  *
  * NOTE(launch): the film stills are 1440px-wide video frames, not photographs.
  * They hold up at card scale but will not survive being enlarged, so the real
@@ -283,14 +283,6 @@ export default function DLife() {
       </nav>
 
       <section id="hero">
-        {/* The studio team portrait is the only asset shot professionally and
-            wide enough to hold a full-bleed frame — the film stills are 1440px
-            and visibly soften at this scale. The grain layer rides over it to
-            keep the gradient scrim from banding across the flat backdrop. */}
-        <div className="bg ph">
-          <Plate photo={PHOTOS.hero} parallax eager />
-          <span className="hgrain" aria-hidden="true" />
-        </div>
         <div className="fg">
           <span className="lb rv">D’Life · Financial Advisory</span>
           <h1>
@@ -316,9 +308,14 @@ export default function DLife() {
             </a>
           </div>
         </div>
+        {/* Brief 10 puts the hero on Ivory, so the photograph runs full-bleed
+            beneath the headline at generous scale rather than under it. */}
+        <div className="bg ph">
+          <Plate photo={PHOTOS.hero} parallax eager />
+        </div>
       </section>
 
-      <section id="trust">
+      <section id="trust" className="dark">
         {/* "27 years" pending client verification — open question #1 in the
             project brief: Sharon personally, or D'Life as an organisation? */}
         {TRUST.map(([figure, unit, label, copy]) => (
@@ -424,9 +421,9 @@ export default function DLife() {
         </div>
       </section>
 
-      <section id="policy" className="light">
+      <section id="policy" className="sand">
         <div className="tx">
-          <span className="lb rv" style={{ color: "var(--dl-copper-d)" }}>
+          <span className="lb rv">
             Existing policyholders
           </span>
           <h2 className="rv" style={{ marginTop: 26 }}>
@@ -437,7 +434,7 @@ export default function DLife() {
             confidence, and see what next step, if any, makes sense.
           </p>
           <div className="acts rv">
-            <a className="pill dark" data-wa="Hi D'Life, I'd like guidance on my existing policy." href="#">
+            <a className="pill" data-wa="Hi D'Life, I'd like guidance on my existing policy." href="#">
               <span>Get guidance on my policy</span>
             </a>
           </div>
@@ -480,7 +477,7 @@ export default function DLife() {
         </div>
       </section>
 
-      <section id="stories">
+      <section id="stories" className="dark">
         <div className="head">
           <div>
             <span className="lb rv">Featured videos</span>
@@ -519,15 +516,15 @@ export default function DLife() {
 
       {/* Cream, not dark: this sits between Stories and DVA, and the brand's
           section rhythm forbids two dark sections touching. */}
-      <section id="careers" className="light">
+      <section id="careers">
         <div>
-          <span className="lb rv" style={{ color: "var(--dl-copper-d)" }}>
+          <span className="lb rv">
             Grow with D’Life
           </span>
           <h2 className="rv">
             A career built on <i>real guidance,</i> not just sales.
           </h2>
-          <a className="pill dark rv" data-wa="Hi D'Life, I'd like to explore a career conversation." href="#">
+          <a className="pill rv" data-wa="Hi D'Life, I'd like to explore a career conversation." href="#">
             <span>Explore a career conversation</span>
           </a>
         </div>
@@ -545,25 +542,29 @@ export default function DLife() {
         </div>
       </section>
 
-      <section id="dva">
-        <div className="bg ph">
-          <Plate photo={PHOTOS.dva} parallax />
-        </div>
-        <div className="fg">
-          <span className="lb rv">DVA · By invitation</span>
-          <h2 className="rv">
-            Built for leaders. A selective circle shaped by <i>shared values and experience.</i>
-          </h2>
-          <a className="pill rv" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
-            <span>Discover DVA</span>
-          </a>
+      <section id="dva" className="dark">
+        {/* Bounded panel, not a full-viewport band: the brief wants DVA
+            "small, dark, contained" so it reads against Youth's openness. */}
+        <div className="panel rv">
+          <div className="bg ph">
+            <Plate photo={PHOTOS.dva} parallax />
+          </div>
+          <div className="fg">
+            <span className="lb">DVA · By invitation</span>
+            <h2>
+              Built for leaders. A selective circle shaped by <i>shared values and experience.</i>
+            </h2>
+            <a className="pill" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
+              <span>Discover DVA</span>
+            </a>
+          </div>
         </div>
       </section>
 
-      <section id="youth" className="light">
+      <section id="youth" className="sand">
         <div className="head">
           <div>
-            <span className="lb rv" style={{ color: "var(--dl-copper-d)" }}>
+            <span className="lb rv">
               Community
             </span>
             <h2 className="rv" style={{ marginTop: 24 }}>
@@ -603,7 +604,7 @@ export default function DLife() {
           </div>
           <form id="loopform">
             <input type="email" placeholder="Your email" required aria-label="Your email" />
-            <button className="pill dark" type="submit">
+            <button className="pill" type="submit">
               <span>Sign Up</span>
             </button>
           </form>
@@ -635,7 +636,7 @@ export default function DLife() {
         </div>
       </section>
 
-      <section id="close">
+      <section id="close" className="dark">
         <span className="lb rv">D’Life</span>
         <h2 className="rv">
           A clearer future can begin with <i>one conversation.</i>
@@ -651,7 +652,7 @@ export default function DLife() {
         </div>
       </section>
 
-      <footer id="ft">
+      <footer id="ft" className="dark charcoal">
         <div className="cols">
           <div>
             <div className="wm">D’Life</div>
