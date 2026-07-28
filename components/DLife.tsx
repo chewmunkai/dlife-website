@@ -1,7 +1,7 @@
 "use client";
 
 import "../styles/dlife.css";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /* ============================================================
    D'Life — "Real Support. Beyond the Policy."
@@ -10,85 +10,58 @@ import { useEffect, useRef } from "react";
 
    The prototype's <image-slot> elements are a design-tool affordance
    (drag-to-fill placeholders with a persistence sidecar); in production
-   they become plain <img> plus the Unsplash credit chip the design
-   system requires on every Unsplash-sourced photo.
+   they become plain <img> against D'Life's own media.
    ============================================================ */
 
 type Photo = {
   src: string;
-  /** Placeholder caption from the prototype — doubles as alt text. */
   alt: string;
-  credit: string;
-  /** Photographer's Unsplash profile. Absent for a couple of slots. */
-  href?: string;
 };
 
-const UNSPLASH_UTM = "utm_source=dlife&utm_medium=referral";
-const withUtm = (url: string) => `${url}${url.includes("?") ? "&" : "?"}${UNSPLASH_UTM}`;
+/**
+ * Self-hosted media under /public. GitHub Pages serves the project from
+ * /<repo>, and a bare <img src> does not pick up Next's basePath, so it is
+ * applied here. Empty in local dev and on any root-served host.
+ */
+const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
 
-// TODO(launch): placeholder photography from the design comp. The project
-// brief flags a real shoot as a budget item — swapping these in also removes
-// the attribution chips, which only exist while the Unsplash images do.
-const shot = (id: string, w = 1400) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`;
-
+/**
+ * Every image is D'Life's own — the client photography plus stills lifted from
+ * the advisor films. No stock, so no attribution chips: the `.credit` element
+ * and its Unsplash plumbing are gone with them.
+ *
+ * NOTE(launch): the film stills are 1440px-wide video frames, not photographs.
+ * They hold up at card scale but will not survive being enlarged, so the real
+ * shoot the brief flags as a budget item still needs to happen.
+ */
 const PHOTOS = {
-  hero: { src: shot("photo-1576089073624-b5751a8f4de9"), alt: "Hero image", credit: "National Cancer Institute", href: "https://unsplash.com/@nci" },
-  p1: { src: shot("photo-1559036064-91b4a2446851"), alt: "Protect my family", credit: "Dragon Pan", href: "https://unsplash.com/@invisibledragon" },
-  p2: { src: shot("photo-1577415124269-fc1140a69e91"), alt: "Review my coverage", credit: "Muhammad Faiz Zulkeflee", href: "https://unsplash.com/@fzeo" },
-  p3: { src: shot("photo-1470252649378-9c29740c9fa8"), alt: "Plan for the future", credit: "Dawid Zawiła", href: "https://unsplash.com/@davealmine" },
-  p4: { src: shot("photo-1531538512164-e6c51ea63d20"), alt: "Explore a career", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
-  p5: { src: shot("photo-1636455688745-bf276db60e84"), alt: "Join a community", credit: "Singapore Stock Photos", href: "https://unsplash.com/@singaporestockphoto" },
-  n1: { src: shot("photo-1577897113292-3b95936e5206"), alt: "Protecting Family", credit: "National Cancer Institute", href: "https://unsplash.com/@nci" },
-  n2: { src: shot("photo-1531539427495-97c44a449837"), alt: "Protecting Income", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
-  n3: { src: shot("photo-1780893006128-567e7cbf8937"), alt: "Medical & Health", credit: "jason hu", href: "https://unsplash.com/@hujason" },
-  n4: { src: shot("photo-1489710437720-ebb67ec84dd2"), alt: "Planning for the Future", credit: "MI PHAM", href: "https://unsplash.com/@phammi" },
-  n5: { src: shot("photo-1560518883-ce09059eeffa"), alt: "Wealth & Legacy", credit: "Tierra Mallorca", href: "https://unsplash.com/@tierramallorca" },
-  policy: { src: shot("photo-1531537571171-a707bf2683da"), alt: "Policy review", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
-  s1: { src: shot("photo-1530099486328-e021101a494a"), alt: "Video still", credit: "Akson", href: "https://unsplash.com/@akson" },
-  s2: { src: shot("photo-1531498352491-042fbae4cf57"), alt: "Video still", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
-  s3: { src: shot("photo-1672917187338-7f81ecac3d3f"), alt: "Video still", credit: "Edi Kurniawan", href: "https://unsplash.com/@edikurniawan" },
-  dva: { src: shot("photo-1596422846543-75c6fc197f07"), alt: "DVA", credit: "Izuddin Helmi Adnan", href: "https://unsplash.com/@izuddinhelmi" },
-  // Youth cards sit in a 4:3 frame, so the comp requests them at w=1200.
-  y1: { src: shot("photo-1613618281214-91af14800d8b", 1200), alt: "Events & workshops", credit: "Raychan", href: "https://unsplash.com/@wx1993" },
-  y2: { src: shot("photo-1529156069898-49953e39b3ac", 1200), alt: "Stories", credit: "Duy Pham" },
-  y3: { src: shot("photo-1531482615713-2afd69097998", 1200), alt: "Educational resources", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
+  hero: { src: asset("/media/img/hero-team.jpg"), alt: "The D’Life advisory team" },
+  p1: { src: asset("/media/img/path-family.jpg"), alt: "A family gathered around a table at home" },
+  p2: { src: asset("/media/img/path-review.jpg"), alt: "Two people talking across a table" },
+  p3: { src: asset("/media/img/path-future.jpg"), alt: "A walker on an open mountain path" },
+  p4: { src: asset("/media/img/path-career.jpg"), alt: "A D’Life advisor speaking at a company event" },
+  p5: { src: asset("/media/img/community-gathering.jpg"), alt: "D’Life colleagues sharing a meal around a table" },
+  n1: { src: asset("/media/img/need-family.jpg"), alt: "Family and friends talking over dinner" },
+  n2: { src: asset("/media/img/need-income.jpg"), alt: "An advisor working at a desk" },
+  n3: { src: asset("/media/img/need-health.jpg"), alt: "D’Life team members at a community charity run" },
+  n4: { src: asset("/media/img/need-planning.jpg"), alt: "Planning at a laptop at the kitchen table" },
+  n5: { src: asset("/media/img/need-legacy.jpg"), alt: "A long table shared by the D’Life community" },
+  policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
+  dva: { src: asset("/media/img/dva-ceremony.jpg"), alt: "D’Life leaders at a certification ceremony" },
+  y1: { src: asset("/media/img/youth-workshop.jpg"), alt: "Attendees seated at a D’Life workshop session" },
+  y2: { src: asset("/media/img/youth-stories.jpg"), alt: "D’Life community members at an evening gathering" },
+  y3: { src: asset("/media/img/youth-resources.jpg"), alt: "A mentor walking a room through the session agenda" },
 } satisfies Record<string, Photo>;
-
-/** Unsplash's prescribed attribution: links the photographer and Unsplash. */
-function Credit({ credit, href }: Pick<Photo, "credit" | "href">) {
-  return (
-    <span className="credit">
-      Photo by{" "}
-      {href ? (
-        <a href={withUtm(href)} target="_blank" rel="noopener noreferrer">
-          {credit}
-        </a>
-      ) : (
-        credit
-      )}{" "}
-      on{" "}
-      <a href={`https://unsplash.com/?${UNSPLASH_UTM}`} target="_blank" rel="noopener noreferrer">
-        Unsplash
-      </a>
-    </span>
-  );
-}
 
 /**
  * Contents of a `.ph` plate. `parallax` wraps the image in the over-scanned
- * `.prlx` layer the scroll engine drives; the credit stays a sibling so it
- * pins to the visible frame rather than riding the parallax offset.
+ * `.prlx` layer the scroll engine drives.
  */
 function Plate({ photo, parallax, eager }: { photo: Photo; parallax?: boolean; eager?: boolean }) {
   const img = (
     <img src={photo.src} alt={photo.alt} loading={eager ? "eager" : "lazy"} decoding="async" />
   );
-  return (
-    <>
-      {parallax ? <div className="prlx">{img}</div> : img}
-      <Credit credit={photo.credit} href={photo.href} />
-    </>
-  );
+  return parallax ? <div className="prlx">{img}</div> : img;
 }
 
 const WA_ADVISOR = "Hi D'Life, I'd like to speak with an advisor.";
@@ -101,10 +74,39 @@ const NEEDS: Array<[Photo, string, string]> = [
   [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built."],
 ];
 
-const STORIES: Array<[Photo, string]> = [
-  [PHOTOS.s1, "A Career Beyond Selling Policies"],
-  [PHOTOS.s2, "What Real Guidance Looks Like"],
-  [PHOTOS.s3, "Inside D’Life Leadership"],
+/**
+ * Featured videos. The brief requires these to play inside the site with audio
+ * rather than bouncing a visitor out to social, so they open in an in-page
+ * dialog. Sources are vertical 9:16 with burned-in bilingual subtitles; the
+ * poster is a 4:5 crop that matches the card and keeps the speaker's face.
+ */
+type Video = {
+  src: string;
+  poster: string;
+  /** Poster is decorative — the card's own heading names the story. */
+  title: string;
+  runtime: string;
+};
+
+const VIDEOS: Video[] = [
+  {
+    src: asset("/media/video/advisor-alex.mp4"),
+    poster: asset("/media/poster/advisor-alex.jpg"),
+    title: "A Career Beyond Selling Policies",
+    runtime: "1 min 36",
+  },
+  {
+    src: asset("/media/video/advisor-mayyee.mp4"),
+    poster: asset("/media/poster/advisor-mayyee.jpg"),
+    title: "What Real Guidance Looks Like",
+    runtime: "1 min 30",
+  },
+  {
+    src: asset("/media/video/dva-workshop.mp4"),
+    poster: asset("/media/poster/dva-workshop.jpg"),
+    title: "Inside D’Life Leadership",
+    runtime: "1 min 09",
+  },
 ];
 
 /** [photo, title, copy, link label] */
@@ -120,6 +122,18 @@ const TRUST: Array<[string, string | null, string, string]> = [
   ["People", "first", "Approach", "Advisory before products, every conversation."],
   ["Clarity", null, "Promise", "Protection you can explain to your own family."],
   ["Support", null, "After the sign", "A human to call when it matters most."],
+];
+
+/**
+ * Manifesto pillars: [index, heading, copy]. The manifesto previously repeated
+ * the hero paragraph verbatim, which left the section both redundant and empty.
+ * The statement now uses the brief's own public translation of Sharon's
+ * philosophy, and these three beats give the section something to hold.
+ */
+const PILLARS: Array<[string, string, string]> = [
+  ["01", "Protect", "Cover built around the people who actually depend on you."],
+  ["02", "Plan", "Decisions you could explain, in your own words, to your own family."],
+  ["03", "Stay", "An advisor still picking up the phone years after the signature."],
 ];
 
 /** Careers ladder: [number, heading, copy] */
@@ -159,6 +173,31 @@ const PlayIcon = () => (
 
 export default function DLife() {
   const root = useRef<HTMLDivElement>(null);
+  const [playing, setPlaying] = useState<Video | null>(null);
+  const closeBtn = useRef<HTMLButtonElement>(null);
+  /** The card that opened the dialog, so focus can be handed back on close. */
+  const opener = useRef<HTMLElement | null>(null);
+
+  const close = useCallback(() => setPlaying(null), []);
+
+  /* Dialog behaviour: Escape closes it, the page behind is frozen so a scroll
+     gesture doesn't drive the pinned ScrollTrigger sections underneath, and
+     focus moves to the close button then returns to the card that opened it. */
+  useEffect(() => {
+    if (!playing) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeBtn.current?.focus();
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+      opener.current?.focus();
+    };
+  }, [playing, close]);
 
   useEffect(() => {
     const el = root.current;
@@ -178,6 +217,11 @@ export default function DLife() {
   return (
     <div className="dlife" ref={root}>
       <div id="cur" aria-hidden="true" />
+      {/* Read progress. Decorative — the scroll position is already conveyed by
+          the scrollbar to anyone relying on assistive tech. */}
+      <div id="prog" aria-hidden="true">
+        <i />
+      </div>
       <div id="loader" aria-hidden="true">
         <div>
           <div className="in">
@@ -239,8 +283,13 @@ export default function DLife() {
       </nav>
 
       <section id="hero">
+        {/* The studio team portrait is the only asset shot professionally and
+            wide enough to hold a full-bleed frame — the film stills are 1440px
+            and visibly soften at this scale. The grain layer rides over it to
+            keep the gradient scrim from banding across the flat backdrop. */}
         <div className="bg ph">
           <Plate photo={PHOTOS.hero} parallax eager />
+          <span className="hgrain" aria-hidden="true" />
         </div>
         <div className="fg">
           <span className="lb rv">D’Life · Financial Advisory</span>
@@ -285,10 +334,20 @@ export default function DLife() {
       </section>
 
       <section id="man">
+        <span className="lb rv">What we actually do</span>
         <p className="man">
-          Protection is only the beginning. D’Life brings <i>real guidance,</i> long-term relationships and support{" "}
-          <i>through life’s changes.</i>
+          We help you <i>protect what matters,</i> plan for what’s ahead, and we stay with you{" "}
+          <i>after the paperwork is done.</i>
         </p>
+        <div className="pillars">
+          {PILLARS.map(([no, title, copy]) => (
+            <div className="pillar rv" key={no}>
+              <i>{no}</i>
+              <b>{title}</b>
+              <p>{copy}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section id="path">
@@ -381,9 +440,6 @@ export default function DLife() {
             <a className="pill dark" data-wa="Hi D'Life, I'd like guidance on my existing policy." href="#">
               <span>Get guidance on my policy</span>
             </a>
-            <a className="tlink" href="#faq">
-              See how we can help
-            </a>
           </div>
         </div>
         <div className="ph">
@@ -392,19 +448,27 @@ export default function DLife() {
       </section>
 
       <section id="founder">
-        <div className="ph rv">
-          {/* TODO(launch): Sharon's portrait — intentionally an empty slot in the comp. */}
-          <div className="slot-empty">Sharon’s portrait</div>
+        {/* TODO(launch): founder portraits. Both slots stay marked rather than
+            filled with a film still — the brief lists photography rights as a
+            blocking question, and a founder's face is the last thing to fake. */}
+        <div className="fpair rv">
+          <div className="ph">
+            <div className="slot-empty">Sharon Cheang</div>
+          </div>
+          <div className="ph">
+            <div className="slot-empty">Rachel Cheang</div>
+          </div>
         </div>
         <div>
-          <span className="lb rv">Our founder</span>
+          <span className="lb rv">Our founders</span>
           <h2 className="rv">
-            Years of trust, guidance and growth, <i>carried forward through real people.</i>
+            Started by two sisters, <i>carried forward through real people.</i>
           </h2>
           {/* "almost three decades" pending client verification */}
           <p className="rv">
-            For almost three decades, Sharon has built D’Life on one belief: people come before products, and support
-            should continue long after a policy is signed.
+            <b>Sharon Cheang</b> built D’Life on one belief: people come before products, and support should continue
+            long after a policy is signed. Her sister <b>Rachel Cheang</b> leads business development and the community
+            side of the practice.
           </p>
           <p className="rv">
             What began as a financial advisory practice has grown into a place where clients are guided, advisors are
@@ -429,13 +493,25 @@ export default function DLife() {
           </a>
         </div>
         <div className="grid">
-          {STORIES.map(([photo, title]) => (
-            <div className="story rv" key={title}>
-              <div className="ph">
-                <Plate photo={photo} />
+          {VIDEOS.map((v) => (
+            <div className="story rv" key={v.title}>
+              {/* A real control, not a decorated div: the play affordance has to
+                  be reachable by keyboard and announced as a button. */}
+              <button
+                type="button"
+                className="ph"
+                aria-label={`Play video: ${v.title}`}
+                onClick={(e) => {
+                  opener.current = e.currentTarget;
+                  setPlaying(v);
+                }}
+              >
+                {/* Decorative — the heading below already names the story. */}
+                <img src={v.poster} alt="" loading="lazy" decoding="async" />
                 <PlayIcon />
-              </div>
-              <h3>{title}</h3>
+              </button>
+              <h3>{v.title}</h3>
+              <span className="run">{v.runtime}</span>
             </div>
           ))}
         </div>
@@ -451,11 +527,6 @@ export default function DLife() {
           <h2 className="rv">
             A career built on <i>real guidance,</i> not just sales.
           </h2>
-          <div className="qt rv">
-            {/* quote attribution pending consent */}
-            <p>“D’Life gave me the mentorship I couldn’t find anywhere else.”</p>
-            <span>D’Life Advisor</span>
-          </div>
           <a className="pill dark rv" data-wa="Hi D'Life, I'd like to explore a career conversation." href="#">
             <span>Explore a career conversation</span>
           </a>
@@ -506,13 +577,10 @@ export default function DLife() {
           </p>
         </div>
         <div className="grid">
-          {/* The comp makes the whole card one <a>, but these cards carry an
-              Unsplash credit chip whose photographer/Unsplash links would then
-              be anchors inside an anchor — invalid HTML, and the browser's
-              fix-up breaks hydration. (The prototype gets away with it because
-              <image-slot> hides its credit in shadow DOM.) So the card is a
-              div and the CTA link stretches over it; the credit sits above
-              that overlay and stays independently clickable. */}
+          {/* The comp makes the whole card one <a>. Kept as a div with the CTA
+              link stretched over it instead, so the heading and copy stay
+              outside the link's accessible name rather than being swallowed
+              into one very long label. */}
           {YOUTH.map(([photo, title, copy, cta]) => (
             <div className="yc rv" key={title}>
               <div className="ph">
@@ -618,6 +686,48 @@ export default function DLife() {
       </footer>
 
       <div id="toast" role="status" />
+
+      {/* Videos play here rather than on a social platform, so a visitor never
+          has to leave the site to finish a story. The source is 9:16 and is
+          letterboxed rather than cropped — the subtitles are burned into the
+          bottom of the frame and a cover-fit would cut them off. */}
+      {playing ? (
+        <div
+          className="vmodal"
+          role="dialog"
+          aria-modal="true"
+          aria-label={playing.title}
+          onClick={close}
+        >
+          <button
+            ref={closeBtn}
+            type="button"
+            className="vclose"
+            onClick={close}
+            aria-label="Close video"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M6 6l12 12M18 6L6 18"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+          <div className="vbox" onClick={(e) => e.stopPropagation()}>
+            <video
+              key={playing.src}
+              src={playing.src}
+              poster={playing.poster}
+              controls
+              autoPlay
+              playsInline
+              preload="metadata"
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

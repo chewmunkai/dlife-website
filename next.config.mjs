@@ -16,6 +16,10 @@ const nextConfig = {
   trailingSlash: false,
   basePath,
   assetPrefix: basePath || undefined,
+  // basePath rewrites routes and next/image, but not a plain <img src="/...">.
+  // The design uses bare <img> tags, so the prefix has to reach the client
+  // bundle for self-hosted media to resolve under /<repo> on Pages.
+  env: { NEXT_PUBLIC_BASE_PATH: basePath },
 };
 
 export default nextConfig;

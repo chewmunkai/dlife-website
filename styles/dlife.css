@@ -122,8 +122,7 @@ body:has(.dlife) {
 }
 .dlife .ph .prlx { position: absolute; inset: -12% 0; will-change: transform; }
 
-/* Opt-in text protection: a bottom-anchored fade, stopping short of the
-   bottom-left corner so it never sits over an Unsplash credit chip. */
+/* Opt-in text protection: a bottom-anchored fade for plates that carry copy. */
 .dlife .ph.scrim-b::after {
   content: "";
   position: absolute;
@@ -132,29 +131,8 @@ body:has(.dlife) {
   pointer-events: none;
 }
 
-/* Unsplash attribution — the design system requires a visible credit on
-   every Unsplash-sourced photo. Mirrors <image-slot>'s own credit chip. */
-.dlife .credit {
-  position: absolute;
-  z-index: 5;
-  left: 6px;
-  bottom: 6px;
-  max-width: calc(100% - 12px);
-  padding: 3px 7px;
-  border-radius: 5px;
-  background: rgba(0, 0, 0, .55);
-  color: #fff;
-  font: 10px/1.2 system-ui, -apple-system, sans-serif;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  backdrop-filter: blur(6px);
-}
-.dlife .credit a { color: inherit; }
-.dlife .credit a:hover,
-.dlife .credit a:focus-visible { text-decoration: underline; }
 
-/* Awaiting real brand photography (the founder portrait ships empty). */
+/* Awaiting real brand photography (both founder portraits ship empty). */
 .dlife .slot-empty {
   position: absolute;
   inset: 0;
@@ -166,6 +144,25 @@ body:has(.dlife) {
   box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .18);
   font: 300 italic 15px/1.5 var(--dl-disp);
   color: rgba(208, 191, 169, .7);
+}
+
+/* ---------- read progress ---------- */
+.dlife #prog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 130;
+  height: 2px;
+  background: rgba(246, 241, 232, .10);
+  pointer-events: none;
+}
+.dlife #prog i {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(to right, var(--dl-bronze), var(--dl-copper));
 }
 
 /* ---------- cursor ---------- */
@@ -354,35 +351,49 @@ body:has(.dlife) {
 .dlife #menu .side .c a:hover { color: var(--dl-sand); }
 
 /* ---------- hero ---------- */
-.dlife #hero { position: relative; height: 100vh; min-height: 640px; }
+.dlife #hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; }
 .dlife #hero .bg { position: absolute; inset: 0; }
+
 .dlife #hero .bg::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 2;
-  /* Bottom-weighted: the headline sits at 11vh so it still needs cover,
-     but the top 40% of the photo is now nearly clear. The faint top stop
-     is only there to keep the fixed nav legible before it goes solid. */
+  /* Bottom-weighted: the headline sits at 11vh so it needs cover there, while
+     the top of the portrait stays close to clear. The faint top stop only
+     exists to hold the fixed nav legible before the header goes solid. */
   background: linear-gradient(to top,
-    rgba(11, 33, 29, .88) 0%,
-    rgba(11, 33, 29, .52) 30%,
-    rgba(11, 33, 29, .10) 62%,
-    rgba(11, 33, 29, .26) 100%);
+    rgba(11, 33, 29, .90) 0%,
+    rgba(11, 33, 29, .58) 32%,
+    rgba(11, 33, 29, .14) 64%,
+    rgba(11, 33, 29, .30) 100%);
   pointer-events: none;
 }
+
+/* Inline SVG turbulence — grain with no extra request. Sits over the portrait
+   so the wide gradient scrim doesn't band across its flat studio backdrop. */
+.dlife #hero .hgrain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: .30;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 .dlife #hero .fg { position: absolute; left: var(--dl-pad); right: var(--dl-pad); bottom: 11vh; z-index: 3; }
-.dlife #hero h1 { font-size: clamp(48px, 6.6vw, 104px); line-height: .94; }
+.dlife #hero h1 { font-size: clamp(52px, 7.1vw, 118px); line-height: .92; letter-spacing: -.015em; }
 .dlife #hero h1 .lw { display: block; overflow: hidden; }
 .dlife #hero h1 .lw span { display: inline-block; }
 .dlife #hero .lb { display: block; margin-bottom: 30px; }
 .dlife #hero p {
-  font: 400 20px/1.7 var(--dl-sans);
-  color: rgba(246, 241, 232, .82);
-  max-width: 44ch;
-  margin-top: 28px;
+  font: 400 clamp(20px, 1.55vw, 27px)/1.6 var(--dl-sans);
+  color: rgba(246, 241, 232, .88);
+  max-width: 46ch;
+  margin-top: 30px;
 }
-.dlife #hero .acts { display: flex; gap: 14px; margin-top: 40px; flex-wrap: wrap; }
+.dlife #hero .acts { display: flex; gap: 14px; margin-top: 44px; flex-wrap: wrap; }
 
 /* ---------- trust ---------- */
 .dlife #trust {
@@ -417,20 +428,50 @@ body:has(.dlife) {
   margin-top: 20px;
 }
 .dlife #trust p {
-  font: 400 16px/1.6 var(--dl-sans);
+  font: 400 clamp(16px, 1.15vw, 19px)/1.6 var(--dl-sans);
   color: rgba(246, 241, 232, .78);
   margin-top: 10px;
   max-width: 22ch;
 }
 
 /* ---------- manifesto ---------- */
-.dlife #man { padding: 24vh var(--dl-pad); }
+.dlife #man { padding: 20vh var(--dl-pad); }
+.dlife #man .lb { display: block; margin-bottom: 40px; }
 .dlife #man .man {
-  font: 300 clamp(30px, 3.6vw, 54px)/1.42 var(--dl-disp);
-  max-width: 24ch;
-  letter-spacing: -.01em;
+  font: 300 clamp(32px, 3.9vw, 60px)/1.38 var(--dl-disp);
+  max-width: 26ch;
+  letter-spacing: -.012em;
 }
 .dlife #man .man .w { opacity: .14; }
+
+/* Three beats under the statement. The section previously held one sentence on
+   an otherwise empty canvas; these give the scroll somewhere to land. */
+.dlife #man .pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 4vw, 72px);
+  margin-top: clamp(72px, 11vh, 130px);
+  padding-top: 46px;
+  border-top: 1px solid rgba(246, 241, 232, .14);
+}
+.dlife #man .pillar i {
+  font: 600 11px/1 var(--dl-grot);
+  letter-spacing: .26em;
+  color: var(--dl-bronze);
+  font-style: normal;
+}
+.dlife #man .pillar b {
+  display: block;
+  margin-top: 18px;
+  font: 500 clamp(24px, 2.1vw, 32px)/1.1 var(--dl-disp);
+  color: var(--dl-ivory);
+}
+.dlife #man .pillar p {
+  margin-top: 14px;
+  font: 400 clamp(16px, 1.15vw, 19px)/1.7 var(--dl-sans);
+  color: rgba(246, 241, 232, .74);
+  max-width: 30ch;
+}
 
 /* ---------- pathway ---------- */
 .dlife #path { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
@@ -500,7 +541,7 @@ body:has(.dlife) {
   flex-wrap: wrap;
 }
 .dlife #needs h2 { font-size: clamp(38px, 4.2vw, 68px); line-height: .98; max-width: 15ch; }
-.dlife #needs .head p { font: 400 19px/1.7 var(--dl-sans); color: rgba(246, 241, 232, .8); max-width: 30ch; }
+.dlife #needs .head p { font: 400 clamp(19px, 1.45vw, 25px)/1.65 var(--dl-sans); color: rgba(246, 241, 232, .8); max-width: 30ch; }
 .dlife #needs .rail { overflow: hidden; }
 .dlife #needs .track {
   display: flex;
@@ -510,9 +551,9 @@ body:has(.dlife) {
 }
 .dlife .ncard { width: clamp(300px, 26vw, 420px); flex: none; }
 .dlife .ncard .ph { aspect-ratio: 3/4; }
-.dlife .ncard h3 { font-size: 26px; margin-top: 22px; }
+.dlife .ncard h3 { font-size: clamp(26px, 1.9vw, 32px); margin-top: 22px; }
 .dlife .ncard p {
-  font: 400 16px/1.68 var(--dl-sans);
+  font: 400 clamp(17px, 1.2vw, 20px)/1.65 var(--dl-sans);
   color: rgba(246, 241, 232, .82);
   margin-top: 8px;
   max-width: 34ch;
@@ -530,7 +571,7 @@ body:has(.dlife) {
 .dlife #policy .tx { padding: 18vh var(--dl-pad); }
 .dlife #policy h2 { font-size: clamp(36px, 3.6vw, 56px); line-height: 1; max-width: 14ch; color: var(--dl-ink); }
 .dlife #policy p {
-  font: 400 19px/1.8 var(--dl-sans);
+  font: 400 clamp(19px, 1.45vw, 25px)/1.7 var(--dl-sans);
   color: rgba(47, 53, 50, .85);
   max-width: 46ch;
   margin-top: 28px;
@@ -547,13 +588,18 @@ body:has(.dlife) {
   align-items: center;
 }
 .dlife #founder .ph { aspect-ratio: 3/4; }
-.dlife #founder h2 { font-size: clamp(32px, 3.2vw, 50px); line-height: 1.04; max-width: 18ch; margin-top: 26px; }
+/* Two founders, not one. The taller/offset pair reads as a portrait diptych
+   rather than a split image, and keeps the section asymmetric. */
+.dlife #founder .fpair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 1.4vw, 22px); }
+.dlife #founder .fpair .ph:last-child { transform: translateY(clamp(24px, 5vw, 64px)); }
+.dlife #founder h2 { font-size: clamp(34px, 3.4vw, 54px); line-height: 1.04; max-width: 18ch; margin-top: 26px; }
 .dlife #founder p {
-  font: 400 18px/1.85 var(--dl-sans);
-  color: rgba(246, 241, 232, .84);
+  font: 400 clamp(18px, 1.35vw, 22px)/1.8 var(--dl-sans);
+  color: rgba(246, 241, 232, .86);
   max-width: 50ch;
   margin-top: 26px;
 }
+.dlife #founder p b { font-weight: 500; color: var(--dl-ivory); }
 .dlife .tlink {
   display: inline-flex;
   align-items: center;
@@ -586,7 +632,20 @@ body:has(.dlife) {
 }
 .dlife #stories h2 { font-size: clamp(36px, 3.8vw, 58px); max-width: 14ch; line-height: 1; }
 .dlife #stories .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 2vw, 32px); }
-.dlife .story .ph { aspect-ratio: 4/5; cursor: pointer; }
+/* The plate is a <button> so the play affordance is keyboard-reachable; strip
+   the UA chrome but keep a visible focus ring for keyboard users. */
+.dlife .story .ph {
+  aspect-ratio: 4/5;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  background: var(--dl-deep);
+}
+.dlife .story .ph:focus-visible { outline: 2px solid var(--dl-copper); outline-offset: 3px; }
 .dlife .story .ph img { transition: transform 1.2s cubic-bezier(.22, .7, .24, 1); }
 .dlife .story:hover .ph img { transform: scale(1.06); }
 .dlife .story .play {
@@ -608,7 +667,62 @@ body:has(.dlife) {
 }
 .dlife .story:hover .play { background: rgba(179, 107, 67, .85); transform: translate(-50%, -50%) scale(1.08); }
 .dlife .story .play svg { margin-left: 3px; }
-.dlife .story h3 { font-size: 24px; margin-top: 20px; }
+.dlife .story h3 { font-size: clamp(24px, 1.75vw, 30px); margin-top: 20px; }
+.dlife .story .run {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .6;
+}
+
+/* ---------- video dialog ----------
+   Sources are vertical 9:16. The frame is contained rather than cropped so the
+   burned-in subtitles at the bottom of the picture survive. */
+.dlife .vmodal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+  background: rgba(11, 33, 29, .92);
+  backdrop-filter: blur(6px);
+  animation: dl-vfade .28s ease both;
+}
+@keyframes dl-vfade { from { opacity: 0; } to { opacity: 1; } }
+.dlife .vbox {
+  position: relative;
+  height: min(86vh, 900px);
+  aspect-ratio: 9/16;
+  max-width: 100%;
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+}
+.dlife .vbox video { width: 100%; height: 100%; object-fit: contain; display: block; }
+.dlife .vclose {
+  position: absolute;
+  top: clamp(12px, 2.4vw, 28px);
+  right: clamp(12px, 2.4vw, 28px);
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--dl-ivory);
+  background: rgba(246, 241, 232, .1);
+  border: 1px solid rgba(246, 241, 232, .35);
+  transition: background .3s;
+}
+.dlife .vclose:hover { background: rgba(179, 107, 67, .85); }
+.dlife .vclose:focus-visible { outline: 2px solid var(--dl-copper); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .dlife .vmodal { animation: none; }
+}
 
 /* ---------- careers (light) ----------
    Flipped from dark to cream in the v3 revision: the brand's section
@@ -653,7 +767,7 @@ body:has(.dlife) {
 .dlife #careers .rows a:hover { padding-left: 14px; }
 .dlife #careers .rows i { font: 600 10px/1 var(--dl-grot); letter-spacing: .22em; color: var(--dl-copper-d); font-style: normal; }
 .dlife #careers .rows b { font: 600 clamp(22px, 2vw, 30px)/1.15 var(--dl-grot); letter-spacing: -.025em; color: var(--dl-ink); }
-.dlife #careers .rows p { font: 400 16px/1.7 var(--dl-sans); color: rgba(47, 53, 50, .8); margin-top: 6px; max-width: 44ch; }
+.dlife #careers .rows p { font: 400 clamp(16px, 1.15vw, 19px)/1.7 var(--dl-sans); color: rgba(47, 53, 50, .8); margin-top: 6px; max-width: 44ch; }
 .dlife #careers .rows em { font: 300 italic 15px/1 var(--dl-disp); color: rgba(47, 53, 50, .5); }
 
 /* ---------- dva ---------- */
@@ -694,7 +808,7 @@ body:has(.dlife) {
   margin-top: 14px;
 }
 .dlife #youth .intro {
-  font: 400 19px/1.8 var(--dl-sans);
+  font: 400 clamp(19px, 1.45vw, 25px)/1.7 var(--dl-sans);
   color: rgba(47, 53, 50, .85);
   max-width: 52ch;
   margin-top: 26px;
@@ -713,15 +827,16 @@ body:has(.dlife) {
   transition: transform .45s cubic-bezier(.22, .7, .24, 1), box-shadow .45s;
 }
 /* Stretches the CTA link over the whole card, so the card reads as one
-   target without nesting the credit chip's anchors inside it. The chip's
+   target without swallowing the card's heading and copy into its accessible
+   name. The overlay's
    own z-index (5) keeps it above this overlay and separately clickable. */
 .dlife #youth .yc .cta::after { content: ""; position: absolute; inset: 0; z-index: 1; }
 .dlife #youth .yc:focus-within { outline: 2px solid var(--dl-copper-d); outline-offset: 2px; }
 .dlife #youth .yc:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(15, 51, 44, .14); }
 .dlife #youth .yc .ph { aspect-ratio: 4/3; }
 .dlife #youth .yc .tx { padding: 26px 28px 30px; }
-.dlife #youth .yc h3 { color: var(--dl-ink); font-size: 23px; }
-.dlife #youth .yc p { font: 400 16px/1.7 var(--dl-sans); color: rgba(47, 53, 50, .82); margin-top: 10px; }
+.dlife #youth .yc h3 { color: var(--dl-ink); font-size: clamp(23px, 1.7vw, 28px); }
+.dlife #youth .yc p { font: 400 clamp(16px, 1.15vw, 19px)/1.7 var(--dl-sans); color: rgba(47, 53, 50, .82); margin-top: 10px; }
 .dlife #youth .yc em {
   display: inline-block;
   margin-top: 18px;
@@ -741,7 +856,7 @@ body:has(.dlife) {
   align-items: center;
 }
 .dlife #youth .loop h3 { color: var(--dl-ink); font-size: 30px; }
-.dlife #youth .loop p { font: 400 16px/1.7 var(--dl-sans); color: rgba(47, 53, 50, .8); margin-top: 8px; }
+.dlife #youth .loop p { font: 400 clamp(16px, 1.15vw, 19px)/1.7 var(--dl-sans); color: rgba(47, 53, 50, .8); margin-top: 8px; }
 .dlife #youth form { display: flex; gap: 12px; }
 .dlife #youth input {
   flex: 1;
@@ -797,7 +912,7 @@ body:has(.dlife) {
 .dlife #faq .item.open .x::after { transform: rotate(0); }
 .dlife #faq .a { overflow: hidden; height: 0; }
 .dlife #faq .a p {
-  font: 400 18px/1.8 var(--dl-sans);
+  font: 400 clamp(18px, 1.3vw, 22px)/1.75 var(--dl-sans);
   color: rgba(246, 241, 232, .84);
   max-width: 56ch;
   padding-bottom: 34px;

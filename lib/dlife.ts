@@ -86,9 +86,14 @@ export function initDLife(root: HTMLElement): () => void {
     }
 
     if (!reduced) {
-      /* ---------- reveals ---------- */
+      /* ---------- reveals ----------
+         Groups that sit side by side are animated as staggered sets further
+         down; letting the generic pass also drive their opacity would put two
+         competing tweens on the same property. */
+      const staggered = ".pillar, .story, .yc";
       $$(".rv").forEach((el) => {
         if (el.closest("#hero")) return;
+        if (el.matches(staggered)) return;
         gsap.to(el, {
           opacity: 1,
           y: 0,
@@ -157,6 +162,143 @@ export function initDLife(root: HTMLElement): () => void {
         });
       }
 
+      /* ---------- hero: drift out under the fold ----------
+         The copy lifts and fades while the portrait creeps forward, so leaving
+         the hero reads as depth rather than the page simply scrolling away.
+         Scale stays modest — this is a photograph, not a gradient, and pushing
+         it further would show the softness. */
+      gsap.to("#hero .fg", {
+        yPercent: -26,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
+      });
+      gsap.to("#hero .bg", {
+        scale: 1.1,
+        ease: "none",
+        scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
+      });
+
+      /* ---------- section headings: wipe up ----------
+         clipPath only, so this layers cleanly over the .rv opacity/translate
+         pass those headings already carry rather than fighting it. */
+      $$<HTMLElement>("section h2").forEach((h) => {
+        gsap.fromTo(
+          h,
+          { clipPath: "inset(0 0 108% 0)" },
+          {
+            clipPath: "inset(0 0 -12% 0)",
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: { trigger: h, start: "top 88%" },
+          },
+        );
+      });
+
+      /* ---------- plates: settle from an over-scan ----------
+         Skips plates that already carry .prlx, which is driven separately. */
+      $$<HTMLElement>(".ph img").forEach((img) => {
+        if (img.closest(".prlx")) return;
+        gsap.fromTo(
+          img,
+          { scale: 1.16 },
+          {
+            scale: 1,
+            duration: 1.6,
+            ease: "power3.out",
+            scrollTrigger: { trigger: img.closest(".ph"), start: "top 92%" },
+          },
+        );
+      });
+
+      /* ---------- trust strip: count the figure up ----------
+         Only the purely numeric cell ("27"); the others are words. */
+      $$<HTMLElement>("#trust b").forEach((b) => {
+        const raw = b.childNodes[0]?.textContent?.trim() ?? "";
+        const target = Number(raw);
+        if (!raw || Number.isNaN(target)) return;
+        const node = b.childNodes[0];
+        const counter = { v: 0 };
+        gsap.to(counter, {
+          v: target,
+          duration: 1.6,
+          ease: "power2.out",
+          scrollTrigger: { trigger: b, start: "top 90%" },
+          onUpdate: () => {
+            node.textContent = String(Math.round(counter.v));
+          },
+        });
+      });
+
+      /* ---------- manifesto pillars: stagger as a group ----------
+         They sit side by side, so per-element .rv triggers would all fire on
+         the same scroll line and land as one block. */
+      gsap.fromTo(
+        "#man .pillar",
+        { y: 34, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: { trigger: "#man .pillars", start: "top 86%" },
+        },
+      );
+
+      /* ---------- founder diptych: differential drift ----------
+         The two portraits travel at different rates, which is what stops a
+         paired crop reading as one flat image. */
+      $$<HTMLElement>("#founder .fpair .ph").forEach((p, i) => {
+        gsap.fromTo(
+          p,
+          { yPercent: i === 0 ? 5 : -3 },
+          {
+            yPercent: i === 0 ? -5 : 3,
+            ease: "none",
+            scrollTrigger: { trigger: "#founder", start: "top bottom", end: "bottom top", scrub: true },
+          },
+        );
+      });
+
+      /* ---------- story cards: stagger in ---------- */
+      gsap.fromTo(
+        "#stories .story",
+        { y: 46, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.05,
+          stagger: 0.11,
+          ease: "power3.out",
+          scrollTrigger: { trigger: "#stories .grid", start: "top 84%" },
+        },
+      );
+
+      /* ---------- youth cards: stagger in ---------- */
+      gsap.fromTo(
+        "#youth .yc",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: "#youth .grid", start: "top 86%" },
+        },
+      );
+
+      /* ---------- read-progress rail ----------
+         Measured against the document rather than a trigger element: #needs
+         pins, which injects spacer height, so an element-relative range
+         resolves before that spacing exists and the bar never advances. */
+      gsap.to("#prog i", {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
+      });
+
       /* ---------- closing heading ---------- */
       gsap.from("#close h2", {
         scale: 0.95,
@@ -173,6 +315,24 @@ export function initDLife(root: HTMLElement): () => void {
   on(window, "scroll", () => hd?.classList.toggle("solid", scrollY > 80 && !root.classList.contains("menu-open")), {
     passive: true,
   });
+
+  /* ---------- magnetic call-to-action pills ----------
+     Fine pointers only: a touch device has no hover state to reward, and the
+     offset would only fight the tap target. Listeners go through `on` so they
+     unwind with the rest on unmount — gsap.context only reverts its own tweens. */
+  if (fine && !reduced) {
+    $$<HTMLElement>(".pill").forEach((el) => {
+      on(el, "pointermove", (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = (e as PointerEvent).clientX - (r.left + r.width / 2);
+        const dy = (e as PointerEvent).clientY - (r.top + r.height / 2);
+        gsap.to(el, { x: dx * 0.26, y: dy * 0.26, duration: 0.5, ease: "power3.out" });
+      });
+      on(el, "pointerleave", () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.75, ease: "elastic.out(1, 0.45)" });
+      });
+    });
+  }
 
   /* ---------- overlay menu ---------- */
   const menu = $("#menu");
