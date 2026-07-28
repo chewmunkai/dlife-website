@@ -266,9 +266,12 @@ body:has(.dlife) {
   align-items: center;
   justify-content: space-between;
   padding: 26px var(--dl-pad);
-  color: var(--dl-ink);
-  transition: background .5s, padding .5s, box-shadow .5s;
+  /* The bar starts transparent over the photographic hero, so its resting
+     text is ivory; .solid brings the ivory bar and flips it to ink. */
+  color: var(--dl-ivory);
+  transition: background .5s, padding .5s, box-shadow .5s, color .5s;
 }
+.dlife #hd.solid { color: var(--dl-ink); }
 .dlife #hd.solid {
   background: rgba(246, 241, 232, .9);
   backdrop-filter: blur(12px);
@@ -281,7 +284,7 @@ body:has(.dlife) {
   gap: 10px;
   font: 700 21px/1 var(--dl-grot);
   letter-spacing: -.02em;
-  color: var(--dl-ink);
+  color: currentColor;
 }
 .dlife .lmark { display: block; flex: none; }
 .dlife #hd .rt { display: flex; align-items: center; gap: 14px; }
@@ -289,11 +292,12 @@ body:has(.dlife) {
   font: 500 12px/1 var(--dl-grot);
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: rgba(47, 53, 50, .78);
+  color: currentColor;
+  opacity: .82;
   padding: 13px 6px;
   white-space: nowrap;
 }
-.dlife #hd .msg:hover { color: var(--dl-ink); }
+.dlife #hd .msg:hover { opacity: 1; }
 
 /* Primary action: copper fill, white text, one per section (brief §9). */
 .dlife .pill {
@@ -337,7 +341,7 @@ body:has(.dlife) {
   gap: 12px;
   background: none;
   border: none;
-  color: var(--dl-ink);
+  color: currentColor;
   cursor: pointer;
   font: 600 12px/1 var(--dl-grot);
   letter-spacing: .2em;
@@ -425,10 +429,33 @@ body:has(.dlife) {
    rather than the comp's white-on-photo treatment, which is exactly what
    forced the heavy scrim. The page's one layered-depth moment is now DVA,
    which §9 wants used "selectively" and §4 wants dark and contained. */
-.dlife #hero { background: var(--s-bg); padding-top: clamp(132px, 20vh, 240px); }
-.dlife #hero .fg { padding: 0 var(--dl-pad) clamp(52px, 8vh, 104px); max-width: 1180px; }
-.dlife #hero h1 { font-size: clamp(44px, 6.2vw, 96px); line-height: .95; }
-.dlife #hero .lb { display: block; margin-bottom: 26px; }
+.dlife #hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; }
+.dlife #hero .bg { position: absolute; inset: 0; }
+.dlife #hero .bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* Bottom-weighted: cover where the headline sits, near-clear above. The
+     faint top stop keeps the fixed nav legible before it goes solid. */
+  background: linear-gradient(to top,
+    rgba(11, 33, 29, .88) 0%,
+    rgba(11, 33, 29, .52) 30%,
+    rgba(11, 33, 29, .10) 62%,
+    rgba(11, 33, 29, .28) 100%);
+  pointer-events: none;
+}
+.dlife #hero .fg {
+  position: absolute;
+  left: var(--dl-pad);
+  right: var(--dl-pad);
+  bottom: 11vh;
+  z-index: 3;
+  /* Soft halo behind the type — insurance where the photo runs bright. */
+  text-shadow: 0 1px 30px rgba(11, 33, 29, .45);
+}
+.dlife #hero h1 { font-size: clamp(48px, 6.6vw, 104px); line-height: .94; }
+.dlife #hero .lb { display: block; margin-bottom: 30px; }
 .dlife #hero h1 .lw { display: block; overflow: hidden; }
 .dlife #hero h1 .lw span { display: inline-block; }
 
@@ -440,7 +467,6 @@ body:has(.dlife) {
 }
 .dlife #hero .acts { display: flex; gap: 14px; margin-top: 38px; flex-wrap: wrap; }
 
-.dlife #hero .bg { position: relative; height: clamp(300px, 54vh, 600px); }
 
 /* ---------- trust (deep green) ---------- */
 .dlife #trust {

@@ -35,7 +35,14 @@ const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${pat
  * shoot the brief flags as a budget item still needs to happen.
  */
 const PHOTOS = {
-  hero: { src: asset("/media/img/hero-family.jpg"), alt: "A family in warm conversation over dinner" },
+  // The one deliberate stock exception, at the client's direction: the film
+  // stills are 1440px frames and cannot hold a 100vh full-bleed hero. This is
+  // the original comp's kitchen-table photograph, standing in until the real
+  // shoot (brief §12) delivers a frame wide enough to replace it.
+  hero: {
+    src: "https://images.unsplash.com/photo-1576089073624-b5751a8f4de9?auto=format&fit=crop&w=2400&q=72",
+    alt: "A family sharing a meal at their kitchen table",
+  },
   p1: { src: asset("/media/img/path-family.jpg"), alt: "Three generations of a family gathered around a table" },
   p2: { src: asset("/media/img/path-review.jpg"), alt: "An advisor reviewing paperwork at his desk" },
   p3: { src: asset("/media/img/path-future.jpg"), alt: "Writing out a plan at a desk" },
@@ -311,7 +318,9 @@ export default function DLife() {
         </div>
       </nav>
 
-      <section id="hero">
+      {/* .dark flips the section tokens to ivory-on-dark — the copy sits on
+          the photograph's scrim, not on the page ground. */}
+      <section id="hero" className="dark">
         <div className="fg">
           <span className="lb rv">D’Life · Financial Advisory</span>
           <h1>
@@ -337,10 +346,6 @@ export default function DLife() {
             </a>
           </div>
         </div>
-        {/* Brief §10 keeps the hero on Ivory: headline on the page ground, one
-            photograph running full-bleed beneath it — §12 wants that
-            photograph warm, so it carries the family dinner rather than the
-            studio portrait. */}
         <div className="bg ph">
           <Plate photo={PHOTOS.hero} parallax eager />
         </div>
