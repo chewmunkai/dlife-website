@@ -108,23 +108,29 @@ body:has(.dlife) {
 .dlife .light h3 { color: var(--dl-ink); }
 .dlife .light h2 i { color: var(--dl-copper-d); }
 
-/* ---------- photo treatment: quiet teal grade over every plate ---------- */
+/* ---------- photo treatment ----------
+   The comp graded every plate down — saturate(.68) brightness(.9) plus a
+   30% teal multiply scrim on top. Stacked, that reads muddy and cold, which
+   fights the brief's photography direction ("warm natural light", warmth
+   borrowed from hospitality). Photos now render as shot; only the plates
+   that carry text over them get a scrim, and only where the text sits. */
 .dlife .ph { position: relative; overflow: hidden; background: var(--dl-deep); }
 .dlife .ph img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(.68) contrast(1.05) brightness(.9);
 }
-.dlife .ph::after {
+.dlife .ph .prlx { position: absolute; inset: -12% 0; will-change: transform; }
+
+/* Opt-in text protection: a bottom-anchored fade, stopping short of the
+   bottom-left corner so it never sits over an Unsplash credit chip. */
+.dlife .ph.scrim-b::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(15, 51, 44, .30);
-  mix-blend-mode: multiply;
+  background: linear-gradient(to top, rgba(11, 33, 29, .72) 0%, rgba(11, 33, 29, .28) 22%, transparent 48%);
   pointer-events: none;
 }
-.dlife .ph .prlx { position: absolute; inset: -12% 0; will-change: transform; }
 
 /* Unsplash attribution — the design system requires a visible credit on
    every Unsplash-sourced photo. Mirrors <image-slot>'s own credit chip. */
@@ -355,7 +361,14 @@ body:has(.dlife) {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(to top, rgba(11, 33, 29, .92) 0%, rgba(11, 33, 29, .35) 45%, rgba(11, 33, 29, .5) 100%);
+  /* Bottom-weighted: the headline sits at 11vh so it still needs cover,
+     but the top 40% of the photo is now nearly clear. The faint top stop
+     is only there to keep the fixed nav legible before it goes solid. */
+  background: linear-gradient(to top,
+    rgba(11, 33, 29, .88) 0%,
+    rgba(11, 33, 29, .52) 30%,
+    rgba(11, 33, 29, .10) 62%,
+    rgba(11, 33, 29, .26) 100%);
   pointer-events: none;
 }
 .dlife #hero .fg { position: absolute; left: var(--dl-pad); right: var(--dl-pad); bottom: 11vh; z-index: 3; }
@@ -452,6 +465,14 @@ body:has(.dlife) {
 .dlife #path a.opt.on { color: var(--dl-ivory); padding-left: 18px; }
 .dlife #path .vis { position: relative; }
 .dlife #path .vis .ph { position: sticky; top: 0; height: 100vh; }
+.dlife #path .vis .ph::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11, 33, 29, .62) 0%, transparent 30%);
+  pointer-events: none;
+}
 .dlife #path .vis .ph .im {
   position: absolute;
   inset: 0;
@@ -581,6 +602,7 @@ body:has(.dlife) {
   display: grid;
   place-items: center;
   color: var(--dl-ivory);
+  background: rgba(11, 33, 29, .32);
   backdrop-filter: blur(4px);
   transition: background .4s, transform .4s;
 }
@@ -649,7 +671,7 @@ body:has(.dlife) {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: rgba(11, 33, 29, .72);
+  background: rgba(11, 33, 29, .58);
   pointer-events: none;
 }
 .dlife #dva .fg { position: relative; z-index: 3; max-width: 900px; }
