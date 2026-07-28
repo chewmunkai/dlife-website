@@ -1,0 +1,78 @@
+:root{
+  /* ---- Brand palette (base) ---- */
+  --teal-primary:#174A45;   /* main brand colour, dark section backgrounds */
+  --green-deep:#1D4B3E;     /* supporting green surfaces */
+  --teal-dark:#0F332C;      /* dark panels */
+  --teal-deepest:#0B211D;   /* v3 site canvas — deepest ink */
+  --copper:#B36B43;         /* primary buttons, key accents */
+  --copper-dark:#9C5A37;    /* primary button hover */
+  --bronze:#A88752;         /* subtle accents, eyebrows on light */
+  --charcoal:#2F3532;       /* body text on light */
+  --sand:#D0BFA9;           /* warm section backgrounds */
+  --cream:#EFE8DA;          /* soft neutral surfaces / cards */
+  --ivory:#F6F1E8;          /* main page background */
+  --white:#FFFFFF;
+
+  /* ---- Derived neutrals (mixed from brand hues, never pure grey) ---- */
+  --charcoal-70:rgba(47,53,50,.72);
+  --charcoal-55:rgba(47,53,50,.56);
+  --charcoal-16:rgba(47,53,50,.16);
+  --charcoal-10:rgba(47,53,50,.10);
+  --ivory-80:rgba(246,241,232,.80);
+  --ivory-60:rgba(246,241,232,.62);
+  --ivory-20:rgba(246,241,232,.20);
+  --ivory-12:rgba(246,241,232,.12);
+
+  /* ---- Semantic: surfaces ---- */
+  --surface-page:var(--ivory);
+  --surface-raised:var(--white);
+  --surface-card:var(--cream);
+  --surface-warm:var(--sand);
+  --surface-dark:var(--teal-primary);
+  --surface-darkest:var(--teal-dark);
+  --surface-deepest:var(--teal-deepest);
+  --surface-green:var(--green-deep);
+  --surface-overlay:rgba(15,51,44,.62);
+
+  /* ---- Semantic: text ---- */
+  --text-heading:var(--teal-primary);
+  --text-body:var(--charcoal);
+  --text-muted:var(--charcoal-70);
+  --text-quiet:var(--charcoal-55);
+  --text-eyebrow:var(--bronze);
+  --text-accent:var(--copper);
+  --text-on-dark:var(--ivory);
+  --text-on-dark-muted:var(--ivory-60);
+  --text-on-copper:var(--white);
+  --text-link:var(--copper);
+  --text-link-hover:var(--copper-dark);
+
+  /* ---- Semantic: lines ---- */
+  --border-hairline:var(--charcoal-16);
+  --border-soft:var(--charcoal-10);
+  --border-on-dark:var(--ivory-20);
+  --border-strong:var(--teal-primary);
+  --divider-warm:#DED3C0;
+
+  /* ---- Semantic: actions ---- */
+  --action-primary:var(--copper);
+  --action-primary-hover:var(--copper-dark);
+  --action-primary-text:var(--white);
+  --action-secondary-border:var(--teal-primary);
+  --action-secondary-text:var(--teal-primary);
+  --action-secondary-hover-bg:rgba(23,74,69,.07);
+  --action-on-dark-border:var(--ivory-60);
+  --action-on-dark-text:var(--ivory);
+  --action-on-dark-hover-bg:var(--ivory-12);
+  --focus-ring:var(--bronze);
+
+  /* ---- Semantic: status (quiet, brand-tinted) ---- */
+  --status-success:#3F7D5C;
+  --status-success-bg:#E3EDE3;
+  --status-warning:#B07A24;
+  --status-warning-bg:#F4EAD5;
+  --status-error:#9E3B2E;
+  --status-error-bg:#F3E1DC;
+  --status-info:var(--teal-primary);
+  --status-info-bg:#E2EAE7;
+}

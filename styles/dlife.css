@@ -1,0 +1,804 @@
+/* ============================================================
+   D'Life — "Real Support. Beyond the Policy."
+   Port of the Claude Design handoff (Website v3 publication):
+   project/site.css + the fonts layer of the D'Life design system
+   (_ds/d-life-design-system-618de9cf…/tokens/fonts.css).
+
+   Scoped under `.dlife` so the page is self-contained: it can be dropped
+   into a host app without its base layer bleeding in, and its palette
+   can't leak back out. The component tree carries the class on its root.
+   ============================================================ */
+
+/* Newsreader (display serif + italics), Bricolage Grotesque (wordmark,
+   headings, labels, buttons), Work Sans (body/UI), Noto Serif SC (CN).
+   Same request as the design system's tokens/fonts.css. */
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..600;1,6..72,200..600&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Work+Sans:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500&display=swap");
+
+/* Palette + type + rhythm — verbatim from the prototype's site.css :root.
+   Only the vars this page actually consumes; the rest of the design
+   system's token set is deliberately left out so it can't collide with
+   the Edge Point tokens loaded by the root layout. */
+:root {
+  --dl-ink: #0F332C;
+  --dl-deep: #0B211D;
+  --dl-teal: #174A45;
+  --dl-green: #1D4B3E;
+  --dl-copper: #B36B43;
+  --dl-copper-d: #9C5A37;
+  --dl-bronze: #A88752;
+  --dl-char: #2F3532;
+  --dl-sand: #D0BFA9;
+  --dl-cream: #EFE8DA;
+  --dl-ivory: #F6F1E8;
+  --dl-disp: "Newsreader", serif;
+  --dl-grot: "Bricolage Grotesque", sans-serif;
+  --dl-sans: "Work Sans", sans-serif;
+  --dl-pad: clamp(24px, 5vw, 84px);
+}
+
+/* The prototype set these on <body>; only the overscroll gutter and the
+   horizontal clip actually need to live that high up. */
+body:has(.dlife) {
+  background: var(--dl-ink);
+  overflow-x: hidden;
+}
+
+/* ---------- element defaults (prototype's reset, scoped) ---------- */
+.dlife,
+.dlife *,
+.dlife *::before,
+.dlife *::after { box-sizing: border-box; }
+.dlife * { margin: 0; }
+
+.dlife {
+  position: relative;
+  background: var(--dl-ink);
+  color: var(--dl-ivory);
+  font: 300 18px/1.75 var(--dl-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* `color:inherit` + no border is the prototype's intent — the design
+   system's base layer puts a copper border-bottom on every <a>, which
+   the prototype never resets. Reproducing that literally would double
+   the rule under every .tlink and break `#path a.opt:last-of-type`
+   (only the LAST option is meant to carry a bottom border). */
+.dlife a { color: inherit; text-decoration: none; border-bottom: none; }
+.dlife a:hover { opacity: 1; }
+.dlife img { display: block; max-width: 100%; }
+.dlife ::selection { background: rgba(179, 107, 67, .35); }
+
+/* The design system's focus ring, held against any host app's own. */
+.dlife :focus-visible {
+  outline: 2px solid var(--dl-bronze);
+  outline-offset: 2px;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.dlife .lb {
+  font: 600 11px/1 var(--dl-grot);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--dl-bronze);
+}
+.dlife h1,
+.dlife h2,
+.dlife h3 {
+  font-family: var(--dl-grot);
+  font-weight: 700;
+  letter-spacing: -.035em;
+  color: var(--dl-ivory);
+}
+.dlife h1,
+.dlife h2 { text-transform: uppercase; }
+.dlife h1 i,
+.dlife h2 i,
+.dlife h3 i {
+  font-family: var(--dl-disp);
+  font-style: italic;
+  font-weight: 300;
+  font-size: .82em;
+  letter-spacing: -.01em;
+  text-transform: none;
+  color: var(--dl-sand);
+}
+.dlife .man i { font-style: italic; color: var(--dl-sand); }
+.dlife .light h2,
+.dlife .light h3 { color: var(--dl-ink); }
+.dlife .light h2 i { color: var(--dl-copper-d); }
+
+/* ---------- photo treatment: quiet teal grade over every plate ---------- */
+.dlife .ph { position: relative; overflow: hidden; background: var(--dl-deep); }
+.dlife .ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.68) contrast(1.05) brightness(.9);
+}
+.dlife .ph::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 51, 44, .30);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.dlife .ph .prlx { position: absolute; inset: -12% 0; will-change: transform; }
+
+/* Unsplash attribution — the design system requires a visible credit on
+   every Unsplash-sourced photo. Mirrors <image-slot>'s own credit chip. */
+.dlife .credit {
+  position: absolute;
+  z-index: 5;
+  left: 6px;
+  bottom: 6px;
+  max-width: calc(100% - 12px);
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, .55);
+  color: #fff;
+  font: 10px/1.2 system-ui, -apple-system, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  backdrop-filter: blur(6px);
+}
+.dlife .credit a { color: inherit; }
+.dlife .credit a:hover,
+.dlife .credit a:focus-visible { text-decoration: underline; }
+
+/* Awaiting real brand photography (the founder portrait ships empty). */
+.dlife .slot-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+  background: var(--dl-deep);
+  box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .18);
+  font: 300 italic 15px/1.5 var(--dl-disp);
+  color: rgba(208, 191, 169, .7);
+}
+
+/* ---------- cursor ---------- */
+.dlife #cur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+@media (pointer: coarse) { .dlife #cur { display: none; } }
+
+/* ---------- loader ---------- */
+.dlife #loader {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: var(--dl-deep);
+  display: grid;
+  place-items: center;
+}
+.dlife #loader .in { overflow: hidden; }
+.dlife #loader .wm {
+  font: 700 clamp(40px, 6vw, 84px)/1.1 var(--dl-grot);
+  letter-spacing: -.03em;
+  display: block;
+}
+.dlife #loader .sub {
+  font: 300 italic 17px/1 var(--dl-disp);
+  color: var(--dl-bronze);
+  text-align: center;
+  margin-top: 14px;
+  opacity: 0;
+}
+
+/* ---------- header ---------- */
+.dlife #hd {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px var(--dl-pad);
+  transition: background .5s, padding .5s;
+}
+.dlife #hd.solid {
+  background: rgba(11, 33, 29, .85);
+  backdrop-filter: blur(12px);
+  padding: 16px var(--dl-pad);
+}
+.dlife #hd .wm { font: 700 21px/1 var(--dl-grot); letter-spacing: -.02em; }
+.dlife #hd .rt { display: flex; align-items: center; gap: 14px; }
+.dlife #hd .msg {
+  font: 500 12px/1 var(--dl-grot);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(246, 241, 232, .75);
+  padding: 13px 6px;
+  white-space: nowrap;
+}
+.dlife #hd .msg:hover { color: var(--dl-ivory); }
+.dlife .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--dl-copper);
+  color: #fff;
+  font: 600 12px/1 var(--dl-grot);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 15px 26px;
+  border-radius: 99px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.dlife .pill span { position: relative; z-index: 1; }
+.dlife .pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--dl-copper-d);
+  transform: translateY(101%);
+  transition: transform .45s cubic-bezier(.65, 0, .35, 1);
+}
+.dlife .pill:hover::before { transform: translateY(0); }
+.dlife .pill.ghost {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .35);
+  color: var(--dl-ivory);
+}
+.dlife .pill.ghost::before { background: rgba(246, 241, 232, .1); }
+.dlife .pill.dark { background: var(--dl-ink); color: var(--dl-ivory); }
+.dlife .pill.dark::before { background: var(--dl-green); }
+.dlife #hd .burger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  color: var(--dl-ivory);
+  cursor: pointer;
+  font: 600 12px/1 var(--dl-grot);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 13px 4px;
+}
+.dlife #hd .burger .ln { width: 26px; height: 10px; position: relative; }
+.dlife #hd .burger .ln::before,
+.dlife #hd .burger .ln::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform .4s, top .4s;
+}
+.dlife #hd .burger .ln::before { top: 1px; }
+.dlife #hd .burger .ln::after { top: 9px; }
+.dlife.menu-open #hd .burger .ln::before { top: 5px; transform: rotate(45deg); }
+.dlife.menu-open #hd .burger .ln::after { top: 5px; transform: rotate(-45deg); }
+
+/* ---------- overlay menu ---------- */
+.dlife #menu {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: var(--dl-deep);
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  padding: 120px var(--dl-pad) 60px;
+  gap: 60px;
+}
+.dlife #menu .big a {
+  display: block;
+  font: 600 clamp(32px, 4vw, 54px)/1.2 var(--dl-grot);
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  color: rgba(246, 241, 232, .85);
+  padding: 6px 0;
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+}
+.dlife #menu .big a i {
+  font-style: italic;
+  color: var(--dl-bronze);
+  font-size: .5em;
+  vertical-align: super;
+  margin-left: 10px;
+  letter-spacing: .1em;
+}
+.dlife #menu .big a:hover { color: var(--dl-sand); }
+.dlife #menu .side {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 34px;
+  border-left: 1px solid rgba(246, 241, 232, .14);
+  padding-left: 60px;
+}
+.dlife #menu .side p {
+  font: 300 16px/1.8 var(--dl-sans);
+  color: rgba(246, 241, 232, .66);
+  max-width: 30ch;
+}
+.dlife #menu .side .c a {
+  display: block;
+  font: 300 22px/1.7 var(--dl-disp);
+  color: var(--dl-ivory);
+}
+.dlife #menu .side .c a:hover { color: var(--dl-sand); }
+
+/* ---------- hero ---------- */
+.dlife #hero { position: relative; height: 100vh; min-height: 640px; }
+.dlife #hero .bg { position: absolute; inset: 0; }
+.dlife #hero .bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(to top, rgba(11, 33, 29, .92) 0%, rgba(11, 33, 29, .35) 45%, rgba(11, 33, 29, .5) 100%);
+  pointer-events: none;
+}
+.dlife #hero .fg { position: absolute; left: var(--dl-pad); right: var(--dl-pad); bottom: 11vh; z-index: 3; }
+.dlife #hero h1 { font-size: clamp(48px, 6.6vw, 104px); line-height: .94; }
+.dlife #hero h1 .lw { display: block; overflow: hidden; }
+.dlife #hero h1 .lw span { display: inline-block; }
+.dlife #hero .lb { display: block; margin-bottom: 30px; }
+.dlife #hero p {
+  font: 300 20px/1.7 var(--dl-sans);
+  color: rgba(246, 241, 232, .82);
+  max-width: 44ch;
+  margin-top: 28px;
+}
+.dlife #hero .acts { display: flex; gap: 14px; margin-top: 40px; flex-wrap: wrap; }
+
+/* ---------- trust ---------- */
+.dlife #trust {
+  border-top: 1px solid rgba(246, 241, 232, .12);
+  border-bottom: 1px solid rgba(246, 241, 232, .12);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--dl-deep);
+}
+.dlife #trust div {
+  padding: 30px 34px;
+  border-right: 1px solid rgba(246, 241, 232, .12);
+  font: 300 16px/1.55 var(--dl-sans);
+  color: rgba(246, 241, 232, .75);
+}
+.dlife #trust div:last-child { border-right: none; }
+.dlife #trust b {
+  display: block;
+  font: 600 23px/1.2 var(--dl-grot);
+  letter-spacing: -.02em;
+  color: var(--dl-ivory);
+  margin-bottom: 6px;
+}
+
+/* ---------- manifesto ---------- */
+.dlife #man { padding: 24vh var(--dl-pad); }
+.dlife #man .man {
+  font: 300 clamp(30px, 3.6vw, 54px)/1.42 var(--dl-disp);
+  max-width: 24ch;
+  letter-spacing: -.01em;
+}
+.dlife #man .man .w { opacity: .14; }
+
+/* ---------- pathway ---------- */
+.dlife #path { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+.dlife #path .list {
+  padding: 16vh var(--dl-pad) 16vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.dlife #path .lb { margin-bottom: 18px; }
+.dlife #path .q {
+  font: 300 clamp(30px, 2.6vw, 40px)/1.2 var(--dl-disp);
+  font-style: italic;
+  color: var(--dl-sand);
+  margin-bottom: 40px;
+}
+.dlife #path a.opt {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 0;
+  border-top: 1px solid rgba(246, 241, 232, .14);
+  font: 500 clamp(23px, 2.1vw, 32px)/1.15 var(--dl-grot);
+  letter-spacing: -.02em;
+  color: rgba(246, 241, 232, .55);
+  transition: color .35s, padding-left .45s cubic-bezier(.22, .7, .24, 1);
+}
+.dlife #path a.opt:last-of-type { border-bottom: 1px solid rgba(246, 241, 232, .14); }
+.dlife #path a.opt .no { font: 600 10px/1 var(--dl-grot); letter-spacing: .25em; color: rgba(168, 135, 82, .7); }
+.dlife #path a.opt:hover,
+.dlife #path a.opt.on { color: var(--dl-ivory); padding-left: 18px; }
+.dlife #path .vis { position: relative; }
+.dlife #path .vis .ph { position: sticky; top: 0; height: 100vh; }
+.dlife #path .vis .ph .im {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .7s cubic-bezier(.4, 0, .2, 1);
+}
+.dlife #path .vis .ph .im.on { opacity: 1; }
+.dlife #path .vis .cap {
+  position: absolute;
+  z-index: 4;
+  left: 34px;
+  bottom: 30px;
+  font: 300 italic 17px/1.5 var(--dl-disp);
+  color: rgba(246, 241, 232, .85);
+}
+
+/* ---------- needs (horizontal) ---------- */
+.dlife #needs { position: relative; background: var(--dl-deep); border-top: 1px solid rgba(246, 241, 232, .1); }
+.dlife #needs .head {
+  padding: 16vh var(--dl-pad) 8vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.dlife #needs h2 { font-size: clamp(38px, 4.2vw, 68px); line-height: .98; max-width: 15ch; }
+.dlife #needs .head p { font: 300 19px/1.7 var(--dl-sans); color: rgba(246, 241, 232, .68); max-width: 30ch; }
+.dlife #needs .rail { overflow: hidden; }
+.dlife #needs .track {
+  display: flex;
+  gap: clamp(18px, 2vw, 32px);
+  padding: 0 var(--dl-pad) 16vh;
+  width: max-content;
+}
+.dlife .ncard { width: clamp(300px, 26vw, 420px); flex: none; }
+.dlife .ncard .ph { aspect-ratio: 3/4; }
+.dlife .ncard h3 { font-size: 26px; margin-top: 22px; }
+.dlife .ncard p {
+  font: 300 16px/1.68 var(--dl-sans);
+  color: rgba(246, 241, 232, .7);
+  margin-top: 8px;
+  max-width: 34ch;
+}
+.dlife .ncard .ph img { transition: transform 1s cubic-bezier(.22, .7, .24, 1); }
+.dlife .ncard:hover .ph img { transform: scale(1.05); }
+@media (max-width: 1080px) {
+  .dlife #needs .rail { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .dlife #needs .rail::-webkit-scrollbar { display: none; }
+  .dlife .ncard { scroll-snap-align: start; }
+}
+
+/* ---------- policy (light) ---------- */
+.dlife #policy { background: var(--dl-cream); color: var(--dl-char); display: grid; grid-template-columns: 1fr 1fr; }
+.dlife #policy .tx { padding: 18vh var(--dl-pad); }
+.dlife #policy h2 { font-size: clamp(36px, 3.6vw, 56px); line-height: 1; max-width: 14ch; color: var(--dl-ink); }
+.dlife #policy p {
+  font: 300 19px/1.8 var(--dl-sans);
+  color: rgba(47, 53, 50, .78);
+  max-width: 46ch;
+  margin-top: 28px;
+}
+.dlife #policy .acts { display: flex; gap: 14px; margin-top: 40px; flex-wrap: wrap; }
+.dlife #policy .ph { min-height: 70vh; }
+
+/* ---------- founder ---------- */
+.dlife #founder {
+  display: grid;
+  grid-template-columns: .95fr 1.05fr;
+  gap: clamp(40px, 6vw, 110px);
+  padding: 20vh var(--dl-pad);
+  align-items: center;
+}
+.dlife #founder .ph { aspect-ratio: 3/4; }
+.dlife #founder h2 { font-size: clamp(32px, 3.2vw, 50px); line-height: 1.04; max-width: 18ch; margin-top: 26px; }
+.dlife #founder p {
+  font: 300 18px/1.85 var(--dl-sans);
+  color: rgba(246, 241, 232, .72);
+  max-width: 50ch;
+  margin-top: 26px;
+}
+.dlife .tlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 12px/1 var(--dl-grot);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dl-sand);
+  margin-top: 38px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(208, 191, 169, .35);
+  transition: gap .35s, border-color .35s;
+}
+.dlife .tlink:hover { gap: 20px; border-color: var(--dl-sand); }
+.dlife .light .tlink { color: var(--dl-copper-d); border-color: rgba(156, 90, 55, .4); }
+
+/* ---------- stories ---------- */
+.dlife #stories {
+  background: var(--dl-deep);
+  padding: 18vh var(--dl-pad);
+  border-top: 1px solid rgba(246, 241, 232, .1);
+}
+.dlife #stories .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 8vh;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.dlife #stories h2 { font-size: clamp(36px, 3.8vw, 58px); max-width: 14ch; line-height: 1; }
+.dlife #stories .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 2vw, 32px); }
+.dlife .story .ph { aspect-ratio: 4/5; cursor: pointer; }
+.dlife .story .ph img { transition: transform 1.2s cubic-bezier(.22, .7, .24, 1); }
+.dlife .story:hover .ph img { transform: scale(1.06); }
+.dlife .story .play {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 1px solid rgba(246, 241, 232, .55);
+  display: grid;
+  place-items: center;
+  color: var(--dl-ivory);
+  backdrop-filter: blur(4px);
+  transition: background .4s, transform .4s;
+}
+.dlife .story:hover .play { background: rgba(179, 107, 67, .85); transform: translate(-50%, -50%) scale(1.08); }
+.dlife .story .play svg { margin-left: 3px; }
+.dlife .story h3 { font-size: 24px; margin-top: 20px; }
+
+/* ---------- careers ---------- */
+.dlife #careers {
+  padding: 20vh var(--dl-pad);
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: clamp(40px, 6vw, 110px);
+}
+.dlife #careers h2 { font-size: clamp(36px, 3.8vw, 58px); line-height: 1; max-width: 15ch; margin-top: 26px; }
+.dlife #careers .bd {
+  font: 300 19px/1.8 var(--dl-sans);
+  color: rgba(246, 241, 232, .72);
+  max-width: 44ch;
+  margin-top: 28px;
+}
+.dlife #careers .qt { align-self: end; border-left: 1px solid rgba(168, 135, 82, .5); padding-left: clamp(24px, 3vw, 48px); }
+.dlife #careers .qt p { font: 300 italic clamp(24px, 2.2vw, 34px)/1.45 var(--dl-disp); color: var(--dl-sand); }
+.dlife #careers .qt span {
+  display: block;
+  margin-top: 22px;
+  font: 600 11px/1 var(--dl-grot);
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(246, 241, 232, .55);
+}
+
+/* ---------- dva ---------- */
+.dlife #dva {
+  position: relative;
+  min-height: 88vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 16vh var(--dl-pad);
+}
+.dlife #dva .bg { position: absolute; inset: 0; }
+.dlife #dva .bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(11, 33, 29, .72);
+  pointer-events: none;
+}
+.dlife #dva .fg { position: relative; z-index: 3; max-width: 900px; }
+.dlife #dva h2 { font-size: clamp(34px, 3.9vw, 62px); line-height: 1.04; margin-top: 34px; }
+.dlife #dva .pill { margin-top: 48px; }
+
+/* ---------- youth (light) ---------- */
+.dlife #youth { background: var(--dl-sand); color: var(--dl-char); padding: 18vh var(--dl-pad); }
+.dlife #youth .head { max-width: 820px; }
+.dlife #youth h2 { color: var(--dl-ink); font-size: clamp(38px, 4.2vw, 64px); line-height: .98; }
+.dlife #youth .sup {
+  font: 300 italic clamp(20px, 1.8vw, 26px)/1.4 var(--dl-disp);
+  color: var(--dl-copper-d);
+  margin-top: 14px;
+}
+.dlife #youth .intro {
+  font: 300 19px/1.8 var(--dl-sans);
+  color: rgba(47, 53, 50, .78);
+  max-width: 52ch;
+  margin-top: 26px;
+}
+.dlife #youth .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 2vw, 32px);
+  margin-top: 9vh;
+}
+.dlife #youth .yc { background: rgba(246, 241, 232, .55); padding: 38px 34px 42px; border: 1px solid rgba(47, 53, 50, .12); }
+.dlife #youth .yc h3 { color: var(--dl-ink); font-size: 25px; }
+.dlife #youth .yc p { font: 300 16px/1.7 var(--dl-sans); color: rgba(47, 53, 50, .72); margin-top: 12px; }
+.dlife #youth .loop {
+  margin-top: 9vh;
+  border-top: 1px solid rgba(47, 53, 50, .2);
+  padding-top: 44px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.dlife #youth .loop h3 { color: var(--dl-ink); font-size: 30px; }
+.dlife #youth .loop p { font: 300 16px/1.7 var(--dl-sans); color: rgba(47, 53, 50, .68); margin-top: 8px; }
+.dlife #youth form { display: flex; gap: 12px; }
+.dlife #youth input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(47, 53, 50, .4);
+  font: 300 17px/1 var(--dl-sans);
+  color: var(--dl-char);
+  padding: 14px 2px;
+  outline: none;
+}
+.dlife #youth input:focus { border-color: var(--dl-copper-d); }
+.dlife #youth input::placeholder { color: rgba(47, 53, 50, .45); }
+
+/* ---------- faq ---------- */
+.dlife #faq {
+  padding: 20vh var(--dl-pad);
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: clamp(40px, 6vw, 110px);
+}
+.dlife #faq h2 { font-size: clamp(34px, 3.4vw, 52px); margin-top: 26px; line-height: 1.02; }
+.dlife #faq .item { border-top: 1px solid rgba(246, 241, 232, .14); }
+.dlife #faq .item:last-of-type { border-bottom: 1px solid rgba(246, 241, 232, .14); }
+.dlife #faq button.q {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  background: none;
+  border: none;
+  color: var(--dl-ivory);
+  cursor: pointer;
+  text-align: left;
+  font: 500 clamp(19px, 1.6vw, 24px)/1.4 var(--dl-grot);
+  letter-spacing: -.01em;
+  padding: 30px 0;
+}
+.dlife #faq .x { width: 14px; height: 14px; position: relative; flex: none; }
+.dlife #faq .x::before,
+.dlife #faq .x::after {
+  content: "";
+  position: absolute;
+  background: var(--dl-bronze);
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transition: transform .4s;
+}
+.dlife #faq .x::after { transform: rotate(90deg); }
+.dlife #faq .item.open .x::after { transform: rotate(0); }
+.dlife #faq .a { overflow: hidden; height: 0; }
+.dlife #faq .a p {
+  font: 300 18px/1.8 var(--dl-sans);
+  color: rgba(246, 241, 232, .72);
+  max-width: 56ch;
+  padding-bottom: 34px;
+}
+
+/* ---------- closing ---------- */
+.dlife #close { position: relative; padding: 26vh var(--dl-pad); text-align: center; }
+.dlife #close h2 { font-size: clamp(38px, 4.6vw, 76px); line-height: .98; max-width: 19ch; margin: 34px auto 0; }
+.dlife #close .sub { font: 300 italic clamp(22px, 2vw, 30px)/1.4 var(--dl-disp); color: var(--dl-sand); margin-top: 24px; }
+.dlife #close .acts { display: flex; gap: 14px; justify-content: center; margin-top: 52px; flex-wrap: wrap; }
+
+/* ---------- footer ---------- */
+.dlife #ft {
+  background: var(--dl-deep);
+  border-top: 1px solid rgba(246, 241, 232, .1);
+  padding: 12vh var(--dl-pad) 40px;
+}
+.dlife #ft .cols { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }
+.dlife #ft .wm { font: 700 26px/1 var(--dl-grot); letter-spacing: -.02em; }
+.dlife #ft .tag { font: 300 italic 18px/1.5 var(--dl-disp); color: var(--dl-sand); margin-top: 16px; }
+.dlife #ft b {
+  display: block;
+  font: 600 10px/1 var(--dl-grot);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--dl-bronze);
+  margin-bottom: 22px;
+}
+.dlife #ft .col a { display: block; font: 300 16px/2.3 var(--dl-sans); color: rgba(246, 241, 232, .68); }
+.dlife #ft .col a:hover { color: var(--dl-ivory); }
+.dlife #ft .legal {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 11vh;
+  padding-top: 28px;
+  border-top: 1px solid rgba(246, 241, 232, .1);
+  font: 300 13px/1.6 var(--dl-sans);
+  color: rgba(246, 241, 232, .4);
+  flex-wrap: wrap;
+}
+.dlife #ft .legal a:hover { color: rgba(246, 241, 232, .75); }
+
+/* ---------- toast ---------- */
+.dlife #toast {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 200;
+  background: var(--dl-ivory);
+  color: var(--dl-char);
+  font: 400 14px/1.5 var(--dl-sans);
+  padding: 18px 24px;
+  border-radius: 3px;
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .5);
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+}
+
+/* ---------- reveal ----------
+   Only pre-hide when JS will actually reveal it. The root layout stamps
+   `.js` on <html> before paint, so a no-JS visit gets the full page
+   (and no loader stranded over it) instead of a blank screen. */
+.js .dlife .rv { opacity: 0; transform: translateY(40px); }
+.js .dlife #hero h1 .lw span { transform: translateY(115%); }
+.js .dlife #loader .wm { transform: translateY(110%); }
+html:not(.js) .dlife #loader { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .dlife .rv { opacity: 1; transform: none; }
+  .js .dlife #hero h1 .lw span,
+  .js .dlife #loader .wm { transform: none; }
+  .dlife #man .man .w { opacity: 1; }
+}
+
+@media (max-width: 1080px) {
+  .dlife #path { grid-template-columns: 1fr; }
+  .dlife #path .vis { display: none; }
+  .dlife #policy { grid-template-columns: 1fr; }
+  .dlife #policy .ph { min-height: 48vh; }
+  .dlife #founder,
+  .dlife #careers,
+  .dlife #faq { grid-template-columns: 1fr; }
+  .dlife #stories .grid,
+  .dlife #youth .grid { grid-template-columns: 1fr; }
+  .dlife #youth .loop { grid-template-columns: 1fr; }
+  .dlife #trust { grid-template-columns: 1fr 1fr; }
+  .dlife #menu { grid-template-columns: 1fr; }
+  .dlife #menu .side { border-left: none; padding-left: 0; }
+  .dlife #ft .cols { grid-template-columns: 1fr 1fr; }
+}

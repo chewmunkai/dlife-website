@@ -1,0 +1,4 @@
+/* Newsreader (display serif w/ italics) + Bricolage Grotesque (wordmark, labels, buttons)
+   + Work Sans (body/UI) + Noto Serif SC (Chinese). Served from Google Fonts — no licensed
+   binaries supplied. Replace with self-hosted @font-face rules if D'Life ships font files. */
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..600;1,6..72,200..600&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Work+Sans:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500&display=swap");

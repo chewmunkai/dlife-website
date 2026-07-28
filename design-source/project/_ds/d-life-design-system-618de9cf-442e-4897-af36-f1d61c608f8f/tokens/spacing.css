@@ -1,0 +1,23 @@
+:root{
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+  --space-12:48px;
+  --space-16:64px;
+  --space-20:80px;
+  --space-24:96px;
+  --space-32:128px;
+
+  /* rhythm */
+  --section-y:clamp(72px,7vw,120px); /* @kind spacing */      /* vertical padding of a page section */
+  --section-y-tight:clamp(48px,4.5vw,72px); /* @kind spacing */
+  --gutter:clamp(20px,4vw,56px); /* @kind spacing */          /* page side padding */
+  --content-max:1200px; /* @kind spacing */
+  --content-narrow:820px; /* @kind spacing */
+  --grid-gap:clamp(16px,2vw,28px); /* @kind spacing */
+}

@@ -1,0 +1,24 @@
+{
+  "name": "dlife-website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "D'Life — Real Support. Beyond the Policy. Marketing site built from the Claude Design handoff.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "next": "14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
+}

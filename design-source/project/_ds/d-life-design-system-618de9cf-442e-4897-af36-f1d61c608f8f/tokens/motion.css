@@ -1,0 +1,25 @@
+:root{
+  --dur-fast:140ms; /* @kind other */      /* colour / opacity on press */
+  --dur-base:220ms; /* @kind other */      /* hover, small transforms */
+  --dur-slow:480ms; /* @kind other */      /* quiet reveal */
+  --dur-reveal:640ms; /* @kind other */
+
+  --ease-quiet:cubic-bezier(.22,.7,.24,1); /* @kind other */   /* default: settles, never bounces */
+  --ease-out:cubic-bezier(.16,.84,.44,1); /* @kind other */
+  --ease-in-out:cubic-bezier(.4,0,.2,1); /* @kind other */
+
+  --lift-hover:-2px; /* @kind other */     /* cards rise 2px, nothing more */
+  --press-scale:.985; /* @kind other */
+
+  --reveal-distance:16px; /* @kind other */
+}
+
+@keyframes dl-reveal{from{opacity:0;transform:translateY(var(--reveal-distance))}to{opacity:1;transform:none}}
+@keyframes dl-fade{from{opacity:0}to{opacity:1}}
+
+.dl-reveal{animation:dl-reveal var(--dur-reveal) var(--ease-quiet) both}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .dl-reveal{animation:none}
+}
