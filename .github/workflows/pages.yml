@@ -34,10 +34,9 @@ jobs:
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          # Turns Pages on for the repo the first time this runs, so there's
-          # no manual Settings step. Needs the pages:write permission above.
-          enablement: true
+        # No  — the Actions token can deploy to Pages but is
+        # not allowed to create the Pages site, so Pages has to be switched on
+        # once by hand: Settings → Pages → Source: GitHub Actions.
 
       - name: Build static export
         # base_path is "/<repo>" for a project site, "" for a user/org site.
