@@ -35,22 +35,22 @@ const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${pat
  * shoot the brief flags as a budget item still needs to happen.
  */
 const PHOTOS = {
-  hero: { src: asset("/media/img/hero-team.jpg"), alt: "The D’Life advisory team" },
-  p1: { src: asset("/media/img/path-family.jpg"), alt: "A family gathered around a table at home" },
-  p2: { src: asset("/media/img/path-review.jpg"), alt: "Two people talking across a table" },
-  p3: { src: asset("/media/img/path-future.jpg"), alt: "A walker on an open mountain path" },
-  p4: { src: asset("/media/img/path-career.jpg"), alt: "A D’Life advisor speaking at a company event" },
+  hero: { src: asset("/media/img/hero-family.jpg"), alt: "A family in warm conversation over dinner" },
+  p1: { src: asset("/media/img/path-family.jpg"), alt: "Three generations of a family gathered around a table" },
+  p2: { src: asset("/media/img/path-review.jpg"), alt: "An advisor reviewing paperwork at his desk" },
+  p3: { src: asset("/media/img/path-future.jpg"), alt: "Writing out a plan at a desk" },
+  p4: { src: asset("/media/img/path-career.jpg"), alt: "Looking out over the trees, weighing what’s next" },
   p5: { src: asset("/media/img/community-gathering.jpg"), alt: "D’Life colleagues sharing a meal around a table" },
-  n1: { src: asset("/media/img/need-family.jpg"), alt: "Family and friends talking over dinner" },
+  n1: { src: asset("/media/img/need-family.jpg"), alt: "A family lunch in the garden" },
   n2: { src: asset("/media/img/need-income.jpg"), alt: "An advisor working at a desk" },
-  n3: { src: asset("/media/img/need-health.jpg"), alt: "D’Life team members at a community charity run" },
+  n3: { src: asset("/media/img/need-health.jpg"), alt: "A pause for water at the office window" },
   n4: { src: asset("/media/img/need-planning.jpg"), alt: "Planning at a laptop at the kitchen table" },
-  n5: { src: asset("/media/img/need-legacy.jpg"), alt: "A long table shared by the D’Life community" },
+  n5: { src: asset("/media/img/need-legacy.jpg"), alt: "A banquet hall gathering beneath a chandelier" },
   policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
-  dva: { src: asset("/media/img/dva-ceremony.jpg"), alt: "D’Life leaders at a certification ceremony" },
+  dva: { src: asset("/media/img/dva-team.jpg"), alt: "The D’Life advisory team" },
   y1: { src: asset("/media/img/youth-workshop.jpg"), alt: "Attendees seated at a D’Life workshop session" },
   y2: { src: asset("/media/img/youth-stories.jpg"), alt: "D’Life community members at an evening gathering" },
-  y3: { src: asset("/media/img/youth-resources.jpg"), alt: "A mentor walking a room through the session agenda" },
+  y3: { src: asset("/media/img/youth-resources.jpg"), alt: "Hands raised during a workshop session" },
 } satisfies Record<string, Photo>;
 
 /**
@@ -65,6 +65,31 @@ function Plate({ photo, parallax, eager }: { photo: Photo; parallax?: boolean; e
 }
 
 const WA_ADVISOR = "Hi D'Life, I'd like to speak with an advisor.";
+
+/**
+ * Placeholder recreation of the client's clover mark (the supplied logo is a
+ * chat-pasted bitmap on a green field — unusable in an ivory header). Drawn in
+ * currentColor so the lockup follows each ground's text colour. Swap for the
+ * real vector when brand files arrive.
+ * NOTE: the supplied logo reads "Dlife" (no apostrophe) with "Peace begins
+ * with you · Since 1999" — both differ from the copy deck's "D'Life" and the
+ * unverified "27 years". 2026−1999 = 27, which corroborates the trust strip.
+ */
+const CloverMark = ({ size = 20 }: { size?: number }) => (
+  <svg
+    className="lmark"
+    width={size}
+    height={size}
+    viewBox="0 0 96 96"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <rect x="2" y="2" width="44" height="44" rx="18" />
+    <rect x="50" y="2" width="44" height="44" rx="18" />
+    <rect x="2" y="50" width="44" height="44" rx="21" />
+    <rect x="50" y="50" width="44" height="44" rx="21" />
+  </svg>
+);
 
 const NEEDS: Array<[Photo, string, string]> = [
   [PHOTOS.n1, "Protecting Family", "Coverage built around the people who depend on you."],
@@ -225,7 +250,10 @@ export default function DLife() {
       <div id="loader" aria-hidden="true">
         <div>
           <div className="in">
-            <span className="wm">D’Life</span>
+            <span className="wm">
+              <CloverMark size={44} />
+              D’Life
+            </span>
           </div>
           <div className="sub">Real support, beyond the policy.</div>
         </div>
@@ -233,6 +261,7 @@ export default function DLife() {
 
       <header id="hd">
         <a className="wm" href="#hero">
+          <CloverMark />
           D’Life
         </a>
         <div className="rt">
@@ -308,8 +337,10 @@ export default function DLife() {
             </a>
           </div>
         </div>
-        {/* Brief 10 puts the hero on Ivory, so the photograph runs full-bleed
-            beneath the headline at generous scale rather than under it. */}
+        {/* Brief §10 keeps the hero on Ivory: headline on the page ground, one
+            photograph running full-bleed beneath it — §12 wants that
+            photograph warm, so it carries the family dinner rather than the
+            studio portrait. */}
         <div className="bg ph">
           <Plate photo={PHOTOS.hero} parallax eager />
         </div>
@@ -655,7 +686,10 @@ export default function DLife() {
       <footer id="ft" className="dark charcoal">
         <div className="cols">
           <div>
-            <div className="wm">D’Life</div>
+            <div className="wm">
+              <CloverMark size={26} />
+              D’Life
+            </div>
             <div className="tag">Real support, beyond the policy.</div>
           </div>
           <div className="col">

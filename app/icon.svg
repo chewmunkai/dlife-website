@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Placeholder favicon from the client's clover logo: light-green clover
+       on the logo's field green. Swap when real brand files arrive. -->
+  <rect width="128" height="128" fill="#217A24"/>
+  <g fill="#7CC142">
+    <rect x="26" y="26" width="35" height="35" rx="14"/>
+    <rect x="67" y="26" width="35" height="35" rx="14"/>
+    <rect x="26" y="67" width="35" height="35" rx="17"/>
+    <rect x="67" y="67" width="35" height="35" rx="17"/>
+  </g>
+</svg>

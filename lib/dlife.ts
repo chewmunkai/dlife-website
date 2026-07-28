@@ -174,7 +174,7 @@ export function initDLife(root: HTMLElement): () => void {
         scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
       });
       gsap.to("#hero .bg", {
-        scale: 1.1,
+        scale: 1.06,
         ease: "none",
         scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
       });
