@@ -1,0 +1,302 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D'Life · Section variations</title>
+<link rel="stylesheet" href="_ds/d-life-design-system-618de9cf-442e-4897-af36-f1d61c608f8f/styles.css">
+<link rel="stylesheet" href="site.css">
+<script src="_ds/d-life-design-system-618de9cf-442e-4897-af36-f1d61c608f8f/assets/image-slot.js"></script>
+<style>
+body{overflow-x:hidden}
+.doc{padding:0 0 120px}
+.dochd{padding:64px var(--pad) 40px;border-bottom:1px solid rgba(246,241,232,.14)}
+.dochd h1{font-size:clamp(30px,3vw,46px);line-height:1;text-transform:uppercase}
+.dochd p{font:300 17px/1.7 var(--sans);color:rgba(246,241,232,.66);max-width:56ch;margin-top:16px}
+.dochd nav{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+.dochd nav a{font:600 11px/1 var(--grot);letter-spacing:.26em;text-transform:uppercase;color:var(--bronze);padding-bottom:6px;border-bottom:1px solid rgba(168,135,82,.4)}
+.dochd nav a:hover{color:var(--ivory);border-color:var(--ivory)}
+.grp{padding-top:80px}
+.grp>.gh{padding:0 var(--pad) 8px}
+.grp>.gh h2{font-size:clamp(24px,2.2vw,34px);text-transform:uppercase}
+.grp>.gh p{font:300 italic 19px/1.6 var(--disp);color:var(--sand);margin-top:10px}
+.opt{margin-top:44px}
+.cap{display:flex;align-items:baseline;gap:18px;padding:0 var(--pad) 14px;flex-wrap:wrap}
+.cap b{font:600 11px/1 var(--grot);letter-spacing:.26em;text-transform:uppercase;color:var(--copper)}
+.cap i{font:300 italic 17px/1.5 var(--disp);color:rgba(246,241,232,.7);flex:1;min-width:260px}
+.vf{border-top:1px solid rgba(246,241,232,.14);border-bottom:1px solid rgba(246,241,232,.14)}
+
+/* ============ TRUST ============ */
+/* T1 — marquee proof rail */
+.t1{background:var(--deep);overflow:hidden;padding:34px 0}
+.t1 .row{display:flex;width:max-content;animation:t1 34s linear infinite}
+@media(prefers-reduced-motion:reduce){.t1 .row{animation:none}}
+@keyframes t1{to{transform:translateX(-50%)}}
+.t1 .set{display:flex;align-items:center;gap:0}
+.t1 .it{display:flex;align-items:baseline;gap:12px;padding:0 40px}
+.t1 .it b{font:600 clamp(20px,1.7vw,26px)/1 var(--grot);letter-spacing:-.02em;color:var(--ivory);white-space:nowrap}
+.t1 .it span{font:300 16px/1 var(--sans);color:rgba(246,241,232,.6);white-space:nowrap}
+.t1 .dot{width:5px;height:5px;border-radius:50%;background:var(--copper);flex:none}
+/* T2 — stat band */
+.t2{background:var(--deep);display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(24px,3vw,56px);padding:clamp(56px,7vw,88px) var(--pad)}
+.t2 .c{padding-top:22px;border-top:1px solid rgba(168,135,82,.55)}
+.t2 .c b{display:block;font:700 clamp(38px,4vw,62px)/.9 var(--grot);letter-spacing:-.045em;color:var(--ivory)}
+.t2 .c b em{font:300 italic .38em/1 var(--disp);letter-spacing:0;color:var(--sand);margin-left:8px}
+.t2 .c u{display:block;text-decoration:none;font:600 11px/1 var(--grot);letter-spacing:.26em;text-transform:uppercase;color:var(--bronze);margin-top:20px}
+.t2 .c p{font:300 16px/1.6 var(--sans);color:rgba(246,241,232,.66);margin-top:10px;max-width:22ch}
+/* T3 — statement + indexed proofs */
+.t3{background:var(--deep);display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);padding:clamp(56px,7vw,96px) var(--pad)}
+.t3 .st{font:300 italic clamp(26px,2.6vw,40px)/1.35 var(--disp);color:var(--ivory);max-width:16ch;align-self:center}
+.t3 .st em{color:var(--sand)}
+.t3 .gd{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.t3 .gd div{padding:26px 30px;border-top:1px solid rgba(246,241,232,.14)}
+.t3 .gd div:nth-child(odd){border-right:1px solid rgba(246,241,232,.14);padding-left:0}
+.t3 .gd i{font:600 10px/1 var(--grot);letter-spacing:.25em;color:rgba(168,135,82,.8);font-style:normal}
+.t3 .gd b{display:block;font:600 20px/1.2 var(--grot);letter-spacing:-.02em;color:var(--ivory);margin:14px 0 6px}
+.t3 .gd p{font:300 15px/1.6 var(--sans);color:rgba(246,241,232,.62)}
+
+/* ============ CAREERS ============ */
+/* C1 — photo split, quote on image */
+.c1{background:var(--ink);display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,90px);padding:clamp(64px,9vw,130px) var(--pad);align-items:center}
+.c1 h3{font-size:clamp(34px,3.6vw,56px);line-height:1;text-transform:uppercase;max-width:15ch;margin-top:24px}
+.c1 .bd{font:300 19px/1.8 var(--sans);color:rgba(246,241,232,.72);max-width:42ch;margin-top:26px}
+.c1 .tl{display:inline-flex;align-items:center;gap:10px;margin-top:34px;font:600 11px/1 var(--grot);letter-spacing:.24em;text-transform:uppercase;color:var(--ivory);border-bottom:1px solid rgba(168,135,82,.6);padding-bottom:10px}
+.c1 .tl:hover{color:var(--sand)}
+.c1 .fig{position:relative;aspect-ratio:4/5}
+.c1 .fig .qq{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:clamp(24px,3vw,42px);background:linear-gradient(to top,rgba(11,33,29,.94),rgba(11,33,29,0))}
+.c1 .fig .qq p{font:300 italic clamp(20px,1.9vw,28px)/1.4 var(--disp);color:var(--ivory)}
+.c1 .fig .qq span{display:block;margin-top:16px;font:600 10px/1 var(--grot);letter-spacing:.25em;text-transform:uppercase;color:rgba(246,241,232,.6)}
+/* C2 — quote-led with pillars */
+.c2{background:var(--ink);padding:clamp(64px,9vw,130px) var(--pad);text-align:center}
+.c2 .lb{display:block}
+.c2 blockquote{font:300 italic clamp(30px,3.4vw,52px)/1.3 var(--disp);color:var(--ivory);max-width:19ch;margin:28px auto 0;letter-spacing:-.01em}
+.c2 blockquote em{color:var(--sand)}
+.c2 .att{margin-top:22px;font:600 10px/1 var(--grot);letter-spacing:.25em;text-transform:uppercase;color:rgba(246,241,232,.55)}
+.c2 .pill{margin-top:40px}
+.c2 .pl{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,56px);margin-top:clamp(48px,6vw,86px);text-align:left}
+.c2 .pl div{border-top:1px solid rgba(246,241,232,.16);padding-top:22px}
+.c2 .pl b{display:block;font:600 21px/1.2 var(--grot);letter-spacing:-.02em;color:var(--ivory)}
+.c2 .pl p{font:300 16px/1.7 var(--sans);color:rgba(246,241,232,.66);margin-top:10px;max-width:30ch}
+/* C3 — cream band, indexed rows */
+.c3{background:var(--cream);color:var(--char);display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(40px,6vw,100px);padding:clamp(64px,9vw,130px) var(--pad)}
+.c3 h3{color:var(--ink);font-size:clamp(32px,3.4vw,52px);line-height:1;text-transform:uppercase;max-width:13ch;margin-top:22px}
+.c3 h3 i{font-family:var(--disp);font-style:italic;font-weight:300;font-size:.82em;text-transform:none;color:var(--copper-d)}
+.c3 .lb{color:var(--copper-d)}
+.c3 .qq{margin-top:38px;border-left:1px solid rgba(179,107,67,.5);padding-left:24px}
+.c3 .qq p{font:300 italic 21px/1.5 var(--disp);color:var(--ink)}
+.c3 .qq span{display:block;margin-top:14px;font:600 10px/1 var(--grot);letter-spacing:.25em;text-transform:uppercase;color:rgba(47,53,50,.55)}
+.c3 .rows a{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:26px;padding:26px 0;border-top:1px solid rgba(47,53,50,.18);transition:padding-left .45s cubic-bezier(.22,.7,.24,1),color .3s}
+.c3 .rows a:last-child{border-bottom:1px solid rgba(47,53,50,.18)}
+.c3 .rows a:hover{padding-left:14px}
+.c3 .rows i{font:600 10px/1 var(--grot);letter-spacing:.22em;color:var(--copper-d);font-style:normal}
+.c3 .rows b{font:600 clamp(22px,2vw,30px)/1.15 var(--grot);letter-spacing:-.025em;color:var(--ink)}
+.c3 .rows p{font:300 16px/1.7 var(--sans);color:rgba(47,53,50,.7);margin-top:6px;max-width:44ch}
+.c3 .rows em{font:300 italic 15px/1 var(--disp);color:rgba(47,53,50,.5)}
+.c3 .cta{margin-top:38px;display:inline-flex}
+
+/* ============ YOUTH ============ */
+/* Y1 — image cards */
+.y1{background:var(--sand);color:var(--char);padding:clamp(64px,9vw,130px) var(--pad)}
+.y1 .hd{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,5vw,80px);align-items:end}
+.y1 .lb{color:var(--copper-d)}
+.y1 h3{color:var(--ink);font-size:clamp(36px,4vw,60px);line-height:.98;text-transform:uppercase;margin-top:20px}
+.y1 .sup{font:300 italic clamp(19px,1.7vw,25px)/1.4 var(--disp);color:var(--copper-d);margin-top:12px}
+.y1 .hd p{font:300 18px/1.8 var(--sans);color:rgba(47,53,50,.75);max-width:38ch}
+.y1 .gd{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2vw,30px);margin-top:clamp(44px,6vw,76px)}
+.y1 .yc{background:var(--ivory);border:1px solid rgba(47,53,50,.1);transition:transform .45s cubic-bezier(.22,.7,.24,1),box-shadow .45s}
+.y1 .yc:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(15,51,44,.14)}
+.y1 .yc .ph{aspect-ratio:4/3}
+.y1 .yc .tx{padding:26px 28px 30px}
+.y1 .yc b{display:block;font:600 23px/1.15 var(--grot);letter-spacing:-.025em;color:var(--ink)}
+.y1 .yc p{font:300 16px/1.7 var(--sans);color:rgba(47,53,50,.72);margin-top:10px}
+.y1 .yc em{display:inline-block;margin-top:18px;font:600 10px/1 var(--grot);letter-spacing:.24em;text-transform:uppercase;color:var(--copper-d);font-style:normal}
+/* Y2 — index rows + wide still */
+.y2{background:var(--sand);color:var(--char);padding:clamp(64px,9vw,130px) var(--pad)}
+.y2 .top{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,6vw,100px);align-items:start}
+.y2 .lb{color:var(--copper-d)}
+.y2 h3{color:var(--ink);font-size:clamp(36px,4vw,58px);line-height:.96;text-transform:uppercase;margin-top:20px;max-width:9ch}
+.y2 .sup{font:300 italic clamp(19px,1.7vw,25px)/1.4 var(--disp);color:var(--copper-d);margin-top:14px}
+.y2 .rows a{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:baseline;padding:24px 0;border-top:1px solid rgba(47,53,50,.2);transition:padding-left .45s cubic-bezier(.22,.7,.24,1)}
+.y2 .rows a:last-of-type{border-bottom:1px solid rgba(47,53,50,.2)}
+.y2 .rows a:hover{padding-left:14px}
+.y2 .rows i{font:600 10px/1 var(--grot);letter-spacing:.22em;color:var(--copper-d);font-style:normal}
+.y2 .rows b{font:600 clamp(21px,1.9vw,28px)/1.15 var(--grot);letter-spacing:-.025em;color:var(--ink)}
+.y2 .rows p{font:300 16px/1.7 var(--sans);color:rgba(47,53,50,.7);margin-top:6px;max-width:42ch}
+.y2 .rows em{font:300 italic 15px/1 var(--disp);color:rgba(47,53,50,.5)}
+.y2 .band{margin-top:clamp(44px,6vw,76px);position:relative;aspect-ratio:16/6}
+.y2 .band .ov{position:absolute;inset:auto 0 0 0;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;padding:clamp(24px,3vw,40px);background:linear-gradient(to top,rgba(11,33,29,.92),rgba(11,33,29,0))}
+.y2 .band .ov b{font:600 clamp(22px,2vw,30px)/1.1 var(--grot);letter-spacing:-.025em;color:var(--ivory)}
+.y2 .band .ov p{font:300 16px/1.6 var(--sans);color:rgba(246,241,232,.75);margin-top:8px;max-width:34ch}
+.y2 .band form{display:flex;gap:12px;align-items:center}
+.y2 .band input{background:transparent;border:none;border-bottom:1px solid rgba(246,241,232,.5);color:var(--ivory);font:300 16px/1 var(--sans);padding:13px 2px;outline:none;min-width:200px}
+.y2 .band input::placeholder{color:rgba(246,241,232,.55)}
+/* Y3 — ink poster inset */
+.y3{background:var(--sand);padding:clamp(48px,6vw,90px) var(--pad)}
+.y3 .panel{background:var(--ink);padding:clamp(44px,5vw,80px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,80px)}
+.y3 h3{font-size:clamp(34px,3.6vw,54px);line-height:.98;text-transform:uppercase;margin-top:20px;max-width:10ch}
+.y3 .sup{font:300 italic clamp(19px,1.7vw,25px)/1.4 var(--disp);color:var(--sand);margin-top:14px}
+.y3 .lead{font:300 18px/1.8 var(--sans);color:rgba(246,241,232,.7);max-width:36ch;margin-top:24px}
+.y3 .fig{aspect-ratio:5/4;margin-top:30px}
+.y3 .cols{display:flex;flex-direction:column;justify-content:center}
+.y3 .cols .r{padding:24px 0;border-top:1px solid rgba(246,241,232,.16)}
+.y3 .cols .r:last-of-type{border-bottom:1px solid rgba(246,241,232,.16)}
+.y3 .cols b{display:block;font:600 22px/1.15 var(--grot);letter-spacing:-.025em;color:var(--ivory)}
+.y3 .cols p{font:300 16px/1.7 var(--sans);color:rgba(246,241,232,.66);margin-top:8px;max-width:34ch}
+.y3 .sign{margin-top:34px}
+.y3 .sign span{font:600 10px/1 var(--grot);letter-spacing:.25em;text-transform:uppercase;color:var(--bronze)}
+.y3 .sign form{display:flex;gap:12px;margin-top:16px}
+.y3 .sign input{flex:1;background:transparent;border:none;border-bottom:1px solid rgba(246,241,232,.4);color:var(--ivory);font:300 16px/1 var(--sans);padding:13px 2px;outline:none}
+.y3 .sign input::placeholder{color:rgba(246,241,232,.5)}
+@media(max-width:1000px){.t2,.t3,.t3 .gd,.c1,.c3,.y1 .hd,.y1 .gd,.y2 .top,.y3 .panel{grid-template-columns:1fr}.c2 .pl{grid-template-columns:1fr}.t3 .gd div:nth-child(odd){border-right:none;padding-left:0}}
+</style>
+</head><body>
+<div class="doc">
+<div class="dochd">
+  <span class="lb">D&rsquo;Life · Website v3</span>
+  <h1 style="margin-top:18px">Three sections, three options each</h1>
+  <p>Same content, same palette — different structure. Pick one per section (or mix) and I&rsquo;ll drop it into the live page.</p>
+  <nav><a href="#trust-v">Trust strip</a><a href="#careers-v">Careers</a><a href="#youth-v">Youth community</a></nav>
+</div>
+
+<section class="grp" id="trust-v">
+  <div class="gh"><h2>Trust strip</h2><p>Today it reads like a table row — four cramped cells, all the same weight.</p></div>
+
+  <div class="opt">
+    <div class="cap"><b>Option A · Moving proof rail</b><i>A slow marquee instead of a static row. Fills the full width, adds one quiet piece of motion between hero and manifesto, and never looks cramped on any screen.</i></div>
+    <div class="vf t1"><div class="row">
+      <div class="set"><div class="it"><b>27 years</b><span>of guidance</span></div><div class="dot"></div><div class="it"><b>People first</b><span>advisory, before products</span></div><div class="dot"></div><div class="it"><b>Clarity</b><span>protection you can understand</span></div><div class="dot"></div><div class="it"><b>Human support</b><span>when it matters most</span></div><div class="dot"></div></div>
+      <div class="set" aria-hidden="true"><div class="it"><b>27 years</b><span>of guidance</span></div><div class="dot"></div><div class="it"><b>People first</b><span>advisory, before products</span></div><div class="dot"></div><div class="it"><b>Clarity</b><span>protection you can understand</span></div><div class="dot"></div><div class="it"><b>Human support</b><span>when it matters most</span></div><div class="dot"></div></div>
+    </div></div>
+  </div>
+
+  <div class="opt">
+    <div class="cap"><b>Option B · Stat band</b><i>Give it room. Big grotesk numerals, a copper hairline over each column, no vertical dividers — whitespace does the separating.</i></div>
+    <div class="vf t2">
+      <div class="c"><b>27<em>years</em></b><u>Experience</u><p>Of guidance across changing markets and life stages.</p></div>
+      <div class="c"><b>People<em>first</em></b><u>Approach</u><p>Advisory before products, every conversation.</p></div>
+      <div class="c"><b>Clarity</b><u>Promise</u><p>Protection you can explain to your own family.</p></div>
+      <div class="c"><b>Support</b><u>After the sign</u><p>A human to call when it matters most.</p></div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <div class="cap"><b>Option C · Statement + indexed proofs</b><i>An italic line carries the meaning; the four proofs sit beside it as a numbered 2×2. Reads editorial rather than corporate.</i></div>
+    <div class="vf t3">
+      <p class="st">Advice you can <em>hold on to</em> — long after the policy is signed.</p>
+      <div class="gd">
+        <div><i>01</i><b>27 years</b><p>Of guidance.</p></div>
+        <div><i>02</i><b>People first</b><p>Advisory, before products.</p></div>
+        <div><i>03</i><b>Clarity</b><p>Protection you can understand.</p></div>
+        <div><i>04</i><b>Human support</b><p>When it matters most.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="grp" id="careers-v">
+  <div class="gh"><h2>Careers</h2><p>Today the right half is empty above the quote, so the section reads half-finished.</p></div>
+
+  <div class="opt">
+    <div class="cap"><b>Option A · Photo split, quote on the image</b><i>The quote becomes a caption over a portrait instead of floating in dead space. Same copy, no empty quadrant.</i></div>
+    <div class="vf c1">
+      <div>
+        <span class="lb">Grow with D&rsquo;Life</span>
+        <h3>A career built on <i>real guidance,</i> not just sales.</h3>
+        <p class="bd">Mentorship, professionalism, leadership and culture. A career that helps you become a more valuable person, not just a better seller.</p>
+        <a class="tl" href="#">Explore a career conversation</a>
+      </div>
+      <div class="fig ph"><image-slot id="sv-c1" shape="rect" src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1200&q=70" credit="Photo by Mimi Thian on Unsplash" credit-href="https://unsplash.com/@mimithian" placeholder="Advisor portrait" fit="cover"></image-slot>
+        <div class="qq"><p>&ldquo;D&rsquo;Life gave me the mentorship I couldn&rsquo;t find anywhere else.&rdquo;</p><span>D&rsquo;Life Advisor</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <div class="cap"><b>Option B · Quote-led</b><i>Lead with the advisor&rsquo;s words, then answer them with three pillars. Centred and calm — a pause between two image-heavy sections.</i></div>
+    <div class="vf c2">
+      <span class="lb">Grow with D&rsquo;Life</span>
+      <blockquote>&ldquo;D&rsquo;Life gave me the <em>mentorship</em> I couldn&rsquo;t find anywhere else.&rdquo;</blockquote>
+      <div class="att">D&rsquo;Life Advisor</div>
+      <a class="pill" href="#"><span>Explore a career conversation</span></a>
+      <div class="pl">
+        <div><b>Mentorship</b><p>Time with people who have done the work, not a script.</p></div>
+        <div><b>Professionalism</b><p>Advice you can stand behind, disclosed in writing.</p></div>
+        <div><b>Leadership</b><p>A path from advisor to leader, with the training to match.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <div class="cap"><b>Option C · Cream band, indexed rows</b><i>Flips careers to a light band, breaking the long dark run before DVA. The right column becomes a real list of what a career here involves.</i></div>
+    <div class="vf c3">
+      <div>
+        <span class="lb">Grow with D&rsquo;Life</span>
+        <h3>A career built on <i>real guidance,</i> not just sales.</h3>
+        <div class="qq"><p>&ldquo;D&rsquo;Life gave me the mentorship I couldn&rsquo;t find anywhere else.&rdquo;</p><span>D&rsquo;Life Advisor</span></div>
+        <a class="pill dark cta" href="#"><span>Explore a career conversation</span></a>
+      </div>
+      <div class="rows">
+        <a href="#"><i>01</i><div><b>Mentorship</b><p>You learn the craft beside someone senior before you ever learn a pitch.</p></div><em>&rarr;</em></a>
+        <a href="#"><i>02</i><div><b>Professionalism</b><p>Licensing, product knowledge and disclosure done properly.</p></div><em>&rarr;</em></a>
+        <a href="#"><i>03</i><div><b>Leadership</b><p>A route from advisor to team leader, with training at each step.</p></div><em>&rarr;</em></a>
+        <a href="#"><i>04</i><div><b>Culture</b><p>People who measure a good year by the clients who stayed.</p></div><em>&rarr;</em></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="grp" id="youth-v">
+  <div class="gh"><h2>Youth community</h2><p>Today: three flat boxes on sand, with nothing to look at.</p></div>
+
+  <div class="opt">
+    <div class="cap"><b>Option A · Image cards</b><i>Same three cards, but each carries a photo and a link cue. Youth is the one place on the page where energy is on-brand.</i></div>
+    <div class="vf y1">
+      <div class="hd">
+        <div><span class="lb">Community</span><h3>Youth Community</h3><div class="sup">Empowering youth. Building tomorrow.</div></div>
+        <p>A platform for young people to explore health, wealth and leadership through real talks, mentors and experience.</p>
+      </div>
+      <div class="gd">
+        <a class="yc" href="#"><div class="ph"><image-slot id="sv-y1a" shape="rect" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=70" credit="Photo by Duy Pham on Unsplash" placeholder="Workshop" fit="cover"></image-slot></div><div class="tx"><b>Events &amp; Workshops</b><p>Hands-on sessions on money, mindset and growth.</p><em>See what&rsquo;s on &rarr;</em></div></a>
+        <a class="yc" href="#"><div class="ph"><image-slot id="sv-y1b" shape="rect" src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=70" credit="Photo by Mimi Thian on Unsplash" credit-href="https://unsplash.com/@mimithian" placeholder="Stories" fit="cover"></image-slot></div><div class="tx"><b>Stories</b><p>Real journeys from young leaders and mentors.</p><em>Read stories &rarr;</em></div></a>
+        <a class="yc" href="#"><div class="ph"><image-slot id="sv-y1c" shape="rect" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=70" credit="Photo by Brooke Cagle on Unsplash" credit-href="https://unsplash.com/@brookecagle" placeholder="Resources" fit="cover"></image-slot></div><div class="tx"><b>Educational Resources</b><p>Practical guides on health, wealth and leadership.</p><em>Start learning &rarr;</em></div></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <div class="cap"><b>Option B · Index rows + wide still</b><i>Drops the boxes for editorial rows, then one wide film still carries the signup. Closest to the rest of the page&rsquo;s language.</i></div>
+    <div class="vf y2">
+      <div class="top">
+        <div><span class="lb">Community</span><h3>Youth Community</h3><div class="sup">Empowering youth. Building tomorrow.</div></div>
+        <div class="rows">
+          <a href="#"><i>01</i><div><b>Events &amp; Workshops</b><p>Hands-on sessions on money, mindset and growth.</p></div><em>&rarr;</em></a>
+          <a href="#"><i>02</i><div><b>Stories</b><p>Real journeys from young leaders and mentors.</p></div><em>&rarr;</em></a>
+          <a href="#"><i>03</i><div><b>Educational Resources</b><p>Practical guides on health, wealth and leadership.</p></div><em>&rarr;</em></a>
+        </div>
+      </div>
+      <div class="band ph"><image-slot id="sv-y2" shape="rect" src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&w=1600&q=70" credit="Photo by Priscilla Du Preez on Unsplash" credit-href="https://unsplash.com/@priscilladupreez" placeholder="Community session" fit="cover"></image-slot>
+        <div class="ov"><div><b>Stay in the loop</b><p>Get event invites and youth community updates.</p></div>
+          <form onsubmit="return false"><input type="email" placeholder="Your email" aria-label="Your email"><button class="pill" type="submit"><span>Sign up</span></button></form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <div class="cap"><b>Option C · Ink poster inset</b><i>A dark panel set inside the sand band — the community reads as its own programme rather than three cards on a page.</i></div>
+    <div class="vf y3">
+      <div class="panel">
+        <div>
+          <span class="lb">Community</span>
+          <h3>Youth Community</h3>
+          <div class="sup">Empowering youth. Building tomorrow.</div>
+          <p class="lead">A platform for young people to explore health, wealth and leadership through real talks, mentors and experience.</p>
+          <div class="fig ph"><image-slot id="sv-y3" shape="rect" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70" credit="Photo by Brooke Cagle on Unsplash" credit-href="https://unsplash.com/@brookecagle" placeholder="Youth session" fit="cover"></image-slot></div>
+        </div>
+        <div class="cols">
+          <div class="r"><b>Events &amp; Workshops</b><p>Hands-on sessions on money, mindset and growth.</p></div>
+          <div class="r"><b>Stories</b><p>Real journeys from young leaders and mentors.</p></div>
+          <div class="r"><b>Educational Resources</b><p>Practical guides on health, wealth and leadership.</p></div>
+          <div class="sign"><span>Stay in the loop</span><form onsubmit="return false"><input type="email" placeholder="Your email" aria-label="Your email"><button class="pill" type="submit"><span>Sign up</span></button></form></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</body></html>

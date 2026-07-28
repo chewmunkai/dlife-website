@@ -83,3 +83,10 @@ than copied verbatim. Two deliberate departures:
   never resets. Reproducing it literally would double the rule beneath every
   `.tlink` and defeat `#path a.opt:last-of-type`, which is written so only the
   final pathway option carries a bottom border.
+- **Youth cards use a stretched link, not a wrapping `<a>`.** The comp makes
+  each card a single anchor, but these cards carry an Unsplash credit chip
+  whose links would then sit inside that anchor — invalid HTML, and the
+  browser's fix-up breaks React hydration. The prototype avoids this only
+  because `<image-slot>` hides its credit in shadow DOM. The card is a `div`
+  and the CTA link stretches over it, so the whole card is still one target
+  while the credit stays above the overlay and separately clickable.

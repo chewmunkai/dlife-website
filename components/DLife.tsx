@@ -26,27 +26,32 @@ type Photo = {
 const UNSPLASH_UTM = "utm_source=dlife&utm_medium=referral";
 const withUtm = (url: string) => `${url}${url.includes("?") ? "&" : "?"}${UNSPLASH_UTM}`;
 
-// TODO(launch): placeholder photography from the design comp. Swap for real
-// D'Life brand shoots — the credit chips come out with them.
-const shot = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1400&q=70`;
+// TODO(launch): placeholder photography from the design comp. The project
+// brief flags a real shoot as a budget item — swapping these in also removes
+// the attribution chips, which only exist while the Unsplash images do.
+const shot = (id: string, w = 1400) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`;
 
 const PHOTOS = {
   hero: { src: shot("photo-1576089073624-b5751a8f4de9"), alt: "Hero image", credit: "National Cancer Institute", href: "https://unsplash.com/@nci" },
-  p1: { src: shot("photo-1503454537195-1dcabb73ffb9"), alt: "Protect my family", credit: "MI PHAM", href: "https://unsplash.com/@phammi" },
-  p2: { src: shot("photo-1450101499163-c8848c66ca85"), alt: "Review my coverage", credit: "Helloquence" },
+  p1: { src: shot("photo-1559036064-91b4a2446851"), alt: "Protect my family", credit: "Dragon Pan", href: "https://unsplash.com/@invisibledragon" },
+  p2: { src: shot("photo-1577415124269-fc1140a69e91"), alt: "Review my coverage", credit: "Muhammad Faiz Zulkeflee", href: "https://unsplash.com/@fzeo" },
   p3: { src: shot("photo-1470252649378-9c29740c9fa8"), alt: "Plan for the future", credit: "Dawid Zawiła", href: "https://unsplash.com/@davealmine" },
-  p4: { src: shot("photo-1543269865-cbf427effbad"), alt: "Explore a career", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
-  p5: { src: shot("photo-1529156069898-49953e39b3ac"), alt: "Join a community", credit: "Duy Pham" },
-  n1: { src: shot("photo-1576089073624-b5751a8f4de9"), alt: "Protecting Family", credit: "National Cancer Institute", href: "https://unsplash.com/@nci" },
-  n2: { src: shot("photo-1521791136064-7986c2920216"), alt: "Protecting Income", credit: "Cytonn Photography", href: "https://unsplash.com/@cytonn_photography" },
-  n3: { src: shot("photo-1579684385127-1ef15d508118"), alt: "Medical & Health", credit: "National Cancer Institute", href: "https://unsplash.com/@nci" },
-  n4: { src: shot("photo-1470252649378-9c29740c9fa8"), alt: "Planning for the Future", credit: "Dawid Zawiła", href: "https://unsplash.com/@davealmine" },
+  p4: { src: shot("photo-1531538512164-e6c51ea63d20"), alt: "Explore a career", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
+  p5: { src: shot("photo-1636455688745-bf276db60e84"), alt: "Join a community", credit: "Singapore Stock Photos", href: "https://unsplash.com/@singaporestockphoto" },
+  n1: { src: shot("photo-1577897113292-3b95936e5206"), alt: "Protecting Family", credit: "National Cancer Institute", href: "https://unsplash.com/@nci" },
+  n2: { src: shot("photo-1531539427495-97c44a449837"), alt: "Protecting Income", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
+  n3: { src: shot("photo-1780893006128-567e7cbf8937"), alt: "Medical & Health", credit: "jason hu", href: "https://unsplash.com/@hujason" },
+  n4: { src: shot("photo-1489710437720-ebb67ec84dd2"), alt: "Planning for the Future", credit: "MI PHAM", href: "https://unsplash.com/@phammi" },
   n5: { src: shot("photo-1560518883-ce09059eeffa"), alt: "Wealth & Legacy", credit: "Tierra Mallorca", href: "https://unsplash.com/@tierramallorca" },
-  policy: { src: shot("photo-1554224155-6726b3ff858f"), alt: "Policy review", credit: "Scott Graham", href: "https://unsplash.com/@homajob" },
-  s1: { src: shot("photo-1507003211169-0a1dd7228f2d"), alt: "Video still", credit: "Ayo Ogunseinde", href: "https://unsplash.com/@armedshutter" },
-  s2: { src: shot("photo-1508214751196-bcfd4ca60f91"), alt: "Video still", credit: "Aiony Haust", href: "https://unsplash.com/@aiony" },
-  s3: { src: shot("photo-1531482615713-2afd69097998"), alt: "Video still", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
+  policy: { src: shot("photo-1531537571171-a707bf2683da"), alt: "Policy review", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
+  s1: { src: shot("photo-1530099486328-e021101a494a"), alt: "Video still", credit: "Akson", href: "https://unsplash.com/@akson" },
+  s2: { src: shot("photo-1531498352491-042fbae4cf57"), alt: "Video still", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
+  s3: { src: shot("photo-1672917187338-7f81ecac3d3f"), alt: "Video still", credit: "Edi Kurniawan", href: "https://unsplash.com/@edikurniawan" },
   dva: { src: shot("photo-1596422846543-75c6fc197f07"), alt: "DVA", credit: "Izuddin Helmi Adnan", href: "https://unsplash.com/@izuddinhelmi" },
+  // Youth cards sit in a 4:3 frame, so the comp requests them at w=1200.
+  y1: { src: shot("photo-1613618281214-91af14800d8b", 1200), alt: "Events & workshops", credit: "Raychan", href: "https://unsplash.com/@wx1993" },
+  y2: { src: shot("photo-1529156069898-49953e39b3ac", 1200), alt: "Stories", credit: "Duy Pham" },
+  y3: { src: shot("photo-1531482615713-2afd69097998", 1200), alt: "Educational resources", credit: "Mimi Thian", href: "https://unsplash.com/@mimithian" },
 } satisfies Record<string, Photo>;
 
 /** Unsplash's prescribed attribution: links the photographer and Unsplash. */
@@ -102,10 +107,27 @@ const STORIES: Array<[Photo, string]> = [
   [PHOTOS.s3, "Inside D’Life Leadership"],
 ];
 
-const YOUTH: Array<[string, string]> = [
-  ["Events & Workshops", "Hands-on sessions on money, mindset and growth."],
-  ["Stories", "Real journeys from young leaders and mentors."],
-  ["Educational Resources", "Practical guides on health, wealth and leadership."],
+/** [photo, title, copy, link label] */
+const YOUTH: Array<[Photo, string, string, string]> = [
+  [PHOTOS.y1, "Events & Workshops", "Hands-on sessions on money, mindset and growth.", "See what’s on →"],
+  [PHOTOS.y2, "Stories", "Real journeys from young leaders and mentors.", "Read stories →"],
+  [PHOTOS.y3, "Educational Resources", "Practical guides on health, wealth and leadership.", "Start learning →"],
+];
+
+/** Trust strip: [figure, italic unit, label, copy] */
+const TRUST: Array<[string, string | null, string, string]> = [
+  ["27", "years", "Experience", "Of guidance across changing markets and life stages."],
+  ["People", "first", "Approach", "Advisory before products, every conversation."],
+  ["Clarity", null, "Promise", "Protection you can explain to your own family."],
+  ["Support", null, "After the sign", "A human to call when it matters most."],
+];
+
+/** Careers ladder: [number, heading, copy] */
+const CAREER_ROWS: Array<[string, string, string]> = [
+  ["01", "Mentorship", "You learn the craft beside someone senior before you ever learn a pitch."],
+  ["02", "Professionalism", "Licensing, product knowledge and disclosure done properly."],
+  ["03", "Leadership", "A route from advisor to team leader, with training at each step."],
+  ["04", "Culture", "People who measure a good year by the clients who stayed."],
 ];
 
 const FAQS: Array<[string, string]> = [
@@ -248,19 +270,18 @@ export default function DLife() {
       </section>
 
       <section id="trust">
-        {/* "27 years" pending client verification */}
-        <div className="rv">
-          <b>27 years</b>of guidance
-        </div>
-        <div className="rv">
-          <b>People first</b>advisory, before products
-        </div>
-        <div className="rv">
-          <b>Clarity</b>protection you can understand
-        </div>
-        <div className="rv">
-          <b>Human support</b>when it matters most
-        </div>
+        {/* "27 years" pending client verification — open question #1 in the
+            project brief: Sharon personally, or D'Life as an organisation? */}
+        {TRUST.map(([figure, unit, label, copy]) => (
+          <div className="c rv" key={label}>
+            <b>
+              {figure}
+              {unit && <em>{unit}</em>}
+            </b>
+            <u>{label}</u>
+            <p>{copy}</p>
+          </div>
+        ))}
       </section>
 
       <section id="man">
@@ -420,24 +441,36 @@ export default function DLife() {
         </div>
       </section>
 
-      <section id="careers">
+      {/* Cream, not dark: this sits between Stories and DVA, and the brand's
+          section rhythm forbids two dark sections touching. */}
+      <section id="careers" className="light">
         <div>
-          <span className="lb rv">Grow with D’Life</span>
+          <span className="lb rv" style={{ color: "var(--dl-copper-d)" }}>
+            Grow with D’Life
+          </span>
           <h2 className="rv">
             A career built on <i>real guidance,</i> not just sales.
           </h2>
-          <p className="bd rv">
-            Mentorship, professionalism, leadership and culture. A career that helps you become a more valuable person,
-            not just a better seller.
-          </p>
-          <a className="tlink rv" data-wa="Hi D'Life, I'd like to explore a career conversation." href="#">
-            Explore a career conversation
+          <div className="qt rv">
+            {/* quote attribution pending consent */}
+            <p>“D’Life gave me the mentorship I couldn’t find anywhere else.”</p>
+            <span>D’Life Advisor</span>
+          </div>
+          <a className="pill dark rv" data-wa="Hi D'Life, I'd like to explore a career conversation." href="#">
+            <span>Explore a career conversation</span>
           </a>
         </div>
-        <div className="qt rv">
-          {/* quote attribution pending consent */}
-          <p>“D’Life gave me the mentorship I couldn’t find anywhere else.”</p>
-          <span>D’Life Advisor</span>
+        <div className="rows">
+          {CAREER_ROWS.map(([no, title, copy]) => (
+            <a className="rv" href="#" key={no}>
+              <i>{no}</i>
+              <div>
+                <b>{title}</b>
+                <p>{copy}</p>
+              </div>
+              <em>→</em>
+            </a>
+          ))}
         </div>
       </section>
 
@@ -458,23 +491,40 @@ export default function DLife() {
 
       <section id="youth" className="light">
         <div className="head">
-          <span className="lb rv" style={{ color: "var(--dl-copper-d)" }}>
-            Community
-          </span>
-          <h2 className="rv" style={{ marginTop: 24 }}>
-            Youth Community
-          </h2>
-          <div className="sup rv">Empowering youth. Building tomorrow.</div>
+          <div>
+            <span className="lb rv" style={{ color: "var(--dl-copper-d)" }}>
+              Community
+            </span>
+            <h2 className="rv" style={{ marginTop: 24 }}>
+              Youth Community
+            </h2>
+            <div className="sup rv">Empowering youth. Building tomorrow.</div>
+          </div>
           <p className="intro rv">
             A platform for young people to explore health, wealth and leadership through real talks, mentors and
             experience.
           </p>
         </div>
         <div className="grid">
-          {YOUTH.map(([title, copy]) => (
+          {/* The comp makes the whole card one <a>, but these cards carry an
+              Unsplash credit chip whose photographer/Unsplash links would then
+              be anchors inside an anchor — invalid HTML, and the browser's
+              fix-up breaks hydration. (The prototype gets away with it because
+              <image-slot> hides its credit in shadow DOM.) So the card is a
+              div and the CTA link stretches over it; the credit sits above
+              that overlay and stays independently clickable. */}
+          {YOUTH.map(([photo, title, copy, cta]) => (
             <div className="yc rv" key={title}>
-              <h3>{title}</h3>
-              <p>{copy}</p>
+              <div className="ph">
+                <Plate photo={photo} />
+              </div>
+              <div className="tx">
+                <h3>{title}</h3>
+                <p>{copy}</p>
+                <a className="cta" href="#youth">
+                  <em>{cta}</em>
+                </a>
+              </div>
             </div>
           ))}
         </div>
