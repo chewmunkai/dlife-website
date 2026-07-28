@@ -16,8 +16,8 @@
 
 /* Palette + type + rhythm — verbatim from the prototype's site.css :root.
    Only the vars this page actually consumes; the rest of the design
-   system's token set is deliberately left out so it can't collide with
-   the Edge Point tokens loaded by the root layout. */
+   system's token set is deliberately left out, and every name is
+   `--dl-` prefixed, so nothing can collide with a host app's tokens. */
 :root {
   --dl-ink: #0F332C;
   --dl-deep: #0B211D;
