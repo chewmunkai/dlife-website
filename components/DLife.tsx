@@ -54,6 +54,7 @@ const PHOTOS = {
   n4: { src: asset("/media/img/need-planning.jpg"), alt: "Planning at a laptop at the kitchen table" },
   n5: { src: asset("/media/img/need-legacy.jpg"), alt: "A banquet hall gathering beneath a chandelier" },
   policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
+  close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
   dva: { src: asset("/media/img/dva-team.jpg"), alt: "The D’Life advisory team" },
   y1: { src: asset("/media/img/youth-workshop.jpg"), alt: "Attendees seated at a D’Life workshop session" },
   y2: { src: asset("/media/img/youth-stories.jpg"), alt: "D’Life community members at an evening gathering" },
@@ -72,6 +73,66 @@ function Plate({ photo, parallax, eager }: { photo: Photo; parallax?: boolean; e
 }
 
 const WA_ADVISOR = "Hi D'Life, I'd like to speak with an advisor.";
+
+/**
+ * ⚠️ Placeholders. Brief §14 Q8 — the launch WhatsApp number is unconfirmed
+ * (lib/dlife.ts still ships WA_NUMBER = "60123456789"), and no project
+ * document states a street address. Confirm both before launch.
+ */
+const CONTACT = {
+  phone: "+60 12-345 6789",
+  email: "hello@dlife.com.my",
+  city: "Kuala Lumpur, Malaysia",
+};
+
+/* Brief §13: every major CTA carries a distinct pre-filled message so the team
+   sees intent and source before replying — so the footer cannot reuse the
+   header's string. */
+const WA_FOOTER = "Hi D'Life, I'd like to get in touch — I found your contact details on the website.";
+const WA_VISIT = "Hi D'Life, I'd like to arrange a time to meet at your office.";
+
+/**
+ * Footer directory, grouped and ordered by the audience priority in brief §7:
+ * potential clients (1) → existing policyholders and resources (2, 7) →
+ * future advisors, stories, DVA, Youth (3–6). Corporate Solutions stays
+ * discoverable inside group 1 rather than claiming a group of its own, per
+ * §7's note that it "must not compete for a major homepage branch".
+ * [group label, [link text, href][]]
+ * NOTE(launch): hrefs resolve to the homepage sections that exist today; "#"
+ * entries are pages not yet built.
+ */
+const FOOTER_NAV: Array<[string, Array<[string, string]>]> = [
+  [
+    "Protection & Planning",
+    [
+      ["Protecting Family", "#needs"],
+      ["Protecting Income", "#needs"],
+      ["Medical & Health", "#needs"],
+      ["Planning for the Future", "#needs"],
+      ["Wealth & Legacy", "#needs"],
+      ["Corporate Solutions", "#"],
+    ],
+  ],
+  [
+    "Guidance & Support",
+    [
+      ["Existing Policy Support", "#policy"],
+      ["Find Your Path", "#path"],
+      ["Common Questions", "#faq"],
+      ["Articles & Events", "#"],
+    ],
+  ],
+  [
+    "People & Community",
+    [
+      ["Our Founders", "#founder"],
+      ["Advisor Stories", "#stories"],
+      ["Careers at D’Life", "#careers"],
+      ["DVA — By Invitation", "#dva"],
+      ["Youth Community", "#youth"],
+    ],
+  ],
+];
 
 /**
  * Placeholder recreation of the client's clover mark (the supplied logo is a
@@ -272,9 +333,6 @@ export default function DLife() {
           D’Life
         </a>
         <div className="rt">
-          <a className="msg" data-wa={WA_ADVISOR} href="#">
-            Message an Advisor
-          </a>
           <a className="pill" data-wa={WA_ADVISOR} href="#">
             <span>Speak with an Advisor</span>
           </a>
@@ -586,7 +644,10 @@ export default function DLife() {
             <Plate photo={PHOTOS.dva} parallax />
           </div>
           <div className="fg">
-            <span className="lb">DVA · By invitation</span>
+            {/* NOTE(copy): the client says "Drive Value Association"; the
+                master brief §4 says "Drive Value Associate". Using the
+                client's wording — needs confirming before launch. */}
+            <span className="lb">Drive Value Association (DVA) · By invitation</span>
             <h2>
               Built for leaders. A selective circle shaped by <i>shared values and experience.</i>
             </h2>
@@ -633,18 +694,6 @@ export default function DLife() {
             </div>
           ))}
         </div>
-        <div className="loop rv">
-          <div>
-            <h3>Stay in the Loop</h3>
-            <p>Get event invites and youth community updates.</p>
-          </div>
-          <form id="loopform">
-            <input type="email" placeholder="Your email" required aria-label="Your email" />
-            <button className="pill" type="submit">
-              <span>Sign Up</span>
-            </button>
-          </form>
-        </div>
       </section>
 
       <section id="faq">
@@ -672,60 +721,172 @@ export default function DLife() {
         </div>
       </section>
 
+      {/* The hero opens the page with a photograph behind the type; this closes
+          it on the same gesture reflected — scrim heaviest at the top, holding
+          a plateau under the copy, then releasing downward so the photograph
+          resolves in the lower third. That release is what stops closing and
+          footer reading as one undifferentiated dark mass, which is the risk
+          the brief's one permitted adjacent dark pair carries.
+
+          `parallax` is load-bearing, not decorative: .prlx both earns the
+          scroll drift and excludes this plate from the generic `.ph img`
+          settle pass, which would otherwise slam a full-bleed background from
+          scale 1.16 to 1 on entry. */}
       <section id="close" className="dark">
-        <span className="lb rv">D’Life</span>
-        <h2 className="rv">
-          A clearer future can begin with <i>one conversation.</i>
-        </h2>
-        <div className="sub rv">Let it begin with you.</div>
-        <div className="acts rv">
-          <a className="pill" data-wa="Hi D'Life, I'd like to start a conversation." href="#">
-            <span>Speak with an Advisor</span>
-          </a>
-          <a className="pill ghost" href="#path">
-            <span>Find your path</span>
-          </a>
+        <div className="bg ph">
+          <Plate photo={PHOTOS.close} parallax />
+        </div>
+        <div className="fg">
+          <span className="lb rv">D’Life</span>
+          <h2 className="rv">
+            A clearer future can begin with <i>one conversation.</i>
+          </h2>
+          <div className="sub rv">Let it begin with you.</div>
+          <div className="acts rv">
+            <a className="pill" data-wa="Hi D'Life, I'd like to start a conversation." href="#">
+              <span>Speak with an Advisor</span>
+            </a>
+            <a className="pill ghost" href="#path">
+              <span>Find your path</span>
+            </a>
+          </div>
         </div>
       </section>
 
+      {/* The one permitted adjacent dark pair (brief §10): deep-green closing
+          CTA into charcoal footer. #close owns the page's last primary action,
+          so nothing here is a copper .pill — this band is utility, not
+          conversion. */}
       <footer id="ft" className="dark charcoal">
-        <div className="cols">
+        <div className="mast rv">
           <div>
             <div className="wm">
-              <CloverMark size={26} />
+              <CloverMark size={34} />
               D’Life
             </div>
-            <div className="tag">Real support, beyond the policy.</div>
+            <p className="tag">Real support, beyond the policy.</p>
           </div>
-          <div className="col">
-            <b>Solutions</b>
-            <a href="#needs">Protecting Family</a>
-            <a href="#needs">Planning for the Future</a>
-            <a href="#policy">Existing Policy Support</a>
-          </div>
-          <div className="col">
-            <b>Community</b>
-            <a href="#youth">Youth Community</a>
-            <a href="#dva">DVA</a>
-            <a href="#careers">Careers</a>
-          </div>
-          <div className="col">
-            <b>Contact</b>
-            <a data-wa={WA_ADVISOR} href="#">
-              Message an Advisor on WhatsApp
-            </a>
-            <a href="mailto:hello@dlife.com.my">Ask a Question</a>
-          </div>
-        </div>
-        <div className="legal">
-          <span>© 2026 D’Life. All rights reserved.</span>
-          <span>
-            <a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms</a>
+          {/* "Since 1999" comes from the client's own logo lockup, and
+              2026−1999 = 27 corroborates the trust strip. Still governed by
+              brief §14 Q1 — Sharon personally, or the organisation. */}
+          <span className="est">
+            Est. 1999
+            <br />
+            Malaysia
           </span>
         </div>
-      </footer>
 
-      <div id="toast" role="status" />
+        <div className="mid">
+          <div className="reach rv">
+            <h2 className="lede">
+              Talk to a person, <i>not a form.</i>
+            </h2>
+            <ul className="chan">
+              <li>
+                <span className="k">WhatsApp</span>
+                {/* aria-label contains the visible string, so WCAG 2.5.3
+                    (label in name) holds while the name still says which
+                    channel this opens. */}
+                <a
+                  className="go"
+                  data-wa={WA_FOOTER}
+                  href="#"
+                  aria-label={`Message D’Life on WhatsApp at ${CONTACT.phone}`}
+                >
+                  <span>{CONTACT.phone}</span>
+                  <em aria-hidden="true">→</em>
+                </a>
+                <p className="hint">
+                  Monday to Friday, 9am–6pm. Most messages get a reply the same day, and no one will chase you
+                  afterwards.
+                </p>
+              </li>
+              <li>
+                <span className="k">Email</span>
+                <a className="go" href={`mailto:${CONTACT.email}`}>
+                  <span>{CONTACT.email}</span>
+                  <em aria-hidden="true">→</em>
+                </a>
+                <p className="hint">For anything that needs a longer answer, or a document attached.</p>
+              </li>
+              <li>
+                <span className="k">Office</span>
+                {/* ⚠️ Full street address pending — see CONTACT above. */}
+                <address>{CONTACT.city}</address>
+                <p className="hint">
+                  Visits by appointment.{" "}
+                  <a data-wa={WA_VISIT} href="#">
+                    Message us to arrange a time
+                  </a>
+                  .
+                </p>
+              </li>
+              <li>
+                {/* Brief §8: social feeds the website, not the other way round.
+                    The exits are grouped once, quietly, at the end of the
+                    contact list rather than scattered as icons. */}
+                <span className="k">Elsewhere</span>
+                <div className="soc">
+                  <a href="#">Instagram</a>
+                  <a href="#">Facebook</a>
+                  <a href="#">YouTube</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <nav className="dirs rv" aria-label="Site directory">
+            {FOOTER_NAV.map(([group, links]) => (
+              <div key={group}>
+                <h3 className="k">{group}</h3>
+                <ul>
+                  {links.map(([label, href]) => (
+                    <li key={label}>
+                      <a href={href}>{label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        {/* This is a financial advisory; trust is the product. Deliberately no
+            .rv on this band or the one below — they are the last elements on
+            the page, and a missed scroll trigger must never leave a legal
+            notice stuck at opacity 0. */}
+        <div className="fine">
+          <p className="note">
+            D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read
+            here is general information, not personal advice — it does not take your circumstances into account. A
+            recommendation only follows a conversation, a needs assessment and the relevant product disclosure
+            documents.
+          </p>
+          <div>
+            <span className="k">Licensing</span>
+            {/* ⚠️ Brief §14 Q4 — is D'Life a licensed agency in its own right,
+                or a team under a larger insurer? Until that is answered we show
+                the slot rather than invent a regulator. Placeholder, not
+                shippable copy. */}
+            <p className="pend">
+              Legal entity, company registration and licensing details to be confirmed before launch.
+            </p>
+          </div>
+        </div>
+
+        <div className="base">
+          <span>© 2026 D’Life Revolution. All rights reserved.</span>
+          <div className="lx">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Disclosures</a>
+            <a href="#">Complaints &amp; Feedback</a>
+          </div>
+          <a className="top" href="#hero">
+            Back to top <em aria-hidden="true">↑</em>
+          </a>
+        </div>
+      </footer>
 
       {/* Videos play here rather than on a social platform, so a visitor never
           has to leave the site to finish a story. The source is 9:16 and is

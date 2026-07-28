@@ -288,16 +288,6 @@ body:has(.dlife) {
 }
 .dlife .lmark { display: block; flex: none; }
 .dlife #hd .rt { display: flex; align-items: center; gap: 14px; }
-.dlife #hd .msg {
-  font: 500 12px/1 var(--dl-grot);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: currentColor;
-  opacity: .82;
-  padding: 13px 6px;
-  white-space: nowrap;
-}
-.dlife #hd .msg:hover { opacity: 1; }
 
 /* Primary action: copper fill, white text, one per section (brief §9). */
 .dlife .pill {
@@ -365,7 +355,6 @@ body:has(.dlife) {
 .dlife.menu-open #hd,
 .dlife.menu-open #hd .wm,
 .dlife.menu-open #hd .burger { color: var(--dl-ivory); }
-.dlife.menu-open #hd .msg { color: rgba(246, 241, 232, .78); }
 .dlife.menu-open #hd .burger .ln::before { top: 5px; transform: rotate(45deg); }
 .dlife.menu-open #hd .burger .ln::after { top: 5px; transform: rotate(-45deg); }
 
@@ -460,10 +449,10 @@ body:has(.dlife) {
 .dlife #hero h1 .lw span { display: inline-block; }
 
 .dlife #hero p {
-  font: 400 clamp(20px, 1.55vw, 27px)/1.65 var(--dl-sans);
-  color: var(--s-body);
-  max-width: 46ch;
-  margin-top: 26px;
+  font: 400 clamp(21px, 1.75vw, 30px)/1.55 var(--dl-sans);
+  color: var(--s-strong);
+  max-width: 44ch;
+  margin-top: 28px;
 }
 .dlife #hero .acts { display: flex; gap: 14px; margin-top: 38px; flex-wrap: wrap; }
 
@@ -510,12 +499,21 @@ body:has(.dlife) {
 .dlife #man { background: var(--s-bg); padding: clamp(96px, 18vh, 220px) var(--dl-pad); }
 .dlife #man .lb { display: block; margin-bottom: 40px; }
 .dlife #man .man {
-  font: 300 clamp(32px, 3.9vw, 60px)/1.38 var(--dl-disp);
-  color: var(--s-strong);
-  max-width: 26ch;
-  letter-spacing: -.012em;
+  font: 700 clamp(30px, 3.5vw, 56px)/1.14 var(--dl-grot);
+  text-transform: uppercase;
+  letter-spacing: -.03em;
+  color: var(--s-heading);
+  max-width: 22ch;
 }
-.dlife #man .man i { font-style: italic; color: var(--s-accent); }
+.dlife #man .man i {
+  font-family: var(--dl-disp);
+  font-style: italic;
+  font-weight: 300;
+  font-size: .82em;
+  letter-spacing: -.01em;
+  text-transform: none;
+  color: var(--s-accent);
+}
 .dlife #man .man .w { opacity: .16; }
 
 /* Three beats under the statement. The section previously held one sentence on
@@ -537,7 +535,9 @@ body:has(.dlife) {
 .dlife #man .pillar b {
   display: block;
   margin-top: 18px;
-  font: 500 clamp(24px, 2.1vw, 32px)/1.1 var(--dl-disp);
+  font: 700 clamp(22px, 1.9vw, 30px)/1.1 var(--dl-grot);
+  letter-spacing: -.03em;
+  text-transform: uppercase;
   color: var(--s-heading);
 }
 .dlife #man .pillar p {
@@ -557,9 +557,9 @@ body:has(.dlife) {
 }
 .dlife #path .lb { margin-bottom: 18px; }
 .dlife #path .q {
-  font: 300 clamp(30px, 2.6vw, 40px)/1.2 var(--dl-disp);
-  font-style: italic;
-  color: var(--s-accent);
+  font: 600 clamp(26px, 2.2vw, 34px)/1.15 var(--dl-grot);
+  letter-spacing: -.025em;
+  color: var(--s-heading);
   margin-bottom: 40px;
 }
 .dlife #path a.opt {
@@ -920,30 +920,6 @@ body:has(.dlife) {
   color: var(--dl-copper-d);
   font-style: normal;
 }
-.dlife #youth .loop {
-  margin-top: 9vh;
-  border-top: 1px solid rgba(47, 53, 50, .24);
-  padding-top: 44px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
-}
-.dlife #youth .loop h3 { font-size: 30px; }
-.dlife #youth .loop p { font: 400 clamp(16px, 1.15vw, 19px)/1.7 var(--dl-sans); color: var(--s-muted); margin-top: 8px; }
-.dlife #youth form { display: flex; gap: 12px; }
-.dlife #youth input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(47, 53, 50, .4);
-  font: 400 17px/1 var(--dl-sans);
-  color: var(--dl-char);
-  padding: 14px 2px;
-  outline: none;
-}
-.dlife #youth input:focus { border-color: var(--dl-copper-d); }
-.dlife #youth input::placeholder { color: rgba(47, 53, 50, .5); }
 
 /* ---------- faq ---------- */
 .dlife #faq {
@@ -993,89 +969,346 @@ body:has(.dlife) {
   padding-bottom: 34px;
 }
 
-/* ---------- closing CTA (deep green) ---------- */
+/* ---------- closing CTA (deep green + full-bleed photograph) ----------
+   The hero runs its photograph behind the type under a bottom-weighted
+   scrim. This is that move reflected: heaviest at the top edge, a plateau
+   under the copy, then releasing downward so the photograph resolves in the
+   lower third. The release is deliberate — it is what stops this section and
+   the charcoal footer reading as one undifferentiated dark mass, which is
+   the risk in the brief's one permitted adjacent dark pair. */
 .dlife #close {
   position: relative;
+  overflow: hidden;              /* contains the .prlx over-scan */
   background: var(--s-bg);
   color: var(--s-body);
-  padding: clamp(120px, 22vh, 280px) var(--dl-pad);
   text-align: center;
+  /* align-content:start is the contrast mechanism, not a layout whim: it
+     pins the type to the upper region so spare height always falls below
+     the copy, never through it, and the copy can never drift down into the
+     part of the ramp where the scrim has released. */
+  display: grid;
+  align-content: start;
+  min-height: clamp(660px, 88vh, 980px);
+  padding: clamp(112px, 17vh, 210px) var(--dl-pad) clamp(260px, 38vh, 440px);
+}
+.dlife #close .bg { position: absolute; inset: 0; z-index: 0; }
+/* Less over-scan than the -12% site default: the parallax only travels ±6%,
+   so -8% still covers at both extremes and hands ~16% of the plate's
+   vertical resolution back to the picture. This is the most enlarged image
+   on the page and it needs the pixels. */
+.dlife #close .bg .prlx { inset: -8% 0; }
+.dlife #close .bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  /* Two layers: a darkness ramp, plus a deep-green tint that fades with it
+     so the plateau reads as the brand's dark ground rather than a grey
+     photograph. The tint is also what keeps type legible over a near-white
+     pixel, so the section stays AA-safe if the plate is ever swapped. */
+  background:
+    linear-gradient(to bottom,
+      rgba(11, 33, 29, .94) 0%,
+      rgba(11, 33, 29, .88) 24%,
+      rgba(11, 33, 29, .78) 50%,
+      rgba(11, 33, 29, .74) 66%,
+      rgba(11, 33, 29, .54) 86%,
+      rgba(11, 33, 29, .40) 100%),
+    linear-gradient(to bottom,
+      rgba(29, 75, 62, .34) 0%,
+      rgba(29, 75, 62, .30) 58%,
+      rgba(29, 75, 62, .18) 86%,
+      rgba(29, 75, 62, .10) 100%);
+}
+/* Grain: reads as film rather than as a soft video frame, and dithers a
+   ramp long enough to band on 8-bit displays. 5% breaks the gradient
+   without texturing the type. */
+.dlife #close .bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: .05;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+.dlife #close .fg { position: relative; z-index: 4; }
+/* The hand-off to the footer. The photograph is at its most open here, so
+   the seam is already a change of material; the hairline just declares it.
+   Bronze is legal as a decorative rule, where no contrast minimum applies. */
+.dlife #close::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  height: 1px;
+  background: rgba(168, 135, 82, .55);
 }
 .dlife #close h2 { font-size: clamp(38px, 4.6vw, 76px); line-height: .98; max-width: 19ch; margin: 34px auto 0; }
 .dlife #close .sub { font: 300 italic clamp(22px, 2vw, 30px)/1.4 var(--dl-disp); color: var(--s-accent); margin-top: 24px; }
 .dlife #close .acts { display: flex; gap: 14px; justify-content: center; margin-top: 52px; flex-wrap: wrap; }
+/* Phone: the headline wraps to three or four lines and the pills stack, so
+   the type block is proportionally much taller. Carry the plateau further
+   down and shorten the opening rather than growing the section into a
+   scroll — brief §13 asks for deliberate re-composition and controlled
+   image height on phone. */
+@media (max-width: 760px) {
+  .dlife #close {
+    min-height: 0;
+    padding: clamp(104px, 14vh, 150px) var(--dl-pad) clamp(240px, 32vh, 330px);
+  }
+  .dlife #close .bg::before {
+    background:
+      linear-gradient(to bottom,
+        rgba(11, 33, 29, .94) 0%,
+        rgba(11, 33, 29, .88) 28%,
+        rgba(11, 33, 29, .78) 60%,
+        rgba(11, 33, 29, .74) 76%,
+        rgba(11, 33, 29, .54) 92%,
+        rgba(11, 33, 29, .40) 100%),
+      linear-gradient(to bottom,
+        rgba(29, 75, 62, .34) 0%,
+        rgba(29, 75, 62, .30) 68%,
+        rgba(29, 75, 62, .18) 92%,
+        rgba(29, 75, 62, .10) 100%);
+  }
+}
 
-/* ---------- footer (charcoal) ---------- */
+/* ---------- footer (charcoal) — warm utility directory ----------
+   Charcoal is the page's one non-green dark (brief §10), and CTA → footer is
+   the single permitted adjacent dark pair. The job here is utility, not
+   another conversion moment: #close directly above already owns the page's
+   last primary action, so nothing in this block is a copper .pill. Warmth
+   comes from type, rhythm and one sand accent — no boxes, no icons.
+
+   Every colour below is a --s-* token, so this survives a mode change. */
 .dlife #ft {
   background: var(--s-bg);
   color: var(--s-body);
   border-top: 1px solid var(--s-line-soft);
-  padding: 12vh var(--dl-pad) 40px;
+  padding: clamp(84px, 12vh, 152px) var(--dl-pad) clamp(26px, 4vh, 42px);
 }
-.dlife #ft .cols { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }
+
+/* The global ring is copper-dark, which sits at 2.35:1 on charcoal — below
+   the 3:1 floor for a focus indicator. Sand clears it at 6.99:1. Scoped to
+   #ft so the light sections keep the copper ring they already pass with. */
+.dlife #ft :focus-visible { outline-color: var(--s-accent); outline-offset: 3px; }
+
+.dlife #ft ul { list-style: none; padding: 0; }
+
+/* ---- band 1: masthead ---- */
+.dlife #ft .mast {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 48px;
+  flex-wrap: wrap;
+  padding-bottom: clamp(34px, 5vh, 58px);
+  border-bottom: 1px solid var(--s-line-soft);
+}
 .dlife #ft .wm {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font: 700 26px/1 var(--dl-grot);
-  letter-spacing: -.02em;
-  color: var(--s-strong);
+  gap: 12px;
+  font: 700 clamp(28px, 3vw, 40px)/1 var(--dl-grot);
+  letter-spacing: -.025em;
+  color: var(--s-strong);          /* 11.1:1 — the clover follows in currentColor */
 }
-.dlife #ft .tag { font: 300 italic 18px/1.5 var(--dl-disp); color: var(--s-accent); margin-top: 16px; }
-.dlife #ft b {
+.dlife #ft .tag {
+  font: 300 italic clamp(18px, 1.5vw, 22px)/1.5 var(--dl-disp);
+  color: var(--s-accent);          /* sand, 6.99:1 */
+  margin-top: 14px;
+}
+/* Blockified as a flex item, so text-align applies. */
+.dlife #ft .est {
+  font: 600 11px/1.7 var(--dl-grot);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--s-label);           /* 6.99:1 */
+  text-align: right;
+}
+
+/* ---- band 2: contact + directory ---- */
+.dlife #ft .mid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+  gap: clamp(48px, 6vw, 104px);
+  padding: clamp(52px, 7vh, 92px) 0 clamp(56px, 8vh, 104px);
+}
+
+/* The signature dual-font move, used once. font-family, weight, uppercase and
+   the italic-Newsreader <i> all come from the global h2 rules — only size,
+   measure and rhythm are set here. */
+.dlife #ft .lede {
+  font-size: clamp(24px, 2.3vw, 36px);
+  line-height: 1.08;
+  max-width: 15ch;
+  color: var(--s-heading);
+}
+
+/* One micro-label style shared by the channel labels, the directory group
+   headings (<h3>, overridden here) and the compliance label. */
+.dlife #ft .k {
   display: block;
   font: 600 10px/1 var(--dl-grot);
   letter-spacing: .3em;
   text-transform: uppercase;
   color: var(--s-label);
-  margin-bottom: 22px;
 }
-.dlife #ft .col a { display: block; font: 400 16px/2.3 var(--dl-sans); color: var(--s-body); }
-.dlife #ft .col a:hover { color: var(--s-strong); }
-.dlife #ft .legal {
+
+.dlife #ft .chan { margin-top: clamp(28px, 4vh, 44px); }
+.dlife #ft .chan li { padding: 20px 0 22px; border-top: 1px solid var(--s-line); }
+.dlife #ft .chan li:last-child { border-bottom: 1px solid var(--s-line); }
+.dlife #ft .chan .k { margin-bottom: 12px; }
+
+/* Same hover language as #path a.opt and #careers .rows a — the footer should
+   move the way the rest of the page moves. */
+.dlife #ft .go {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  font: 500 clamp(20px, 1.8vw, 27px)/1.2 var(--dl-grot);
+  letter-spacing: -.02em;
+  color: var(--s-strong);
+  transition: padding-left .45s cubic-bezier(.22, .7, .24, 1);
+}
+.dlife #ft .go em {
+  font: 300 italic 15px/1 var(--dl-disp);
+  color: var(--s-quiet);           /* 4.89:1 — never opacity, which would fail */
+  transition: color .35s;
+}
+.dlife #ft .go:hover { padding-left: 14px; }
+.dlife #ft .go:hover em { color: var(--s-accent); }
+
+/* font: shorthand resets the UA's italic on <address>. */
+.dlife #ft address {
+  font: 400 clamp(19px, 1.6vw, 24px)/1.4 var(--dl-sans);
+  color: var(--s-strong);
+}
+.dlife #ft .hint {
+  font: 400 15px/1.65 var(--dl-sans);
+  color: var(--s-muted);           /* 6.89:1 */
+  margin-top: 10px;
+  max-width: 38ch;
+}
+
+/* .dlife a strips underlines globally, so inline links inside running text
+   need theirs back — colour alone is not a link affordance. */
+.dlife #ft .hint a,
+.dlife #ft .note a {
+  color: var(--s-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+  text-decoration-color: var(--s-rule);
+  transition: text-decoration-color .3s;
+}
+.dlife #ft .hint a:hover,
+.dlife #ft .note a:hover { text-decoration-color: var(--s-accent); }
+
+.dlife #ft .soc { display: flex; flex-wrap: wrap; gap: 8px 26px; }
+.dlife #ft .soc a {
+  font: 400 16px/1.5 var(--dl-sans);
+  color: var(--s-body);
+  transition: color .3s;
+}
+.dlife #ft .soc a:hover { color: var(--s-strong); }
+
+/* auto-fit does the whole responsive job: 3 columns on desktop, 2 on tablet,
+   1 on phone, with no breakpoint of its own. */
+.dlife #ft .dirs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: clamp(32px, 3.4vw, 48px) clamp(20px, 2.4vw, 40px);
+  align-content: start;
+}
+.dlife #ft .dirs .k { margin-bottom: 18px; }
+.dlife #ft .dirs a {
+  display: block;
+  font: 400 16px/1.45 var(--dl-sans);
+  color: var(--s-body);            /* 8.7:1 */
+  padding: 8px 0;                  /* ~40px target */
+  transition: color .3s;
+}
+.dlife #ft .dirs a:hover { color: var(--s-strong); }
+
+/* ---- band 3: compliance ----
+   Bronze is decorative-only in this system (it fails AA as text), and this is
+   the one hairline that should read warm rather than neutral: it marks the
+   seam between the human content and the fine print. */
+.dlife #ft .fine {
+  border-top: 1px solid var(--s-rule);
+  padding: clamp(28px, 4vh, 40px) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+}
+.dlife #ft .note {
+  font: 400 14px/1.75 var(--dl-sans);
+  color: var(--s-muted);
+  max-width: 74ch;
+}
+.dlife #ft .fine .k { margin-bottom: 10px; }
+/* Marked placeholder, styled like .slot-empty marks the unbuilt portraits:
+   italic display serif in the accent, obviously provisional. */
+.dlife #ft .pend {
+  font: 300 italic 14px/1.6 var(--dl-disp);
+  color: var(--s-accent);
+}
+
+/* ---- band 4: base ---- */
+.dlife #ft .base {
   display: flex;
   justify-content: space-between;
-  gap: 30px;
-  margin-top: 11vh;
-  padding-top: 28px;
-  border-top: 1px solid var(--s-line-soft);
-  font: 400 13px/1.6 var(--dl-sans);
-  color: var(--s-quiet);
+  align-items: baseline;
+  gap: 14px 36px;
   flex-wrap: wrap;
+  padding-top: clamp(22px, 3vh, 30px);
+  border-top: 1px solid var(--s-line-soft);
+  font: 400 13px/1.7 var(--dl-sans);
+  color: var(--s-quiet);           /* 4.89:1 at 13px */
 }
-.dlife #ft .legal a:hover { color: var(--s-body); }
+.dlife #ft .lx { display: flex; flex-wrap: wrap; gap: 6px 26px; }
+.dlife #ft .base a { color: var(--s-quiet); transition: color .3s; }
+.dlife #ft .base a:hover { color: var(--s-body); }
+.dlife #ft .base a.top {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 10px/1 var(--dl-grot);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--s-label);           /* 6.99:1 */
+  transition: gap .35s, color .3s;
+}
+.dlife #ft .base a.top:hover { gap: 16px; color: var(--s-strong); }
+.dlife #ft .base a.top em { font-style: normal; }
 
-/* ---------- toast ---------- */
-.dlife #toast {
-  position: fixed;
-  right: 28px;
-  bottom: 28px;
-  z-index: 200;
-  background: var(--dl-ink);
-  color: var(--dl-ivory);
-  font: 400 14px/1.5 var(--dl-sans);
-  padding: 18px 24px;
-  border-radius: 3px;
-  box-shadow: 0 24px 60px -20px rgba(15, 51, 44, .45);
-  opacity: 0;
-  transform: translateY(16px);
-  pointer-events: none;
+/* ---- responsive ---- */
+@media (max-width: 1080px) {
+  .dlife #ft .mid { grid-template-columns: 1fr; gap: clamp(44px, 7vh, 76px); }
+  .dlife #ft .fine { grid-template-columns: 1fr; }
+  .dlife #ft .lede { max-width: 22ch; }
+}
+@media (max-width: 640px) {
+  .dlife #ft .mast { align-items: flex-start; }
+  .dlife #ft .est { text-align: left; }
+  .dlife #ft .dirs a { padding: 10px 0; }   /* 44px target */
+  .dlife #ft .base { justify-content: flex-start; }
 }
 
-/* ---------- reveal ----------
-   Only pre-hide when JS will actually reveal it. The root layout stamps
-   `.js` on <html> before paint, so a no-JS visit gets the full page
-   (and no loader stranded over it) instead of a blank screen. */
-.js .dlife .rv { opacity: 0; transform: translateY(40px); }
-.js .dlife #hero h1 .lw span { transform: translateY(115%); }
-.js .dlife #loader .wm { transform: translateY(110%); }
-html:not(.js) .dlife #loader { display: none; }
-
+/* ---- reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
-  .js .dlife .rv { opacity: 1; transform: none; }
-  .js .dlife #hero h1 .lw span,
-  .js .dlife #loader .wm { transform: none; }
-  .dlife #man .man .w { opacity: 1; }
+  .dlife #ft .go,
+  .dlife #ft .base a.top { transition: none; }
+  .dlife #ft .go:hover { padding-left: 0; }
+  .dlife #ft .base a.top:hover { gap: 10px; }
 }
 
 @media (max-width: 1080px) {
@@ -1089,9 +1322,7 @@ html:not(.js) .dlife #loader { display: none; }
   .dlife #stories .grid,
   .dlife #youth .grid { grid-template-columns: 1fr; }
   .dlife #youth .head { grid-template-columns: 1fr; }
-  .dlife #youth .loop { grid-template-columns: 1fr; }
   .dlife #trust { grid-template-columns: 1fr 1fr; }
   .dlife #menu { grid-template-columns: 1fr; }
   .dlife #menu .side { border-left: none; padding-left: 0; }
-  .dlife #ft .cols { grid-template-columns: 1fr 1fr; }
 }

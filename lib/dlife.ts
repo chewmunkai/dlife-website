@@ -58,6 +58,47 @@ export function initDLife(root: HTMLElement): () => void {
       (el as HTMLElement).style.transform = "none";
     });
 
+  /* ---------- pathway image swap ----------
+     Hover was the only way to advance this, which meant four of the five
+     commissioned photographs and four of the five captions were unreachable
+     on any touch device — a content bug wearing an interaction costume. The
+     selection is now driven by scroll as well, with hover taking over
+     whenever a fine pointer is actually inside the list. */
+  const ims = $$("#path .vis .im");
+  const cap = $("#pathcap");
+  const opts = $$<HTMLAnchorElement>("#path a.opt");
+
+  let pathLock = false; // true while a fine pointer is driving the selection
+  let pathAt = -1;
+  const setPath = (idx: number) => {
+    if (idx === pathAt || !opts[idx]) return;
+    pathAt = idx;
+    const i = Number(opts[idx].dataset.im ?? idx);
+    ims.forEach((im, k) => im.classList.toggle("on", k === i));
+    opts.forEach((o, k) => o.classList.toggle("on", k === idx));
+    if (cap) cap.textContent = PATH_CAPS[i];
+  };
+
+  opts.forEach((opt, idx) => {
+    on(opt, "mouseenter", () => setPath(idx));
+    // Keyboard users get the same affordance the mouse gets.
+    on(opt, "focus", () => setPath(idx));
+  });
+
+  /* The lock is taken and released on the LIST, not per option: setting it
+     from an option's enter but clearing it from the list's leave can latch
+     permanently if the page scrolls an option out from under a stationary
+     pointer. Symmetric enter/leave on one element cannot. */
+  const pathList = $("#path .list");
+  if (pathList && fine) {
+    on(pathList, "pointerenter", () => {
+      pathLock = true;
+    });
+    on(pathList, "pointerleave", () => {
+      pathLock = false;
+    });
+  }
+
   const ctx = gsap.context(() => {
     /* ---------- loader + hero entrance ---------- */
     const loader = $("#loader");
@@ -86,22 +127,70 @@ export function initDLife(root: HTMLElement): () => void {
     }
 
     if (!reduced) {
-      /* ---------- reveals ----------
-         Groups that sit side by side are animated as staggered sets further
+      /* ---------- reveals, paced per section ----------
+         Every .rv on the page previously arrived at the same 1.1s / top 87%,
+         which is why a manifesto, a founder story and an FAQ all landed in
+         the same voice. Sections that make an argument now arrive late and
+         slow; utilities arrive early and crisp. This adds no triggers — it
+         reparameterises the loop that already existed, and it is not visible
+         as an effect, only as pacing. */
+      type Pace = { d: number; start: string };
+      const PACE: Record<string, Pace> = {
+        close: { d: 1.6, start: "top 80%" }, // the last word, slowest
+        man: { d: 1.5, start: "top 82%" }, //   the statement — let it land
+        founder: { d: 1.45, start: "top 84%" },
+        dva: { d: 1.4, start: "top 84%" }, //   by invitation: unhurried
+        youth: { d: 1.25, start: "top 85%" },
+        policy: { d: 1.1, start: "top 86%" },
+        stories: { d: 1.0, start: "top 87%" },
+        trust: { d: 1.0, start: "top 88%" },
+        careers: { d: 0.95, start: "top 88%" },
+        needs: { d: 0.9, start: "top 90%" }, // a browse, not a read
+        path: { d: 0.8, start: "top 92%" }, //  a menu: get out of the way
+        faq: { d: 0.8, start: "top 92%" },
+      };
+      const PACE_DEFAULT: Pace = { d: 1.1, start: "top 87%" };
+      /* The chapter marker is the first thing a section says: earliest line,
+         quickest, barely travels — so the label and the heading become two
+         beats instead of one. */
+      const PACE_LABEL: Pace = { d: 0.7, start: "top 94%" };
+
+      /* Groups that sit side by side are animated as staggered sets further
          down; letting the generic pass also drive their opacity would put two
          competing tweens on the same property. */
       const staggered = ".pillar, .story, .yc";
       $$(".rv").forEach((el) => {
         if (el.closest("#hero")) return;
         if (el.matches(staggered)) return;
+        const p = el.matches(".lb") ? PACE_LABEL : PACE[el.closest("section")?.id ?? ""] ?? PACE_DEFAULT;
         gsap.to(el, {
           opacity: 1,
           y: 0,
-          duration: 1.1,
+          duration: p.d,
           ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 87%" },
+          scrollTrigger: { trigger: el, start: p.start },
         });
       });
+
+
+
+      /* ---------- pathway: let scroll read the list ----------
+         Maps the list's own scroll progress onto fifths so every pathway
+         image and caption is reachable without a pointer. Non-scrubbing, and
+         hover wins whenever a fine pointer is inside the list. */
+      const pList = $("#path .list");
+      if (pList && opts.length) {
+        ScrollTrigger.create({
+          trigger: pList,
+          start: "top 70%",
+          end: "bottom 55%",
+          onUpdate: (self) => {
+            if (pathLock) return;
+            const i = Math.min(opts.length - 1, Math.floor(self.progress * opts.length));
+            setPath(i);
+          },
+        });
+      }
 
       /* ---------- manifesto scrub ---------- */
       const man = $("#man .man");
@@ -402,20 +491,6 @@ export function initDLife(root: HTMLElement): () => void {
     });
   });
 
-  /* ---------- pathway image swap ---------- */
-  const ims = $$("#path .vis .im");
-  const cap = $("#pathcap");
-  const opts = $$<HTMLAnchorElement>("#path a.opt");
-  opts.forEach((opt) => {
-    on(opt, "mouseenter", () => {
-      const i = Number(opt.dataset.im);
-      ims.forEach((im, k) => im.classList.toggle("on", k === i));
-      opts.forEach((o) => o.classList.remove("on"));
-      opt.classList.add("on");
-      if (cap) cap.textContent = PATH_CAPS[i];
-    });
-  });
-
   /* ---------- FAQ accordion ---------- */
   $$("#faq .item").forEach((item) => {
     const btn = item.querySelector(".q");
@@ -428,23 +503,6 @@ export function initDLife(root: HTMLElement): () => void {
       else (body as HTMLElement).style.height = open ? "auto" : "0";
     });
   });
-
-  /* ---------- youth signup ---------- */
-  const toast = $("#toast");
-  const loopform = $<HTMLFormElement>("#loopform");
-  if (loopform && toast) {
-    on(loopform, "submit", (e) => {
-      e.preventDefault();
-      // TODO(launch): POST to the real mailing-list endpoint. Front-end only
-      // for now — the success state is optimistic, nothing is stored.
-      toast.textContent = "You’re in the loop. See you at the next event.";
-      gsap
-        .timeline()
-        .to(toast, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" })
-        .to(toast, { opacity: 0, y: 16, duration: 0.5, delay: 3 });
-      loopform.reset();
-    });
-  }
 
   /* ---------- cursor + magnetic pills ---------- */
   const cur = $("#cur");
