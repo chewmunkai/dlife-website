@@ -1,3 +1,40 @@
+<!-- @dsCard group="Website v3" viewport="1440x900" name="D'Life — Real Support. Beyond the Policy." subtitle="Correction build: Lora + Work Sans only, path selector before trust proof, inline video carousel, no scroll-jacking" -->
+<!--
+  ============================================================
+  D'LIFE HOMEPAGE — CORRECTION BUILD
+  Every unverified item below is marked in place in the markup.
+
+  [PENDING D'LIFE VERIFICATION]
+   1. "27 Years" of experience — Sharon personally, or D'Life as an organisation.
+   2. AIA principal partnership wording and any recognition claimed with it.
+   3. Million Dollar Agency recognition "since 2002"; MDRT Builder appointment.
+   4. "4 top-tier Senior Managers and 34+ young leaders developed".
+   5. Claims figure — copy reads "RM [PENDING] million" until confirmed.
+   6. "Est. 1999".
+   7. hello@dlife.com.my as the published address.
+   8. Licensing block: legal entity, company registration, regulator.
+
+  [PENDING D'LIFE CONFIRMATION]
+   9. Legal entity name — footer previously said "D'Life Revolution";
+      contract documents say "D'Life Sdn Bhd". Visible copy uses "D'Life".
+  10. Youth Community signup consent wording, list ownership, data storage
+      and unsubscribe method.
+  11. DVA WhatsApp routing — no number assigned, so the DVA CTA routes to /dva/.
+  12. Office address — only "Kuala Lumpur, Malaysia" is confirmed.
+  13. Advisor film files (media/video/*.mp4) are not yet supplied; the carousel
+      falls back to posters with a visible Play control.
+  14. All photography is provisional and subject to Sharon's approval.
+  ============================================================
+-->
+<!-- BUILD OUTPUT — single file with embedded CSS and JS (report §F1).
+     Editable source lives as index.html + site.css + site.js.
+     Images stay as relative paths under media/ and ship alongside this file. -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D’Life · Real Support. Beyond the Policy.</title>
+<meta name="description" content="Protection is only the beginning. D’Life brings real guidance, long-term relationships and support through life’s changes.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F332C">
+<script>document.documentElement.classList.add("js")</script>
+<style>
 /* ============================================================
    D'Life — "Real Support. Beyond the Policy."
 
@@ -1790,3 +1827,654 @@ html:not(.js) .dlife #loader { display: none; }
   padding: clamp(84px, 12vh, 140px) var(--dl-pad) clamp(84px, 12vh, 140px);
 }
 .dlife #close::after { background: rgba(168, 135, 82, .45); }
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head><body>
+<div class="dlife">
+<div id="cur" aria-hidden="true"></div>
+<div id="prog" aria-hidden="true"><i></i></div>
+<div id="loader" aria-hidden="true"><div><div class="in"><span class="wm"><img src="media/img/logo-reversed.png" alt="D’Life"></span></div><div class="sub">Real support, beyond the policy.</div></div></div>
+
+<!-- 01 · header and navigation -->
+<header id="hd">
+  <a class="wm" href="/" data-cta="header-home"><img class="dk" src="media/img/logo.png" alt="D’Life"><img class="lt" src="media/img/logo-reversed.png" alt="" aria-hidden="true"></a>
+  <nav class="nav" aria-label="Primary">
+    <div class="grp">
+      <a class="top" href="/solutions/" data-cta="nav-solutions">Solutions<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+      <div class="drop"><a href="/solutions/protecting-your-family/">Protecting Your Family</a><a href="/solutions/protecting-your-income/">Protecting Your Income</a><a href="/solutions/medical-health-preparation/">Medical &amp; Health Preparation</a><a href="/solutions/planning-for-your-future/">Planning for Your Future</a><a href="/solutions/wealth-legacy/">Wealth &amp; Legacy</a></div>
+    </div>
+    <a class="top" href="/existing-policy-support/" data-cta="nav-policy">Existing Policy Support</a>
+    <a class="top" href="/stories/" data-cta="nav-stories">Stories</a>
+    <a class="top" href="/careers/" data-cta="nav-careers">Careers</a>
+    <div class="grp">
+      <a class="top" href="/youth-community/" data-cta="nav-community">Community<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+      <div class="drop"><a href="/youth-community/">Youth Community</a><a href="/dva/">DVA — Drive Value Associates</a><a href="/about/">About D’Life &amp; Founders</a></div>
+    </div>
+  </nav>
+  <div class="rt">
+    <a class="msg" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20message%20an%20advisor.%20(via%20website%20header)" data-cta="header-message-advisor"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Message an Advisor</a>
+    <a class="pill" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20speak%20with%20an%20advisor.%20(via%20website%20header)" data-cta="header-speak-advisor"><span>Speak with an Advisor</span></a>
+    <button class="burger" id="burger" aria-label="Menu" aria-controls="menu" aria-expanded="false"><span id="mlabel">Menu</span><span class="ln"></span></button>
+  </div>
+</header>
+
+<nav id="menu" aria-hidden="true">
+  <div class="big">
+    <a href="/solutions/">Solutions<i>01</i></a>
+    <a href="/existing-policy-support/">Existing Policy Support<i>02</i></a>
+    <a href="/stories/">Stories<i>03</i></a>
+    <a href="/careers/">Careers<i>04</i></a>
+    <a href="/youth-community/">Community<i>05</i></a>
+  </div>
+  <div class="side">
+    <p>Whether you are protecting a family, reviewing a policy or exploring a career, a conversation is the right place to start.</p>
+    <div class="c">
+      <a href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20speak%20with%20an%20advisor.%20(via%20website%20menu)" data-cta="menu-speak-advisor">Message an Advisor on WhatsApp</a>
+      <a href="/contact/" data-cta="menu-contact">Ask a Question</a>
+    </div>
+    <span class="lb">D’Life · Financial Advisory</span>
+  </div>
+</nav>
+
+<!-- 02 · hero -->
+<section id="hero">
+  <div class="fg">
+    <span class="lb rv">D’Life · Financial Advisory</span>
+    <h1><span class="lw"><span>Real Support.</span></span><span class="lw"><span>Beyond the Policy.</span></span></h1>
+    <p class="rv">Protection is only the beginning. D’Life brings real guidance, long-term relationships and support through life’s changes.</p>
+    <div class="acts rv">
+      <a class="pill" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20speak%20with%20an%20advisor.%20(via%20website%20homepage)" data-cta="hero-speak-advisor"><span>Speak with an Advisor</span></a>
+      <a class="pill ghost" href="#path" data-cta="hero-find-path"><span>Find your path</span></a>
+    </div>
+  </div>
+  <!-- Provisional photography, subject to Sharon's approval. Local asset. -->
+  <div class="ph rv"><div class="prlx"><img src="media/img/hero.jpg" alt="People sharing a meal around a table" loading="eager" decoding="async"></div></div>
+</section>
+
+<!-- 03 · choose your path -->
+<section id="path">
+  <span class="lb rv">Choose your path</span>
+  <p class="q rv"><span>I’m looking to…</span></p>
+  <div class="opts rv">
+    <a class="opt" href="/solutions/protecting-your-family/" data-cta="path-protect-family"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>Protect my family<em>→</em></a>
+    <a class="opt" href="/existing-policy-support/" data-cta="path-review-coverage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4M9 13h6M9 17h4"></path></svg>Review my coverage<em>→</em></a>
+    <a class="opt" href="/solutions/planning-for-your-future/" data-cta="path-plan-future"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>Plan for the future<em>→</em></a>
+    <a class="opt" href="/careers/" data-cta="path-explore-career"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect x="2" y="6" width="20" height="14" rx="2"></rect></svg>Explore a career<em>→</em></a>
+    <a class="opt" href="/youth-community/" data-cta="path-join-community"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 21a8 8 0 0 0-16 0"></path><circle cx="10" cy="8" r="5"></circle><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path></svg>Join a community<em>→</em></a>
+  </div>
+  <span class="cue">Swipe for more</span>
+</section>
+
+<!-- 04 · trust proof — every figure below is [PENDING D'LIFE VERIFICATION] -->
+<section id="trust" class="dark">
+  <!-- [PENDING D'LIFE VERIFICATION] "27 years" — Sharon personally, or D'Life as an organisation? -->
+  <div class="c rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg><b>27 Years</b><u>Experience</u><p>Guiding families through changing markets, life stages and financial decisions for over 27 years.</p></div>
+  <div class="c rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg><!-- [PENDING D'LIFE VERIFICATION] AIA principal partnership and recognition wording --><b>AIA</b><u>Trusted Principal</u><p>Partnering with AIA, one of Asia’s leading insurers, with recognition for professional excellence and client service.</p></div>
+  <div class="c rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg><!-- [PENDING D'LIFE VERIFICATION] Million Dollar Agency since 2002; MDRT Builder appointment --><b>Million Dollar Agency</b><u>MDRT Builder</u><p>Million Dollar Agency recognition since 2002; appointed MDRT Builder, developing high-performing financial professionals.</p></div>
+  <div class="c rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 21a8 8 0 0 0-16 0"></path><circle cx="10" cy="8" r="5"></circle><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path></svg><!-- [PENDING D'LIFE VERIFICATION] 4 Senior Managers, 34+ young leaders --><b>Leadership</b><u>People Development</u><p>4 top-tier Senior Managers and 34+ young leaders developed through systematic training.</p></div>
+  <div class="c rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><b>Clients</b><u>People First</u><p>People before products. Every recommendation begins with understanding individual needs.</p></div>
+  <div class="c rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24m0-14.14-4.24 4.24m-5.66 5.66-4.24 4.24"></path></svg><!-- [PENDING D'LIFE VERIFICATION] claims RM figure — stays blank until confirmed --><b>Claims</b><u>Real Support</u><p>Assisting clients with claims exceeding RM [PENDING] million, with dedicated support throughout.</p></div>
+</section>
+
+<!-- 05 · life needs -->
+<section id="needs">
+  <div class="head">
+    <div><span class="lb rv">What brings you here</span><h2 class="rv">Support built around real life needs</h2></div>
+    <p class="rv">Everyone arrives with a different question. Start wherever you are.</p>
+  </div>
+  <div class="grid">
+    <article class="ncard rv"><div class="ph"><img src="media/img/need-family.jpg" alt="A family lunch in the garden" loading="lazy" decoding="async"></div><div class="tx"><h3>Protecting Your Family</h3><p>Coverage built around the people who depend on you.</p><a class="cta" href="/solutions/protecting-your-family/" data-cta="need-protect-family"><em>Explore →</em></a></div></article>
+    <article class="ncard rv"><div class="ph"><img src="media/img/need-income.jpg" alt="An advisor working at a desk" loading="lazy" decoding="async"></div><div class="tx"><h3>Protecting Your Income</h3><p>Keep life steady even when the unexpected happens.</p><a class="cta" href="/solutions/protecting-your-income/" data-cta="need-protect-income"><em>Explore →</em></a></div></article>
+    <article class="ncard rv"><div class="ph"><img src="media/img/need-health.jpg" alt="A pause for water at the office window" loading="lazy" decoding="async"></div><div class="tx"><h3>Medical &amp; Health Preparation</h3><p>Practical support for health and recovery costs.</p><a class="cta" href="/solutions/medical-health-preparation/" data-cta="need-medical-health"><em>Explore →</em></a></div></article>
+    <article class="ncard rv"><div class="ph"><img src="media/img/need-planning.jpg" alt="Planning at a laptop at the kitchen table" loading="lazy" decoding="async"></div><div class="tx"><h3>Planning for Your Future</h3><p>Retirement and legacy planning, with confidence.</p><a class="cta" href="/solutions/planning-for-your-future/" data-cta="need-planning-future"><em>Explore →</em></a></div></article>
+    <article class="ncard rv"><div class="ph"><img src="media/img/need-legacy.jpg" alt="A banquet hall gathering beneath a chandelier" loading="lazy" decoding="async"></div><div class="tx"><h3>Wealth &amp; Legacy</h3><p>Growing and protecting what you’ve built.</p><a class="cta" href="/solutions/wealth-legacy/" data-cta="need-wealth-legacy"><em>Explore →</em></a></div></article>
+  </div>
+  <span class="cue">Swipe for more<em aria-hidden="true">→</em></span>
+</section>
+
+<!-- 06 · existing-policy guidance — insurer-neutral, no comparison language -->
+<section id="policy" class="sand">
+  <div class="tx">
+    <span class="lb rv">Existing policyholders</span>
+    <h2 class="rv">Need clarity on your current coverage?</h2>
+    <p class="rv">Understand the protection you already have. Speak with our team to review your coverage with greater confidence, and see what next step, if any, makes sense.</p>
+    <div class="acts rv"><a class="pill" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20guidance%20on%20my%20existing%20policy.%20(via%20website)" data-cta="policy-get-guidance"><span>Get guidance on my policy</span></a></div>
+  </div>
+  <div class="ph"><div class="prlx"><img src="media/img/policy-review.jpg" alt="An advisor talking a client through their coverage" loading="lazy" decoding="async"></div></div>
+</section>
+
+<!-- 07 · founders — portraits pending approved photography -->
+<section id="founder">
+  <div class="fpair rv">
+    <div class="ph"><div class="slot-empty">Sharon Cheang — portrait pending</div></div>
+    <div class="ph"><div class="slot-empty">Rachel Cheang — portrait pending</div></div>
+  </div>
+  <div>
+    <span class="lb rv">Our founders</span>
+    <h2 class="rv">Founded by sisters. Built with purpose.</h2>
+    <p class="rv">D’Life was built on one belief: people come before products, and support should continue long after a policy is signed. What began as a financial advisory practice has grown into a place where clients are guided and advisors are mentored.</p>
+    <div class="names rv">
+      <div>Sharon Cheang<span>Founder</span></div>
+      <div>Rachel Cheang<span>Co-Founder</span></div>
+    </div>
+    <a class="tlink rv" href="/about/" data-cta="founder-our-story">Discover our story</a>
+  </div>
+</section>
+
+<!-- 08 · featured videos — inline playback, no lightbox -->
+<section id="stories" class="dark">
+  <div class="head">
+    <div><span class="lb rv">Featured videos</span><h2 class="rv">Meet the people behind D’Life</h2></div>
+    <a class="tlink rv" href="/stories/" data-cta="stories-view-all">View all stories</a>
+  </div>
+  <div class="rail"><div class="track" id="vtrack">
+    <div class="vcard">
+      <button type="button" class="fr" aria-label="Play video: A Career Beyond Selling Policies">
+        <img src="media/poster/advisor-alex.jpg" alt="Still from the film “A Career Beyond Selling Policies”" loading="lazy" decoding="async">
+        <video src="media/video/advisor-alex.mp4" poster="media/poster/advisor-alex.jpg" muted playsinline preload="none"></video>
+        <span class="badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"></path><path d="m23 9-6 6M17 9l6 6"></path></svg>Muted</span>
+        <span class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span>
+      </button>
+      <div class="meta"><h3>A Career Beyond Selling Policies</h3><span class="run">1 min 36</span></div>
+    </div>
+    <div class="vcard">
+      <button type="button" class="fr" aria-label="Play video: What Real Guidance Looks Like">
+        <img src="media/poster/advisor-mayyee.jpg" alt="Still from the film “What Real Guidance Looks Like”" loading="lazy" decoding="async">
+        <video src="media/video/advisor-mayyee.mp4" poster="media/poster/advisor-mayyee.jpg" muted playsinline preload="none"></video>
+        <span class="badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"></path><path d="m23 9-6 6M17 9l6 6"></path></svg>Muted</span>
+        <span class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span>
+      </button>
+      <div class="meta"><h3>What Real Guidance Looks Like</h3><span class="run">1 min 30</span></div>
+    </div>
+    <div class="vcard">
+      <button type="button" class="fr" aria-label="Play video: Inside D’Life Leadership">
+        <img src="media/poster/dva-workshop.jpg" alt="Still from the film “Inside D’Life Leadership”" loading="lazy" decoding="async">
+        <video src="media/video/dva-workshop.mp4" poster="media/poster/dva-workshop.jpg" muted playsinline preload="none"></video>
+        <span class="badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"></path><path d="m23 9-6 6M17 9l6 6"></path></svg>Muted</span>
+        <span class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span>
+      </button>
+      <div class="meta"><h3>Inside D’Life Leadership</h3><span class="run">1 min 09</span></div>
+    </div>
+  </div></div>
+  <div class="ctrls">
+    <button type="button" class="prev" aria-label="Previous video"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg></button>
+    <button type="button" class="pp" aria-label="Pause video"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"></path></svg></button>
+    <button type="button" class="next" aria-label="Next video"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></button>
+    <button type="button" class="sound" aria-pressed="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"></path><path d="m23 9-6 6M17 9l6 6"></path></svg><span>Unmute</span></button>
+    <div class="dots"></div>
+  </div>
+</section>
+
+<!-- 09 · grow with D'Life -->
+<section id="careers" class="cream">
+  <div>
+    <span class="lb rv">Grow with D’Life</span>
+    <h2 class="rv">A career built on real guidance, not just sales.</h2>
+    <p class="lead rv">Advisors here are trained before they are targeted. You learn the craft beside someone senior, and you are expected to become better than you were.</p>
+    <!-- Attribution stays generic pending advisor consent. -->
+    <blockquote class="qt rv"><p>“D’Life gave me the mentorship I couldn’t find anywhere else.”</p><cite>D’Life Advisor</cite></blockquote>
+    <a class="pill rv" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20explore%20a%20career%20conversation.%20(via%20website)" data-cta="careers-explore-conversation"><span>Explore a career conversation</span></a>
+  </div>
+  <div class="rows">
+    <a class="rv" href="/careers/" data-cta="careers-mentorship"><i>01</i><div><b>Mentorship</b><p>You learn the craft beside someone senior before you ever learn a pitch.</p></div><em>→</em></a>
+    <a class="rv" href="/careers/" data-cta="careers-professionalism"><i>02</i><div><b>Professionalism</b><p>Licensing, product knowledge and disclosure done properly.</p></div><em>→</em></a>
+    <a class="rv" href="/careers/" data-cta="careers-leadership"><i>03</i><div><b>Leadership</b><p>A route from advisor to team leader, with training at each step.</p></div><em>→</em></a>
+    <a class="rv" href="/careers/" data-cta="careers-culture"><i>04</i><div><b>Culture</b><p>People who measure a good year by the clients who stayed.</p></div><em>→</em></a>
+  </div>
+</section>
+
+<!-- 10 · DVA — smaller and more contained than Careers and Youth by design -->
+<section id="dva" class="dark">
+  <div class="panel rv">
+    <div class="ph"><img src="media/img/dva-team.jpg" alt="The D’Life advisory team" loading="lazy" decoding="async"></div>
+    <div class="fg">
+      <span class="lb">DVA — Drive Value Associates</span>
+      <h2>By invitation. Built for leaders.</h2>
+      <p>A selective circle shaped by shared values and experience.</p>
+      <!-- DVA WhatsApp routing is [PENDING D'LIFE CONFIRMATION]; routes to the page. -->
+      <a class="pill" href="/dva/" data-cta="dva-discover"><span>Discover DVA</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · youth community -->
+<section id="youth" class="sand">
+  <div class="head">
+    <div><span class="lb rv">Community</span>
+    <h2 class="rv">Youth Community</h2>
+    <div class="sup rv">Empowering youth. Building tomorrow.</div></div>
+    <p class="intro rv">A platform for young people to explore health, wealth and leadership through real talks, mentors and experience.</p>
+  </div>
+  <div class="grid">
+    <div class="yc rv"><div class="ph"><img src="media/img/youth-workshop.jpg" alt="Attendees seated at a D’Life workshop session" loading="lazy" decoding="async"></div><div class="tx"><h3>Events &amp; Workshops</h3><p>Hands-on sessions on money, mindset and growth.</p><a class="cta" href="/youth-community/" data-cta="youth-events"><em>See what’s on →</em></a></div></div>
+    <div class="yc rv"><div class="ph"><img src="media/img/youth-stories.jpg" alt="D’Life community members at an evening gathering" loading="lazy" decoding="async"></div><div class="tx"><h3>Stories</h3><p>Real journeys from young leaders and mentors.</p><a class="cta" href="/youth-community/" data-cta="youth-stories"><em>Read stories →</em></a></div></div>
+    <div class="yc rv"><div class="ph"><img src="media/img/youth-resources.jpg" alt="Hands raised during a workshop session" loading="lazy" decoding="async"></div><div class="tx"><h3>Educational Resources</h3><p>Practical guides on health, wealth and leadership.</p><a class="cta" href="/youth-community/" data-cta="youth-resources"><em>Start learning →</em></a></div></div>
+  </div>
+  <div class="loop rv">
+    <div>
+      <h3>Stay in the Loop</h3>
+      <p>Event invites and Youth Community updates, by email or on WhatsApp — whichever you actually read.</p>
+    </div>
+    <div>
+      <span class="k">By email</span>
+      <form id="loopform">
+        <input type="email" placeholder="Your email" required aria-label="Your email">
+        <button class="pill" type="submit" data-cta="youth-signup-email"><span>Sign Up</span></button>
+      </form>
+      <!-- Consent wording is [PENDING D'LIFE CONFIRMATION] — data storage, list
+           ownership and unsubscribe method are unresolved client-side. -->
+      <p class="consent">By signing up you agree to receive Youth Community updates. Unsubscribe anytime. <em>[Wording pending confirmation]</em></p>
+      <div class="alt">
+        <a class="tlink" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20Youth%20Community%20updates.%20(via%20website)" data-cta="youth-signup-whatsapp">Get updates on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · FAQ -->
+<section id="faq">
+  <div><span class="lb rv">Helpful answers</span><h2 class="rv">A few common questions</h2><a class="tlink rv" href="/existing-policy-support/" data-cta="faq-explore">Explore Our FAQ</a></div>
+  <div class="items">
+    <div class="item"><button class="q" type="button" aria-expanded="false">How do I know which protection I actually need?<span class="x"></span></button><div class="a"><p>Start with a conversation, not a product. We’ll look at your situation, your responsibilities and what you already have, then explain your options in plain language.</p><p><a href="/solutions/">See the areas we cover</a>.</p></div></div>
+    <div class="item"><button class="q" type="button" aria-expanded="false">Can I get clarity on a policy I already hold?<span class="x"></span></button><div class="a"><p>Yes. Many people simply want to understand what they’re covered for. We’re happy to walk you through it, with no obligation to change anything.</p><p><a href="/existing-policy-support/">Existing policy and claims support</a>.</p></div></div>
+    <div class="item"><button class="q" type="button" aria-expanded="false">Can I speak with someone before deciding anything?<span class="x"></span></button><div class="a"><p>Always. Most conversations with us don’t end in a decision, and that’s completely fine.</p></div></div>
+    <div class="item"><button class="q" type="button" aria-expanded="false">What does a first conversation cost?<span class="x"></span></button><div class="a"><p>Nothing, and it carries no obligation. If a recommendation follows, we take you through the product disclosure documents and how the arrangement works before anything is signed.</p></div></div>
+    <div class="item"><button class="q" type="button" aria-expanded="false">Is there anything I should bring?<span class="x"></span></button><div class="a"><p>If you already hold policies, bring what you have — the schedules, or a photo of them, is enough. If you don’t, bring your questions.</p></div></div>
+    <div class="item"><button class="q" type="button" aria-expanded="false">What happens after I take up a policy?<span class="x"></span></button><div class="a"><p>Your advisor stays with you. Life changes, and your coverage should be reviewed as it does.</p></div></div>
+    <div class="item"><button class="q" type="button" aria-expanded="false">How do I make a claim, or help a family member make one?<span class="x"></span></button><div class="a"><p>Tell us as early as you can and we’ll walk you through what’s needed. Our team supports you through the process rather than handing you a form.</p><p><a href="/existing-policy-support/">Start with claims support</a>.</p></div></div>
+    <div class="item"><button class="q" type="button" aria-expanded="false">Can you help with protection for my business or employees?<span class="x"></span></button><div class="a"><p>Yes. Corporate and employee protection sits inside our Solutions area rather than on this page.</p><p><a href="/solutions/">Go to Solutions</a>.</p></div></div>
+  </div>
+</section>
+
+<!-- 13 · closing -->
+<section id="close" class="dark">
+  <div class="fg">
+    <span class="lb rv">D’Life</span>
+    <h2 class="rv">A clearer future can begin with one conversation.</h2>
+    <div class="sub rv">Let it begin with you.</div>
+    <div class="acts rv">
+      <a class="pill" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20speak%20with%20an%20advisor.%20(via%20website%20homepage)" data-cta="close-speak-advisor"><span>Speak with an Advisor</span></a>
+      <a class="pill ghost" href="#path" data-cta="close-find-path"><span>Find your path</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · footer -->
+<footer id="ft" class="dark charcoal">
+  <div class="mast rv">
+    <div>
+      <div class="wm"><img src="media/img/logo-reversed.png" alt="D’Life"></div>
+      <p class="tag">Real support, beyond the policy.</p>
+    </div>
+    <!-- "Est. 1999" is [PENDING D'LIFE VERIFICATION] -->
+    <span class="est">Est. 1999 <em class="pendmark">[pending]</em><br>Malaysia</span>
+  </div>
+  <div class="mid">
+    <div class="reach rv">
+      <h2 class="lede">Talk to a person, not a form.</h2>
+      <ul class="chan">
+        <li>
+          <span class="k">WhatsApp · office hours</span>
+          <a class="go" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20get%20in%20touch.%20(via%20website%20footer)" data-cta="footer-whatsapp-office" aria-label="Message D’Life on WhatsApp at 016-236 2286"><span>016-236 2286</span><em aria-hidden="true">→</em></a>
+          <p class="hint">Monday–Friday, 9:00am–5:30pm.</p>
+        </li>
+        <li>
+          <span class="k">WhatsApp · after hours</span>
+          <a class="go" href="https://wa.me/60166616083?text=Hi%20D'Life%2C%20I'd%20like%20to%20get%20in%20touch.%20(via%20website%20footer%2C%20after%20hours)" data-cta="footer-whatsapp-afterhours" aria-label="Message D’Life on WhatsApp at 016-661 6083"><span>016-661 6083</span><em aria-hidden="true">→</em></a>
+          <p class="hint">Evenings and weekends.</p>
+        </li>
+        <li>
+          <!-- Published email address is [PENDING D'LIFE VERIFICATION] -->
+          <span class="k">Email</span>
+          <a class="go" href="mailto:hello@dlife.com.my" data-cta="footer-email"><span>hello@dlife.com.my</span><em aria-hidden="true">→</em></a>
+          <p class="hint">For anything that needs a longer answer, or a document attached.</p>
+        </li>
+        <li>
+          <!-- Street address is [PENDING D'LIFE CONFIRMATION] -->
+          <span class="k">Office</span>
+          <address>Kuala Lumpur, Malaysia</address>
+          <p class="hint">Visits by appointment. <a href="/contact/" data-cta="footer-arrange-visit">Arrange a time</a>.</p>
+        </li>
+      </ul>
+    </div>
+    <nav class="dirs rv" aria-label="Site directory">
+      <div><h3 class="k">Protection &amp; Planning</h3><ul><li><a href="/solutions/protecting-your-family/">Protecting Your Family</a></li><li><a href="/solutions/protecting-your-income/">Protecting Your Income</a></li><li><a href="/solutions/medical-health-preparation/">Medical &amp; Health Preparation</a></li><li><a href="/solutions/planning-for-your-future/">Planning for Your Future</a></li><li><a href="/solutions/wealth-legacy/">Wealth &amp; Legacy</a></li><li><a href="/solutions/">All Solutions</a></li></ul></div>
+      <div><h3 class="k">Guidance &amp; Support</h3><ul><li><a href="/existing-policy-support/">Existing Policy &amp; Claims Support</a></li><li><a href="#path">Find Your Path</a></li><li><a href="/existing-policy-support/">Common Questions</a></li><li><a href="/stories/">Stories &amp; Resources</a></li></ul></div>
+      <div><h3 class="k">People &amp; Community</h3><ul><li><a href="/about/">About D’Life &amp; Founders</a></li><li><a href="/careers/">Grow With D’Life</a></li><li><a href="/dva/">DVA — Drive Value Associates</a></li><li><a href="/youth-community/">Youth Community</a></li></ul></div>
+      <div><h3 class="k">Contact</h3><ul><li><a href="/contact/">Contact D’Life</a></li><li><a href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20speak%20with%20an%20advisor.%20(via%20website%20footer)" data-cta="footer-directory-whatsapp">Message an Advisor</a></li><li><a href="mailto:hello@dlife.com.my">Email us</a></li></ul></div>
+    </nav>
+  </div>
+  <div class="fine">
+    <p class="note">D’Life is a financial advisory and insurance agency operating in Malaysia. Anything you read here is general information, not personal advice — it does not take your circumstances into account. A recommendation only follows a conversation, a needs assessment and the relevant product disclosure documents.</p>
+    <div>
+      <span class="k">Licensing</span>
+      <!-- Legal entity, registration and licensing: [PENDING D'LIFE VERIFICATION].
+           Footer previously read "D'Life Revolution"; contract documents say
+           "D'Life Sdn Bhd" — [PENDING D'LIFE CONFIRMATION]. -->
+      <p class="pend">Legal entity, company registration and licensing details to be confirmed before launch.</p>
+    </div>
+  </div>
+  <div class="base">
+    <span>© 2026 D’Life. All rights reserved.</span>
+    <div class="lx"><a href="/privacy-policy/">Privacy Policy</a><a href="/terms/">Terms of Use</a><a href="/disclosures/">Disclosures</a><a href="/complaints/">Complaints &amp; Feedback</a></div>
+    <a class="top" href="#hero" data-cta="footer-back-to-top">Back to top <em aria-hidden="true">↑</em></a>
+  </div>
+</footer>
+
+<a class="wafloat" href="https://wa.me/60162362286?text=Hi%20D'Life%2C%20I'd%20like%20to%20speak%20with%20an%20advisor.%20(via%20website)" data-cta="float-whatsapp" aria-label="Message D’Life on WhatsApp">
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.53.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.06 0 1.21.88 2.38 1 2.55.12.16 1.73 2.64 4.19 3.7.59.25 1.04.4 1.4.52.59.18 1.12.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z"></path></svg>
+  <span>WhatsApp</span>
+</a>
+</div>
+<script>
+/* D'Life homepage — correction build.
+   Quiet reveals, an inline video carousel, and no scroll-jacking anywhere:
+   the life-needs rail is a normal snapped scroller, not a pinned timeline. */
+(function () {
+  var root = document.querySelector(".dlife");
+  if (!root) return;
+
+  var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = matchMedia("(pointer:fine)").matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  var $ = function (s) { return root.querySelector(s); };
+  var $ = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+  var on = function (t, type, fn, opts) { t.addEventListener(type, fn, opts); };
+
+  var showAll = function () {
+    $(".rv, #hero h1 .lw span").forEach(function (el) { el.style.opacity = "1"; el.style.transform = "none"; });
+  };
+
+  gsap.context(function () {
+    /* ---------- loader → hero ---------- */
+    var loader = $("#loader");
+    var heroIn = function () {
+      if (reduced) return showAll();
+      gsap.timeline({ defaults: { ease: "power4.out" } })
+        .to("#hero h1 .lw span", { y: 0, duration: 1.1, stagger: 0.12, delay: 0.1 })
+        .to("#hero .lb.rv", { opacity: 1, y: 0, duration: 0.7 }, "-=.75")
+        .to("#hero p.rv, #hero .acts.rv", { opacity: 1, y: 0, duration: 0.85, stagger: 0.1 }, "-=.55")
+        /* fromTo, not from: the plate carries .rv, so the stylesheet has already
+           pre-hidden it and `from` would tween opacity 0 → 0. */
+        .fromTo("#hero .ph", { scale: 0.94, opacity: 0 },
+          { scale: 1, opacity: 1, y: 0, duration: 1.5, ease: "power3.out" }, 0.2);
+    };
+    var hideLoader = function () { if (loader) loader.style.setProperty("display", "none"); };
+    if (!reduced) {
+      gsap.timeline()
+        .to("#loader .wm", { y: 0, duration: 0.85, ease: "power4.out", delay: 0.1 })
+        .to("#loader .sub", { opacity: 1, duration: 0.55 }, "-=.3")
+        .to(loader, { yPercent: -100, duration: 0.95, ease: "power4.inOut", delay: 0.4, onComplete: hideLoader })
+        .add(heroIn, "-=.5");
+    } else { hideLoader(); heroIn(); }
+
+    if (reduced) { showAll(); return; }
+
+    /* ---------- reveals, paced per section ----------
+       Sections that make an argument arrive slower; routing and utility
+       sections arrive early and crisp so they never hold the visitor up. */
+    var PACE = {
+      close: { d: 1.5, start: "top 82%" },
+      founder: { d: 1.35, start: "top 84%" },
+      dva: { d: 1.3, start: "top 84%" },
+      youth: { d: 1.15, start: "top 86%" },
+      policy: { d: 1.05, start: "top 86%" },
+      stories: { d: 1.0, start: "top 87%" },
+      careers: { d: 0.95, start: "top 88%" },
+      needs: { d: 0.9, start: "top 90%" },
+      trust: { d: 0.85, start: "top 92%" },
+      faq: { d: 0.8, start: "top 92%" },
+      path: { d: 0.6, start: "top 95%" }
+    };
+    var DEF = { d: 1.05, start: "top 88%" };
+    var LABEL = { d: 0.6, start: "top 94%" };
+    var grouped = ".ncard, .vcard, .yc, #trust .c";
+    $(".rv").forEach(function (el) {
+      if (el.closest("#hero")) return;
+      if (el.matches(grouped)) return;
+      var sec = el.closest("section");
+      var p = el.matches(".lb") ? LABEL : (PACE[sec ? sec.id : ""] || DEF);
+      gsap.to(el, { opacity: 1, y: 0, duration: p.d, ease: "power3.out", scrollTrigger: { trigger: el, start: p.start } });
+    });
+
+    /* Side-by-side sets stagger as one group rather than firing on the same line. */
+    [["#trust", "#trust .c", 0.07], ["#needs .grid", "#needs .ncard", 0.08],
+     ["#youth .grid", "#youth .yc", 0.1]].forEach(function (g) {
+      gsap.fromTo(g[1], { y: 34, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, stagger: g[2], ease: "power3.out", scrollTrigger: { trigger: g[0], start: "top 88%" } });
+    });
+
+    /* ---------- photographic plates ---------- */
+    $(".ph .prlx").forEach(function (p) {
+      gsap.fromTo(p, { yPercent: -6 }, { yPercent: 6, ease: "none",
+        scrollTrigger: { trigger: p.closest(".ph"), start: "top bottom", end: "bottom top", scrub: true } });
+    });
+    $(".ph img").forEach(function (img) {
+      if (img.closest(".prlx")) return;
+      gsap.fromTo(img, { scale: 1.12 }, { scale: 1, duration: 1.4, ease: "power3.out",
+        scrollTrigger: { trigger: img.closest(".ph"), start: "top 92%" } });
+    });
+
+    /* ---------- headings wipe up ---------- */
+    $("section h2").forEach(function (h) {
+      gsap.fromTo(h, { clipPath: "inset(0 0 106% 0)" },
+        { clipPath: "inset(0 0 -12% 0)", duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: h, start: "top 90%" } });
+    });
+
+    /* ---------- read progress ----------
+       Measured against the document, so no pinned section can desync it. */
+    gsap.to("#prog i", { scaleX: 1, ease: "none", scrollTrigger: { start: 0, end: "max", scrub: 0.3 } });
+    gsap.from("#close h2", { scale: 0.96, ease: "none",
+      scrollTrigger: { trigger: "#close", start: "top bottom", end: "center 60%", scrub: true } });
+  }, root);
+
+  /* ---------- header ---------- */
+  var hd = $("#hd");
+  on(window, "scroll", function () {
+    if (hd) hd.classList.toggle("solid", scrollY > 80 && !root.classList.contains("menu-open"));
+  }, { passive: true });
+
+  /* ---------- overlay menu ---------- */
+  var menu = $("#menu"), burger = $("#burger"), mlabel = $("#mlabel"), menuOpen = false;
+  var setMenu = function (open) {
+    if (!menu) return;
+    menuOpen = open;
+    root.classList.toggle("menu-open", open);
+    menu.setAttribute("aria-hidden", String(!open));
+    if (burger) burger.setAttribute("aria-expanded", String(open));
+    if (mlabel) mlabel.textContent = open ? "Close" : "Menu";
+    if (open && hd) hd.classList.remove("solid");
+    if (!reduced) {
+      if (open) {
+        gsap.set(menu, { visibility: "visible" });
+        gsap.timeline()
+          .to(menu, { clipPath: "inset(0 0 0% 0)", duration: 0.7, ease: "power4.inOut" })
+          .fromTo(menu.querySelectorAll(".big a"), { y: 36, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.6, stagger: 0.06, ease: "power3.out" }, "-=.3")
+          .fromTo(menu.querySelectorAll(".side"), { opacity: 0 }, { opacity: 1, duration: 0.5 }, "-=.45");
+      } else {
+        gsap.to(menu, { clipPath: "inset(0 0 100% 0)", duration: 0.6, ease: "power4.inOut",
+          onComplete: function () { gsap.set(menu, { visibility: "hidden" }); } });
+      }
+    } else {
+      menu.style.visibility = open ? "visible" : "hidden";
+      menu.style.clipPath = open ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)";
+    }
+  };
+  if (burger) on(burger, "click", function () { setMenu(!menuOpen); });
+  on(document, "keydown", function (e) { if (e.key === "Escape" && menuOpen) setMenu(false); });
+  $("#menu a").forEach(function (a) { on(a, "click", function () { setMenu(false); }); });
+
+  /* ---------- in-page anchors ---------- */
+  $('a[href^="#"]').forEach(function (a) {
+    on(a, "click", function (e) {
+      var href = a.getAttribute("href");
+      var t = href && href.length > 1 ? root.querySelector(href) : null;
+      if (!t) return;
+      e.preventDefault();
+      var y = t.getBoundingClientRect().top + scrollY - 70;
+      if (!reduced) {
+        gsap.to({ v: scrollY }, { v: y, duration: 1.1, ease: "power3.inOut",
+          onUpdate: function () { scrollTo(0, this.targets()[0].v); } });
+      } else scrollTo(0, y);
+    });
+  });
+
+  /* ---------- FAQ accordion ---------- */
+  $("#faq .item").forEach(function (item) {
+    var btn = item.querySelector(".q"), body = item.querySelector(".a");
+    if (!btn || !body) return;
+    on(btn, "click", function () {
+      var open = item.classList.toggle("open");
+      btn.setAttribute("aria-expanded", String(open));
+      if (!reduced) gsap.to(body, { height: open ? "auto" : 0, duration: 0.5, ease: "power3.inOut" });
+      else body.style.height = open ? "auto" : "0";
+    });
+  });
+
+  /* ---------- featured videos ----------
+     One centre card is active and enlarged; playback stays inside that card.
+     Enters muted with a visible Muted badge and an Unmute control, rotates
+     forward when a film finishes, and never moves the page to do it. */
+  (function () {
+    var rail = $("#stories .rail"), track = $("#vtrack");
+    if (!rail || !track) return;
+    var cards = $("#vtrack .vcard");
+    if (!cards.length) return;
+    var vids = cards.map(function (c) { return c.querySelector("video"); });
+    var dots = $("#stories .dots"), ppBtn = $("#stories .pp"), sound = $("#stories .sound");
+    var idx = 0, offset = 0, muted = true, wantPlay = !reduced, visible = false;
+
+    cards.forEach(function (c, i) {
+      var d = document.createElement("button");
+      d.type = "button";
+      d.setAttribute("aria-label", "Show video " + (i + 1) + " of " + cards.length);
+      on(d, "click", function () { go(i); });
+      dots.appendChild(d);
+      on(c.querySelector(".fr"), "click", function () {
+        if (i !== idx) return go(i);
+        if (wantPlay && !vids[i].paused) pause(); else play();
+      });
+      /* No source yet (the films are not supplied): stay on the poster and
+         keep the Play control visible rather than showing a broken frame. */
+      on(vids[i], "error", function () { c.classList.add("no-src"); c.classList.remove("live"); });
+      on(vids[i], "ended", function () { if (i === idx) go((idx + 1) % cards.length); });
+    });
+
+    function centre() {
+      var r = rail.getBoundingClientRect(), c = cards[idx].getBoundingClientRect();
+      offset += (r.left + r.width / 2) - (c.left + c.width / 2);
+      var max = 0, min = rail.clientWidth - track.scrollWidth;
+      offset = Math.max(Math.min(offset, max), Math.min(min, 0));
+      track.style.transform = "translateX(" + offset + "px)";
+    }
+    function paint() {
+      cards.forEach(function (c, i) { c.classList.toggle("on", i === idx); });
+      Array.prototype.forEach.call(dots.children, function (d, i) {
+        d.classList.toggle("on", i === idx);
+        d.setAttribute("aria-current", i === idx ? "true" : "false");
+      });
+      requestAnimationFrame(centre);
+      setTimeout(centre, 580);
+    }
+    function play() {
+      var v = vids[idx];
+      wantPlay = true;
+      v.muted = muted;
+      var p = v.play();
+      if (p && p.catch) p.catch(function () { cards[idx].classList.remove("live"); });
+      cards[idx].classList.add("live");
+      setPP(true);
+    }
+    function pause() { wantPlay = false; vids[idx].pause(); setPP(false); }
+    function setPP(playing) {
+      ppBtn.setAttribute("aria-label", playing ? "Pause video" : "Play video");
+      ppBtn.innerHTML = playing
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"></path></svg>'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>';
+    }
+    function go(i) {
+      vids[idx].pause();
+      vids[idx].currentTime = 0;
+      cards[idx].classList.remove("live");
+      idx = i;
+      paint();
+      if (wantPlay && visible) play();
+    }
+
+    on($("#stories .prev"), "click", function () { go((idx - 1 + cards.length) % cards.length); });
+    on($("#stories .next"), "click", function () { go((idx + 1) % cards.length); });
+    on(ppBtn, "click", function () { if (wantPlay && !vids[idx].paused) pause(); else play(); });
+    on(sound, "click", function () {
+      muted = !muted;
+      vids.forEach(function (v) { v.muted = muted; });
+      sound.setAttribute("aria-pressed", String(muted));
+      sound.querySelector("span").textContent = muted ? "Unmute" : "Mute";
+      cards.forEach(function (c) {
+        var b = c.querySelector(".badge");
+        b.lastChild.textContent = muted ? "Muted" : "Sound on";
+      });
+      if (muted === false && vids[idx].paused) play();
+    });
+    on(window, "resize", function () { requestAnimationFrame(centre); });
+
+    paint();
+    setPP(false);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          visible = e.isIntersecting;
+          if (visible && wantPlay) play();
+          else if (!visible) { vids[idx].pause(); setPP(false); }
+        });
+      }, { threshold: 0.4 }).observe($("#stories"));
+    }
+  })();
+
+  /* ---------- youth signup ----------
+     Front end only — no endpoint is wired, and the consent wording is still
+     pending, so the form acknowledges inline rather than implying storage. */
+  var form = $("#loopform");
+  if (form) {
+    on(form, "submit", function (e) {
+      e.preventDefault();
+      var said = document.createElement("p");
+      said.className = "said";
+      said.setAttribute("role", "status");
+      said.textContent = "Thanks — we’ll be in touch with the next Youth Community update.";
+      form.replaceWith(said);
+    });
+  }
+
+  /* ---------- desktop cursor ----------
+     Pointer-fine only, and purely decorative: it never replaces or hides the
+     focus ring, which keyboard users still get from :focus-visible. */
+  var cur = $("#cur");
+  if (cur && fine) {
+    on(window, "mousemove", function (e) {
+      gsap.to(cur, { x: e.clientX, y: e.clientY, duration: 0.3, ease: "power3.out" });
+    });
+    $("a, button, input").forEach(function (el) {
+      on(el, "mouseenter", function () { gsap.to(cur, { scale: 3, duration: 0.3 }); });
+      on(el, "mouseleave", function () { gsap.to(cur, { scale: 1, duration: 0.3 }); });
+    });
+    if (!reduced) {
+      $(".pill").forEach(function (el) {
+        on(el, "mousemove", function (e) {
+          var r = el.getBoundingClientRect();
+          gsap.to(el, { x: (e.clientX - r.left - r.width / 2) * 0.18,
+            y: (e.clientY - r.top - r.height / 2) * 0.24, duration: 0.4, ease: "power3.out" });
+        });
+        on(el, "mouseleave", function () { gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1,.55)" }); });
+      });
+    }
+  } else if (cur) { cur.style.display = "none"; }
+
+  if (document.fonts) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+})();
+
+</script>
+</body></html>
