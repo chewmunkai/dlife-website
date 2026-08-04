@@ -135,28 +135,28 @@ const FOOTER_NAV: Array<[string, Array<[string, string]>]> = [
 ];
 
 /**
- * Placeholder recreation of the client's clover mark (the supplied logo is a
- * chat-pasted bitmap on a green field — unusable in an ivory header). Drawn in
- * currentColor so the lockup follows each ground's text colour. Swap for the
- * real vector when brand files arrive.
- * NOTE: the supplied logo reads "Dlife" (no apostrophe) with "Peace begins
- * with you · Since 1999" — both differ from the copy deck's "D'Life" and the
- * unverified "27 years". 2026−1999 = 27, which corroborates the trust strip.
+ * The single swappable logo slot the correction brief asks for (G7): one
+ * component, used by the loading screen, the header and the footer, so
+ * replacing the artwork updates all three at once. The placeholder clover it
+ * replaces was a stand-in drawn while the real brand files were outstanding.
+ *
+ * Two cuts, because the lockup is flat artwork rather than currentColor:
+ * `logo.png` is the teal-and-gold original for ivory grounds, and
+ * `logo-reversed.png` the ivory cut for the dark loader and footer.
+ *
+ * The lockup already carries the "D'LIFE" wordmark, so no text sits beside
+ * it — the alt text is what names it, and the sizing below is by height with
+ * width left to follow the artwork's own 5.04:1 ratio.
  */
-const CloverMark = ({ size = 20 }: { size?: number }) => (
-  <svg
-    className="lmark"
-    width={size}
-    height={size}
-    viewBox="0 0 96 96"
-    fill="currentColor"
-    aria-hidden="true"
-  >
-    <rect x="2" y="2" width="44" height="44" rx="18" />
-    <rect x="50" y="2" width="44" height="44" rx="18" />
-    <rect x="2" y="50" width="44" height="44" rx="21" />
-    <rect x="50" y="50" width="44" height="44" rx="21" />
-  </svg>
+const Logo = ({ reversed = false, alt = "D’Life" }: { reversed?: boolean; alt?: string }) => (
+  <img
+    className={reversed ? "lmark rev" : "lmark"}
+    src={asset(`/media/img/${reversed ? "logo-reversed" : "logo"}.png`)}
+    alt={alt}
+    width={2890}
+    height={573}
+    decoding="async"
+  />
 );
 
 const NEEDS: Array<[Photo, string, string]> = [
@@ -319,8 +319,7 @@ export default function DLife() {
         <div>
           <div className="in">
             <span className="wm">
-              <CloverMark size={44} />
-              D’Life
+              <Logo reversed />
             </span>
           </div>
           <div className="sub">Real support, beyond the policy.</div>
@@ -328,9 +327,12 @@ export default function DLife() {
       </div>
 
       <header id="hd">
-        <a className="wm" href="#hero">
-          <CloverMark />
-          D’Life
+        {/* Both cuts ship; the ground decides which is visible. The link owns
+            the accessible name so the pair stays decorative and "D’Life" is
+            announced once, not twice. */}
+        <a className="wm" href="#hero" aria-label="D’Life — back to top">
+          <Logo reversed alt="" />
+          <Logo alt="" />
         </a>
         <div className="rt">
           <a className="pill" data-wa={WA_ADVISOR} href="#">
@@ -761,8 +763,7 @@ export default function DLife() {
         <div className="mast rv">
           <div>
             <div className="wm">
-              <CloverMark size={34} />
-              D’Life
+              <Logo reversed />
             </div>
             <p className="tag">Real support, beyond the policy.</p>
           </div>
