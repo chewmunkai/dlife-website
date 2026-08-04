@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { SITE, noIndex } from "../lib/site";
+import { SITE, isPreview } from "../lib/site";
 
 const TITLE = "D’Life · Real Support. Beyond the Policy.";
 const DESCRIPTION =
@@ -18,31 +18,25 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
   },
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
-  robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
+  robots: isPreview ? { index: false, follow: false } : { index: true, follow: true },
 };
 
 /**
  * Entity graph for search and answer engines. Deliberately minimal: it carries
- * only facts the client has confirmed. The "27 years" claim and the awards and
- * credentials in the trust band (AIA principal, Million Dollar Agency, MDRT
- * Builder, the leadership and claims figures) are all still pending
- * verification, and unverified claims must not go into structured data.
- *
- * `legalName` is deliberately absent: the footer previously read "D’Life
- * Revolution" while contract documents say "D’Life Sdn Bhd", and that is an
- * open question. Structured data is the last place to guess at it.
+ * only facts the brief states outright. The "27 years" claim, any awards or
+ * credentials (MDRT / GAMA / MDA) and the contact number are all open
+ * questions in §14, and unverified claims must not go into structured data.
  */
 const ORG_LD = {
   "@context": "https://schema.org",
   "@type": ["FinancialService", "InsuranceAgency"],
   "@id": `${SITE}/#organization`,
   name: "D’Life",
+  legalName: "D’Life Revolution",
   url: SITE,
   slogan: "Real Support. Beyond the Policy.",
   description: DESCRIPTION,
   email: "hello@dlife.com.my",
-  // Office-hours WhatsApp, confirmed in the client correction report.
-  telephone: "+60162362286",
   areaServed: { "@type": "Country", name: "Malaysia" },
   knowsLanguage: ["en", "ms"],
   founder: [
@@ -62,8 +56,7 @@ const ORG_LD = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  // Dark teal, one of the ten approved hexes. The comp's #0B211D was off-palette.
-  themeColor: "#0F332C",
+  themeColor: "#0B211D",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
