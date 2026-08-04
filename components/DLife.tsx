@@ -128,7 +128,7 @@ const FOOTER_NAV: Array<[string, Array<[string, string]>]> = [
       ["Our Founders", "#founder"],
       ["Advisor Stories", "#stories"],
       ["Careers at D’Life", "#careers"],
-      ["DVA — By Invitation", "#dva"],
+      ["DVA — Drive Value Associates", "#dva"],
       ["Youth Community", "#youth"],
     ],
   ],
@@ -237,10 +237,15 @@ const PATHS: Array<[ReactNode, string, string]> = [
  * exist rather than shipping five dead links.
  */
 const NEEDS: Array<[Photo, string, string]> = [
-  [PHOTOS.n1, "Protecting Your Family", "Coverage built around the people who depend on you."],
+  // People round a table, not the empty garden terrace that was here — this
+  // card leads the section at double width and has to read as people.
+  [PHOTOS.p5, "Protecting Your Family", "Coverage built around the people who depend on you."],
   [PHOTOS.n2, "Protecting Your Income", "Keep life steady even when the unexpected happens."],
+  // NOTE(shoot): nothing in the library is medical or care-related; this is
+  // the nearest frame there is. One for the commissioned shoot.
   [PHOTOS.n3, "Medical & Health Preparation", "Practical support for health and recovery costs."],
-  [PHOTOS.n4, "Planning for Your Future", "Retirement and legacy planning, with confidence."],
+  // Open sky and a forward look, rather than the back of a head at a desk.
+  [PHOTOS.p4, "Planning for Your Future", "Retirement and legacy planning, with confidence."],
   [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built."],
 ];
 
@@ -287,11 +292,73 @@ const YOUTH: Array<[Photo, string, string, string]> = [
 ];
 
 /** Trust strip: [figure, italic unit, label, copy] */
-const TRUST: Array<[string, string | null, string, string]> = [
-  ["27", "years", "Experience", "Of guidance across changing markets and life stages."],
-  ["People", "first", "Approach", "Advisory before products, every conversation."],
-  ["Clarity", null, "Promise", "Protection you can explain to your own family."],
-  ["Support", null, "After the sign", "A human to call when it matters most."],
+/**
+ * The six approved trust themes, transcribed from the correction report's
+ * structure-corrections slide, which prints them as the approved content
+ * basis. The four-item band this replaces was the prototype's own invention.
+ *
+ * Nothing here may be paraphrased or shortened. Every figure, award wording
+ * and permission is pending D'Life verification before publication, and the
+ * claims amount stays the blank the report itself prints.
+ * [icon, figure, label, copy]
+ */
+const TRUST: Array<[ReactNode, string, string, string]> = [
+  [
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
+    </>,
+    // Is "27 years" Sharon personally, or D'Life as an organisation?
+    "27 Years",
+    "Experience",
+    "Guiding families through changing markets, life stages and financial decisions with trusted advice for over 27 years.",
+  ],
+  [
+    <>
+      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+      <path d="m9 12 2 2 4-4" />
+    </>,
+    "AIA",
+    "Trusted Principal",
+    "Proudly partnering with AIA, one of Asia’s leading insurers, while receiving recognition for professional excellence and client service.",
+  ],
+  [
+    <>
+      <circle cx="12" cy="8" r="6" />
+      <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+    </>,
+    "Million Dollar Agency",
+    "MDRT Builder",
+    "Consistently achieving Million Dollar Agency recognition since 2002 and appointed as an MDRT Builder, developing high-performing financial professionals to international standards.",
+  ],
+  [
+    <>
+      <path d="M18 21a8 8 0 0 0-16 0" />
+      <circle cx="10" cy="8" r="5" />
+      <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+    </>,
+    "Leadership",
+    "People Development",
+    "Built 4 top-tier Senior Managers (District Managers) and 34+ young, passionate leaders (Unit Managers and Assistant Unit Managers) through systematic training and a culture of continuous growth.",
+  ],
+  [
+    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />,
+    "Clients",
+    "People First",
+    "People come before products. Every recommendation begins with meaningful conversations, understanding individual needs and giving advice only when it genuinely creates value.",
+  ],
+  [
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24m0-14.14-4.24 4.24m-5.66 5.66-4.24 4.24" />
+    </>,
+    "Claims",
+    "Real Support",
+    // The RM figure is left blank exactly as the report prints it — the amount
+    // is a D'Life decision, not an omitted correction.
+    "Successfully assisting clients with insurance claims exceeding RM __ million, with trusted guidance and dedicated support throughout the process.",
+  ],
 ];
 
 /**
@@ -489,12 +556,10 @@ export default function DLife() {
       <section id="trust" className="dark">
         {/* "27 years" pending client verification — open question #1 in the
             project brief: Sharon personally, or D'Life as an organisation? */}
-        {TRUST.map(([figure, unit, label, copy]) => (
-          <div className="c rv" key={label}>
-            <b>
-              {figure}
-              {unit && <em>{unit}</em>}
-            </b>
+        {TRUST.map(([icon, figure, label, copy]) => (
+          <div className="c rv" key={figure}>
+            <Ico>{icon}</Ico>
+            <b>{figure}</b>
             <u>{label}</u>
             <p>{copy}</p>
           </div>
@@ -675,10 +740,10 @@ export default function DLife() {
             <Plate photo={PHOTOS.dva} parallax />
           </div>
           <div className="fg">
-            {/* NOTE(copy): the client says "Drive Value Association"; the
-                master brief §4 says "Drive Value Associate". Using the
-                client's wording — needs confirming before launch. */}
-            <span className="lb">Drive Value Association (DVA) · By invitation</span>
+            {/* The correction report settles the name the earlier note left
+                open, and calls "Association" wrong outright: it is Drive
+                Value Associates, in the section and in the footer. */}
+            <span className="lb">DVA — Drive Value Associates · By invitation</span>
             <h2>
               Built for leaders. A selective circle shaped by <i>shared values and experience.</i>
             </h2>

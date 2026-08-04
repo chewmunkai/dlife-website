@@ -484,43 +484,48 @@ body:has(.dlife) {
 .dlife #hero .acts { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
 
 
-/* ---------- trust (deep green) ---------- */
+/* ---------- 04 · trust proof (six approved themes) ----------
+   Six, not four: the correction report prints these as the approved content
+   basis, and the four the prototype carried were its own invention. Compact
+   3 x 2 evidence band with hairline dividers rather than six card surfaces,
+   so it still reads as one strip and stays early and evidence-led. */
 .dlife #trust {
-  background: var(--s-bg);
+  background: var(--s-line-soft);
   color: var(--s-body);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(24px, 3vw, 56px);
-  padding: clamp(56px, 7vw, 88px) var(--dl-pad);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
 }
-.dlife #trust .c { padding-top: 22px; border-top: 1px solid var(--s-rule); }
+.dlife #trust .c {
+  display: flex;
+  flex-direction: column;
+  background: var(--s-bg);
+  padding: clamp(28px, 3vw, 42px) clamp(22px, 2.4vw, 36px);
+}
+.dlife #trust svg { width: 24px; height: 24px; color: var(--s-accent); margin-bottom: 16px; }
 .dlife #trust b {
   display: block;
-  font: 600 clamp(38px, 4vw, 62px)/.9 var(--dl-disp);
-  letter-spacing: -.045em;
-  color: var(--s-strong);
-}
-.dlife #trust b em {
-  font: 500 .38em/1 var(--dl-disp);
-  letter-spacing: 0;
-  color: var(--s-accent);
-  margin-left: 8px;
+  font: 600 clamp(23px, 2.1vw, 32px)/1.15 var(--dl-disp);
+  letter-spacing: -.012em;
+  color: var(--s-heading);
 }
 .dlife #trust u {
   display: block;
   text-decoration: none;
-  font: 600 11px/1 var(--dl-sans);
-  letter-spacing: .26em;
+  margin-top: 9px;
+  font: 700 12px/1 var(--dl-sans);
+  letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--s-label);
-  margin-top: 20px;
 }
 .dlife #trust p {
-  font: 400 clamp(16px, 1.15vw, 19px)/1.6 var(--dl-sans);
-  color: var(--s-body);
-  margin-top: 10px;
-  max-width: 22ch;
+  margin-top: 14px;
+  font: 400 clamp(16px, 1.25vw, 19px)/1.6 var(--dl-sans);
+  color: var(--s-muted);
+  max-width: 40ch;
 }
+@media (max-width: 980px) { .dlife #trust { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .dlife #trust { grid-template-columns: 1fr; } }
 
 /* ---------- 03 · pathway (compact routing strip) ----------
    A light horizontal router. The reference is explicit that this must read as
@@ -612,7 +617,7 @@ body:has(.dlife) {
 }
 .dlife #needs .lb { display: block; }
 .dlife #needs h2 { font-size: clamp(34px, 3.6vw, 56px); max-width: 17ch; }
-.dlife #needs .head p { font: 400 clamp(19px, 1.5vw, 26px)/1.65 var(--dl-sans); color: var(--s-muted); max-width: 32ch; }
+.dlife #needs .head p { font: 400 clamp(20px, 1.7vw, 29px)/1.6 var(--dl-sans); color: var(--s-muted); max-width: 32ch; }
 
 .dlife #needs .grid {
   display: grid;
@@ -650,7 +655,7 @@ body:has(.dlife) {
 }
 .dlife .ncard h3 { font-size: clamp(21px, 1.7vw, 28px); color: var(--dl-ivory); }
 .dlife .ncard p {
-  font: 400 clamp(15px, 1.05vw, 17px)/1.55 var(--dl-sans);
+  font: 400 clamp(16px, 1.2vw, 19px)/1.55 var(--dl-sans);
   color: rgba(246, 241, 232, .90);
   margin-top: 7px;
   max-width: 38ch;
@@ -878,7 +883,7 @@ body:has(.dlife) {
 .dlife #careers .rows a:hover { padding-left: 14px; }
 .dlife #careers .rows i { font: 600 10px/1 var(--dl-sans); letter-spacing: .22em; color: var(--dl-copper-d); font-style: normal; }
 .dlife #careers .rows b { font: 600 clamp(22px, 2vw, 30px)/1.15 var(--dl-disp); letter-spacing: -.025em; color: var(--s-heading); }
-.dlife #careers .rows p { font: 400 clamp(16px, 1.15vw, 19px)/1.7 var(--dl-sans); color: var(--s-muted); margin-top: 6px; max-width: 44ch; }
+.dlife #careers .rows p { font: 400 clamp(17px, 1.3vw, 21px)/1.65 var(--dl-sans); color: var(--s-muted); margin-top: 6px; max-width: 44ch; }
 .dlife #careers .rows em { font: 500 15px/1 var(--dl-disp); color: var(--s-quiet); }
 
 /* ---------- DVA (deep green, contained) ----------
@@ -928,7 +933,7 @@ body:has(.dlife) {
   margin-top: 14px;
 }
 .dlife #youth .intro {
-  font: 400 clamp(19px, 1.45vw, 25px)/1.7 var(--dl-sans);
+  font: 400 clamp(20px, 1.7vw, 29px)/1.6 var(--dl-sans);
   color: var(--s-body);
   max-width: 52ch;
   margin-top: 26px;
@@ -956,7 +961,7 @@ body:has(.dlife) {
 .dlife #youth .yc .ph { aspect-ratio: 4/3; background: var(--dl-cream); }
 .dlife #youth .yc .tx { padding: 26px 28px 30px; }
 .dlife #youth .yc h3 { font-size: 23px; }
-.dlife #youth .yc p { font: 400 clamp(16px, 1.15vw, 19px)/1.7 var(--dl-sans); color: var(--s-muted); margin-top: 10px; }
+.dlife #youth .yc p { font: 400 clamp(17px, 1.3vw, 21px)/1.65 var(--dl-sans); color: var(--s-muted); margin-top: 10px; }
 .dlife #youth .yc em {
   display: inline-block;
   margin-top: 18px;
@@ -1009,7 +1014,7 @@ body:has(.dlife) {
 .dlife #faq .item.open .x::after { transform: rotate(0); }
 .dlife #faq .a { overflow: hidden; height: 0; }
 .dlife #faq .a p {
-  font: 400 clamp(18px, 1.3vw, 22px)/1.75 var(--dl-sans);
+  font: 400 clamp(19px, 1.45vw, 24px)/1.7 var(--dl-sans);
   color: var(--s-body);
   max-width: 56ch;
   padding-bottom: 34px;
