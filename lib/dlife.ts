@@ -36,6 +36,14 @@ export function initDLife(root: HTMLElement): () => void {
     teardown.push(() => target.removeEventListener(type, fn, opts));
   };
 
+  /* ---------- open at the top ----------
+     Browsers restore the previous scroll position on reload, which on a page
+     this long drops a visitor back into the middle of a section with the
+     reveal animations already spent. A deep link is left alone: only a plain
+     reload with no hash is sent back to the top. */
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  if (!location.hash) window.scrollTo(0, 0);
+
   /* ---------- WhatsApp prefills ---------- */
   $$<HTMLAnchorElement>("[data-wa]").forEach((a) => {
     a.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(a.dataset.wa || "")}`;

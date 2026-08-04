@@ -22,7 +22,7 @@ export default function Stories() {
           <span className="lb">Advisor stories</span>
           <h1>Meet the people behind D’Life</h1>
           <p>
-            Real advisors, in their own words — what the work actually looks like, and who it is for.
+            Real advisors, in their own words. What the work actually looks like, and who it is for.
           </p>
           <a className="tlink" href="/">
             Back to the homepage

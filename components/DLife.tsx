@@ -1,7 +1,7 @@
 "use client";
 
 import "../styles/dlife.css";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import React, { useEffect, useRef, useState, type ReactNode } from "react";
 
 /* ============================================================
    D'Life — "Real Support. Beyond the Policy."
@@ -35,13 +35,16 @@ const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${pat
  * shoot the brief flags as a budget item still needs to happen.
  */
 const PHOTOS = {
-  // The one deliberate stock exception, at the client's direction: the film
-  // stills are 1440px frames and cannot hold a 100vh full-bleed hero. This is
-  // the original comp's kitchen-table photograph, standing in until the real
-  // shoot (brief §12) delivers a frame wide enough to replace it.
+  // Self-hosted, not hotlinked. This was the page's one stock exception, a
+  // 2400px Unsplash URL chosen because the film stills could not hold a 100vh
+  // hero — but it made the largest image on the site depend on a third-party
+  // host, and it was not rendering. D'Life's own frame is 1400x933, so it
+  // upscales slightly past a laptop viewport and will be soft on a very large
+  // display. A real photograph that loads beats a sharp one that does not; the
+  // commissioned shoot is what finally fixes this.
   hero: {
-    src: "https://images.unsplash.com/photo-1576089073624-b5751a8f4de9?auto=format&fit=crop&w=2400&q=72",
-    alt: "A family sharing a meal at their kitchen table",
+    src: asset("/media/img/hero.jpg"),
+    alt: "D’Life colleagues sharing a meal around a table",
   },
   p1: { src: asset("/media/img/path-family.jpg"), alt: "Three generations of a family gathered around a table" },
   p2: { src: asset("/media/img/path-review.jpg"), alt: "An advisor reviewing paperwork at his desk" },
@@ -128,7 +131,7 @@ const FOOTER_NAV: Array<[string, Array<[string, string]>]> = [
       ["Our Founders", "#founder"],
       ["Advisor Stories", "#stories"],
       ["Careers at D’Life", "#careers"],
-      ["DVA — Drive Value Associates", "#dva"],
+      ["Drive Value Associates (DVA)", "#dva"],
       ["Youth Community", "#youth"],
     ],
   ],
@@ -211,7 +214,7 @@ const SOLUTIONS: Array<[string, string]> = [
 
 const COMMUNITY: Array<[string, string]> = [
   ["Youth Community", "#youth"],
-  ["DVA — Drive Value Associates", "#dva"],
+  ["Drive Value Associates (DVA)", "#dva"],
   ["About D’Life & Founders", "#founder"],
 ];
 
@@ -453,8 +456,71 @@ const PlayIcon = () => (
 
 export default function DLife() {
   const root = useRef<HTMLDivElement>(null);
-  /** src of the story playing inline, or null. One at a time. */
-  const [playing, setPlaying] = useState<string | null>(null);
+  /* ---------- featured videos (correction report, video activation) ----------
+     One centre card is active and larger than the side previews. When the
+     section first enters view the active card starts playing muted, because
+     muted is the only way a browser will autoplay at all — so the Muted state
+     and the Unmute control are the section's most prominent controls, not an
+     afterthought. Playback never leaves the card. */
+  const [active, setActive] = useState(0);
+  const [muted, setMuted] = useState(true);
+  /** False until the section has been seen; nothing plays before that. */
+  const [armed, setArmed] = useState(false);
+  /** Explicit pause, so the play control can hold against the autoplay effect. */
+  const [paused, setPaused] = useState(false);
+  const stories = useRef<HTMLElement>(null);
+  const player = useRef<HTMLVideoElement>(null);
+
+  /* A rect check rather than IntersectionObserver. The section is taller than
+     most viewports, so a fractional threshold can sit unsatisfied even while
+     the cards fill the screen — which is exactly what happened: the observer
+     never fired and the card stayed a poster. This arms as soon as the section
+     reaches three-quarters of the way up the viewport, and checks once on
+     mount so a deep link or a short page does not have to wait for a scroll. */
+  useEffect(() => {
+    const el = stories.current;
+    if (!el || armed) return;
+    const check = () => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.75 && r.bottom > 0) {
+        setArmed(true);
+        return true;
+      }
+      return false;
+    };
+    if (check()) return;
+    const onScroll = () => check() && window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [armed]);
+
+  /* Autoplay can still be refused. If it is, the poster and its play control
+     stay put rather than the card sitting on a frozen first frame. */
+  useEffect(() => {
+    const v = player.current;
+    if (!v || !armed || paused) return;
+    v.muted = muted;
+    v.play().catch(() => setArmed(false));
+  }, [armed, active, muted, paused]);
+
+  /* Rotation clears an explicit pause: the next card entering the centre is
+     meant to start playing, per the report's rotation rules. */
+  const go = (i: number) => {
+    setActive((i + VIDEOS.length) % VIDEOS.length);
+    setPaused(false);
+  };
+  const rotate = (step: number) => go(active + step);
+  const togglePlay = () => {
+    const v = player.current;
+    if (!v) return setArmed(true);
+    if (v.paused) {
+      setPaused(false);
+      v.play().catch(() => undefined);
+    } else {
+      v.pause();
+      setPaused(true);
+    }
+  };
 
   useEffect(() => {
     const el = root.current;
@@ -494,7 +560,7 @@ export default function DLife() {
         {/* Both cuts ship; the ground decides which is visible. The link owns
             the accessible name so the pair stays decorative and "D’Life" is
             announced once, not twice. */}
-        <a className="wm" href="#hero" aria-label="D’Life — back to top">
+        <a className="wm" href="#hero" aria-label="D’Life, back to top">
           <Logo reversed alt="" />
           <Logo alt="" />
         </a>
@@ -744,7 +810,7 @@ export default function DLife() {
         </div>
       </section>
 
-      <section id="stories" className="dark">
+      <section id="stories" className="dark" ref={stories}>
         <div className="head">
           <div>
             <span className="lb rv">Featured videos</span>
@@ -756,41 +822,90 @@ export default function DLife() {
             <span>View all stories</span>
           </a>
         </div>
-        <div className="grid">
-          {VIDEOS.map((v) => (
-            <div className="story rv" key={v.title}>
-              {/* Playback happens in the card. The report rules out the
-                  lightbox this replaces — no overlay, no blur, no leaving the
-                  page — so the poster button swaps itself for the player and
-                  the rest of the section stays where it was. */}
-              {playing === v.src ? (
-                <div className="ph playing">
-                  <video
-                    src={v.src}
-                    poster={v.poster}
-                    controls
-                    autoPlay
-                    playsInline
-                    preload="metadata"
-                    onEnded={() => setPlaying(null)}
-                  />
+        {/* A compact row: the centre card is enlarged relative to its
+            neighbours rather than to the section, so the row keeps its shape
+            as the active card moves along it. */}
+        <div className="reel">
+          {VIDEOS.map((v, i) => {
+            const on = i === active;
+            return (
+              <div className={on ? "story on" : "story"} key={v.title}>
+                {/* The poster doubles as a blurred fill behind the player: the
+                    source is 9:16 and the card is wider, so `contain` would
+                    otherwise leave two dead black columns. */}
+                <div className="ph" style={{ ["--poster" as string]: `url(${v.poster})` } as React.CSSProperties}>
+                  {on && armed ? (
+                    <>
+                      <video
+                        ref={player}
+                        src={v.src}
+                        poster={v.poster}
+                        muted={muted}
+                        playsInline
+                        preload="metadata"
+                        controls={!muted}
+                        onEnded={() => go(active + 1)}
+                      />
+                      {/* The muted state is stated, not implied, and its
+                          control is the loudest thing on the card. */}
+                      {muted ? (
+                        <button type="button" className="unmute" onClick={() => setMuted(false)}>
+                          <span className="dot" aria-hidden="true" />
+                          Muted. Tap to unmute
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="unmute quiet"
+                          onClick={() => setMuted(true)}
+                          aria-label="Mute video"
+                        >
+                          Mute
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      className="pick"
+                      aria-label={on ? `Play video: ${v.title}` : `Show video: ${v.title}`}
+                      onClick={() => (on ? setArmed(true) : setActive(i))}
+                    >
+                      {/* Decorative — the heading below already names it. */}
+                      <img src={v.poster} alt="" loading="lazy" decoding="async" />
+                      <PlayIcon />
+                    </button>
+                  )}
                 </div>
-              ) : (
-                <button
-                  type="button"
-                  className="ph"
-                  aria-label={`Play video: ${v.title}`}
-                  onClick={() => setPlaying(v.src)}
-                >
-                  {/* Decorative — the heading below already names the story. */}
-                  <img src={v.poster} alt="" loading="lazy" decoding="async" />
-                  <PlayIcon />
-                </button>
-              )}
-              <h3>{v.title}</h3>
-              <span className="run">{v.runtime}</span>
-            </div>
-          ))}
+                <h3>{v.title}</h3>
+                <span className="run">{v.runtime}</span>
+              </div>
+            );
+          })}
+        </div>
+        {/* Play/Pause, Previous and Next, plus dots as the carousel cue. */}
+        <div className="reelctl rv">
+          <button type="button" onClick={() => rotate(-1)} aria-label="Previous story">
+            ←
+          </button>
+          <button type="button" className="pp" onClick={togglePlay} aria-label={paused ? "Play video" : "Pause video"}>
+            {paused || !armed ? "▶" : "❚❚"}
+          </button>
+          <div className="dots">
+            {VIDEOS.map((v, i) => (
+              <button
+                type="button"
+                key={v.title}
+                className={i === active ? "on" : undefined}
+                onClick={() => go(i)}
+                aria-label={`Show story ${i + 1} of ${VIDEOS.length}`}
+                aria-current={i === active}
+              />
+            ))}
+          </div>
+          <button type="button" onClick={() => rotate(1)} aria-label="Next story">
+            →
+          </button>
         </div>
       </section>
 
@@ -804,6 +919,12 @@ export default function DLife() {
           <h2 className="rv">
             A career built on <i>real guidance,</i> not just sales.
           </h2>
+          {/* The advisor quote the brief keeps alongside the four pillars, and
+              which the reference shows sitting under the heading. */}
+          <blockquote className="qt rv">
+            <p>“D’Life gave me the mentorship I couldn’t find anywhere else.”</p>
+            <span>D’Life Advisor</span>
+          </blockquote>
           <a className="pill rv" data-wa="Hi D'Life, I'd like to explore a career conversation." href="#">
             <span>Explore a career conversation</span>
           </a>
@@ -837,8 +958,8 @@ export default function DLife() {
             <span className="lb">By invitation</span>
             {/* The report calls "Association" wrong outright: it is Drive
                 Value Associates, in the section and in the footer. */}
-            <h2>DVA — Drive Value Associates</h2>
-            <p>Built for leaders — a selective circle shaped by shared values and experience.</p>
+            <h2>Drive Value Associates (DVA)</h2>
+            <p>Built for leaders, a selective circle shaped by shared values and experience.</p>
             <a className="pill sand" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
               <span>Discover DVA</span>
             </a>
@@ -885,7 +1006,7 @@ export default function DLife() {
         <div className="loop rv">
           <div>
             <h3>Stay in the Loop</h3>
-            <p>Event invites and Youth Community updates, by email or on WhatsApp — whichever you actually read.</p>
+            <p>Event invites and Youth Community updates, by email or on WhatsApp, whichever you actually read.</p>
           </div>
           <div>
             <span className="k">By email</span>
@@ -1072,7 +1193,7 @@ export default function DLife() {
         <div className="fine">
           <p className="note">
             D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read
-            here is general information, not personal advice — it does not take your circumstances into account. A
+            here is general information, not personal advice. It does not take your circumstances into account. A
             recommendation only follows a conversation, a needs assessment and the relevant product disclosure
             documents.
           </p>
