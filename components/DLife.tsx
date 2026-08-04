@@ -54,9 +54,6 @@ const PHOTOS = {
   n4: { src: asset("/media/img/need-planning.jpg"), alt: "Planning at a laptop at the kitchen table" },
   n5: { src: asset("/media/img/need-legacy.jpg"), alt: "A banquet hall gathering beneath a chandelier" },
   policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
-  // Unreferenced since the closing CTA and DVA went to flat green. Kept as
-  // manifest entries, and the files stay in public/, so either is one line
-  // away from being restored.
   close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
   dva: { src: asset("/media/img/dva-team.jpg"), alt: "The D’Life advisory team" },
   y1: { src: asset("/media/img/youth-workshop.jpg"), alt: "Attendees seated at a D’Life workshop session" },
@@ -281,14 +278,16 @@ const PATHS: Array<[ReactNode, string, string]> = [
  * exist rather than shipping five dead links.
  */
 const NEEDS: Array<[Photo, string, string]> = [
-  // People round a table, not the empty garden terrace that was here — this
-  // card leads the section at double width and has to read as people.
-  [PHOTOS.p5, "Protecting Your Family", "Coverage built around the people who depend on you."],
-  [PHOTOS.n2, "Protecting Your Income", "Keep life steady even when the unexpected happens."],
-  // NOTE(shoot): nothing in the library is medical or care-related; this is
-  // the nearest frame there is. One for the commissioned shoot.
+  // Re-picked for finish rather than for literal subject match. These are the
+  // best-lit, best-composed frames in the library — two people in real
+  // conversation, a desk portrait with depth, open sky, a premium interior —
+  // in place of the phone-camera group shots that were here.
+  [PHOTOS.policy, "Protecting Your Family", "Coverage built around the people who depend on you."],
+  [PHOTOS.p2, "Protecting Your Income", "Keep life steady even when the unexpected happens."],
+  // NOTE(shoot): nothing in the library is medical or care-related, at any
+  // level of finish. This is the nearest frame there is, and it is the clearest
+  // case for the commissioned shoot the brief lists as a budget item.
   [PHOTOS.n3, "Medical & Health Preparation", "Practical support for health and recovery costs."],
-  // Open sky and a forward look, rather than the back of a head at a desk.
   [PHOTOS.p4, "Planning for Your Future", "Retirement and legacy planning, with confidence."],
   [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built."],
 ];
@@ -699,7 +698,7 @@ export default function DLife() {
           </div>
         </div>
         <div className="ph">
-          <Plate photo={PHOTOS.policy} parallax />
+          <Plate photo={PHOTOS.close} parallax />
         </div>
       </section>
 
@@ -823,13 +822,10 @@ export default function DLife() {
             dominant open-recruitment band, and no photograph behind it. The
             name now leads at heading scale, with the proposition beneath it. */}
         <div className="panel rv">
+          <div className="bg ph">
+            <Plate photo={PHOTOS.dva} parallax />
+          </div>
           <div className="fg">
-            <span className="seal" aria-hidden="true">
-              <Ico>
-                <circle cx="12" cy="12" r="9" />
-                <circle cx="12" cy="12" r="3.4" />
-              </Ico>
-            </span>
             <span className="lb">By invitation</span>
             {/* The report calls "Association" wrong outright: it is Drive
                 Value Associates, in the section and in the footer. */}
