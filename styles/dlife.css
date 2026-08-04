@@ -894,50 +894,137 @@ body:has(.dlife) {
   flex-wrap: wrap;
 }
 .dlife #stories h2 { font-size: clamp(34px, 3.6vw, 56px); max-width: 14ch; line-height: 1; }
-.dlife #stories .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 2vw, 32px); }
-/* The plate is a <button> so the play affordance is keyboard-reachable; strip
-   the UA chrome but keep a visible focus ring for keyboard users. */
-.dlife .story .ph {
-  aspect-ratio: 4/5;
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  color: inherit;
-  background: var(--s-plate);
+/* Compact row. The active card is enlarged relative to its neighbours, per
+   the report's "enlarge only relative to the secondary cards" — the row's own
+   height is unchanged as the active card moves along it. */
+.dlife #stories .reel {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(14px, 1.8vw, 30px);
 }
-.dlife .story .ph:focus-visible { outline: 2px solid var(--dl-copper); outline-offset: 3px; }
-.dlife .story .ph img { transition: transform 1.2s cubic-bezier(.22, .7, .24, 1); }
+.dlife .story { flex: 1 1 0; min-width: 0; transition: flex-grow .5s cubic-bezier(.22, .7, .24, 1); }
+.dlife .story.on { flex-grow: 1.9; }
+.dlife .story .ph {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--s-plate);
+  display: block;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.dlife .story .ph .pick {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+.dlife .story .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.22, .7, .24, 1); }
 .dlife .story:hover .ph img { transform: scale(1.06); }
+.dlife .story .ph video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
 .dlife .story .play {
   position: absolute;
-  z-index: 4;
-  left: 50%;
   top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
-  border: 1px solid rgba(246, 241, 232, .55);
+  width: 62px;
+  height: 62px;
   display: grid;
   place-items: center;
+  border-radius: 50%;
   color: var(--dl-ivory);
-  background: rgba(11, 33, 29, .32);
-  backdrop-filter: blur(4px);
-  transition: background .4s, transform .4s;
+  background: rgba(11, 33, 29, .55);
+  border: 1px solid rgba(246, 241, 232, .5);
+  transition: background .3s, transform .3s;
+  pointer-events: none;
 }
-.dlife .story:hover .play { background: rgba(179, 107, 67, .85); transform: translate(-50%, -50%) scale(1.08); }
+.dlife .story:hover .play { background: rgba(156, 90, 55, .9); transform: translate(-50%, -50%) scale(1.08); }
 .dlife .story .play svg { margin-left: 3px; }
-.dlife .story h3 { font-size: clamp(22px, 1.8vw, 29px); margin-top: 20px; }
+.dlife .story .ph:focus-visible,
+.dlife .story .pick:focus-visible { outline: 2px solid var(--dl-copper); outline-offset: 3px; }
+.dlife .story h3 { font-size: clamp(22px, 1.8vw, 29px); margin-top: 18px; }
 .dlife .story .run {
   display: block;
   margin-top: 8px;
-  font-size: 13px;
+  font: 700 12px/1 var(--dl-sans);
   letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--s-quiet);
+}
+
+/* Muted state and its control. Autoplay is only permitted muted, so a visitor
+   arrives at a silent video by definition — this has to announce itself and
+   be trivially reversible, not sit behind a small speaker glyph. */
+.dlife .story .unmute {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 18px;
+  border-radius: 99px;
+  border: 1px solid rgba(246, 241, 232, .5);
+  background: rgba(11, 33, 29, .82);
+  color: var(--dl-ivory);
+  font: 700 12px/1 var(--dl-sans);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .3s;
+}
+.dlife .story .unmute:hover { background: var(--dl-copper-d); }
+.dlife .story .unmute.quiet { opacity: .78; }
+.dlife .story .unmute .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dl-copper);
+  animation: dl-pulse 1.8s ease-in-out infinite;
+}
+@keyframes dl-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+.dlife #stories .reelctl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: clamp(28px, 4vh, 48px);
+}
+.dlife #stories .reelctl button {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--s-outline);
+  background: none;
+  color: var(--s-strong);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .3s, border-color .3s;
+}
+.dlife #stories .reelctl button:hover { background: var(--dl-copper-d); border-color: var(--dl-copper-d); color: #fff; }
+.dlife #stories .count {
+  font: 700 12px/1 var(--dl-sans);
+  letter-spacing: .18em;
+  color: var(--s-quiet);
+}
+/* Phone: the row would give three unreadable slivers, so only the active card
+   shows and the controls become the way through. */
+@media (max-width: 760px) {
+  .dlife .story { display: none; }
+  .dlife .story.on { display: block; flex-grow: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dlife .story { transition: none; }
+  .dlife .story .unmute .dot { animation: none; }
 }
 
 /* ---------- inline story playback ----------

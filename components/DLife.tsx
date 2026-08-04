@@ -35,13 +35,16 @@ const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${pat
  * shoot the brief flags as a budget item still needs to happen.
  */
 const PHOTOS = {
-  // The one deliberate stock exception, at the client's direction: the film
-  // stills are 1440px frames and cannot hold a 100vh full-bleed hero. This is
-  // the original comp's kitchen-table photograph, standing in until the real
-  // shoot (brief §12) delivers a frame wide enough to replace it.
+  // Self-hosted, not hotlinked. This was the page's one stock exception, a
+  // 2400px Unsplash URL chosen because the film stills could not hold a 100vh
+  // hero — but it made the largest image on the site depend on a third-party
+  // host, and it was not rendering. D'Life's own frame is 1400x933, so it
+  // upscales slightly past a laptop viewport and will be soft on a very large
+  // display. A real photograph that loads beats a sharp one that does not; the
+  // commissioned shoot is what finally fixes this.
   hero: {
-    src: "https://images.unsplash.com/photo-1576089073624-b5751a8f4de9?auto=format&fit=crop&w=2400&q=72",
-    alt: "A family sharing a meal at their kitchen table",
+    src: asset("/media/img/hero.jpg"),
+    alt: "D’Life colleagues sharing a meal around a table",
   },
   p1: { src: asset("/media/img/path-family.jpg"), alt: "Three generations of a family gathered around a table" },
   p2: { src: asset("/media/img/path-review.jpg"), alt: "An advisor reviewing paperwork at his desk" },
@@ -453,8 +456,52 @@ const PlayIcon = () => (
 
 export default function DLife() {
   const root = useRef<HTMLDivElement>(null);
-  /** src of the story playing inline, or null. One at a time. */
-  const [playing, setPlaying] = useState<string | null>(null);
+  /* ---------- featured videos (correction report, video activation) ----------
+     One centre card is active and larger than the side previews. When the
+     section first enters view the active card starts playing muted, because
+     muted is the only way a browser will autoplay at all — so the Muted state
+     and the Unmute control are the section's most prominent controls, not an
+     afterthought. Playback never leaves the card. */
+  const [active, setActive] = useState(0);
+  const [muted, setMuted] = useState(true);
+  /** False until the section has been seen; nothing plays before that. */
+  const [armed, setArmed] = useState(false);
+  const stories = useRef<HTMLElement>(null);
+  const player = useRef<HTMLVideoElement>(null);
+
+  /* A rect check rather than IntersectionObserver. The section is taller than
+     most viewports, so a fractional threshold can sit unsatisfied even while
+     the cards fill the screen — which is exactly what happened: the observer
+     never fired and the card stayed a poster. This arms as soon as the section
+     reaches three-quarters of the way up the viewport, and checks once on
+     mount so a deep link or a short page does not have to wait for a scroll. */
+  useEffect(() => {
+    const el = stories.current;
+    if (!el || armed) return;
+    const check = () => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.75 && r.bottom > 0) {
+        setArmed(true);
+        return true;
+      }
+      return false;
+    };
+    if (check()) return;
+    const onScroll = () => check() && window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [armed]);
+
+  /* Autoplay can still be refused. If it is, the poster and its play control
+     stay put rather than the card sitting on a frozen first frame. */
+  useEffect(() => {
+    const v = player.current;
+    if (!v || !armed) return;
+    v.muted = muted;
+    v.play().catch(() => setArmed(false));
+  }, [armed, active, muted]);
+
+  const rotate = (step: number) => setActive((i) => (i + step + VIDEOS.length) % VIDEOS.length);
 
   useEffect(() => {
     const el = root.current;
@@ -744,7 +791,7 @@ export default function DLife() {
         </div>
       </section>
 
-      <section id="stories" className="dark">
+      <section id="stories" className="dark" ref={stories}>
         <div className="head">
           <div>
             <span className="lb rv">Featured videos</span>
@@ -756,41 +803,74 @@ export default function DLife() {
             <span>View all stories</span>
           </a>
         </div>
-        <div className="grid">
-          {VIDEOS.map((v) => (
-            <div className="story rv" key={v.title}>
-              {/* Playback happens in the card. The report rules out the
-                  lightbox this replaces — no overlay, no blur, no leaving the
-                  page — so the poster button swaps itself for the player and
-                  the rest of the section stays where it was. */}
-              {playing === v.src ? (
-                <div className="ph playing">
-                  <video
-                    src={v.src}
-                    poster={v.poster}
-                    controls
-                    autoPlay
-                    playsInline
-                    preload="metadata"
-                    onEnded={() => setPlaying(null)}
-                  />
+        {/* A compact row: the centre card is enlarged relative to its
+            neighbours rather than to the section, so the row keeps its shape
+            as the active card moves along it. */}
+        <div className="reel">
+          {VIDEOS.map((v, i) => {
+            const on = i === active;
+            return (
+              <div className={on ? "story on" : "story"} key={v.title}>
+                <div className="ph">
+                  {on && armed ? (
+                    <>
+                      <video
+                        ref={player}
+                        src={v.src}
+                        poster={v.poster}
+                        muted={muted}
+                        playsInline
+                        preload="metadata"
+                        controls={!muted}
+                        onEnded={() => rotate(1)}
+                      />
+                      {/* The muted state is stated, not implied, and its
+                          control is the loudest thing on the card. */}
+                      {muted ? (
+                        <button type="button" className="unmute" onClick={() => setMuted(false)}>
+                          <span className="dot" aria-hidden="true" />
+                          Muted — tap to unmute
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="unmute quiet"
+                          onClick={() => setMuted(true)}
+                          aria-label="Mute video"
+                        >
+                          Mute
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      className="pick"
+                      aria-label={on ? `Play video: ${v.title}` : `Show video: ${v.title}`}
+                      onClick={() => (on ? setArmed(true) : setActive(i))}
+                    >
+                      {/* Decorative — the heading below already names it. */}
+                      <img src={v.poster} alt="" loading="lazy" decoding="async" />
+                      <PlayIcon />
+                    </button>
+                  )}
                 </div>
-              ) : (
-                <button
-                  type="button"
-                  className="ph"
-                  aria-label={`Play video: ${v.title}`}
-                  onClick={() => setPlaying(v.src)}
-                >
-                  {/* Decorative — the heading below already names the story. */}
-                  <img src={v.poster} alt="" loading="lazy" decoding="async" />
-                  <PlayIcon />
-                </button>
-              )}
-              <h3>{v.title}</h3>
-              <span className="run">{v.runtime}</span>
-            </div>
-          ))}
+                <h3>{v.title}</h3>
+                <span className="run">{v.runtime}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div className="reelctl rv">
+          <button type="button" onClick={() => rotate(-1)} aria-label="Previous story">
+            ←
+          </button>
+          <span className="count">
+            {active + 1} / {VIDEOS.length}
+          </span>
+          <button type="button" onClick={() => rotate(1)} aria-label="Next story">
+            →
+          </button>
         </div>
       </section>
 
