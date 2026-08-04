@@ -382,6 +382,21 @@ export function initDLife(root: HTMLElement): () => void {
     });
   });
 
+  /* ---------- youth signup ----------
+     Front end only — no endpoint is wired and the consent wording is still
+     pending, so the form acknowledges inline rather than implying storage. */
+  const loopForm = $("#loopform");
+  if (loopForm) {
+    on(loopForm, "submit", (e) => {
+      e.preventDefault();
+      const said = document.createElement("p");
+      said.className = "said";
+      said.setAttribute("role", "status");
+      said.textContent = "Thanks — we’ll be in touch with the next Youth Community update.";
+      loopForm.replaceWith(said);
+    });
+  }
+
   /* ---------- cursor + magnetic pills ---------- */
   const cur = $("#cur");
   if (cur && fine) {

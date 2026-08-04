@@ -159,6 +159,21 @@ const Logo = ({ reversed = false, alt = "D’Life" }: { reversed?: boolean; alt?
   />
 );
 
+/**
+ * Slug for a life need. These come out identical to the link map's own route
+ * names — "Medical & Health Preparation" → medical-health-preparation — so
+ * when the Solutions pages land, `#${slug}` becomes `/solutions/${slug}/`
+ * with no renaming.
+ */
+const slug = (s: string) =>
+  s.toLowerCase().replace(/&/g, " ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+const Caret = (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+);
+
 /** Geometric outline icons, per the brief's icon direction. */
 const Ico = ({ children }: { children: ReactNode }) => (
   <svg
@@ -173,6 +188,32 @@ const Ico = ({ children }: { children: ReactNode }) => (
     {children}
   </svg>
 );
+
+/**
+ * Primary navigation, following link map E — which lists fourteen routes:
+ * home, /solutions/ and its five children, /existing-policy-support/,
+ * /about/, /careers/, /dva/, /youth-community/, /stories/ and /contact/.
+ *
+ * Home is the lockup, contact is the two advisor actions on the right, and
+ * the rest sit in these five pillars. Targets are the homepage sections that
+ * cover them today — /stories/ is the one inner page that exists — so nothing
+ * in the bar is a dead link. The Solutions entries deep-link to their own
+ * life-needs card, and their anchors are already the route slugs.
+ * [label, href]
+ */
+const SOLUTIONS: Array<[string, string]> = [
+  ["Protecting Your Family", "#protecting-your-family"],
+  ["Protecting Your Income", "#protecting-your-income"],
+  ["Medical & Health Preparation", "#medical-health-preparation"],
+  ["Planning for Your Future", "#planning-for-your-future"],
+  ["Wealth & Legacy", "#wealth-legacy"],
+];
+
+const COMMUNITY: Array<[string, string]> = [
+  ["Youth Community", "#youth"],
+  ["DVA — Drive Value Associates", "#dva"],
+  ["About D’Life & Founders", "#founder"],
+];
 
 /**
  * The compact path selector's five routes, in the brief's first-person voice.
@@ -455,6 +496,45 @@ export default function DLife() {
           <Logo reversed alt="" />
           <Logo alt="" />
         </a>
+        {/* Hover and focus both open a panel, so the caret never lies to a
+            keyboard user. These are plain links, not a menubar widget. */}
+        <nav className="nav" aria-label="Primary">
+          <div className="grp">
+            <a className="top" href="#needs">
+              Solutions
+              {Caret}
+            </a>
+            <div className="drop">
+              {SOLUTIONS.map(([label, href]) => (
+                <a href={href} key={href}>
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+          <a className="top" href="#policy">
+            Existing Policy Support
+          </a>
+          <a className="top" href="/stories">
+            Stories
+          </a>
+          <a className="top" href="#careers">
+            Careers
+          </a>
+          <div className="grp">
+            <a className="top" href="#youth">
+              Community
+              {Caret}
+            </a>
+            <div className="drop">
+              {COMMUNITY.map(([label, href]) => (
+                <a href={href} key={href}>
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </nav>
         <div className="rt">
           <a className="pill" data-wa={WA_ADVISOR} href="#">
             <span>Speak with an Advisor</span>
@@ -581,7 +661,7 @@ export default function DLife() {
             this replaces was the scroll-jacking the report rules out. */}
         <div className="grid">
           {NEEDS.map(([photo, title, copy]) => (
-            <article className="ncard rv" key={title}>
+            <article className="ncard rv" id={slug(title)} key={title}>
               <div className="ph">
                 <Plate photo={photo} />
               </div>
@@ -789,6 +869,35 @@ export default function DLife() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="loop rv">
+          <div>
+            <h3>Stay in the Loop</h3>
+            <p>Event invites and Youth Community updates, by email or on WhatsApp — whichever you actually read.</p>
+          </div>
+          <div>
+            <span className="k">By email</span>
+            {/* Front end only: no endpoint is wired, so on submit the form is
+                replaced by an inline acknowledgement rather than anything that
+                implies the address has been stored. */}
+            <form id="loopform">
+              <input type="email" placeholder="Your email" required aria-label="Your email" />
+              <button className="pill" type="submit">
+                <span>Sign Up</span>
+              </button>
+            </form>
+            {/* Consent wording is [PENDING D'LIFE CONFIRMATION] — data storage,
+                list ownership and unsubscribe method are unresolved. */}
+            <p className="consent">
+              By signing up you agree to receive Youth Community updates. Unsubscribe anytime.{" "}
+              <em>[Wording pending confirmation]</em>
+            </p>
+            <div className="alt">
+              <a className="tlink" data-wa="Hi D'Life, I'd like Youth Community updates." href="#">
+                Get updates on WhatsApp
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

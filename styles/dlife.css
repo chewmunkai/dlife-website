@@ -60,7 +60,7 @@
   --s-body: rgba(47, 53, 50, .88);
   --s-muted: rgba(47, 53, 50, .74);
   --s-quiet: rgba(47, 53, 50, .55);
-  --s-label: var(--dl-copper-d);
+  --s-label: var(--dl-copper-x);
   --s-accent: var(--dl-copper-d);
   --s-line: rgba(47, 53, 50, .18);
   --s-line-soft: rgba(47, 53, 50, .10);
@@ -134,15 +134,26 @@ body:has(.dlife) {
   border-radius: 0;
 }
 
-/* Section label. Was 11px at .32em, which the correction report flags as
-   disappearing — it has to read before the heading it introduces, not after.
-   Up to 13px/700 with the tracking pulled back to .22em, since very wide
-   tracking at small sizes is what dissolved the word into separate letters. */
+/* Section label. 11px at .32em originally, then 13px at .22em, and still
+   reading as faint — so this goes further: 15px, tracking down again to
+   .14em, and a short accent rule in front of it. The rule is what actually
+   makes it findable, since a line of small caps in a warm hue on a warm
+   ground has no edge of its own to catch the eye. */
 .dlife .lb {
-  font: 700 13px/1.3 var(--dl-sans);
-  letter-spacing: .22em;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font: 700 15px/1.35 var(--dl-sans);
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--s-label);
+}
+.dlife .lb::before {
+  content: "";
+  width: 26px;
+  height: 2px;
+  flex: none;
+  background: currentColor;
 }
 /* One family, one weight, one style per heading. Lora's letterforms carry
    their own contrast, so the grotesque's tight tracking and uppercase both
@@ -291,6 +302,10 @@ body:has(.dlife) {
 .dlife #hd .wm {
   display: inline-flex;
   align-items: center;
+  /* Must not shrink. As a flex child it defaults to shrinkable, and the base
+     `img { max-width: 100% }` then resolves the lockup against a collapsed
+     parent — which is how adding the nav made the logo disappear entirely. */
+  flex: none;
 }
 .dlife .lmark { display: block; flex: none; width: auto; }
 .dlife #hd .lmark { height: 26px; }
@@ -304,6 +319,65 @@ body:has(.dlife) {
 .dlife #hd.solid .lmark:not(.rev) { display: block; }
 .dlife.menu-open #hd .lmark.rev { display: block; }
 .dlife.menu-open #hd .lmark:not(.rev) { display: none; }
+/* Primary navigation. The bar rides transparent over the hero, so the links
+   inherit its ivory and flip with it when .solid lands. */
+.dlife #hd .nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 26px);
+  margin-right: auto;
+  margin-left: clamp(16px, 2.6vw, 44px);
+}
+.dlife #hd .grp { position: relative; }
+.dlife #hd .nav a.top {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 15px 2px;
+  font: 500 15px/1 var(--dl-sans);
+  color: currentColor;
+  white-space: nowrap;
+  box-shadow: inset 0 -1px 0 transparent;
+  transition: box-shadow .3s;
+}
+.dlife #hd .nav a.top:hover,
+.dlife #hd .nav a.top:focus-visible { box-shadow: inset 0 -1px 0 currentColor; }
+.dlife #hd .nav a.top svg { transition: transform .3s; }
+.dlife #hd .grp:hover a.top svg { transform: rotate(180deg); }
+/* Hover and focus both open the panel, so the caret is never a lie for a
+   keyboard user. Nothing here is a menubar widget — they are plain links. */
+.dlife #hd .drop {
+  position: absolute;
+  top: 100%;
+  left: -14px;
+  min-width: 268px;
+  padding: 9px;
+  border-radius: 10px;
+  background: var(--dl-ivory);
+  border: 1px solid rgba(47, 53, 50, .12);
+  box-shadow: 0 14px 34px rgba(15, 51, 44, .16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity .25s, transform .25s, visibility .25s;
+}
+.dlife #hd .grp:hover .drop,
+.dlife #hd .grp:focus-within .drop { opacity: 1; visibility: visible; transform: none; }
+.dlife #hd .drop a {
+  display: block;
+  padding: 11px 12px;
+  border-radius: 6px;
+  font: 400 15px/1.35 var(--dl-sans);
+  color: var(--dl-char);
+  transition: background .25s, color .25s;
+}
+.dlife #hd .drop a:hover { background: rgba(23, 74, 69, .08); color: var(--dl-teal); }
+/* The bar cannot hold five pillars plus two actions below this; the burger
+   overlay already carries the same routes. */
+@media (max-width: 1180px) {
+  .dlife #hd .nav { display: none; }
+}
+
 .dlife #hd .rt { display: flex; align-items: center; gap: 14px; }
 
 /* Primary action: copper fill, white text, one per section (brief §9). */
@@ -446,13 +520,17 @@ body:has(.dlife) {
   position: absolute;
   inset: 0;
   z-index: 2;
-  /* Bottom-weighted: cover where the headline sits, near-clear above. The
-     faint top stop keeps the fixed nav legible before it goes solid. */
+  /* Bottom-weighted, and deeper than it was through the middle band. The
+     copy and actions sit between roughly 20% and 50% up, which is exactly
+     where the old ramp had already fallen to .52 and then .10 — over a
+     bright frame that left ivory text sitting on near-white. The faint top
+     stop keeps the fixed nav legible before it goes solid. */
   background: linear-gradient(to top,
-    rgba(11, 33, 29, .88) 0%,
-    rgba(11, 33, 29, .52) 30%,
-    rgba(11, 33, 29, .10) 62%,
-    rgba(11, 33, 29, .28) 100%);
+    rgba(11, 33, 29, .94) 0%,
+    rgba(11, 33, 29, .86) 22%,
+    rgba(11, 33, 29, .64) 42%,
+    rgba(11, 33, 29, .22) 68%,
+    rgba(11, 33, 29, .34) 100%);
   pointer-events: none;
 }
 .dlife #hero .fg {
@@ -461,14 +539,14 @@ body:has(.dlife) {
   right: var(--dl-pad);
   bottom: 11vh;
   z-index: 3;
-  /* Soft halo behind the type — insurance where the photo runs bright. */
-  text-shadow: 0 1px 30px rgba(11, 33, 29, .45);
+  /* Halo behind the type — insurance where the photo still runs bright. */
+  text-shadow: 0 2px 26px rgba(11, 33, 29, .72);
 }
 /* Down from clamp(48px, 6.6vw, 104px). At ~95px on a laptop the headline was
    swallowing the supporting copy and the actions below it; the point of the
    line is the sentence, not the scale. */
 .dlife #hero h1 { font-size: clamp(40px, 5vw, 76px); line-height: 1.02; }
-.dlife #hero .lb { display: block; margin-bottom: 30px; }
+.dlife #hero .lb { display: inline-flex; margin-bottom: 26px; }
 .dlife #hero h1 .lw { display: block; overflow: hidden; }
 .dlife #hero h1 .lw span { display: inline-block; }
 
@@ -539,7 +617,7 @@ body:has(.dlife) {
   text-align: center;
   border-bottom: 1px solid var(--s-line-soft);
 }
-.dlife #path .lb { display: block; margin-bottom: 14px; }
+.dlife #path .lb { display: inline-flex; margin-bottom: 14px; }
 .dlife #path .q {
   display: flex;
   align-items: center;
@@ -615,7 +693,7 @@ body:has(.dlife) {
   gap: 40px;
   flex-wrap: wrap;
 }
-.dlife #needs .lb { display: block; }
+.dlife #needs .lb { display: inline-flex; }
 .dlife #needs h2 { font-size: clamp(34px, 3.6vw, 56px); max-width: 17ch; }
 .dlife #needs .head p { font: 400 clamp(20px, 1.7vw, 29px)/1.6 var(--dl-sans); color: var(--s-muted); max-width: 32ch; }
 
@@ -685,7 +763,7 @@ body:has(.dlife) {
 .dlife #policy .tx { padding: clamp(64px, 10vh, 120px) var(--dl-pad); }
 /* The heading must not outweigh the label that introduces it, so it comes
    down while the label goes up and gets room of its own. */
-.dlife #policy .lb { display: block; margin-bottom: 20px; font-size: 14px; }
+.dlife #policy .lb { display: inline-flex; margin-bottom: 20px; }
 .dlife #policy h2 { font-size: clamp(32px, 3vw, 46px); max-width: 15ch; }
 /* Up from clamp(19px, 1.45vw, 25px). This paragraph is the one that has to
    land with existing policyholders, so it stops being the smallest thing in
@@ -837,7 +915,7 @@ body:has(.dlife) {
    homepage strip, on the ivory ground. */
 .dlife #allstories { background: var(--s-bg); padding: clamp(90px, 14vh, 170px) var(--dl-pad) clamp(80px, 12vh, 150px); }
 .dlife #allstories .head { max-width: 60ch; margin-bottom: clamp(44px, 7vh, 80px); }
-.dlife #allstories .lb { display: block; margin-bottom: 18px; }
+.dlife #allstories .lb { display: inline-flex; margin-bottom: 18px; }
 .dlife #allstories h1 { font-size: clamp(34px, 3.6vw, 58px); }
 .dlife #allstories .head p {
   font: 400 clamp(19px, 1.6vw, 27px)/1.62 var(--dl-sans);
@@ -971,6 +1049,51 @@ body:has(.dlife) {
   color: var(--dl-copper-d);
   font-style: normal;
 }
+
+/* Stay in the Loop — email signup with a WhatsApp alternative. */
+.dlife #youth .loop {
+  margin-top: clamp(34px, 5vh, 62px);
+  background: var(--dl-ivory);
+  border: 1px solid rgba(47, 53, 50, .1);
+  border-radius: 10px;
+  padding: clamp(26px, 3.4vw, 44px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3vw, 52px);
+  align-items: start;
+}
+.dlife #youth .loop h3 { font-size: clamp(22px, 2vw, 30px); }
+.dlife #youth .loop .k {
+  display: block;
+  font: 700 12px/1 var(--dl-sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--s-label);
+  margin-bottom: 14px;
+}
+.dlife #youth .loop p { margin-top: 12px; font: 400 clamp(17px, 1.3vw, 20px)/1.65 var(--dl-sans); color: var(--s-muted); max-width: 42ch; }
+.dlife #youth .loop form { display: flex; gap: 10px; flex-wrap: wrap; }
+.dlife #youth .loop input {
+  flex: 1 1 210px;
+  padding: 16px 16px;
+  border: 1px solid rgba(47, 53, 50, .22);
+  border-radius: 4px;
+  background: #fff;
+  font: 400 16px/1.2 var(--dl-sans);
+  color: var(--dl-char);
+}
+.dlife #youth .loop input:focus-visible {
+  outline: none;
+  border-color: var(--dl-teal);
+  box-shadow: 0 0 0 3px rgba(23, 74, 69, .18);
+}
+.dlife #youth .loop .consent { margin-top: 14px; font: 400 13px/1.6 var(--dl-sans); color: var(--s-quiet); max-width: 46ch; }
+.dlife #youth .loop .consent em { font-style: normal; color: var(--s-label); }
+.dlife #youth .loop .tlink { margin-top: 20px; }
+/* Inline acknowledgement that replaces the form on submit — nothing is
+   stored, so it must not imply a subscription. */
+.dlife #youth .loop .said { margin-top: 0; font: 500 17px/1.6 var(--dl-sans); color: var(--dl-teal); }
+@media (max-width: 900px) { .dlife #youth .loop { grid-template-columns: 1fr; } }
 
 /* ---------- faq ---------- */
 .dlife #faq {
