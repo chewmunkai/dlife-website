@@ -54,6 +54,9 @@ const PHOTOS = {
   n4: { src: asset("/media/img/need-planning.jpg"), alt: "Planning at a laptop at the kitchen table" },
   n5: { src: asset("/media/img/need-legacy.jpg"), alt: "A banquet hall gathering beneath a chandelier" },
   policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
+  // Unreferenced since the closing CTA and DVA went to flat green. Kept as
+  // manifest entries, and the files stay in public/, so either is one line
+  // away from being restored.
   close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
   dva: { src: asset("/media/img/dva-team.jpg"), alt: "The D’Life advisory team" },
   y1: { src: asset("/media/img/youth-workshop.jpg"), alt: "Attendees seated at a D’Life workshop session" },
@@ -815,19 +818,24 @@ export default function DLife() {
       <section id="dva" className="dark">
         {/* Bounded panel, not a full-viewport band: the brief wants DVA
             "small, dark, contained" so it reads against Youth's openness. */}
+        {/* Reference slide 8: a contained teaser on flat deep green, centred
+            under a small emblem, closing on an outlined action — not a
+            dominant open-recruitment band, and no photograph behind it. The
+            name now leads at heading scale, with the proposition beneath it. */}
         <div className="panel rv">
-          <div className="bg ph">
-            <Plate photo={PHOTOS.dva} parallax />
-          </div>
           <div className="fg">
-            {/* The correction report settles the name the earlier note left
-                open, and calls "Association" wrong outright: it is Drive
+            <span className="seal" aria-hidden="true">
+              <Ico>
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="12" cy="12" r="3.4" />
+              </Ico>
+            </span>
+            <span className="lb">By invitation</span>
+            {/* The report calls "Association" wrong outright: it is Drive
                 Value Associates, in the section and in the footer. */}
-            <span className="lb">DVA — Drive Value Associates · By invitation</span>
-            <h2>
-              Built for leaders. A selective circle shaped by <i>shared values and experience.</i>
-            </h2>
-            <a className="pill" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
+            <h2>DVA — Drive Value Associates</h2>
+            <p>Built for leaders. A selective circle shaped by shared values and experience.</p>
+            <a className="pill ghost" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
               <span>Discover DVA</span>
             </a>
           </div>
@@ -937,12 +945,11 @@ export default function DLife() {
           scroll drift and excludes this plate from the generic `.ph img`
           settle pass, which would otherwise slam a full-bleed background from
           scale 1.16 to 1 on entry. */}
+      {/* Flat deep green and compact. The full-bleed photograph, its scrim
+          stack and the "D'Life" label are all gone: this is the page's last
+          action, and it only needs to ask once. */}
       <section id="close" className="dark">
-        <div className="bg ph">
-          <Plate photo={PHOTOS.close} parallax />
-        </div>
         <div className="fg">
-          <span className="lb rv">D’Life</span>
           <h2 className="rv">
             A clearer future can begin with <i>one conversation.</i>
           </h2>
