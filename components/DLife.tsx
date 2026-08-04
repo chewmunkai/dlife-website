@@ -1,7 +1,7 @@
 "use client";
 
 import "../styles/dlife.css";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import React, { useEffect, useRef, useState, type ReactNode } from "react";
 
 /* ============================================================
    D'Life — "Real Support. Beyond the Policy."
@@ -131,7 +131,7 @@ const FOOTER_NAV: Array<[string, Array<[string, string]>]> = [
       ["Our Founders", "#founder"],
       ["Advisor Stories", "#stories"],
       ["Careers at D’Life", "#careers"],
-      ["DVA — Drive Value Associates", "#dva"],
+      ["Drive Value Associates (DVA)", "#dva"],
       ["Youth Community", "#youth"],
     ],
   ],
@@ -214,7 +214,7 @@ const SOLUTIONS: Array<[string, string]> = [
 
 const COMMUNITY: Array<[string, string]> = [
   ["Youth Community", "#youth"],
-  ["DVA — Drive Value Associates", "#dva"],
+  ["Drive Value Associates (DVA)", "#dva"],
   ["About D’Life & Founders", "#founder"],
 ];
 
@@ -466,6 +466,8 @@ export default function DLife() {
   const [muted, setMuted] = useState(true);
   /** False until the section has been seen; nothing plays before that. */
   const [armed, setArmed] = useState(false);
+  /** Explicit pause, so the play control can hold against the autoplay effect. */
+  const [paused, setPaused] = useState(false);
   const stories = useRef<HTMLElement>(null);
   const player = useRef<HTMLVideoElement>(null);
 
@@ -496,12 +498,29 @@ export default function DLife() {
      stay put rather than the card sitting on a frozen first frame. */
   useEffect(() => {
     const v = player.current;
-    if (!v || !armed) return;
+    if (!v || !armed || paused) return;
     v.muted = muted;
     v.play().catch(() => setArmed(false));
-  }, [armed, active, muted]);
+  }, [armed, active, muted, paused]);
 
-  const rotate = (step: number) => setActive((i) => (i + step + VIDEOS.length) % VIDEOS.length);
+  /* Rotation clears an explicit pause: the next card entering the centre is
+     meant to start playing, per the report's rotation rules. */
+  const go = (i: number) => {
+    setActive((i + VIDEOS.length) % VIDEOS.length);
+    setPaused(false);
+  };
+  const rotate = (step: number) => go(active + step);
+  const togglePlay = () => {
+    const v = player.current;
+    if (!v) return setArmed(true);
+    if (v.paused) {
+      setPaused(false);
+      v.play().catch(() => undefined);
+    } else {
+      v.pause();
+      setPaused(true);
+    }
+  };
 
   useEffect(() => {
     const el = root.current;
@@ -541,7 +560,7 @@ export default function DLife() {
         {/* Both cuts ship; the ground decides which is visible. The link owns
             the accessible name so the pair stays decorative and "D’Life" is
             announced once, not twice. */}
-        <a className="wm" href="#hero" aria-label="D’Life — back to top">
+        <a className="wm" href="#hero" aria-label="D’Life, back to top">
           <Logo reversed alt="" />
           <Logo alt="" />
         </a>
@@ -811,7 +830,10 @@ export default function DLife() {
             const on = i === active;
             return (
               <div className={on ? "story on" : "story"} key={v.title}>
-                <div className="ph">
+                {/* The poster doubles as a blurred fill behind the player: the
+                    source is 9:16 and the card is wider, so `contain` would
+                    otherwise leave two dead black columns. */}
+                <div className="ph" style={{ ["--poster" as string]: `url(${v.poster})` } as React.CSSProperties}>
                   {on && armed ? (
                     <>
                       <video
@@ -822,14 +844,14 @@ export default function DLife() {
                         playsInline
                         preload="metadata"
                         controls={!muted}
-                        onEnded={() => rotate(1)}
+                        onEnded={() => go(active + 1)}
                       />
                       {/* The muted state is stated, not implied, and its
                           control is the loudest thing on the card. */}
                       {muted ? (
                         <button type="button" className="unmute" onClick={() => setMuted(false)}>
                           <span className="dot" aria-hidden="true" />
-                          Muted — tap to unmute
+                          Muted. Tap to unmute
                         </button>
                       ) : (
                         <button
@@ -861,13 +883,26 @@ export default function DLife() {
             );
           })}
         </div>
+        {/* Play/Pause, Previous and Next, plus dots as the carousel cue. */}
         <div className="reelctl rv">
           <button type="button" onClick={() => rotate(-1)} aria-label="Previous story">
             ←
           </button>
-          <span className="count">
-            {active + 1} / {VIDEOS.length}
-          </span>
+          <button type="button" className="pp" onClick={togglePlay} aria-label={paused ? "Play video" : "Pause video"}>
+            {paused || !armed ? "▶" : "❚❚"}
+          </button>
+          <div className="dots">
+            {VIDEOS.map((v, i) => (
+              <button
+                type="button"
+                key={v.title}
+                className={i === active ? "on" : undefined}
+                onClick={() => go(i)}
+                aria-label={`Show story ${i + 1} of ${VIDEOS.length}`}
+                aria-current={i === active}
+              />
+            ))}
+          </div>
           <button type="button" onClick={() => rotate(1)} aria-label="Next story">
             →
           </button>
@@ -884,6 +919,12 @@ export default function DLife() {
           <h2 className="rv">
             A career built on <i>real guidance,</i> not just sales.
           </h2>
+          {/* The advisor quote the brief keeps alongside the four pillars, and
+              which the reference shows sitting under the heading. */}
+          <blockquote className="qt rv">
+            <p>“D’Life gave me the mentorship I couldn’t find anywhere else.”</p>
+            <span>D’Life Advisor</span>
+          </blockquote>
           <a className="pill rv" data-wa="Hi D'Life, I'd like to explore a career conversation." href="#">
             <span>Explore a career conversation</span>
           </a>
@@ -917,8 +958,8 @@ export default function DLife() {
             <span className="lb">By invitation</span>
             {/* The report calls "Association" wrong outright: it is Drive
                 Value Associates, in the section and in the footer. */}
-            <h2>DVA — Drive Value Associates</h2>
-            <p>Built for leaders — a selective circle shaped by shared values and experience.</p>
+            <h2>Drive Value Associates (DVA)</h2>
+            <p>Built for leaders, a selective circle shaped by shared values and experience.</p>
             <a className="pill sand" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
               <span>Discover DVA</span>
             </a>
@@ -965,7 +1006,7 @@ export default function DLife() {
         <div className="loop rv">
           <div>
             <h3>Stay in the Loop</h3>
-            <p>Event invites and Youth Community updates, by email or on WhatsApp — whichever you actually read.</p>
+            <p>Event invites and Youth Community updates, by email or on WhatsApp, whichever you actually read.</p>
           </div>
           <div>
             <span className="k">By email</span>
@@ -1152,7 +1193,7 @@ export default function DLife() {
         <div className="fine">
           <p className="note">
             D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read
-            here is general information, not personal advice — it does not take your circumstances into account. A
+            here is general information, not personal advice. It does not take your circumstances into account. A
             recommendation only follows a conversation, a needs assessment and the relevant product disclosure
             documents.
           </p>
