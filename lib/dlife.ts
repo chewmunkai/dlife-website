@@ -16,15 +16,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 // Carried over from the prototype ("replace WA_NUMBER at launch").
 const WA_NUMBER = "60123456789";
 
-// Captions swapped into the pathway plate, indexed by option order.
-const PATH_CAPS = [
-  "Coverage built around the people who depend on you.",
-  "Understand the protection you already have.",
-  "Retirement and legacy planning, with confidence.",
-  "A career built on real guidance.",
-  "Empowering youth. Building tomorrow.",
-];
-
 export function initDLife(root: HTMLElement): () => void {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = matchMedia("(pointer:fine)").matches;
@@ -58,46 +49,9 @@ export function initDLife(root: HTMLElement): () => void {
       (el as HTMLElement).style.transform = "none";
     });
 
-  /* ---------- pathway image swap ----------
-     Hover was the only way to advance this, which meant four of the five
-     commissioned photographs and four of the five captions were unreachable
-     on any touch device — a content bug wearing an interaction costume. The
-     selection is now driven by scroll as well, with hover taking over
-     whenever a fine pointer is actually inside the list. */
-  const ims = $$("#path .vis .im");
-  const cap = $("#pathcap");
-  const opts = $$<HTMLAnchorElement>("#path a.opt");
-
-  let pathLock = false; // true while a fine pointer is driving the selection
-  let pathAt = -1;
-  const setPath = (idx: number) => {
-    if (idx === pathAt || !opts[idx]) return;
-    pathAt = idx;
-    const i = Number(opts[idx].dataset.im ?? idx);
-    ims.forEach((im, k) => im.classList.toggle("on", k === i));
-    opts.forEach((o, k) => o.classList.toggle("on", k === idx));
-    if (cap) cap.textContent = PATH_CAPS[i];
-  };
-
-  opts.forEach((opt, idx) => {
-    on(opt, "mouseenter", () => setPath(idx));
-    // Keyboard users get the same affordance the mouse gets.
-    on(opt, "focus", () => setPath(idx));
-  });
-
-  /* The lock is taken and released on the LIST, not per option: setting it
-     from an option's enter but clearing it from the list's leave can latch
-     permanently if the page scrolls an option out from under a stationary
-     pointer. Symmetric enter/leave on one element cannot. */
-  const pathList = $("#path .list");
-  if (pathList && fine) {
-    on(pathList, "pointerenter", () => {
-      pathLock = true;
-    });
-    on(pathList, "pointerleave", () => {
-      pathLock = false;
-    });
-  }
+  /* The pathway image-swap engine that lived here is gone with the panel it
+     drove. The selector is now a plain strip of links — no hover-selected
+     plate, no caption to swap, nothing for JS to do. */
 
   const ctx = gsap.context(() => {
     /* ---------- loader + hero entrance ---------- */
@@ -174,51 +128,6 @@ export function initDLife(root: HTMLElement): () => void {
 
 
 
-      /* ---------- pathway: let scroll read the list ----------
-         Maps the list's own scroll progress onto fifths so every pathway
-         image and caption is reachable without a pointer. Non-scrubbing, and
-         hover wins whenever a fine pointer is inside the list. */
-      const pList = $("#path .list");
-      if (pList && opts.length) {
-        ScrollTrigger.create({
-          trigger: pList,
-          start: "top 70%",
-          end: "bottom 55%",
-          onUpdate: (self) => {
-            if (pathLock) return;
-            const i = Math.min(opts.length - 1, Math.floor(self.progress * opts.length));
-            setPath(i);
-          },
-        });
-      }
-
-      /* ---------- manifesto scrub ---------- */
-      const man = $("#man .man");
-      if (man) {
-        const walk = (node: Node) => {
-          Array.from(node.childNodes).forEach((ch) => {
-            if (ch.nodeType === Node.TEXT_NODE) {
-              const frag = document.createDocumentFragment();
-              (ch.textContent || "").split(/(\s+)/).forEach((tok) => {
-                if (/^\s*$/.test(tok)) return void frag.appendChild(document.createTextNode(tok));
-                const w = document.createElement("span");
-                w.className = "w";
-                w.textContent = tok;
-                frag.appendChild(w);
-              });
-              node.replaceChild(frag, ch);
-            } else if (ch.nodeType === Node.ELEMENT_NODE) walk(ch);
-          });
-        };
-        walk(man);
-        gsap.to(man.querySelectorAll(".w"), {
-          opacity: 1,
-          stagger: 0.06,
-          ease: "none",
-          scrollTrigger: { trigger: man, start: "top 75%", end: "bottom 40%", scrub: true },
-        });
-      }
-
       /* ---------- parallax on photo plates ---------- */
       $$(".ph .prlx").forEach((p) => {
         gsap.fromTo(
@@ -232,24 +141,9 @@ export function initDLife(root: HTMLElement): () => void {
         );
       });
 
-      /* ---------- needs: horizontal drag of the rail ---------- */
-      const track = $("#ntrack");
-      const rail = track?.parentElement;
-      if (track && rail && innerWidth > 1080) {
-        const dist = () => track.scrollWidth - rail.clientWidth + parseFloat(getComputedStyle(track).paddingLeft);
-        gsap.to(track, {
-          x: () => -Math.max(0, dist()),
-          ease: "none",
-          scrollTrigger: {
-            trigger: "#needs",
-            start: "top top",
-            end: () => `+=${Math.max(600, dist())}`,
-            scrub: 1,
-            pin: true,
-            invalidateOnRefresh: true,
-          },
-        });
-      }
+      /* The life-needs rail used to pin #needs and drag a horizontal track
+         through it. That was the scroll-jacking the correction report rules
+         out; the section is an ordinary grid now and scrolls with the page. */
 
       /* ---------- hero: drift out under the fold ----------
          The copy lifts and fades while the portrait creeps forward, so leaving
@@ -319,22 +213,6 @@ export function initDLife(root: HTMLElement): () => void {
         });
       });
 
-      /* ---------- manifesto pillars: stagger as a group ----------
-         They sit side by side, so per-element .rv triggers would all fire on
-         the same scroll line and land as one block. */
-      gsap.fromTo(
-        "#man .pillar",
-        { y: 34, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: { trigger: "#man .pillars", start: "top 86%" },
-        },
-      );
-
       /* ---------- founder diptych: differential drift ----------
          The two portraits travel at different rates, which is what stops a
          paired crop reading as one flat image. */
@@ -379,9 +257,9 @@ export function initDLife(root: HTMLElement): () => void {
       );
 
       /* ---------- read-progress rail ----------
-         Measured against the document rather than a trigger element: #needs
-         pins, which injects spacer height, so an element-relative range
-         resolves before that spacing exists and the bar never advances. */
+         Measured against the document rather than a trigger element. Nothing
+         pins any more, but document-relative is still the right frame: it
+         cannot go stale when a section's height changes. */
       gsap.to("#prog i", {
         scaleX: 1,
         ease: "none",
