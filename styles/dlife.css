@@ -17,13 +17,16 @@
    can't leak back out. The component tree carries the class on its root.
    ============================================================ */
 
-/* Newsreader (display serif + italics), Bricolage Grotesque (wordmark,
-   headings, labels, buttons), Work Sans (body/UI), Noto Serif SC (CN).
-   Same request as the design system's tokens/fonts.css.
-   NOTE: brief §9 specifies Lora for headlines and the wordmark. The design
-   system moved to Newsreader + Bricolage Grotesque and this follows the
-   design system; the two documents disagree and need reconciling. */
-@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..600;1,6..72,200..600&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Work+Sans:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500&display=swap");
+/* Two families, and only two — the correction brief forbids a third.
+   Lora: headings and section titles at Semibold 600, supporting editorial
+   emphasis at Medium 500. Work Sans: body, navigation, labels, buttons,
+   cards, FAQ and footer, at Regular/Medium. Target balance ≈ 60/40 in
+   Work Sans's favour.
+   This also settles the conflict the previous build flagged and left open:
+   brief §9 asked for Lora, the design system had moved to Newsreader +
+   Bricolage Grotesque. The correction brief resolves it for Lora, so the
+   grotesque goes. Noto Serif SC goes with it — no CJK copy ships here. */
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400..600&family=Work+Sans:wght@300;400;500;600&display=swap");
 
 /* Brand palette, verbatim from brief §9. Every name is `--dl-` prefixed so
    nothing can collide with a host app's tokens. */
@@ -39,9 +42,8 @@
   --dl-sand: #D0BFA9;      /* warm section backgrounds */
   --dl-cream: #EFE8DA;     /* soft neutral surfaces */
   --dl-ivory: #F6F1E8;     /* default page background */
-  --dl-disp: "Newsreader", serif;
-  --dl-grot: "Bricolage Grotesque", sans-serif;
-  --dl-sans: "Work Sans", sans-serif;
+  --dl-disp: "Lora", Georgia, serif;              /* headings 600, editorial 500 */
+  --dl-sans: "Work Sans", system-ui, sans-serif;  /* body, nav, labels, UI */
   --dl-pad: clamp(24px, 5vw, 84px);
 }
 
@@ -132,31 +134,35 @@ body:has(.dlife) {
 }
 
 .dlife .lb {
-  font: 600 11px/1 var(--dl-grot);
+  font: 600 11px/1 var(--dl-sans);
   letter-spacing: .32em;
   text-transform: uppercase;
   color: var(--s-label);
 }
+/* One family, one weight, one style per heading. Lora's letterforms carry
+   their own contrast, so the grotesque's tight tracking and uppercase both
+   come off — set at display size they turned the serif into a slab. */
 .dlife h1,
 .dlife h2,
 .dlife h3 {
-  font-family: var(--dl-grot);
-  font-weight: 700;
-  letter-spacing: -.035em;
+  font-family: var(--dl-disp);
+  font-weight: 600;
+  letter-spacing: -.012em;
+  line-height: 1.14;
   color: var(--s-heading);
+  text-wrap: pretty;
 }
-.dlife h1,
-.dlife h2 { text-transform: uppercase; }
+/* The italic-span emphasis pattern the correction brief singles out as the
+   client's biggest complaint — `Real Support. <em>Beyond the Policy.</em>`.
+   The markup keeps its <i> where it carries a line break or a grouping, so
+   this neutralises the styling rather than relying on every call site being
+   cleaned: emphasis now comes from size, spacing and grouping only. */
 .dlife h1 i,
 .dlife h2 i,
 .dlife h3 i {
-  font-family: var(--dl-disp);
-  font-style: italic;
-  font-weight: 300;
-  font-size: .82em;
-  letter-spacing: -.01em;
-  text-transform: none;
-  color: var(--s-accent);
+  font: inherit;
+  font-style: normal;
+  color: inherit;
 }
 
 /* ---------- photo treatment ----------
@@ -190,7 +196,7 @@ body:has(.dlife) {
   text-align: center;
   background: var(--dl-cream);
   box-shadow: inset 0 0 0 1px var(--s-line);
-  font: 300 italic 15px/1.5 var(--dl-disp);
+  font: 500 15px/1.5 var(--dl-disp);
   color: var(--dl-copper-d);
 }
 
@@ -239,16 +245,15 @@ body:has(.dlife) {
   place-items: center;
 }
 .dlife #loader .in { overflow: hidden; }
+/* The lockup carries the wordmark itself, so the slot is sized, not typeset.
+   Height drives it and width follows the artwork's 5.04:1 ratio. */
 .dlife #loader .wm {
-  font: 700 clamp(40px, 6vw, 84px)/1.1 var(--dl-grot);
-  letter-spacing: -.03em;
-  color: var(--dl-ivory);
   display: flex;
   align-items: center;
-  gap: 18px;
 }
+.dlife #loader .lmark { height: clamp(38px, 5.5vw, 76px); }
 .dlife #loader .sub {
-  font: 300 italic 17px/1 var(--dl-disp);
+  font: 500 17px/1 var(--dl-disp);
   color: var(--dl-sand);
   text-align: center;
   margin-top: 14px;
@@ -281,12 +286,19 @@ body:has(.dlife) {
 .dlife #hd .wm {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font: 700 21px/1 var(--dl-grot);
-  letter-spacing: -.02em;
-  color: currentColor;
 }
-.dlife .lmark { display: block; flex: none; }
+.dlife .lmark { display: block; flex: none; width: auto; }
+.dlife #hd .lmark { height: 26px; }
+/* The bar opens transparent over the hero photograph, so the ivory cut is the
+   resting state; .solid brings the ivory bar and the teal cut with it. A flat
+   PNG can't follow currentColor the way the drawn clover did, so both ship and
+   the ground picks. menu-open is last because it overrides .solid — the bar
+   goes dark again behind the open overlay. */
+.dlife #hd .lmark:not(.rev) { display: none; }
+.dlife #hd.solid .lmark.rev { display: none; }
+.dlife #hd.solid .lmark:not(.rev) { display: block; }
+.dlife.menu-open #hd .lmark.rev { display: block; }
+.dlife.menu-open #hd .lmark:not(.rev) { display: none; }
 .dlife #hd .rt { display: flex; align-items: center; gap: 14px; }
 
 /* Primary action: copper fill, white text, one per section (brief §9). */
@@ -296,7 +308,7 @@ body:has(.dlife) {
   gap: 10px;
   background: var(--dl-copper);
   color: #fff;
-  font: 600 12px/1 var(--dl-grot);
+  font: 600 12px/1 var(--dl-sans);
   letter-spacing: .14em;
   text-transform: uppercase;
   padding: 15px 26px;
@@ -333,7 +345,7 @@ body:has(.dlife) {
   border: none;
   color: currentColor;
   cursor: pointer;
-  font: 600 12px/1 var(--dl-grot);
+  font: 600 12px/1 var(--dl-sans);
   letter-spacing: .2em;
   text-transform: uppercase;
   padding: 13px 4px;
@@ -373,7 +385,7 @@ body:has(.dlife) {
 }
 .dlife #menu .big a {
   display: block;
-  font: 600 clamp(32px, 4vw, 54px)/1.2 var(--dl-grot);
+  font: 600 clamp(32px, 4vw, 54px)/1.2 var(--dl-sans);
   letter-spacing: -.03em;
   text-transform: uppercase;
   color: rgba(246, 241, 232, .85);
@@ -383,7 +395,7 @@ body:has(.dlife) {
   max-width: 100%;
 }
 .dlife #menu .big a i {
-  font-style: italic;
+  font-style: normal;
   color: var(--dl-sand);
   font-size: .5em;
   vertical-align: super;
@@ -469,12 +481,12 @@ body:has(.dlife) {
 .dlife #trust .c { padding-top: 22px; border-top: 1px solid var(--s-rule); }
 .dlife #trust b {
   display: block;
-  font: 700 clamp(38px, 4vw, 62px)/.9 var(--dl-grot);
+  font: 600 clamp(38px, 4vw, 62px)/.9 var(--dl-disp);
   letter-spacing: -.045em;
   color: var(--s-strong);
 }
 .dlife #trust b em {
-  font: 300 italic .38em/1 var(--dl-disp);
+  font: 500 .38em/1 var(--dl-disp);
   letter-spacing: 0;
   color: var(--s-accent);
   margin-left: 8px;
@@ -482,7 +494,7 @@ body:has(.dlife) {
 .dlife #trust u {
   display: block;
   text-decoration: none;
-  font: 600 11px/1 var(--dl-grot);
+  font: 600 11px/1 var(--dl-sans);
   letter-spacing: .26em;
   text-transform: uppercase;
   color: var(--s-label);
@@ -499,20 +511,18 @@ body:has(.dlife) {
 .dlife #man { background: var(--s-bg); padding: clamp(96px, 18vh, 220px) var(--dl-pad); }
 .dlife #man .lb { display: block; margin-bottom: 40px; }
 .dlife #man .man {
-  font: 700 clamp(30px, 3.5vw, 56px)/1.14 var(--dl-grot);
+  font: 600 clamp(30px, 3.5vw, 56px)/1.14 var(--dl-disp);
   text-transform: uppercase;
   letter-spacing: -.03em;
   color: var(--s-heading);
   max-width: 22ch;
 }
+/* Same neutralisation as the global headings: the manifesto statement is one
+   family, one weight, one style. */
 .dlife #man .man i {
-  font-family: var(--dl-disp);
-  font-style: italic;
-  font-weight: 300;
-  font-size: .82em;
-  letter-spacing: -.01em;
-  text-transform: none;
-  color: var(--s-accent);
+  font: inherit;
+  font-style: normal;
+  color: inherit;
 }
 .dlife #man .man .w { opacity: .16; }
 
@@ -527,7 +537,7 @@ body:has(.dlife) {
   border-top: 1px solid var(--s-line);
 }
 .dlife #man .pillar i {
-  font: 600 11px/1 var(--dl-grot);
+  font: 600 11px/1 var(--dl-sans);
   letter-spacing: .26em;
   color: var(--s-label);
   font-style: normal;
@@ -535,7 +545,7 @@ body:has(.dlife) {
 .dlife #man .pillar b {
   display: block;
   margin-top: 18px;
-  font: 700 clamp(22px, 1.9vw, 30px)/1.1 var(--dl-grot);
+  font: 600 clamp(22px, 1.9vw, 30px)/1.1 var(--dl-disp);
   letter-spacing: -.03em;
   text-transform: uppercase;
   color: var(--s-heading);
@@ -557,7 +567,7 @@ body:has(.dlife) {
 }
 .dlife #path .lb { margin-bottom: 18px; }
 .dlife #path .q {
-  font: 600 clamp(26px, 2.2vw, 34px)/1.15 var(--dl-grot);
+  font: 600 clamp(26px, 2.2vw, 34px)/1.15 var(--dl-disp);
   letter-spacing: -.025em;
   color: var(--s-heading);
   margin-bottom: 40px;
@@ -569,13 +579,13 @@ body:has(.dlife) {
   gap: 24px;
   padding: 26px 0;
   border-top: 1px solid var(--s-line);
-  font: 500 clamp(23px, 2.1vw, 32px)/1.15 var(--dl-grot);
+  font: 500 clamp(23px, 2.1vw, 32px)/1.15 var(--dl-sans);
   letter-spacing: -.02em;
   color: var(--s-quiet);
   transition: color .35s, padding-left .45s cubic-bezier(.22, .7, .24, 1);
 }
 .dlife #path a.opt:last-of-type { border-bottom: 1px solid var(--s-line); }
-.dlife #path a.opt .no { font: 600 10px/1 var(--dl-grot); letter-spacing: .25em; color: var(--dl-copper-d); }
+.dlife #path a.opt .no { font: 600 10px/1 var(--dl-sans); letter-spacing: .25em; color: var(--dl-copper-d); }
 .dlife #path a.opt:hover,
 .dlife #path a.opt.on { color: var(--s-strong); padding-left: 18px; }
 .dlife #path .vis { position: relative; }
@@ -601,7 +611,7 @@ body:has(.dlife) {
   z-index: 4;
   left: 34px;
   bottom: 30px;
-  font: 300 italic 17px/1.5 var(--dl-disp);
+  font: 500 17px/1.5 var(--dl-disp);
   color: rgba(246, 241, 232, .92);
 }
 
@@ -680,7 +690,7 @@ body:has(.dlife) {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font: 600 12px/1 var(--dl-grot);
+  font: 600 12px/1 var(--dl-sans);
   letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--s-accent);
@@ -809,11 +819,11 @@ body:has(.dlife) {
 }
 .dlife #careers h2 { font-size: clamp(32px, 3.4vw, 52px); line-height: 1; max-width: 13ch; margin-top: 26px; }
 .dlife #careers .qt { margin-top: 38px; border-left: 1px solid var(--s-rule); padding-left: 24px; }
-.dlife #careers .qt p { font: 300 italic clamp(20px, 1.8vw, 24px)/1.5 var(--dl-disp); color: var(--s-strong); }
+.dlife #careers .qt p { font: 500 clamp(20px, 1.8vw, 24px)/1.5 var(--dl-disp); color: var(--s-strong); }
 .dlife #careers .qt span {
   display: block;
   margin-top: 14px;
-  font: 600 10px/1 var(--dl-grot);
+  font: 600 10px/1 var(--dl-sans);
   letter-spacing: .25em;
   text-transform: uppercase;
   color: var(--s-quiet);
@@ -830,10 +840,10 @@ body:has(.dlife) {
 }
 .dlife #careers .rows a:last-child { border-bottom: 1px solid var(--s-line); }
 .dlife #careers .rows a:hover { padding-left: 14px; }
-.dlife #careers .rows i { font: 600 10px/1 var(--dl-grot); letter-spacing: .22em; color: var(--dl-copper-d); font-style: normal; }
-.dlife #careers .rows b { font: 600 clamp(22px, 2vw, 30px)/1.15 var(--dl-grot); letter-spacing: -.025em; color: var(--s-heading); }
+.dlife #careers .rows i { font: 600 10px/1 var(--dl-sans); letter-spacing: .22em; color: var(--dl-copper-d); font-style: normal; }
+.dlife #careers .rows b { font: 600 clamp(22px, 2vw, 30px)/1.15 var(--dl-disp); letter-spacing: -.025em; color: var(--s-heading); }
 .dlife #careers .rows p { font: 400 clamp(16px, 1.15vw, 19px)/1.7 var(--dl-sans); color: var(--s-muted); margin-top: 6px; max-width: 44ch; }
-.dlife #careers .rows em { font: 300 italic 15px/1 var(--dl-disp); color: var(--s-quiet); }
+.dlife #careers .rows em { font: 500 15px/1 var(--dl-disp); color: var(--s-quiet); }
 
 /* ---------- DVA (deep green, contained) ----------
    Brief §4: "Small, dark, contained" — and §17 leans on the contrast with
@@ -877,7 +887,7 @@ body:has(.dlife) {
 }
 .dlife #youth h2 { font-size: clamp(38px, 4.2vw, 64px); line-height: .98; }
 .dlife #youth .sup {
-  font: 300 italic clamp(20px, 1.8vw, 26px)/1.4 var(--dl-disp);
+  font: 500 clamp(20px, 1.8vw, 26px)/1.4 var(--dl-disp);
   color: var(--dl-copper-d);
   margin-top: 14px;
 }
@@ -914,7 +924,7 @@ body:has(.dlife) {
 .dlife #youth .yc em {
   display: inline-block;
   margin-top: 18px;
-  font: 600 10px/1 var(--dl-grot);
+  font: 600 10px/1 var(--dl-sans);
   letter-spacing: .24em;
   text-transform: uppercase;
   color: var(--dl-copper-d);
@@ -943,7 +953,7 @@ body:has(.dlife) {
   color: var(--s-heading);
   cursor: pointer;
   text-align: left;
-  font: 500 clamp(19px, 1.6vw, 24px)/1.4 var(--dl-grot);
+  font: 500 clamp(19px, 1.6vw, 24px)/1.4 var(--dl-sans);
   letter-spacing: -.01em;
   padding: 30px 0;
 }
@@ -1049,7 +1059,7 @@ body:has(.dlife) {
   background: rgba(168, 135, 82, .55);
 }
 .dlife #close h2 { font-size: clamp(38px, 4.6vw, 76px); line-height: .98; max-width: 19ch; margin: 34px auto 0; }
-.dlife #close .sub { font: 300 italic clamp(22px, 2vw, 30px)/1.4 var(--dl-disp); color: var(--s-accent); margin-top: 24px; }
+.dlife #close .sub { font: 500 clamp(22px, 2vw, 30px)/1.4 var(--dl-disp); color: var(--s-accent); margin-top: 24px; }
 .dlife #close .acts { display: flex; gap: 14px; justify-content: center; margin-top: 52px; flex-wrap: wrap; }
 /* Phone: the headline wraps to three or four lines and the pills stack, so
    the type block is proportionally much taller. Carry the plateau further
@@ -1112,19 +1122,16 @@ body:has(.dlife) {
 .dlife #ft .wm {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  font: 700 clamp(28px, 3vw, 40px)/1 var(--dl-grot);
-  letter-spacing: -.025em;
-  color: var(--s-strong);          /* 11.1:1 — the clover follows in currentColor */
 }
+.dlife #ft .lmark { height: clamp(26px, 2.6vw, 34px); }
 .dlife #ft .tag {
-  font: 300 italic clamp(18px, 1.5vw, 22px)/1.5 var(--dl-disp);
+  font: 500 clamp(18px, 1.5vw, 22px)/1.5 var(--dl-disp);
   color: var(--s-accent);          /* sand, 6.99:1 */
   margin-top: 14px;
 }
 /* Blockified as a flex item, so text-align applies. */
 .dlife #ft .est {
-  font: 600 11px/1.7 var(--dl-grot);
+  font: 600 11px/1.7 var(--dl-sans);
   letter-spacing: .28em;
   text-transform: uppercase;
   color: var(--s-label);           /* 6.99:1 */
@@ -1139,9 +1146,8 @@ body:has(.dlife) {
   padding: clamp(52px, 7vh, 92px) 0 clamp(56px, 8vh, 104px);
 }
 
-/* The signature dual-font move, used once. font-family, weight, uppercase and
-   the italic-Newsreader <i> all come from the global h2 rules — only size,
-   measure and rhythm are set here. */
+/* Family, weight and style all come from the global h2 rules — one Lora 600,
+   no font swap inside the sentence. Only size, measure and rhythm here. */
 .dlife #ft .lede {
   font-size: clamp(24px, 2.3vw, 36px);
   line-height: 1.08;
@@ -1153,7 +1159,7 @@ body:has(.dlife) {
    headings (<h3>, overridden here) and the compliance label. */
 .dlife #ft .k {
   display: block;
-  font: 600 10px/1 var(--dl-grot);
+  font: 600 10px/1 var(--dl-sans);
   letter-spacing: .3em;
   text-transform: uppercase;
   color: var(--s-label);
@@ -1171,14 +1177,14 @@ body:has(.dlife) {
   align-items: baseline;
   justify-content: space-between;
   gap: 20px;
-  font: 500 clamp(20px, 1.8vw, 27px)/1.2 var(--dl-grot);
+  font: 500 clamp(20px, 1.8vw, 27px)/1.2 var(--dl-sans);
   letter-spacing: -.02em;
   color: var(--s-strong);
   padding: 10px 0;                 /* 24px type at the clamp floor + 20px = 44px */
   transition: padding-left .45s cubic-bezier(.22, .7, .24, 1);
 }
 .dlife #ft .go em {
-  font: 300 italic 15px/1 var(--dl-disp);
+  font: 400 15px/1 var(--dl-sans);
   color: var(--s-quiet);           /* 4.89:1 — never opacity, which would fail */
   transition: color .35s;
 }
@@ -1257,11 +1263,11 @@ body:has(.dlife) {
 }
 .dlife #ft .fine .k { margin-bottom: 10px; }
 /* Marked placeholder, styled like .slot-empty marks the unbuilt portraits:
-   italic display serif in the accent, obviously provisional. */
+   Lora Medium in the accent, obviously provisional. */
 .dlife #ft .pend {
   padding: 14px 16px;
   box-shadow: inset 0 0 0 1px var(--s-line);
-  font: 300 italic 14px/1.6 var(--dl-disp);
+  font: 500 14px/1.6 var(--dl-disp);
   color: var(--s-accent);
 }
 
@@ -1285,7 +1291,7 @@ body:has(.dlife) {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font: 600 10px/1 var(--dl-grot);
+  font: 600 10px/1 var(--dl-sans);
   letter-spacing: .24em;
   text-transform: uppercase;
   color: var(--s-label);           /* 6.99:1 */
