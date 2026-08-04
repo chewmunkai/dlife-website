@@ -1,7 +1,7 @@
 "use client";
 
 import "../styles/dlife.css";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /* ============================================================
    D'Life — "Real Support. Beyond the Policy."
@@ -128,7 +128,7 @@ const FOOTER_NAV: Array<[string, Array<[string, string]>]> = [
       ["Our Founders", "#founder"],
       ["Advisor Stories", "#stories"],
       ["Careers at D’Life", "#careers"],
-      ["DVA — By Invitation", "#dva"],
+      ["DVA — Drive Value Associates", "#dva"],
       ["Youth Community", "#youth"],
     ],
   ],
@@ -159,11 +159,93 @@ const Logo = ({ reversed = false, alt = "D’Life" }: { reversed?: boolean; alt?
   />
 );
 
+/** Geometric outline icons, per the brief's icon direction. */
+const Ico = ({ children }: { children: ReactNode }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    {children}
+  </svg>
+);
+
+/**
+ * The compact path selector's five routes, in the brief's first-person voice.
+ *
+ * Targets are in-page anchors rather than the /solutions/… routes the link map
+ * eventually calls for: this export ships a single page, so those URLs would
+ * 404 today. They become real hrefs when the inner pages land.
+ */
+const PATHS: Array<[ReactNode, string, string]> = [
+  [
+    <path
+      key="p"
+      d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+    />,
+    "Protect my family",
+    "#needs",
+  ],
+  [
+    <>
+      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" />
+      <path d="M14 2v4a2 2 0 0 0 2 2h4M9 13h6M9 17h4" />
+    </>,
+    "Review my coverage",
+    "#policy",
+  ],
+  [
+    <>
+      <path d="M16 7h6v6" />
+      <path d="m22 7-8.5 8.5-5-5L2 17" />
+    </>,
+    "Plan for the future",
+    "#needs",
+  ],
+  [
+    <>
+      <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      <rect x="2" y="6" width="20" height="14" rx="2" />
+    </>,
+    "Explore a career",
+    "#careers",
+  ],
+  [
+    <>
+      <path d="M18 21a8 8 0 0 0-16 0" />
+      <circle cx="10" cy="8" r="5" />
+      <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+    </>,
+    "Join a community",
+    "#youth",
+  ],
+];
+
+/**
+ * The five life needs, in the second person the correction report asks for —
+ * "Protecting Your Family", not "Protecting Family". They render as a mosaic
+ * of photographic cards: the reference gives this section more imagery and
+ * emotional weight than the pathway strip above, and explicitly says not to
+ * repeat the pathway's labels or scale.
+ *
+ * Cards are not links yet. Each is meant to open its own Solutions page, but
+ * this export ships a single page, so they stay plain cards until those routes
+ * exist rather than shipping five dead links.
+ */
 const NEEDS: Array<[Photo, string, string]> = [
-  [PHOTOS.n1, "Protecting Family", "Coverage built around the people who depend on you."],
-  [PHOTOS.n2, "Protecting Income", "Keep life steady even when the unexpected happens."],
+  // People round a table, not the empty garden terrace that was here — this
+  // card leads the section at double width and has to read as people.
+  [PHOTOS.p5, "Protecting Your Family", "Coverage built around the people who depend on you."],
+  [PHOTOS.n2, "Protecting Your Income", "Keep life steady even when the unexpected happens."],
+  // NOTE(shoot): nothing in the library is medical or care-related; this is
+  // the nearest frame there is. One for the commissioned shoot.
   [PHOTOS.n3, "Medical & Health Preparation", "Practical support for health and recovery costs."],
-  [PHOTOS.n4, "Planning for the Future", "Retirement and legacy planning, with confidence."],
+  // Open sky and a forward look, rather than the back of a head at a desk.
+  [PHOTOS.p4, "Planning for Your Future", "Retirement and legacy planning, with confidence."],
   [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built."],
 ];
 
@@ -173,7 +255,7 @@ const NEEDS: Array<[Photo, string, string]> = [
  * dialog. Sources are vertical 9:16 with burned-in bilingual subtitles; the
  * poster is a 4:5 crop that matches the card and keeps the speaker's face.
  */
-type Video = {
+export type Video = {
   src: string;
   poster: string;
   /** Poster is decorative — the card's own heading names the story. */
@@ -181,7 +263,7 @@ type Video = {
   runtime: string;
 };
 
-const VIDEOS: Video[] = [
+export const VIDEOS: Video[] = [
   {
     src: asset("/media/video/advisor-alex.mp4"),
     poster: asset("/media/poster/advisor-alex.jpg"),
@@ -210,11 +292,73 @@ const YOUTH: Array<[Photo, string, string, string]> = [
 ];
 
 /** Trust strip: [figure, italic unit, label, copy] */
-const TRUST: Array<[string, string | null, string, string]> = [
-  ["27", "years", "Experience", "Of guidance across changing markets and life stages."],
-  ["People", "first", "Approach", "Advisory before products, every conversation."],
-  ["Clarity", null, "Promise", "Protection you can explain to your own family."],
-  ["Support", null, "After the sign", "A human to call when it matters most."],
+/**
+ * The six approved trust themes, transcribed from the correction report's
+ * structure-corrections slide, which prints them as the approved content
+ * basis. The four-item band this replaces was the prototype's own invention.
+ *
+ * Nothing here may be paraphrased or shortened. Every figure, award wording
+ * and permission is pending D'Life verification before publication, and the
+ * claims amount stays the blank the report itself prints.
+ * [icon, figure, label, copy]
+ */
+const TRUST: Array<[ReactNode, string, string, string]> = [
+  [
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
+    </>,
+    // Is "27 years" Sharon personally, or D'Life as an organisation?
+    "27 Years",
+    "Experience",
+    "Guiding families through changing markets, life stages and financial decisions with trusted advice for over 27 years.",
+  ],
+  [
+    <>
+      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+      <path d="m9 12 2 2 4-4" />
+    </>,
+    "AIA",
+    "Trusted Principal",
+    "Proudly partnering with AIA, one of Asia’s leading insurers, while receiving recognition for professional excellence and client service.",
+  ],
+  [
+    <>
+      <circle cx="12" cy="8" r="6" />
+      <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+    </>,
+    "Million Dollar Agency",
+    "MDRT Builder",
+    "Consistently achieving Million Dollar Agency recognition since 2002 and appointed as an MDRT Builder, developing high-performing financial professionals to international standards.",
+  ],
+  [
+    <>
+      <path d="M18 21a8 8 0 0 0-16 0" />
+      <circle cx="10" cy="8" r="5" />
+      <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+    </>,
+    "Leadership",
+    "People Development",
+    "Built 4 top-tier Senior Managers (District Managers) and 34+ young, passionate leaders (Unit Managers and Assistant Unit Managers) through systematic training and a culture of continuous growth.",
+  ],
+  [
+    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />,
+    "Clients",
+    "People First",
+    "People come before products. Every recommendation begins with meaningful conversations, understanding individual needs and giving advice only when it genuinely creates value.",
+  ],
+  [
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24m0-14.14-4.24 4.24m-5.66 5.66-4.24 4.24" />
+    </>,
+    "Claims",
+    "Real Support",
+    // The RM figure is left blank exactly as the report prints it — the amount
+    // is a D'Life decision, not an omitted correction.
+    "Successfully assisting clients with insurance claims exceeding RM __ million, with trusted guidance and dedicated support throughout the process.",
+  ],
 ];
 
 /**
@@ -266,31 +410,8 @@ const PlayIcon = () => (
 
 export default function DLife() {
   const root = useRef<HTMLDivElement>(null);
-  const [playing, setPlaying] = useState<Video | null>(null);
-  const closeBtn = useRef<HTMLButtonElement>(null);
-  /** The card that opened the dialog, so focus can be handed back on close. */
-  const opener = useRef<HTMLElement | null>(null);
-
-  const close = useCallback(() => setPlaying(null), []);
-
-  /* Dialog behaviour: Escape closes it, the page behind is frozen so a scroll
-     gesture doesn't drive the pinned ScrollTrigger sections underneath, and
-     focus moves to the close button then returns to the card that opened it. */
-  useEffect(() => {
-    if (!playing) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-    };
-    document.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeBtn.current?.focus();
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-      opener.current?.focus();
-    };
-  }, [playing, close]);
+  /** src of the story playing inline, or null. One at a time. */
+  const [playing, setPlaying] = useState<string | null>(null);
 
   useEffect(() => {
     const el = root.current;
@@ -411,85 +532,38 @@ export default function DLife() {
         </div>
       </section>
 
+      {/* Approved sequence, per the visual system reference: hero → choose your
+          path → trust proof. The selector is a light horizontal routing strip,
+          deliberately lighter than the life-needs section below it, and sits
+          above the trust band rather than after it. */}
+      <section id="path">
+        <span className="lb rv">Choose your path</span>
+        <p className="q rv">
+          <span>I’m looking to…</span>
+        </p>
+        <div className="opts rv">
+          {PATHS.map(([icon, label, href]) => (
+            <a className="opt" href={href} key={label}>
+              <Ico>{icon}</Ico>
+              {label}
+              <em>→</em>
+            </a>
+          ))}
+        </div>
+        <span className="cue">Swipe for more</span>
+      </section>
+
       <section id="trust" className="dark">
         {/* "27 years" pending client verification — open question #1 in the
             project brief: Sharon personally, or D'Life as an organisation? */}
-        {TRUST.map(([figure, unit, label, copy]) => (
-          <div className="c rv" key={label}>
-            <b>
-              {figure}
-              {unit && <em>{unit}</em>}
-            </b>
+        {TRUST.map(([icon, figure, label, copy]) => (
+          <div className="c rv" key={figure}>
+            <Ico>{icon}</Ico>
+            <b>{figure}</b>
             <u>{label}</u>
             <p>{copy}</p>
           </div>
         ))}
-      </section>
-
-      <section id="man">
-        <span className="lb rv">What we actually do</span>
-        <p className="man">
-          We help you <i>protect what matters,</i> plan for what’s ahead, and we stay with you{" "}
-          <i>after the paperwork is done.</i>
-        </p>
-        <div className="pillars">
-          {PILLARS.map(([no, title, copy]) => (
-            <div className="pillar rv" key={no}>
-              <i>{no}</i>
-              <b>{title}</b>
-              <p>{copy}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="path">
-        <div className="list">
-          <span className="lb rv">Find your path</span>
-          <div className="q rv">I’m looking to…</div>
-          <a className="opt" href="#needs" data-im="0">
-            <span>Protect my family</span>
-            <span className="no">01</span>
-          </a>
-          <a className="opt" href="#policy" data-im="1">
-            <span>Review my coverage</span>
-            <span className="no">02</span>
-          </a>
-          <a className="opt" href="#needs" data-im="2">
-            <span>Plan for the future</span>
-            <span className="no">03</span>
-          </a>
-          <a className="opt" href="#careers" data-im="3">
-            <span>Explore a career</span>
-            <span className="no">04</span>
-          </a>
-          <a className="opt" href="#youth" data-im="4">
-            <span>Join a community</span>
-            <span className="no">05</span>
-          </a>
-        </div>
-        <div className="vis">
-          <div className="ph">
-            <div className="im on">
-              <Plate photo={PHOTOS.p1} />
-            </div>
-            <div className="im">
-              <Plate photo={PHOTOS.p2} />
-            </div>
-            <div className="im">
-              <Plate photo={PHOTOS.p3} />
-            </div>
-            <div className="im">
-              <Plate photo={PHOTOS.p4} />
-            </div>
-            <div className="im">
-              <Plate photo={PHOTOS.p5} />
-            </div>
-            <div className="cap" id="pathcap">
-              Start wherever you are.
-            </div>
-          </div>
-        </div>
       </section>
 
       <section id="needs">
@@ -502,18 +576,21 @@ export default function DLife() {
           </div>
           <p className="rv">Everyone arrives with a different question. Start wherever you are.</p>
         </div>
-        <div className="rail">
-          <div className="track" id="ntrack">
-            {NEEDS.map(([photo, title, copy]) => (
-              <div className="ncard" key={title}>
-                <div className="ph">
-                  <Plate photo={photo} />
-                </div>
+        {/* Mosaic, not a rail: two cards across the top and three beneath, all
+            five visible at one glance on desktop. The pinned horizontal track
+            this replaces was the scroll-jacking the report rules out. */}
+        <div className="grid">
+          {NEEDS.map(([photo, title, copy]) => (
+            <article className="ncard rv" key={title}>
+              <div className="ph">
+                <Plate photo={photo} />
+              </div>
+              <div className="cap">
                 <h3>{title}</h3>
                 <p>{copy}</p>
               </div>
-            ))}
-          </div>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -533,6 +610,9 @@ export default function DLife() {
             <a className="pill" data-wa="Hi D'Life, I'd like guidance on my existing policy." href="#">
               <span>Get guidance on my policy</span>
             </a>
+            <a className="tx-link" href="#faq">
+              See how we can help
+            </a>
           </div>
         </div>
         <div className="ph">
@@ -546,26 +626,27 @@ export default function DLife() {
             blocking question, and a founder's face is the last thing to fake. */}
         <div className="fpair rv">
           <div className="ph">
-            <div className="slot-empty">Sharon Cheang</div>
+            <div className="slot-empty">
+              Sharon Cheang
+              <em>Founder</em>
+            </div>
           </div>
           <div className="ph">
-            <div className="slot-empty">Rachel Cheang</div>
+            <div className="slot-empty">
+              Rachel Cheang
+              <em>Co-Founder</em>
+            </div>
           </div>
         </div>
         <div>
           <span className="lb rv">Our founders</span>
-          <h2 className="rv">
-            Started by two sisters, <i>carried forward through real people.</i>
-          </h2>
-          {/* "almost three decades" pending client verification */}
+          <h2 className="rv">Founded by Sisters, Built with Purpose</h2>
+          {/* Cut from two paragraphs to one. The report asks for a short intro
+              that routes to the full story rather than telling it here. */}
           <p className="rv">
             <b>Sharon Cheang</b> built D’Life on one belief: people come before products, and support should continue
             long after a policy is signed. Her sister <b>Rachel Cheang</b> leads business development and the community
             side of the practice.
-          </p>
-          <p className="rv">
-            What began as a financial advisory practice has grown into a place where clients are guided, advisors are
-            mentored, and both are expected to become better than they were.
           </p>
           <a className="tlink rv" data-wa="Hi D'Life, I'd like to start a conversation." href="#">
             Discover our story
@@ -581,28 +662,41 @@ export default function DLife() {
               Meet the people <i>behind D’Life</i>
             </h2>
           </div>
-          <a className="tlink rv" href="#stories">
-            View all stories
+          <a className="pill ghost rv" href="/stories">
+            <span>View all stories</span>
           </a>
         </div>
         <div className="grid">
           {VIDEOS.map((v) => (
             <div className="story rv" key={v.title}>
-              {/* A real control, not a decorated div: the play affordance has to
-                  be reachable by keyboard and announced as a button. */}
-              <button
-                type="button"
-                className="ph"
-                aria-label={`Play video: ${v.title}`}
-                onClick={(e) => {
-                  opener.current = e.currentTarget;
-                  setPlaying(v);
-                }}
-              >
-                {/* Decorative — the heading below already names the story. */}
-                <img src={v.poster} alt="" loading="lazy" decoding="async" />
-                <PlayIcon />
-              </button>
+              {/* Playback happens in the card. The report rules out the
+                  lightbox this replaces — no overlay, no blur, no leaving the
+                  page — so the poster button swaps itself for the player and
+                  the rest of the section stays where it was. */}
+              {playing === v.src ? (
+                <div className="ph playing">
+                  <video
+                    src={v.src}
+                    poster={v.poster}
+                    controls
+                    autoPlay
+                    playsInline
+                    preload="metadata"
+                    onEnded={() => setPlaying(null)}
+                  />
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="ph"
+                  aria-label={`Play video: ${v.title}`}
+                  onClick={() => setPlaying(v.src)}
+                >
+                  {/* Decorative — the heading below already names the story. */}
+                  <img src={v.poster} alt="" loading="lazy" decoding="async" />
+                  <PlayIcon />
+                </button>
+              )}
               <h3>{v.title}</h3>
               <span className="run">{v.runtime}</span>
             </div>
@@ -646,10 +740,10 @@ export default function DLife() {
             <Plate photo={PHOTOS.dva} parallax />
           </div>
           <div className="fg">
-            {/* NOTE(copy): the client says "Drive Value Association"; the
-                master brief §4 says "Drive Value Associate". Using the
-                client's wording — needs confirming before launch. */}
-            <span className="lb">Drive Value Association (DVA) · By invitation</span>
+            {/* The correction report settles the name the earlier note left
+                open, and calls "Association" wrong outright: it is Drive
+                Value Associates, in the section and in the footer. */}
+            <span className="lb">DVA — Drive Value Associates · By invitation</span>
             <h2>
               Built for leaders. A selective circle shaped by <i>shared values and experience.</i>
             </h2>
@@ -889,47 +983,6 @@ export default function DLife() {
         </div>
       </footer>
 
-      {/* Videos play here rather than on a social platform, so a visitor never
-          has to leave the site to finish a story. The source is 9:16 and is
-          letterboxed rather than cropped — the subtitles are burned into the
-          bottom of the frame and a cover-fit would cut them off. */}
-      {playing ? (
-        <div
-          className="vmodal"
-          role="dialog"
-          aria-modal="true"
-          aria-label={playing.title}
-          onClick={close}
-        >
-          <button
-            ref={closeBtn}
-            type="button"
-            className="vclose"
-            onClick={close}
-            aria-label="Close video"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M6 6l12 12M18 6L6 18"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-          <div className="vbox" onClick={(e) => e.stopPropagation()}>
-            <video
-              key={playing.src}
-              src={playing.src}
-              poster={playing.poster}
-              controls
-              autoPlay
-              playsInline
-              preload="metadata"
-            />
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
