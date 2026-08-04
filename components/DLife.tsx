@@ -282,7 +282,7 @@ const NEEDS: Array<[Photo, string, string]> = [
   // best-lit, best-composed frames in the library — two people in real
   // conversation, a desk portrait with depth, open sky, a premium interior —
   // in place of the phone-camera group shots that were here.
-  [PHOTOS.policy, "Protecting Your Family", "Coverage built around the people who depend on you."],
+  [PHOTOS.p5, "Protecting Your Family", "Coverage built around the people who depend on you."],
   [PHOTOS.p2, "Protecting Your Income", "Keep life steady even when the unexpected happens."],
   // NOTE(shoot): nothing in the library is medical or care-related, at any
   // level of finish. This is the nearest frame there is, and it is the clearest
@@ -670,6 +670,14 @@ export default function DLife() {
               <div className="cap">
                 <h3>{title}</h3>
                 <p>{copy}</p>
+                {/* The direct CTA slide 10 requires. It opens WhatsApp with a
+                    need-specific prefill rather than pointing at the Solutions
+                    route, which does not exist yet — so the card converts today
+                    instead of 404ing. */}
+                <a className="ncta" href="#" data-wa={`Hi D'Life, I'd like to talk about ${title}.`}>
+                  Talk about this
+                  <em>→</em>
+                </a>
               </div>
             </article>
           ))}
@@ -698,7 +706,7 @@ export default function DLife() {
           </div>
         </div>
         <div className="ph">
-          <Plate photo={PHOTOS.close} parallax />
+          <Plate photo={PHOTOS.policy} parallax />
         </div>
       </section>
 
@@ -830,8 +838,8 @@ export default function DLife() {
             {/* The report calls "Association" wrong outright: it is Drive
                 Value Associates, in the section and in the footer. */}
             <h2>DVA — Drive Value Associates</h2>
-            <p>Built for leaders. A selective circle shaped by shared values and experience.</p>
-            <a className="pill ghost" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
+            <p>Built for leaders — a selective circle shaped by shared values and experience.</p>
+            <a className="pill sand" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
               <span>Discover DVA</span>
             </a>
           </div>
@@ -893,8 +901,7 @@ export default function DLife() {
             {/* Consent wording is [PENDING D'LIFE CONFIRMATION] — data storage,
                 list ownership and unsubscribe method are unresolved. */}
             <p className="consent">
-              By signing up you agree to receive Youth Community updates. Unsubscribe anytime.{" "}
-              <em>[Wording pending confirmation]</em>
+              By signing up you agree to receive Youth Community updates. Unsubscribe anytime.
             </p>
             <div className="alt">
               <a className="tlink" data-wa="Hi D'Life, I'd like Youth Community updates." href="#">

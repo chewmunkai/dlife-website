@@ -419,6 +419,10 @@ body:has(.dlife) {
   color: var(--s-heading);
 }
 .dlife .pill.ghost::before { background: var(--s-outline-wash); }
+/* Sand fill: a third action colour for places that are neither the primary
+   copper nor a plain outline. Ink on sand measures 9.6:1. */
+.dlife .pill.sand { background: var(--dl-sand); color: var(--dl-ink); }
+.dlife .pill.sand::before { background: var(--dl-cream); }
 
 .dlife #hd .burger {
   display: flex;
@@ -446,6 +450,14 @@ body:has(.dlife) {
 }
 .dlife #hd .burger .ln::before { top: 1px; }
 .dlife #hd .burger .ln::after { top: 9px; }
+/* The nav bar and the burger are two routes to the same places, so only one
+   shows at a time: the bar on desktop, the overlay below 1180px where the bar
+   cannot fit. Stated after the burger's own display:flex so it wins on order
+   rather than needing extra specificity. */
+.dlife #hd .burger { display: none; }
+@media (max-width: 1180px) {
+  .dlife #hd .burger { display: flex; }
+}
 /* The overlay is dark, so the burger inverts while the menu is open. */
 .dlife.menu-open #hd,
 .dlife.menu-open #hd .wm,
@@ -539,13 +551,14 @@ body:has(.dlife) {
   right: var(--dl-pad);
   bottom: 11vh;
   z-index: 3;
-  /* Halo behind the type — insurance where the photo still runs bright. */
-  text-shadow: 0 2px 26px rgba(11, 33, 29, .72);
+  /* No text halo. At 26px blur it stopped reading as protection and started
+     reading as a soft grey panel behind the words; the scrim below already
+     carries legibility on its own. */
 }
 /* Down from clamp(48px, 6.6vw, 104px). At ~95px on a laptop the headline was
    swallowing the supporting copy and the actions below it; the point of the
    line is the sentence, not the scale. */
-.dlife #hero h1 { font-size: clamp(40px, 5vw, 76px); line-height: 1.02; }
+.dlife #hero h1 { font-size: clamp(32px, 4vw, 60px); line-height: 1.06; }
 /* Sand already clears ~6.9:1 against the scrimmed frame, so this was never a
    contrast problem — it was scale. Sitting above a 76px headline, a 15px line
    reads as a caption. Up a step and taken to ivory, which is the brightest
@@ -749,6 +762,25 @@ body:has(.dlife) {
   margin-top: 7px;
   max-width: 38ch;
 }
+.dlife .ncard .ncta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+  font: 700 13px/1 var(--dl-sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--dl-ivory);
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(246, 241, 232, .5);
+  transition: gap .3s, border-color .3s;
+  align-self: flex-start;
+}
+.dlife .ncard .ncta em { font-style: normal; }
+/* Stretched hit area: the whole card is clickable, but the link's name stays
+   "Talk about this" rather than swallowing the heading and description. */
+.dlife .ncard .ncta::after { content: ""; position: absolute; inset: 0; }
+.dlife .ncard:hover .ncta { gap: 15px; border-color: var(--dl-ivory); }
 .dlife .ncard .ph img { transition: transform 1s cubic-bezier(.22, .7, .24, 1); }
 .dlife .ncard:hover .ph img { transform: scale(1.05); }
 
