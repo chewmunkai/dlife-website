@@ -46,6 +46,11 @@
   --dl-disp: "Lora", Georgia, serif;              /* headings 600, editorial 500 */
   --dl-sans: "Work Sans", system-ui, sans-serif;  /* body, nav, labels, UI */
   --dl-pad: clamp(24px, 5vw, 84px);
+  /* One page-wide hierarchy: title > section subheadline > body. */
+  --dl-section-title: clamp(34px, 3.6vw, 56px);
+  --dl-section-sub: clamp(18px, 1.45vw, 22px);
+  --dl-section-body: clamp(16px, 1.2vw, 19px);
+  --dl-card-title: clamp(20px, 1.55vw, 24px);
 }
 
 /* ---------- section modes ----------
@@ -116,6 +121,7 @@ body:has(.dlife) {
   font: 400 18px/1.75 var(--dl-sans);
   -webkit-font-smoothing: antialiased;
 }
+.dlife section { scroll-margin-top: 84px; }
 
 /* `color:inherit` + no border is the prototype's intent — the design
    system's base layer puts a copper border-bottom on every <a>, which
@@ -134,17 +140,15 @@ body:has(.dlife) {
   border-radius: 0;
 }
 
-/* Section label. 11px at .32em originally, then 13px at .22em, and still
-   reading as faint — so this goes further: 15px, tracking down again to
-   .14em, and a short accent rule in front of it. The rule is what actually
-   makes it findable, since a line of small caps in a warm hue on a warm
-   ground has no edge of its own to catch the eye. */
+/* Section subheadline. It is deliberately the middle tier between the large
+   title and supporting body copy, including labels such as "Existing
+   policyholders". */
 .dlife .lb {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font: 700 15px/1.35 var(--dl-sans);
-  letter-spacing: .14em;
+  font: 700 var(--dl-section-sub)/1.35 var(--dl-sans);
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--s-label);
 }
@@ -555,10 +559,9 @@ body:has(.dlife) {
      reading as a soft grey panel behind the words; the scrim below already
      carries legibility on its own. */
 }
-/* Down from clamp(48px, 6.6vw, 104px). At ~95px on a laptop the headline was
-   swallowing the supporting copy and the actions below it; the point of the
-   line is the sentence, not the scale. */
-.dlife #hero h1 { font-size: clamp(26px, 3vw, 44px); line-height: 1.08; }
+/* The hero uses the same hierarchy, with one extra display step for the page
+   title. */
+.dlife #hero h1 { font-size: clamp(40px, 5vw, 72px); line-height: 1.04; }
 /* Sand already clears ~6.9:1 against the scrimmed frame, so this was never a
    contrast problem — it was scale. Sitting above a 76px headline, a 15px line
    reads as a caption. Up a step and taken to ivory, which is the brightest
@@ -566,21 +569,18 @@ body:has(.dlife) {
 .dlife #hero .lb {
   display: inline-flex;
   margin-bottom: 26px;
-  font-size: 17px;
-  letter-spacing: .16em;
+  font-size: var(--dl-section-sub);
+  letter-spacing: .1em;
   color: var(--dl-ivory);
 }
 .dlife #hero .lb::before { width: 34px; }
 .dlife #hero h1 .lw { display: block; overflow: hidden; }
 .dlife #hero h1 .lw span { display: inline-block; }
 
-/* Up from clamp(21px, 1.75vw, 30px) — this carries the actual proposition and
-   was reading as fine print under the old headline. Measure tightens to 40ch
-   so the extra size does not turn it into a wall. */
 .dlife #hero p {
-  font: 500 clamp(20px, 2.05vw, 29px)/1.6 var(--dl-sans);
+  font: 400 var(--dl-section-body)/1.65 var(--dl-sans);
   color: var(--s-strong);
-  max-width: 40ch;
+  max-width: 48ch;
   margin-top: 24px;
 }
 .dlife #hero .acts { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
@@ -647,7 +647,7 @@ body:has(.dlife) {
   align-items: center;
   justify-content: center;
   gap: clamp(14px, 2vw, 26px);
-  font: 500 clamp(21px, 1.8vw, 28px)/1.35 var(--dl-disp);
+  font: 600 clamp(30px, 2.7vw, 42px)/1.25 var(--dl-disp);
   color: var(--s-heading);
   margin-bottom: 26px;
 }
@@ -717,9 +717,22 @@ body:has(.dlife) {
   gap: 40px;
   flex-wrap: wrap;
 }
-.dlife #needs .lb { display: inline-flex; }
-.dlife #needs h2 { font-size: clamp(24px, 2.5vw, 39px); max-width: 17ch; }
-.dlife #needs .head p { font: 500 clamp(20px, 1.7vw, 29px)/1.6 var(--dl-sans); color: var(--s-muted); max-width: 32ch; }
+.dlife #needs .lb {
+  display: inline-flex;
+  font-size: var(--dl-section-sub);
+}
+.dlife #needs h2 {
+  font-size: var(--dl-section-title);
+  line-height: 1.08;
+  max-width: 16ch;
+}
+.dlife #needs .head .needs-sub {
+  font: 400 var(--dl-section-body)/1.65 var(--dl-sans);
+  color: var(--s-body);
+  max-width: 34ch;
+  padding-left: clamp(16px, 1.8vw, 26px);
+  border-left: 2px solid var(--s-rule);
+}
 
 .dlife #needs .grid {
   display: grid;
@@ -755,9 +768,9 @@ body:has(.dlife) {
   justify-content: flex-end;
   padding: clamp(20px, 2vw, 30px);
 }
-.dlife .ncard h3 { font-size: clamp(18px, 1.35vw, 21px); color: var(--dl-ivory); }
+.dlife .ncard h3 { font-size: var(--dl-card-title); color: var(--dl-ivory); }
 .dlife .ncard p {
-  font: 400 clamp(16px, 1.2vw, 19px)/1.55 var(--dl-sans);
+  font: 400 var(--dl-section-body)/1.6 var(--dl-sans);
   color: rgba(246, 241, 232, .90);
   margin-top: 7px;
   max-width: 38ch;
@@ -792,6 +805,15 @@ body:has(.dlife) {
 }
 /* Phone: uniform, readable cards stacked — no half-visible tiles. */
 @media (max-width: 680px) {
+  .dlife #needs .head {
+    align-items: flex-start;
+    gap: 26px;
+  }
+  .dlife #needs h2 { max-width: 14ch; }
+  .dlife #needs .head .needs-sub {
+    max-width: 31ch;
+    padding-left: 16px;
+  }
   .dlife #needs .grid { grid-template-columns: 1fr; }
   .dlife .ncard,
   .dlife .ncard:nth-child(1) { grid-column: span 1; }
@@ -804,15 +826,10 @@ body:has(.dlife) {
 /* Was 18vh top and bottom, which left the panel mostly empty — the report
    asks for this to be tightened and to read concise and calm. */
 .dlife #policy .tx { padding: clamp(64px, 10vh, 120px) var(--dl-pad); }
-/* The heading must not outweigh the label that introduces it, so it comes
-   down while the label goes up and gets room of its own. */
 .dlife #policy .lb { display: inline-flex; margin-bottom: 20px; }
-.dlife #policy h2 { font-size: clamp(24px, 2.5vw, 39px); max-width: 15ch; }
-/* Up from clamp(19px, 1.45vw, 25px). This paragraph is the one that has to
-   land with existing policyholders, so it stops being the smallest thing in
-   the panel. */
+.dlife #policy h2 { font-size: var(--dl-section-title); max-width: 15ch; }
 .dlife #policy p {
-  font: 500 clamp(19px, 1.6vw, 27px)/1.62 var(--dl-sans);
+  font: 400 var(--dl-section-body)/1.7 var(--dl-sans);
   color: var(--s-body);
   max-width: 42ch;
   margin-top: 20px;
@@ -842,11 +859,9 @@ body:has(.dlife) {
    rather than a split image, and keeps the section asymmetric. */
 .dlife #founder .fpair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 1.4vw, 22px); }
 .dlife #founder .fpair .ph:last-child { transform: translateY(clamp(24px, 5vw, 64px)); }
-.dlife #founder h2 { font-size: clamp(24px, 2.5vw, 39px); max-width: 18ch; margin-top: 22px; }
-/* Up from clamp(18px, 1.35vw, 22px) — one paragraph now carries the whole
-   introduction, so it has to hold the eye on its own. */
+.dlife #founder h2 { font-size: var(--dl-section-title); max-width: 18ch; margin-top: 22px; }
 .dlife #founder p {
-  font: 500 clamp(19px, 1.6vw, 27px)/1.65 var(--dl-sans);
+  font: 400 var(--dl-section-body)/1.7 var(--dl-sans);
   color: var(--s-body);
   max-width: 44ch;
   margin-top: 22px;
@@ -893,7 +908,7 @@ body:has(.dlife) {
   gap: 40px;
   flex-wrap: wrap;
 }
-.dlife #stories h2 { font-size: clamp(24px, 2.5vw, 39px); max-width: 14ch; line-height: 1; }
+.dlife #stories h2 { font-size: var(--dl-section-title); max-width: 14ch; line-height: 1.04; }
 /* Compact row. The active card is enlarged relative to its neighbours, per
    the report's "enlarge only relative to the secondary cards" — the row's own
    height is unchanged as the active card moves along it. */
@@ -907,7 +922,7 @@ body:has(.dlife) {
 .dlife .story .ph {
   position: relative;
   width: 100%;
-  height: clamp(240px, 32vh, 330px);
+  height: clamp(340px, 31vw, 430px);
   overflow: hidden;
   border-radius: 4px;
   background: var(--s-plate);
@@ -926,9 +941,15 @@ body:has(.dlife) {
   background: none;
   cursor: pointer;
 }
-.dlife .story .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.22, .7, .24, 1); }
+.dlife .story .ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--poster-position, center);
+  transition: transform 1.2s cubic-bezier(.22, .7, .24, 1);
+}
 .dlife .story:hover .ph img { transform: scale(1.06); }
-.dlife .story.on .ph { height: clamp(340px, 46vh, 480px); }
+.dlife .story.on .ph { height: clamp(340px, 31vw, 430px); }
 /* Blurred frame behind the contained player, so the letterbox columns read as
    part of the picture rather than as two black slabs. */
 .dlife .story.on .ph::before {
@@ -937,7 +958,7 @@ body:has(.dlife) {
   inset: 0;
   background-image: var(--poster);
   background-size: cover;
-  background-position: center;
+  background-position: var(--poster-position, center);
   filter: blur(26px) brightness(.45) saturate(.9);
   transform: scale(1.15);
 }
@@ -965,7 +986,7 @@ body:has(.dlife) {
 .dlife .story .play svg { margin-left: 3px; }
 .dlife .story .ph:focus-visible,
 .dlife .story .pick:focus-visible { outline: 2px solid var(--dl-copper); outline-offset: 3px; }
-.dlife .story h3 { font-size: clamp(18px, 1.35vw, 21px); margin-top: 18px; }
+.dlife .story h3 { font-size: var(--dl-card-title); margin-top: 18px; }
 .dlife .story .run {
   display: block;
   margin-top: 8px;
@@ -1064,6 +1085,7 @@ body:has(.dlife) {
 @media (max-width: 760px) {
   .dlife .story { display: none; }
   .dlife .story.on { display: block; flex-grow: 1; }
+  .dlife .story.on .ph { height: auto; aspect-ratio: 4 / 5; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dlife .story { transition: none; }
@@ -1125,7 +1147,7 @@ body:has(.dlife) {
   grid-template-columns: .85fr 1.15fr;
   gap: clamp(40px, 6vw, 100px);
 }
-.dlife #careers h2 { font-size: clamp(24px, 2.5vw, 39px); line-height: 1; max-width: 13ch; margin-top: 26px; }
+.dlife #careers h2 { font-size: var(--dl-section-title); line-height: 1.04; max-width: 13ch; margin-top: 26px; }
 .dlife #careers .qt { margin-top: 38px; border-left: 1px solid var(--s-rule); padding-left: 24px; }
 .dlife #careers .qt p { font: 500 clamp(20px, 1.8vw, 24px)/1.5 var(--dl-disp); color: var(--s-strong); }
 .dlife #careers .qt span {
@@ -1149,8 +1171,8 @@ body:has(.dlife) {
 .dlife #careers .rows a:last-child { border-bottom: 1px solid var(--s-line); }
 .dlife #careers .rows a:hover { padding-left: 14px; }
 .dlife #careers .rows i { font: 600 10px/1 var(--dl-sans); letter-spacing: .22em; color: var(--dl-copper-d); font-style: normal; }
-.dlife #careers .rows b { font: 600 clamp(18px, 1.4vw, 22px)/1.15 var(--dl-disp); letter-spacing: -.025em; color: var(--s-heading); }
-.dlife #careers .rows p { font: 400 clamp(17px, 1.3vw, 21px)/1.65 var(--dl-sans); color: var(--s-muted); margin-top: 6px; max-width: 44ch; }
+.dlife #careers .rows b { font: 600 var(--dl-card-title)/1.15 var(--dl-disp); letter-spacing: -.025em; color: var(--s-heading); }
+.dlife #careers .rows p { font: 400 var(--dl-section-body)/1.65 var(--dl-sans); color: var(--s-muted); margin-top: 6px; max-width: 44ch; }
 .dlife #careers .rows em { font: 500 15px/1 var(--dl-disp); color: var(--s-quiet); }
 
 /* ---------- 10 · DVA (contained teaser) ----------
@@ -1185,9 +1207,9 @@ body:has(.dlife) {
 }
 .dlife #dva .fg { position: relative; z-index: 3; max-width: 620px; }
 .dlife #dva .lb { color: var(--dl-sand); }
-.dlife #dva h2 { font-size: clamp(24px, 2.5vw, 39px); margin-top: 16px; }
+.dlife #dva h2 { font-size: var(--dl-section-title); margin-top: 16px; }
 .dlife #dva p {
-  font: 400 clamp(17px, 1.35vw, 21px)/1.6 var(--dl-sans);
+  font: 400 var(--dl-section-body)/1.65 var(--dl-sans);
   color: var(--s-muted);
   margin: 16px auto 0;
   max-width: 46ch;
@@ -1203,14 +1225,14 @@ body:has(.dlife) {
   align-items: end;
   max-width: none;
 }
-.dlife #youth h2 { font-size: clamp(24px, 2.5vw, 39px); line-height: .98; }
+.dlife #youth h2 { font-size: var(--dl-section-title); line-height: 1.04; }
 .dlife #youth .sup {
-  font: 500 clamp(20px, 1.8vw, 26px)/1.4 var(--dl-disp);
+  font: 500 var(--dl-section-sub)/1.45 var(--dl-disp);
   color: var(--dl-copper-d);
   margin-top: 14px;
 }
 .dlife #youth .intro {
-  font: 500 clamp(20px, 1.7vw, 29px)/1.6 var(--dl-sans);
+  font: 400 var(--dl-section-body)/1.7 var(--dl-sans);
   color: var(--s-body);
   max-width: 52ch;
   margin-top: 26px;
@@ -1237,8 +1259,8 @@ body:has(.dlife) {
 .dlife #youth .yc:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(15, 51, 44, .14); }
 .dlife #youth .yc .ph { aspect-ratio: 4/3; background: var(--dl-cream); }
 .dlife #youth .yc .tx { padding: 26px 28px 30px; }
-.dlife #youth .yc h3 { font-size: clamp(18px, 1.35vw, 21px); }
-.dlife #youth .yc p { font: 400 clamp(17px, 1.3vw, 21px)/1.65 var(--dl-sans); color: var(--s-muted); margin-top: 10px; }
+.dlife #youth .yc h3 { font-size: var(--dl-card-title); }
+.dlife #youth .yc p { font: 400 var(--dl-section-body)/1.65 var(--dl-sans); color: var(--s-muted); margin-top: 10px; }
 .dlife #youth .yc em {
   display: inline-block;
   margin-top: 18px;
@@ -1261,7 +1283,7 @@ body:has(.dlife) {
   gap: clamp(24px, 3vw, 52px);
   align-items: start;
 }
-.dlife #youth .loop h3 { font-size: clamp(18px, 1.35vw, 21px); }
+.dlife #youth .loop h3 { font-size: var(--dl-card-title); }
 .dlife #youth .loop .k {
   display: block;
   font: 700 12px/1 var(--dl-sans);
@@ -1270,7 +1292,7 @@ body:has(.dlife) {
   color: var(--s-label);
   margin-bottom: 14px;
 }
-.dlife #youth .loop p { margin-top: 12px; font: 400 clamp(17px, 1.3vw, 20px)/1.65 var(--dl-sans); color: var(--s-muted); max-width: 42ch; }
+.dlife #youth .loop p { margin-top: 12px; font: 400 var(--dl-section-body)/1.65 var(--dl-sans); color: var(--s-muted); max-width: 42ch; }
 .dlife #youth .loop form { display: flex; gap: 10px; flex-wrap: wrap; }
 .dlife #youth .loop input {
   flex: 1 1 210px;
@@ -1302,7 +1324,7 @@ body:has(.dlife) {
   grid-template-columns: .8fr 1.2fr;
   gap: clamp(40px, 6vw, 110px);
 }
-.dlife #faq h2 { font-size: clamp(24px, 2.5vw, 39px); margin-top: 26px; line-height: 1.02; }
+.dlife #faq h2 { font-size: var(--dl-section-title); margin-top: 26px; line-height: 1.04; }
 .dlife #faq .item { border-top: 1px solid var(--s-line); }
 .dlife #faq .item:last-of-type { border-bottom: 1px solid var(--s-line); }
 .dlife #faq button.q {
@@ -1316,7 +1338,7 @@ body:has(.dlife) {
   color: var(--s-heading);
   cursor: pointer;
   text-align: left;
-  font: 500 clamp(19px, 1.6vw, 24px)/1.4 var(--dl-sans);
+  font: 500 var(--dl-card-title)/1.4 var(--dl-sans);
   letter-spacing: -.01em;
   padding: 30px 0;
 }
@@ -1336,7 +1358,7 @@ body:has(.dlife) {
 .dlife #faq .item.open .x::after { transform: rotate(0); }
 .dlife #faq .a { overflow: hidden; height: 0; }
 .dlife #faq .a p {
-  font: 400 clamp(19px, 1.45vw, 24px)/1.7 var(--dl-sans);
+  font: 400 var(--dl-section-body)/1.7 var(--dl-sans);
   color: var(--s-body);
   max-width: 56ch;
   padding-bottom: 34px;
@@ -1365,8 +1387,8 @@ body:has(.dlife) {
   background: rgba(168, 135, 82, .55);
 }
 .dlife #close .fg { position: relative; z-index: 1; }
-.dlife #close h2 { font-size: clamp(24px, 2.5vw, 39px); max-width: 20ch; margin: 0 auto; }
-.dlife #close .sub { font: 500 clamp(20px, 1.7vw, 27px)/1.45 var(--dl-disp); color: var(--s-accent); margin-top: 18px; }
+.dlife #close h2 { font-size: var(--dl-section-title); max-width: 20ch; margin: 0 auto; }
+.dlife #close .sub { font: 500 var(--dl-section-sub)/1.45 var(--dl-disp); color: var(--s-accent); margin-top: 18px; }
 .dlife #close .acts { display: flex; gap: 16px; justify-content: center; margin-top: 36px; flex-wrap: wrap; }
 
 /* ---------- footer (charcoal) — warm utility directory ----------
@@ -1606,6 +1628,7 @@ html:not(.js) .dlife #loader { display: none; }
   .dlife #ft .mid { grid-template-columns: 1fr; gap: clamp(44px, 7vh, 76px); }
   .dlife #ft .fine { grid-template-columns: 1fr; }
 }
+
 @media (max-width: 640px) {
   .dlife #ft .mast { align-items: flex-start; }
   .dlife #ft .est { text-align: left; }
@@ -1635,4 +1658,33 @@ html:not(.js) .dlife #loader { display: none; }
   .dlife #trust { grid-template-columns: 1fr 1fr; }
   .dlife #menu { grid-template-columns: 1fr; }
   .dlife #menu .side { border-left: none; padding-left: 0; }
+}
+
+/* Mobile rhythm: shorter section gaps, fully visible media crops and controls
+   that do not compete with the text hierarchy. Kept after the tablet rules so
+   its more compact image proportions win at phone widths. */
+@media (max-width: 720px) {
+  .dlife #hd { padding: 18px var(--dl-pad); }
+  .dlife #hd.solid { padding: 13px var(--dl-pad); }
+  .dlife #hd .lmark { height: 21px; }
+  .dlife #hd .rt > .pill { display: none; }
+  .dlife #hd .burger { gap: 9px; }
+  .dlife #hd .burger .ln { width: 23px; }
+  .dlife #hero { min-height: 660px; }
+  .dlife #hero .fg { bottom: 8vh; }
+  .dlife #hero .lb { margin-bottom: 18px; }
+  .dlife #hero p { margin-top: 18px; }
+  .dlife #hero .acts { margin-top: 28px; }
+  .dlife #needs .head,
+  .dlife #founder,
+  .dlife #stories,
+  .dlife #careers,
+  .dlife #youth,
+  .dlife #faq { padding-top: 76px; padding-bottom: 76px; }
+  .dlife #policy .tx { padding-top: 64px; padding-bottom: 64px; }
+  .dlife #policy .ph { min-height: 0; aspect-ratio: 4 / 3; }
+  .dlife #stories .head { margin-bottom: 42px; }
+  .dlife #stories .reelctl { gap: 12px; }
+  .dlife #youth .grid { margin-top: 52px; }
+  .dlife #faq button.q { padding: 22px 0; }
 }

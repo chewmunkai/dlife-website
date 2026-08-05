@@ -26,36 +26,46 @@ type Photo = {
 const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
 
 /**
- * Every image is D'Life's own — the client photography plus stills lifted from
- * the advisor films. No stock, so no attribution chips are needed — the credit
- * element and its Unsplash plumbing are gone with them.
+ * Most images are D'Life's own — the client photography plus stills lifted
+ * from the advisor films. The hero is the original composition's stock-photo
+ * exception, now self-hosted, and the four `need-*‑malaysia.jpg` plates are
+ * original AI-generated lifestyle images commissioned for this build.
  *
  * NOTE(launch): the film stills are 1440px-wide video frames, not photographs.
  * They hold up at card scale but will not survive being enlarged, so the real
  * shoot the brief flags as a budget item still needs to happen.
  */
 const PHOTOS = {
-  // Self-hosted, not hotlinked. This was the page's one stock exception, a
-  // 2400px Unsplash URL chosen because the film stills could not hold a 100vh
-  // hero — but it made the largest image on the site depend on a third-party
-  // host, and it was not rendering. D'Life's own frame is 1400x933, so it
-  // upscales slightly past a laptop viewport and will be soft on a very large
-  // display. A real photograph that loads beats a sharp one that does not; the
-  // commissioned shoot is what finally fixes this.
+  // The original composition's 2400px kitchen-table photograph, self-hosted so
+  // the hero no longer depends on an external image endpoint. A commissioned
+  // D'Life shoot can replace this stock exception at launch without changing
+  // the component or its responsive crop.
   hero: {
     src: asset("/media/img/hero.jpg"),
-    alt: "D’Life colleagues sharing a meal around a table",
+    alt: "An Asian family sharing a meal around their kitchen table",
   },
   p1: { src: asset("/media/img/path-family.jpg"), alt: "Three generations of a family gathered around a table" },
   p2: { src: asset("/media/img/path-review.jpg"), alt: "An advisor reviewing paperwork at his desk" },
   p3: { src: asset("/media/img/path-future.jpg"), alt: "Writing out a plan at a desk" },
   p4: { src: asset("/media/img/path-career.jpg"), alt: "Looking out over the trees, weighing what’s next" },
   p5: { src: asset("/media/img/community-gathering.jpg"), alt: "D’Life colleagues sharing a meal around a table" },
-  n1: { src: asset("/media/img/need-family.jpg"), alt: "A family lunch in the garden" },
-  n2: { src: asset("/media/img/need-income.jpg"), alt: "An advisor working at a desk" },
-  n3: { src: asset("/media/img/need-health.jpg"), alt: "A pause for water at the office window" },
+  n1: {
+    src: asset("/media/img/need-family-malaysia.jpg"),
+    alt: "A multigenerational Malaysian family sharing a meal at home",
+  },
+  n2: {
+    src: asset("/media/img/need-income-malaysia.jpg"),
+    alt: "A Malaysian couple planning together in their home office",
+  },
+  n3: {
+    src: asset("/media/img/need-health-malaysia.jpg"),
+    alt: "A Malaysian family discussing preventive health with a doctor",
+  },
   n4: { src: asset("/media/img/need-planning.jpg"), alt: "Planning at a laptop at the kitchen table" },
-  n5: { src: asset("/media/img/need-legacy.jpg"), alt: "A banquet hall gathering beneath a chandelier" },
+  n5: {
+    src: asset("/media/img/need-legacy-malaysia.jpg"),
+    alt: "A Malaysian family sharing memories in a heritage home",
+  },
   policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
   close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
   dva: { src: asset("/media/img/dva-team.jpg"), alt: "The D’Life advisory team" },
@@ -281,15 +291,10 @@ const PATHS: Array<[ReactNode, string, string]> = [
  * exist rather than shipping five dead links.
  */
 const NEEDS: Array<[Photo, string, string]> = [
-  // Re-picked for finish rather than for literal subject match. These are the
-  // best-lit, best-composed frames in the library — two people in real
-  // conversation, a desk portrait with depth, open sky, a premium interior —
-  // in place of the phone-camera group shots that were here.
-  [PHOTOS.p5, "Protecting Your Family", "Coverage built around the people who depend on you."],
-  [PHOTOS.p2, "Protecting Your Income", "Keep life steady even when the unexpected happens."],
-  // NOTE(shoot): nothing in the library is medical or care-related, at any
-  // level of finish. This is the nearest frame there is, and it is the clearest
-  // case for the commissioned shoot the brief lists as a budget item.
+  // Four original Malaysian lifestyle plates replace the generic library
+  // frames. Planning deliberately retains the existing D'Life photograph.
+  [PHOTOS.n1, "Protecting Your Family", "Coverage built around the people who depend on you."],
+  [PHOTOS.n2, "Protecting Your Income", "Keep life steady even when the unexpected happens."],
   [PHOTOS.n3, "Medical & Health Preparation", "Practical support for health and recovery costs."],
   [PHOTOS.p4, "Planning for Your Future", "Retirement and legacy planning, with confidence."],
   [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built."],
@@ -304,6 +309,8 @@ const NEEDS: Array<[Photo, string, string]> = [
 export type Video = {
   src: string;
   poster: string;
+  /** Deliberate focal point for the poster when the carousel card crops it. */
+  focus: string;
   /** Poster is decorative — the card's own heading names the story. */
   title: string;
   runtime: string;
@@ -313,18 +320,21 @@ export const VIDEOS: Video[] = [
   {
     src: asset("/media/video/advisor-alex.mp4"),
     poster: asset("/media/poster/advisor-alex.jpg"),
+    focus: "50% 47%",
     title: "A Career Beyond Selling Policies",
     runtime: "1 min 36",
   },
   {
     src: asset("/media/video/advisor-mayyee.mp4"),
     poster: asset("/media/poster/advisor-mayyee.jpg"),
+    focus: "50% 54%",
     title: "What Real Guidance Looks Like",
     runtime: "1 min 30",
   },
   {
     src: asset("/media/video/dva-workshop.mp4"),
     poster: asset("/media/poster/dva-workshop.jpg"),
+    focus: "50% 48%",
     title: "Inside D’Life Leadership",
     runtime: "1 min 09",
   },
@@ -722,7 +732,7 @@ export default function DLife() {
               Support built around <i>real life needs</i>
             </h2>
           </div>
-          <p className="rv">Everyone arrives with a different question. Start wherever you are.</p>
+          <p className="needs-sub">Everyone arrives with a different question. Start wherever you are.</p>
         </div>
         {/* Mosaic, not a rail: two cards across the top and three beneath, all
             five visible at one glance on desktop. The pinned horizontal track
@@ -833,7 +843,15 @@ export default function DLife() {
                 {/* The poster doubles as a blurred fill behind the player: the
                     source is 9:16 and the card is wider, so `contain` would
                     otherwise leave two dead black columns. */}
-                <div className="ph" style={{ ["--poster" as string]: `url(${v.poster})` } as React.CSSProperties}>
+                <div
+                  className="ph"
+                  style={
+                    {
+                      ["--poster" as string]: `url(${v.poster})`,
+                      ["--poster-position" as string]: v.focus,
+                    } as React.CSSProperties
+                  }
+                >
                   {on && armed ? (
                     <>
                       <video
