@@ -102,7 +102,12 @@
 }
 .dlife .dark.charcoal { --s-bg: var(--dl-char); }
 
+/* The UA's own `body { margin: 8px }` is never reset anywhere else, and the
+   page is full-bleed by design: it left an ivory band down all four edges,
+   with the fixed header floating over it, so the site read as a framed panel
+   rather than as the page. */
 body:has(.dlife) {
+  margin: 0;
   background: var(--dl-ivory);
   overflow-x: hidden;
 }
@@ -291,18 +296,21 @@ body:has(.dlife) {
   align-items: center;
   justify-content: space-between;
   padding: 26px var(--dl-pad);
-  /* The bar starts transparent over the photographic hero, so its resting
-     text is ivory; .solid brings the ivory bar and flips it to ink. */
-  color: var(--dl-ivory);
-  transition: background .5s, padding .5s, box-shadow .5s, color .5s;
-}
-.dlife #hd.solid { color: var(--dl-ink); }
-.dlife #hd.solid {
-  background: rgba(255, 255, 255, .92);
+  /* The bar carries its white ground from the top of the page, not only once
+     the page has scrolled: over the hero photograph the transparent state put
+     the navigation on whatever the picture happened to be doing behind it.
+     .solid now only tightens the bar as the page moves under it.
+
+     Near-opaque, where the scrolled-only bar could afford .92: it now sits
+     over the hero photograph and the dark bands as well, and at .92 both
+     ghosted through the blur as faint seams across the white. */
+  background: rgba(255, 255, 255, .97);
   backdrop-filter: blur(14px);
   box-shadow: 0 1px 0 rgba(47, 53, 50, .12);
-  padding: 16px var(--dl-pad);
+  color: var(--dl-ink);
+  transition: background .5s, padding .5s, box-shadow .5s, color .5s;
 }
+.dlife #hd.solid { padding: 16px var(--dl-pad); }
 .dlife #hd .wm {
   display: inline-flex;
   align-items: center;
@@ -313,18 +321,15 @@ body:has(.dlife) {
 }
 .dlife .lmark { display: block; flex: none; width: auto; }
 .dlife #hd .lmark { height: 26px; }
-/* The bar opens transparent over the hero photograph, so the ivory cut is the
-   resting state; .solid brings the ivory bar and the teal cut with it. A flat
-   PNG can't follow currentColor the way the drawn clover did, so both ship and
-   the ground picks. menu-open is last because it overrides .solid — the bar
-   goes dark again behind the open overlay. */
-.dlife #hd .lmark:not(.rev) { display: none; }
-.dlife #hd.solid .lmark.rev { display: none; }
-.dlife #hd.solid .lmark:not(.rev) { display: block; }
+/* The bar's ground is white throughout, so the teal-and-gold cut is the
+   resting state. A flat PNG can't follow currentColor the way the drawn clover
+   did, so both cuts ship and the ground picks: the ivory one appears only
+   behind the open menu overlay, where the bar goes dark. */
+.dlife #hd .lmark.rev { display: none; }
 .dlife.menu-open #hd .lmark.rev { display: block; }
 .dlife.menu-open #hd .lmark:not(.rev) { display: none; }
-/* Primary navigation. The bar rides transparent over the hero, so the links
-   inherit its ivory and flip with it when .solid lands. */
+/* Primary navigation. The links inherit the bar's own colour, so they follow
+   it to ivory behind the open menu overlay and need no rules of their own. */
 .dlife #hd .nav {
   display: flex;
   align-items: center;
@@ -462,7 +467,13 @@ body:has(.dlife) {
 @media (max-width: 1180px) {
   .dlife #hd .burger { display: flex; }
 }
-/* The overlay is dark, so the burger inverts while the menu is open. */
+/* The overlay is dark, so the bar drops its white ground and inverts while the
+   menu is open. */
+.dlife.menu-open #hd {
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
 .dlife.menu-open #hd,
 .dlife.menu-open #hd .wm,
 .dlife.menu-open #hd .burger { color: var(--dl-ivory); }
@@ -540,7 +551,8 @@ body:has(.dlife) {
      copy and actions sit between roughly 20% and 50% up, which is exactly
      where the old ramp had already fallen to .52 and then .10 — over a
      bright frame that left ivory text sitting on near-white. The faint top
-     stop keeps the fixed nav legible before it goes solid. */
+     stop is the picture settling under the bar, not legibility: the header
+     carries its own white ground. */
   background: linear-gradient(to top,
     rgba(11, 33, 29, .94) 0%,
     rgba(11, 33, 29, .86) 22%,
@@ -574,7 +586,17 @@ body:has(.dlife) {
   color: var(--dl-ivory);
 }
 .dlife #hero .lb::before { width: 34px; }
-.dlife #hero h1 .lw { display: block; overflow: hidden; }
+/* The mask that drives the line-by-line reveal was cropping the line itself:
+   at line-height 1.04 the line box stops above Lora's descenders, so the tails
+   of "Beyond" and "Policy." were shaved flat. The padding gives the descenders
+   room inside the mask and the matching negative margin gives the space back,
+   so the two lines keep their original spacing. */
+.dlife #hero h1 .lw {
+  display: block;
+  overflow: hidden;
+  padding-bottom: .18em;
+  margin-bottom: -.18em;
+}
 .dlife #hero h1 .lw span { display: inline-block; }
 
 .dlife #hero p {
@@ -721,10 +743,13 @@ body:has(.dlife) {
   display: inline-flex;
   font-size: var(--dl-section-sub);
 }
+/* 18ch, not 16: at 16 the title broke to three short lines ("Support built /
+   around real / life needs") against a section head that is mostly open
+   space. Two lines is the balance the head was drawn for. */
 .dlife #needs h2 {
   font-size: var(--dl-section-title);
   line-height: 1.08;
-  max-width: 16ch;
+  max-width: 18ch;
 }
 .dlife #needs .head .needs-sub {
   font: 400 var(--dl-section-body)/1.65 var(--dl-sans);
@@ -740,16 +765,25 @@ body:has(.dlife) {
   gap: clamp(12px, 1.2vw, 20px);
   padding: 0 var(--dl-pad);
 }
+/* Two halves across the top, three equal cards beneath. The top card used to
+   take four of the six columns beside a two-column neighbour, which made it
+   twice the size of every other card and left the bottom row noticeably
+   shorter than the row above it — the caption then had to sit on a crop with
+   barely any picture left under it. The sizes still vary by row, which is what
+   keeps this from reading as the pathway's chip row, but they now vary by a
+   step rather than by double. */
 .dlife .ncard {
   position: relative;
   overflow: hidden;
   border-radius: 3px;
   grid-column: span 2;
-  min-height: clamp(210px, 22vw, 280px);
+  min-height: clamp(250px, 25vw, 330px);
   isolation: isolate;
 }
-.dlife .ncard:nth-child(1) { grid-column: span 4; }
-.dlife .ncard:nth-child(-n+2) { min-height: clamp(250px, 27vw, 360px); }
+.dlife .ncard:nth-child(-n+2) {
+  grid-column: span 3;
+  min-height: clamp(290px, 29vw, 390px);
+}
 .dlife .ncard .ph { position: absolute; inset: 0; }
 /* The scrim is the card's own, not .scrim-b: it has to clear a two-line
    heading plus a description, so it reaches higher than the shared one. */
@@ -797,10 +831,12 @@ body:has(.dlife) {
 .dlife .ncard .ph img { transition: transform 1s cubic-bezier(.22, .7, .24, 1); }
 .dlife .ncard:hover .ph img { transform: scale(1.05); }
 
-/* Tablet: the wide card keeps its emphasis, the rest pair off. */
+/* Tablet: the lead card runs full width so the remaining four pair off
+   cleanly — three across would leave a half-empty row. */
 @media (max-width: 1080px) {
   .dlife #needs .grid { grid-template-columns: repeat(4, 1fr); }
-  .dlife .ncard { grid-column: span 2; }
+  .dlife .ncard,
+  .dlife .ncard:nth-child(-n+2) { grid-column: span 2; }
   .dlife .ncard:nth-child(1) { grid-column: span 4; }
 }
 /* Phone: uniform, readable cards stacked — no half-visible tiles. */
@@ -816,9 +852,10 @@ body:has(.dlife) {
   }
   .dlife #needs .grid { grid-template-columns: 1fr; }
   .dlife .ncard,
-  .dlife .ncard:nth-child(1) { grid-column: span 1; }
+  .dlife .ncard:nth-child(1),
+  .dlife .ncard:nth-child(-n+2) { grid-column: span 1; }
   .dlife .ncard,
-  .dlife .ncard:nth-child(-n+2) { min-height: 230px; }
+  .dlife .ncard:nth-child(-n+2) { min-height: 250px; }
 }
 
 /* ---------- existing-policy guidance (sand) ---------- */
@@ -1550,28 +1587,18 @@ body:has(.dlife) {
 /* ---- band 3: compliance ----
    Bronze is decorative-only in this system (it fails AA as text), and this is
    the one hairline that should read warm rather than neutral: it marks the
-   seam between the human content and the fine print. */
+   seam between the human content and the fine print.
+
+   One column, not two, since the Licensing slot came out: the notice is the
+   whole band now, and its own 74ch measure keeps it off the full width. */
 .dlife #ft .fine {
   border-top: 1px solid var(--s-rule);
   padding: clamp(28px, 4vh, 40px) 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-  gap: clamp(24px, 4vw, 64px);
-  align-items: start;
 }
 .dlife #ft .note {
   font: 400 14px/1.75 var(--dl-sans);
   color: var(--s-muted);
   max-width: 74ch;
-}
-.dlife #ft .fine .k { margin-bottom: 10px; }
-/* Marked placeholder, styled like .slot-empty marks the unbuilt portraits:
-   Lora Medium in the accent, obviously provisional. */
-.dlife #ft .pend {
-  padding: 14px 16px;
-  box-shadow: inset 0 0 0 1px var(--s-line);
-  font: 500 14px/1.6 var(--dl-disp);
-  color: var(--s-accent);
 }
 
 /* ---- band 4: base ---- */
@@ -1612,7 +1639,9 @@ body:has(.dlife) {
    `.js` on <html> before paint, so a no-JS visit gets the full page
    (and no loader stranded over it) instead of a blank screen. */
 .js .dlife .rv { opacity: 0; transform: translateY(40px); }
-.js .dlife #hero h1 .lw span { transform: translateY(115%); }
+/* Past 100% by more than the mask's descender padding, so the line still
+   starts fully outside it. */
+.js .dlife #hero h1 .lw span { transform: translateY(130%); }
 .js .dlife #loader .wm { transform: translateY(110%); }
 html:not(.js) .dlife #loader { display: none; }
 
@@ -1626,7 +1655,6 @@ html:not(.js) .dlife #loader { display: none; }
 /* ---- responsive ---- */
 @media (max-width: 1080px) {
   .dlife #ft .mid { grid-template-columns: 1fr; gap: clamp(44px, 7vh, 76px); }
-  .dlife #ft .fine { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {

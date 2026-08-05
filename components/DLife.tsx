@@ -1207,7 +1207,14 @@ export default function DLife() {
         {/* This is a financial advisory; trust is the product. Deliberately no
             .rv on this band or the one below — they are the last elements on
             the page, and a missed scroll trigger must never leave a legal
-            notice stuck at opacity 0. */}
+            notice stuck at opacity 0.
+
+            The Licensing slot that sat beside this notice is gone at the
+            client's request: it was a marked placeholder for brief §14 Q4
+            (is D'Life a licensed agency in its own right, or a team under a
+            larger insurer?), and that question is still open. Nothing is
+            invented in its place — the answer, when it lands, comes back here
+            as real copy. */}
         <div className="fine">
           <p className="note">
             D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read
@@ -1215,16 +1222,6 @@ export default function DLife() {
             recommendation only follows a conversation, a needs assessment and the relevant product disclosure
             documents.
           </p>
-          <div>
-            <span className="k">Licensing</span>
-            {/* ⚠️ Brief §14 Q4 — is D'Life a licensed agency in its own right,
-                or a team under a larger insurer? Until that is answered we show
-                the slot rather than invent a regulator. Placeholder, not
-                shippable copy. */}
-            <p className="pend">
-              Legal entity, company registration and licensing details to be confirmed before launch.
-            </p>
-          </div>
         </div>
 
         <div className="base">
