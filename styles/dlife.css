@@ -46,6 +46,11 @@
   --dl-disp: "Lora", Georgia, serif;              /* headings 600, editorial 500 */
   --dl-sans: "Work Sans", system-ui, sans-serif;  /* body, nav, labels, UI */
   --dl-pad: clamp(24px, 5vw, 84px);
+  /* One vertical rhythm for every long-form section, so "compact the page"
+     is a single number rather than a dozen per-section paddings. The old
+     18–20vh bands opened up to 180px of air above and below sections whose
+     content was often shorter than the padding around it. */
+  --dl-sec-y: clamp(56px, 9vh, 104px);
   /* One page-wide hierarchy: title > section subheadline > body. */
   --dl-section-title: clamp(34px, 3.6vw, 56px);
   --dl-section-sub: clamp(18px, 1.45vw, 22px);
@@ -147,7 +152,12 @@ body:has(.dlife) {
 
 /* Section subheadline. It is deliberately the middle tier between the large
    title and supporting body copy, including labels such as "Existing
-   policyholders". */
+   policyholders".
+
+   No leading rule. Every subheadline used to open on a 26px dash, which the
+   client reads as a stray hyphen in front of the words rather than as an
+   accent — so the label starts on its first letter, everywhere on the site.
+   Colour, weight and tracking already separate it from the heading below. */
 .dlife .lb {
   display: inline-flex;
   align-items: center;
@@ -156,13 +166,6 @@ body:has(.dlife) {
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--s-label);
-}
-.dlife .lb::before {
-  content: "";
-  width: 26px;
-  height: 2px;
-  flex: none;
-  background: currentColor;
 }
 /* One family, one weight, one style per heading. Lora's letterforms carry
    their own contrast, so the grotesque's tight tracking and uppercase both
@@ -296,17 +299,22 @@ body:has(.dlife) {
   align-items: center;
   justify-content: space-between;
   padding: 26px var(--dl-pad);
-  /* The bar carries its white ground from the top of the page, not only once
-     the page has scrolled: over the hero photograph the transparent state put
-     the navigation on whatever the picture happened to be doing behind it.
+  /* The bar carries its ground from the top of the page, not only once the
+     page has scrolled: over a photograph the transparent state put the
+     navigation on whatever the picture happened to be doing behind it.
      .solid now only tightens the bar as the page moves under it.
 
-     Near-opaque, where the scrolled-only bar could afford .92: it now sits
-     over the hero photograph and the dark bands as well, and at .92 both
-     ghosted through the blur as faint seams across the white. */
-  background: rgba(255, 255, 255, .97);
+     Ivory, not white. White was the one surface on the site that belonged to
+     no section — it read as a separate application chrome sitting on top of
+     the page. The bar now carries the same beige ground as the hero it opens
+     onto, so header and page are one material and the seam only appears where
+     the bar crosses a dark band.
+
+     Near-opaque, where a scrolled-only bar could afford .92: it also sits over
+     the dark sections, and at .92 those ghosted through the blur. */
+  background: rgba(246, 241, 232, .96);
   backdrop-filter: blur(14px);
-  box-shadow: 0 1px 0 rgba(47, 53, 50, .12);
+  box-shadow: 0 1px 0 rgba(47, 53, 50, .10);
   color: var(--dl-ink);
   transition: background .5s, padding .5s, box-shadow .5s, color .5s;
 }
@@ -320,8 +328,11 @@ body:has(.dlife) {
   flex: none;
 }
 .dlife .lmark { display: block; flex: none; width: auto; }
-.dlife #hd .lmark { height: 26px; }
-/* The bar's ground is white throughout, so the teal-and-gold cut is the
+/* Down from 26px. At 26 the lockup stood a third taller than the cap height of
+   the navigation beside it and read as the loudest thing in the bar; at 22 it
+   still leads the row but sits in proportion with the 15px links. */
+.dlife #hd .lmark { height: 22px; }
+/* The bar's ground is beige throughout, so the teal-and-gold cut is the
    resting state. A flat PNG can't follow currentColor the way the drawn clover
    did, so both cuts ship and the ground picks: the ivory one appears only
    behind the open menu overlay, where the bar goes dark. */
@@ -362,9 +373,11 @@ body:has(.dlife) {
   min-width: 268px;
   padding: 9px;
   border-radius: 10px;
-  background: var(--dl-ivory);
-  border: 1px solid rgba(47, 53, 50, .12);
-  box-shadow: 0 14px 34px rgba(15, 51, 44, .16);
+  /* Cream rather than ivory: the bar it drops out of is ivory now, and an
+     ivory panel on an ivory bar has only its shadow to separate the two. */
+  background: var(--dl-cream);
+  border: 1px solid rgba(47, 53, 50, .14);
+  box-shadow: 0 16px 36px rgba(15, 51, 44, .18);
   opacity: 0;
   visibility: hidden;
   transform: translateY(6px);
@@ -534,58 +547,63 @@ body:has(.dlife) {
 .dlife #menu .side .c a:hover { color: var(--dl-sand); }
 .dlife #menu .side .lb { color: var(--dl-sand); }
 
-/* ---------- hero (ivory) ----------
-   Brief §10 puts the hero on Ivory, so the headline sits on the page ground
-   in ink and the photograph runs full-bleed beneath it at generous scale —
-   rather than the comp's white-on-photo treatment, which is exactly what
-   forced the heavy scrim. The page's one layered-depth moment is now DVA,
-   which §9 wants used "selectively" and §4 wants dark and contained. */
-.dlife #hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; }
-.dlife #hero .bg { position: absolute; inset: 0; }
-.dlife #hero .bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  /* Bottom-weighted, and deeper than it was through the middle band. The
-     copy and actions sit between roughly 20% and 50% up, which is exactly
-     where the old ramp had already fallen to .52 and then .10 — over a
-     bright frame that left ivory text sitting on near-white. The faint top
-     stop is the picture settling under the bar, not legibility: the header
-     carries its own white ground. */
-  background: linear-gradient(to top,
-    rgba(11, 33, 29, .94) 0%,
-    rgba(11, 33, 29, .86) 22%,
-    rgba(11, 33, 29, .64) 42%,
-    rgba(11, 33, 29, .22) 68%,
-    rgba(11, 33, 29, .34) 100%);
-  pointer-events: none;
+/* ---------- hero (ivory, split) ----------
+   Per the client's reference: the copy sits on the beige page ground at the
+   left and the photograph is a panel held at the very right edge, running the
+   full height of the band from under the header down to the pathway strip.
+
+   That is a different proposition from the full-bleed frame it replaces. The
+   headline no longer sits on the picture, so the heavy bottom-weighted scrim
+   that existed only to keep ivory type legible over a bright photograph is
+   gone with it, and the section reverts to the page's own light mode — teal
+   headline, copper label, ink body, exactly as every other light section. */
+.dlife #hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+  align-items: stretch;
+  gap: clamp(28px, 4vw, 68px);
+  min-height: clamp(560px, 78vh, 740px);
+  background: var(--s-bg);
+  /* Left and top inset only. The right column has no padding to sit inside,
+     which is what carries the picture off the right edge; no bottom padding,
+     so it runs from under the header down to the pathway strip in one plate,
+     as the reference shows it. */
+  padding: calc(var(--dl-pad) * .5 + 76px) 0 0 var(--dl-pad);
+  overflow: hidden;
+}
+/* The plate's inner edge is softened into the page rather than butted against
+   it — the reference shows the photograph resolving out of the beige, not
+   sitting in a hard-edged box. Masked rather than covered with a beige
+   gradient, so the fade carries no colour of its own and stays correct
+   whatever ground the section is on. */
+.dlife #hero .bg {
+  position: relative;
+  align-self: stretch;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%);
+  mask-image: linear-gradient(to right, transparent 0, #000 8%);
 }
 .dlife #hero .fg {
-  position: absolute;
-  left: var(--dl-pad);
-  right: var(--dl-pad);
-  bottom: 11vh;
+  position: relative;
   z-index: 3;
-  /* No text halo. At 26px blur it stopped reading as protection and started
-     reading as a soft grey panel behind the words; the scrim below already
-     carries legibility on its own. */
+  align-self: center;
+  padding-right: clamp(8px, 1.5vw, 24px);
+  padding-bottom: clamp(24px, 4vh, 48px);
 }
 /* The hero uses the same hierarchy, with one extra display step for the page
    title. */
-.dlife #hero h1 { font-size: clamp(40px, 5vw, 72px); line-height: 1.04; }
-/* Sand already clears ~6.9:1 against the scrimmed frame, so this was never a
-   contrast problem — it was scale. Sitting above a 76px headline, a 15px line
-   reads as a caption. Up a step and taken to ivory, which is the brightest
-   thing available on this ground. */
+.dlife #hero h1 { font-size: clamp(38px, 4.4vw, 64px); line-height: 1.06; }
+/* Sitting above a 64px headline, a 15px line reads as a caption — so the
+   label keeps the section-subheadline step. Copper on beige, since the copy
+   is on the page ground now rather than on a scrimmed photograph. */
 .dlife #hero .lb {
   display: inline-flex;
-  margin-bottom: 26px;
+  margin-bottom: 22px;
   font-size: var(--dl-section-sub);
   letter-spacing: .1em;
-  color: var(--dl-ivory);
+  color: var(--s-label);
 }
-.dlife #hero .lb::before { width: 34px; }
 /* The mask that drives the line-by-line reveal was cropping the line itself:
    at line-height 1.04 the line box stops above Lora's descenders, so the tails
    of "Beyond" and "Policy." were shaved flat. The padding gives the descenders
@@ -601,11 +619,32 @@ body:has(.dlife) {
 
 .dlife #hero p {
   font: 400 var(--dl-section-body)/1.65 var(--dl-sans);
-  color: var(--s-strong);
-  max-width: 48ch;
-  margin-top: 24px;
+  color: var(--s-body);
+  max-width: 42ch;
+  margin-top: 22px;
 }
-.dlife #hero .acts { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+.dlife #hero .acts { display: flex; gap: 16px; margin-top: 34px; flex-wrap: wrap; }
+/* Tablet and below: the copy column can't hold a 40px headline beside a
+   picture, so the two stack and the photograph becomes a full-width band under
+   the copy — still edge to edge, just horizontal. */
+@media (max-width: 900px) {
+  .dlife #hero {
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 5vh, 48px);
+    min-height: 0;
+    padding: calc(var(--dl-pad) * .5 + 72px) 0 0 var(--dl-pad);
+  }
+  .dlife #hero .fg { padding-right: var(--dl-pad); }
+  /* Full-bleed again once stacked: the section's left inset is cancelled so
+     the band runs edge to edge under the copy, and the inner-edge fade goes
+     with the edge it was softening. */
+  .dlife #hero .bg {
+    height: clamp(280px, 46vh, 420px);
+    margin-left: calc(var(--dl-pad) * -1);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
 
 
 /* ---------- 04 · trust proof (six approved themes) ----------
@@ -624,7 +663,7 @@ body:has(.dlife) {
   display: flex;
   flex-direction: column;
   background: var(--s-bg);
-  padding: clamp(28px, 3vw, 42px) clamp(22px, 2.4vw, 36px);
+  padding: clamp(24px, 2.5vw, 34px) clamp(20px, 2.2vw, 32px);
 }
 .dlife #trust svg { width: 24px; height: 24px; color: var(--s-accent); margin-bottom: 16px; }
 .dlife #trust b {
@@ -659,7 +698,7 @@ body:has(.dlife) {
    on phones. */
 .dlife #path {
   background: var(--s-bg);
-  padding: clamp(44px, 6vh, 76px) var(--dl-pad);
+  padding: clamp(36px, 5vh, 60px) var(--dl-pad);
   text-align: center;
   border-bottom: 1px solid var(--s-line-soft);
 }
@@ -730,9 +769,9 @@ body:has(.dlife) {
    Six-column grid: a wide card and a narrow one across the top, three equal
    beneath. Varied sizes are explicitly allowed and are what keeps this from
    reading as the same chip row as the pathway strip above. */
-.dlife #needs { position: relative; background: var(--s-bg); padding-bottom: clamp(72px, 12vh, 150px); }
+.dlife #needs { position: relative; background: var(--s-bg); padding-bottom: var(--dl-sec-y); }
 .dlife #needs .head {
-  padding: clamp(72px, 12vh, 160px) var(--dl-pad) clamp(34px, 5vh, 60px);
+  padding: var(--dl-sec-y) var(--dl-pad) clamp(28px, 4vh, 48px);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -862,7 +901,7 @@ body:has(.dlife) {
 .dlife #policy { background: var(--s-bg); color: var(--s-body); display: grid; grid-template-columns: 1fr 1fr; }
 /* Was 18vh top and bottom, which left the panel mostly empty — the report
    asks for this to be tightened and to read concise and calm. */
-.dlife #policy .tx { padding: clamp(64px, 10vh, 120px) var(--dl-pad); }
+.dlife #policy .tx { padding: var(--dl-sec-y) var(--dl-pad); }
 .dlife #policy .lb { display: inline-flex; margin-bottom: 20px; }
 .dlife #policy h2 { font-size: var(--dl-section-title); max-width: 15ch; }
 .dlife #policy p {
@@ -888,7 +927,7 @@ body:has(.dlife) {
   display: grid;
   grid-template-columns: .95fr 1.05fr;
   gap: clamp(40px, 6vw, 110px);
-  padding: 20vh var(--dl-pad);
+  padding: var(--dl-sec-y) var(--dl-pad);
   align-items: center;
 }
 .dlife #founder .ph { aspect-ratio: 3/4; }
@@ -935,31 +974,49 @@ body:has(.dlife) {
 .dlife #stories {
   background: var(--s-bg);
   color: var(--s-body);
-  padding: 18vh var(--dl-pad);
+  padding: var(--dl-sec-y) var(--dl-pad);
 }
 .dlife #stories .head {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 8vh;
+  margin-bottom: clamp(30px, 4.5vh, 54px);
   gap: 40px;
   flex-wrap: wrap;
 }
 .dlife #stories h2 { font-size: var(--dl-section-title); max-width: 14ch; line-height: 1.04; }
-/* Compact row. The active card is enlarged relative to its neighbours, per
-   the report's "enlarge only relative to the secondary cards" — the row's own
-   height is unchanged as the active card moves along it. */
+/* Centre stage. The playing film sits in the middle of the row with the other
+   two held either side of it as previews, and the centre frame is the larger
+   one — position, not array index, is what says which is playing. The cards'
+   DOM order never changes; `order` alone rotates the row around the active
+   card, which keeps reading order at 1, 2, 3 and keeps React from relocating
+   three cards' worth of media on every step. */
 .dlife #stories .reel {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   gap: clamp(14px, 1.8vw, 30px);
 }
-.dlife .story { flex: 1 1 0; min-width: 0; transition: flex-grow .5s cubic-bezier(.22, .7, .24, 1); }
-.dlife .story.on { flex-grow: 1.55; }
+/* The row's own sizing. Scoped to the reel because the /stories page lays the
+   same cards out in a grid and must not inherit a fixed strip width.
+
+   The centre card is the larger frame — the client's "the main video should be
+   a bigger frame while it plays" — and the two previews sit either side of it
+   at roughly two-thirds the width. */
+.dlife #stories .reel .story {
+  flex: 0 0 auto;
+  width: clamp(148px, 15.4vw, 222px);
+  text-align: center;
+  transition: width .5s cubic-bezier(.22, .7, .24, 1);
+}
+.dlife #stories .reel .story.on { width: clamp(232px, 24vw, 346px); }
+/* Frames follow the source: these are 9:16 vertical films, so the card is
+   9:16 and the picture fills it edge to edge. The old 4:3-ish frame is what
+   put the two dead columns either side of a playing video. */
 .dlife .story .ph {
   position: relative;
   width: 100%;
-  height: clamp(340px, 31vw, 430px);
+  aspect-ratio: 9 / 16;
   overflow: hidden;
   border-radius: 4px;
   background: var(--s-plate);
@@ -986,23 +1043,22 @@ body:has(.dlife) {
   transition: transform 1.2s cubic-bezier(.22, .7, .24, 1);
 }
 .dlife .story:hover .ph img { transform: scale(1.06); }
-.dlife .story.on .ph { height: clamp(340px, 31vw, 430px); }
-/* Blurred frame behind the contained player, so the letterbox columns read as
-   part of the picture rather than as two black slabs. */
-.dlife .story.on .ph::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: var(--poster);
-  background-size: cover;
-  background-position: var(--poster-position, center);
-  filter: blur(26px) brightness(.45) saturate(.9);
-  transform: scale(1.15);
+/* The previews are quieter than the film that is playing, and lift toward it
+   on hover — so it is legible that clicking one brings it to the centre. */
+.dlife #stories .reel .story:not(.on) .ph { opacity: .72; transition: opacity .45s; }
+.dlife #stories .reel .story:not(.on):hover .ph,
+.dlife #stories .reel .story:not(.on):focus-within .ph { opacity: 1; }
+/* The card is cut to the film's own 9:16, so the picture fills it exactly:
+   no letterbox columns, and nothing cropped away either. The blurred backdrop
+   that used to disguise those columns is gone with them. */
+.dlife .story .ph video {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
-.dlife .story.on .ph video { position: relative; z-index: 1; }
-/* No background on the player itself: it fills the whole box even when the
-   picture is letterboxed, which would paint over the blurred fill behind it. */
-.dlife .story .ph video { width: 100%; height: 100%; object-fit: contain; display: block; }
 .dlife .story .play {
   position: absolute;
   top: 50%;
@@ -1023,7 +1079,11 @@ body:has(.dlife) {
 .dlife .story .play svg { margin-left: 3px; }
 .dlife .story .ph:focus-visible,
 .dlife .story .pick:focus-visible { outline: 2px solid var(--dl-copper); outline-offset: 3px; }
+/* Stepped down on the previews: a full-size card title under a 200px preview
+   wraps to three lines and competes with the film that is actually playing. */
 .dlife .story h3 { font-size: var(--dl-card-title); margin-top: 18px; }
+.dlife #stories .reel .story:not(.on) h3 { font: 600 clamp(15px, 1.15vw, 17px)/1.3 var(--dl-disp); margin-top: 14px; }
+.dlife #stories .reel .story:not(.on) .run { font-size: 11px; }
 .dlife .story .run {
   display: block;
   margin-top: 8px;
@@ -1120,9 +1180,8 @@ body:has(.dlife) {
 /* Phone: the row would give three unreadable slivers, so only the active card
    shows and the controls become the way through. */
 @media (max-width: 760px) {
-  .dlife .story { display: none; }
-  .dlife .story.on { display: block; flex-grow: 1; }
-  .dlife .story.on .ph { height: auto; aspect-ratio: 4 / 5; }
+  .dlife #stories .reel .story { display: none; }
+  .dlife #stories .reel .story.on { display: block; width: min(100%, 340px); margin-inline: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dlife .story { transition: none; }
@@ -1131,9 +1190,10 @@ body:has(.dlife) {
 
 /* ---------- inline story playback ----------
    Replaces the lightbox. The report is explicit: playback happens inside the
-   card, with no overlay, blur or modal. The player therefore inherits the
-   card's own frame, and the 9:16 source is contained rather than cropped so
-   the burned-in subtitles at the foot of the picture survive. */
+   card, with no overlay, blur or modal. The player inherits the card's own
+   frame, which is cut to the source's 9:16 — so `contain` and `cover` resolve
+   to the same picture here, with nothing letterboxed and nothing cropped away
+   from the burned-in subtitles at the foot of the frame. */
 .dlife .story .ph.playing { background: #000; }
 .dlife .story .ph.playing video {
   width: 100%;
@@ -1154,9 +1214,12 @@ body:has(.dlife) {
   color: var(--s-muted);
   margin-top: 20px;
 }
+/* Capped rather than free-growing: the cards are 9:16 now, so a column that
+   stretches to a third of a desktop viewport would be a 700px-tall poster. */
 .dlife #allstories .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 300px));
+  justify-content: start;
   gap: clamp(22px, 2.6vw, 44px);
 }
 
@@ -1179,7 +1242,7 @@ body:has(.dlife) {
 }
 .dlife #careers {
   background: var(--s-bg);
-  padding: 20vh var(--dl-pad);
+  padding: var(--dl-sec-y) var(--dl-pad);
   display: grid;
   grid-template-columns: .85fr 1.15fr;
   gap: clamp(40px, 6vw, 100px);
@@ -1212,49 +1275,46 @@ body:has(.dlife) {
 .dlife #careers .rows p { font: 400 var(--dl-section-body)/1.65 var(--dl-sans); color: var(--s-muted); margin-top: 6px; max-width: 44ch; }
 .dlife #careers .rows em { font: 500 15px/1 var(--dl-disp); color: var(--s-quiet); }
 
-/* ---------- 10 · DVA (contained teaser) ----------
-   Reference slide 8: a bounded panel on flat deep green — no photograph, no
-   full-viewport band — reading as selective and discreet against Youth's
-   openness immediately after it. The name carries the panel at heading
-   scale; the proposition sits under it as supporting copy. */
-.dlife #dva { background: var(--s-bg); color: var(--s-body); padding: clamp(56px, 9vh, 110px) var(--dl-pad); }
+/* ---------- 10 · DVA (contained teaser, ivory) ----------
+   On the page ground, not on a deep-green band: the client asks for this to
+   carry the same background as "Grow with D'Life" directly above it, so the
+   two read as one stretch of the page rather than as a dark interruption
+   between them.
+
+   Losing the green means losing the wash the copy used to sit on, so the
+   photograph comes out from behind the type and takes its own half of a
+   contained card. Still bounded, still a teaser — brief §4's "small,
+   contained" survives the change of ground; only "dark" does not. */
+.dlife #dva { background: var(--s-bg); color: var(--s-body); padding: var(--dl-sec-y) var(--dl-pad); }
 .dlife #dva .panel {
   position: relative;
   overflow: hidden;
-  max-width: 880px;
+  max-width: 1060px;
   margin: 0 auto;
-  border: 1px solid rgba(246, 241, 232, .22);
+  border: 1px solid var(--s-line-soft);
   border-radius: 12px;
+  background: var(--dl-cream);
   display: grid;
-  place-items: center;
-  text-align: center;
-  padding: clamp(52px, 7vh, 88px) clamp(24px, 4vw, 64px);
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  align-items: center;
 }
-/* The team photograph, back inside the panel. It stays contained rather than
-   full-bleed, so the section still reads as a teaser; the wash is what keeps
-   the type legible over it. */
-.dlife #dva .bg { position: absolute; inset: 0; }
-.dlife #dva .bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: rgba(11, 33, 29, .72);
-  pointer-events: none;
-}
-.dlife #dva .fg { position: relative; z-index: 3; max-width: 620px; }
-.dlife #dva .lb { color: var(--dl-sand); }
-.dlife #dva h2 { font-size: var(--dl-section-title); margin-top: 16px; }
+.dlife #dva .panel .ph { align-self: stretch; min-height: clamp(280px, 28vw, 360px); }
+.dlife #dva .fg { padding: clamp(30px, 3.8vw, 54px); }
+.dlife #dva h2 { font-size: var(--dl-section-title); margin-top: 14px; max-width: 15ch; }
 .dlife #dva p {
   font: 400 var(--dl-section-body)/1.65 var(--dl-sans);
-  color: var(--s-muted);
-  margin: 16px auto 0;
-  max-width: 46ch;
+  color: var(--s-body);
+  margin-top: 16px;
+  max-width: 40ch;
 }
-.dlife #dva .pill { margin-top: 32px; }
+.dlife #dva .pill { margin-top: 28px; }
+@media (max-width: 860px) {
+  .dlife #dva .panel { grid-template-columns: 1fr; }
+  .dlife #dva .panel .ph { min-height: 0; aspect-ratio: 16 / 10; }
+}
 
 /* ---------- youth community (sand) ---------- */
-.dlife #youth { background: var(--s-bg); color: var(--s-body); padding: 18vh var(--dl-pad); }
+.dlife #youth { background: var(--s-bg); color: var(--s-body); padding: var(--dl-sec-y) var(--dl-pad); }
 .dlife #youth .head {
   display: grid;
   grid-template-columns: 1.1fr .9fr;
@@ -1278,7 +1338,7 @@ body:has(.dlife) {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(18px, 2vw, 32px);
-  margin-top: 9vh;
+  margin-top: clamp(32px, 5vh, 58px);
 }
 .dlife #youth .yc {
   position: relative;
@@ -1356,7 +1416,7 @@ body:has(.dlife) {
 /* ---------- faq ---------- */
 .dlife #faq {
   background: var(--s-bg);
-  padding: 20vh var(--dl-pad);
+  padding: var(--dl-sec-y) var(--dl-pad);
   display: grid;
   grid-template-columns: .8fr 1.2fr;
   gap: clamp(40px, 6vw, 110px);
@@ -1401,32 +1461,124 @@ body:has(.dlife) {
   padding-bottom: 34px;
 }
 
-/* ---------- 13 · closing CTA (flat deep green) ----------
-   Was a 660-980px band carrying a full-bleed photograph under a six-stop
-   scrim, a green tint layer and a grain overlay. All of it is gone: this is
-   one question and two actions, and it does not need a stage. The hairline
-   still declares the seam into the charcoal footer, which is the brief's one
-   permitted adjacent dark pair. */
+/* ---------- 13 · closing CTA (deep green + full-bleed photograph) ----------
+   Restored at the client's request, with its background back. The flat green
+   band that stood here for one round is gone: the page opens on a photograph
+   and closes on one, and the closing frame is what gives the last question
+   somewhere to be asked.
+
+   The hero runs its photograph behind the type under a bottom-weighted scrim.
+   This is that move reflected: heaviest at the top edge, a plateau under the
+   copy, then releasing downward so the photograph resolves in the lower third.
+   The release is deliberate — it is what stops this section and the charcoal
+   footer reading as one undifferentiated dark mass, which is the risk in the
+   brief's one permitted adjacent dark pair.
+
+   The band itself is about a third shorter than the version being restored
+   (660–980px, on up to 210px and 440px of padding), in line with the pass
+   that compacts every section on the page. */
 .dlife #close {
   position: relative;
+  overflow: hidden;              /* contains the .prlx over-scan */
   background: var(--s-bg);
   color: var(--s-body);
   text-align: center;
-  padding: clamp(72px, 11vh, 130px) var(--dl-pad);
+  /* align-content:start is the contrast mechanism, not a layout whim: it pins
+     the type to the upper region so spare height always falls below the copy,
+     never through it, and the copy can never drift down into the part of the
+     ramp where the scrim has released. */
+  display: grid;
+  align-content: start;
+  min-height: clamp(520px, 68vh, 740px);
+  padding: clamp(80px, 11vh, 132px) var(--dl-pad) clamp(190px, 26vh, 300px);
 }
+.dlife #close .bg { position: absolute; inset: 0; z-index: 0; }
+/* Less over-scan than the -12% site default: the parallax only travels ±6%,
+   so -8% still covers at both extremes and hands ~16% of the plate's vertical
+   resolution back to the picture. This is the most enlarged image on the page
+   and it needs the pixels. */
+.dlife #close .bg .prlx { inset: -8% 0; }
+.dlife #close .bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  /* Two layers: a darkness ramp, plus a deep-green tint that fades with it so
+     the plateau reads as the brand's dark ground rather than a grey
+     photograph. The tint is also what keeps type legible over a near-white
+     pixel, so the section stays AA-safe if the plate is ever swapped. */
+  background:
+    linear-gradient(to bottom,
+      rgba(11, 33, 29, .94) 0%,
+      rgba(11, 33, 29, .88) 24%,
+      rgba(11, 33, 29, .78) 50%,
+      rgba(11, 33, 29, .74) 66%,
+      rgba(11, 33, 29, .54) 86%,
+      rgba(11, 33, 29, .40) 100%),
+    linear-gradient(to bottom,
+      rgba(29, 75, 62, .34) 0%,
+      rgba(29, 75, 62, .30) 58%,
+      rgba(29, 75, 62, .18) 86%,
+      rgba(29, 75, 62, .10) 100%);
+}
+/* Grain: reads as film rather than as a soft video frame, and dithers a ramp
+   long enough to band on 8-bit displays. 5% breaks the gradient without
+   texturing the type. */
+.dlife #close .bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: .05;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+/* The hand-off to the footer. The photograph is at its most open here, so the
+   seam is already a change of material; the hairline just declares it. Bronze
+   is legal as a decorative rule, where no contrast minimum applies. */
 .dlife #close::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 5;
   height: 1px;
   background: rgba(168, 135, 82, .55);
 }
-.dlife #close .fg { position: relative; z-index: 1; }
-.dlife #close h2 { font-size: var(--dl-section-title); max-width: 20ch; margin: 0 auto; }
-.dlife #close .sub { font: 500 var(--dl-section-sub)/1.45 var(--dl-disp); color: var(--s-accent); margin-top: 18px; }
-.dlife #close .acts { display: flex; gap: 16px; justify-content: center; margin-top: 36px; flex-wrap: wrap; }
+.dlife #close .fg { position: relative; z-index: 4; }
+.dlife #close .lb { color: var(--dl-sand); }
+.dlife #close h2 { font-size: clamp(36px, 4vw, 62px); line-height: 1.04; max-width: 19ch; margin: 26px auto 0; }
+.dlife #close .sub { font: 500 var(--dl-section-sub)/1.45 var(--dl-disp); color: var(--s-accent); margin-top: 20px; }
+.dlife #close .acts { display: flex; gap: 16px; justify-content: center; margin-top: 40px; flex-wrap: wrap; }
+/* Phone: the headline wraps to three or four lines and the pills stack, so the
+   type block is proportionally much taller. Carry the plateau further down and
+   shorten the opening rather than growing the section into a scroll — brief
+   §13 asks for deliberate re-composition and controlled image height on
+   phone. */
+@media (max-width: 760px) {
+  .dlife #close {
+    min-height: 0;
+    padding: clamp(72px, 10vh, 104px) var(--dl-pad) clamp(190px, 26vh, 260px);
+  }
+  .dlife #close .bg::before {
+    background:
+      linear-gradient(to bottom,
+        rgba(11, 33, 29, .94) 0%,
+        rgba(11, 33, 29, .88) 28%,
+        rgba(11, 33, 29, .78) 60%,
+        rgba(11, 33, 29, .74) 76%,
+        rgba(11, 33, 29, .54) 92%,
+        rgba(11, 33, 29, .40) 100%),
+      linear-gradient(to bottom,
+        rgba(29, 75, 62, .34) 0%,
+        rgba(29, 75, 62, .30) 68%,
+        rgba(29, 75, 62, .18) 92%,
+        rgba(29, 75, 62, .10) 100%);
+  }
+}
 
 /* ---------- footer (charcoal) — warm utility directory ----------
    Charcoal is the page's one non-green dark (brief §10), and CTA → footer is
@@ -1436,10 +1588,15 @@ body:has(.dlife) {
    comes from type, rhythm and one sand accent — no boxes, no icons.
 
    Every colour below is a --s-* token, so this survives a mode change. */
+/* Compacted at the client's request. Nothing is cut — every channel, every
+   directory group and the whole compliance notice stay — but the bands that
+   separated them were sized like editorial sections rather than like a
+   utility footer, and the directory only fitted two of its three groups per
+   row, which pushed the third onto a line of its own beside empty space. */
 .dlife #ft {
   background: var(--s-bg);
   color: var(--s-body);
-  padding: clamp(84px, 12vh, 152px) var(--dl-pad) clamp(26px, 4vh, 42px);
+  padding: clamp(48px, 7vh, 82px) var(--dl-pad) clamp(20px, 3vh, 32px);
 }
 
 /* The global ring is copper-dark, which sits at 2.35:1 on charcoal — below
@@ -1456,7 +1613,7 @@ body:has(.dlife) {
   align-items: flex-end;
   gap: 24px 48px;
   flex-wrap: wrap;
-  padding-bottom: clamp(34px, 5vh, 58px);
+  padding-bottom: clamp(26px, 3.6vh, 40px);
   border-bottom: 1px solid var(--s-line-soft);
 }
 .dlife #ft .wm {
@@ -1482,8 +1639,8 @@ body:has(.dlife) {
 .dlife #ft .mid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
-  gap: clamp(48px, 6vw, 104px);
-  padding: clamp(52px, 7vh, 92px) 0 clamp(56px, 8vh, 104px);
+  gap: clamp(40px, 5vw, 84px);
+  padding: clamp(32px, 4.5vh, 54px) 0 clamp(32px, 4.5vh, 54px);
 }
 
 /* Family, weight and style all come from the global h2 rules — one Lora 600,
@@ -1505,8 +1662,8 @@ body:has(.dlife) {
   color: var(--s-label);
 }
 
-.dlife #ft .chan { margin-top: clamp(28px, 4vh, 44px); }
-.dlife #ft .chan li { padding: 20px 0 16px; border-top: 1px solid var(--s-line); }
+.dlife #ft .chan { margin-top: clamp(22px, 3vh, 32px); }
+.dlife #ft .chan li { padding: 15px 0 13px; border-top: 1px solid var(--s-line); }
 .dlife #ft .chan li:last-child { border-bottom: 1px solid var(--s-line); }
 .dlife #ft .chan .k { margin-bottom: 6px; }
 
@@ -1566,20 +1723,23 @@ body:has(.dlife) {
 .dlife #ft .soc a:hover { color: var(--s-strong); }
 
 /* auto-fit does the whole responsive job: 3 columns on desktop, 2 on tablet,
-   1 on phone, with no breakpoint of its own. */
+   1 on phone, with no breakpoint of its own. The 240px cap it used to carry
+   was 30px wider than the three groups could fit side by side, so the third
+   one wrapped to a row of its own and the footer grew a band of empty space
+   to hold it. */
 .dlife #ft .dirs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(168px, 240px));
+  grid-template-columns: repeat(auto-fit, minmax(158px, 206px));
   justify-content: space-between;
-  gap: clamp(32px, 3.4vw, 48px) clamp(20px, 2.4vw, 40px);
+  gap: clamp(26px, 3vw, 40px) clamp(20px, 2.4vw, 36px);
   align-content: start;
 }
-.dlife #ft .dirs .k { margin-bottom: 18px; }
+.dlife #ft .dirs .k { margin-bottom: 14px; }
 .dlife #ft .dirs a {
   display: block;
   font: 400 16px/1.45 var(--dl-sans);
   color: var(--s-body);            /* 8.7:1 */
-  padding: 12px 0;                 /* 23px line box + 24px = 47px target */
+  padding: 11px 0;                 /* 23px line box + 22px = 45px target */
   transition: color .3s;
 }
 .dlife #ft .dirs a:hover { color: var(--s-strong); }
@@ -1593,7 +1753,7 @@ body:has(.dlife) {
    whole band now, and its own 74ch measure keeps it off the full width. */
 .dlife #ft .fine {
   border-top: 1px solid var(--s-rule);
-  padding: clamp(28px, 4vh, 40px) 0;
+  padding: clamp(20px, 3vh, 30px) 0;
 }
 .dlife #ft .note {
   font: 400 14px/1.75 var(--dl-sans);
@@ -1608,7 +1768,7 @@ body:has(.dlife) {
   align-items: baseline;
   gap: 14px 36px;
   flex-wrap: wrap;
-  padding-top: clamp(22px, 3vh, 30px);
+  padding-top: clamp(18px, 2.4vh, 24px);
   border-top: 1px solid var(--s-line-soft);
   font: 400 13px/1.7 var(--dl-sans);
   color: var(--s-quiet);           /* 4.89:1 at 13px */
@@ -1654,13 +1814,13 @@ html:not(.js) .dlife #loader { display: none; }
 
 /* ---- responsive ---- */
 @media (max-width: 1080px) {
-  .dlife #ft .mid { grid-template-columns: 1fr; gap: clamp(44px, 7vh, 76px); }
+  .dlife #ft .mid { grid-template-columns: 1fr; gap: clamp(34px, 5vh, 54px); }
 }
 
 @media (max-width: 640px) {
   .dlife #ft .mast { align-items: flex-start; }
   .dlife #ft .est { text-align: left; }
-  .dlife #ft .dirs a { padding: 12px 0; }   /* 47px target */
+  .dlife #ft .dirs a { padding: 11px 0; }   /* 45px target */
   .dlife #ft .base { justify-content: flex-start; }
 }
 
@@ -1680,7 +1840,6 @@ html:not(.js) .dlife #loader { display: none; }
   .dlife #founder,
   .dlife #careers,
   .dlife #faq { grid-template-columns: 1fr; }
-  .dlife #stories .grid,
   .dlife #youth .grid { grid-template-columns: 1fr; }
   .dlife #youth .head { grid-template-columns: 1fr; }
   .dlife #trust { grid-template-columns: 1fr 1fr; }
@@ -1694,25 +1853,21 @@ html:not(.js) .dlife #loader { display: none; }
 @media (max-width: 720px) {
   .dlife #hd { padding: 18px var(--dl-pad); }
   .dlife #hd.solid { padding: 13px var(--dl-pad); }
-  .dlife #hd .lmark { height: 21px; }
+  /* Down from 21px with the desktop lockup, so the bar keeps its proportions
+     against the burger label beside it. */
+  .dlife #hd .lmark { height: 18px; }
   .dlife #hd .rt > .pill { display: none; }
   .dlife #hd .burger { gap: 9px; }
   .dlife #hd .burger .ln { width: 23px; }
-  .dlife #hero { min-height: 660px; }
-  .dlife #hero .fg { bottom: 8vh; }
-  .dlife #hero .lb { margin-bottom: 18px; }
+  .dlife #hero .lb { margin-bottom: 16px; }
   .dlife #hero p { margin-top: 18px; }
-  .dlife #hero .acts { margin-top: 28px; }
-  .dlife #needs .head,
-  .dlife #founder,
-  .dlife #stories,
-  .dlife #careers,
-  .dlife #youth,
-  .dlife #faq { padding-top: 76px; padding-bottom: 76px; }
-  .dlife #policy .tx { padding-top: 64px; padding-bottom: 64px; }
+  .dlife #hero .acts { margin-top: 26px; }
+  /* Section rhythm is one token now (--dl-sec-y), which already clamps down
+     at phone heights, so only the members that carry their own spacing need
+     a phone value. */
   .dlife #policy .ph { min-height: 0; aspect-ratio: 4 / 3; }
-  .dlife #stories .head { margin-bottom: 42px; }
+  .dlife #stories .head { margin-bottom: 34px; }
   .dlife #stories .reelctl { gap: 12px; }
-  .dlife #youth .grid { margin-top: 52px; }
-  .dlife #faq button.q { padding: 22px 0; }
+  .dlife #youth .grid { margin-top: 40px; }
+  .dlife #faq button.q { padding: 20px 0; }
 }

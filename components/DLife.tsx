@@ -657,9 +657,11 @@ export default function DLife() {
         </div>
       </nav>
 
-      {/* .dark flips the section tokens to ivory-on-dark — the copy sits on
-          the photograph's scrim, not on the page ground. */}
-      <section id="hero" className="dark">
+      {/* Split hero, per the client's reference: the copy on the beige page
+          ground at the left, the photograph held at the very right edge. The
+          section keeps the page's light mode — nothing sits on the picture
+          any more, so there is no scrim and no reason to invert. */}
+      <section id="hero">
         <div className="fg">
           <span className="lb rv">D’Life · Financial Advisory</span>
           <h1>
@@ -832,26 +834,27 @@ export default function DLife() {
             <span>View all stories</span>
           </a>
         </div>
-        {/* A compact row: the centre card is enlarged relative to its
-            neighbours rather than to the section, so the row keeps its shape
-            as the active card moves along it. */}
+        {/* Centre stage: the playing film sits in the middle of the row at the
+            larger size, with the other two held either side as previews.
+
+            The rotation is presentational — CSS `order` — rather than a
+            reordering of this list, so the row turns around the active card
+            without React relocating three cards' worth of media on every
+            step. Reading order therefore stays 1, 2, 3, which is also what
+            the carousel dots below announce. */}
         <div className="reel">
           {VIDEOS.map((v, i) => {
             const on = i === active;
+            /* Distance forward from the active card: 0 is the centre, the
+               near half runs off to the right and the far half wraps to the
+               left, so the row reads prev · playing · next at any index. */
+            const ahead = (i - active + VIDEOS.length) % VIDEOS.length;
+            const order = ahead <= VIDEOS.length / 2 ? ahead : ahead - VIDEOS.length;
             return (
-              <div className={on ? "story on" : "story"} key={v.title}>
-                {/* The poster doubles as a blurred fill behind the player: the
-                    source is 9:16 and the card is wider, so `contain` would
-                    otherwise leave two dead black columns. */}
-                <div
-                  className="ph"
-                  style={
-                    {
-                      ["--poster" as string]: `url(${v.poster})`,
-                      ["--poster-position" as string]: v.focus,
-                    } as React.CSSProperties
-                  }
-                >
+              <div className={on ? "story on" : "story"} key={v.title} style={{ order }}>
+                {/* The frame is cut to the film's own 9:16, so the picture
+                    fills it exactly — no letterbox columns to disguise. */}
+                <div className="ph" style={{ ["--poster-position" as string]: v.focus } as React.CSSProperties}>
                   {on && armed ? (
                     <>
                       <video
@@ -961,15 +964,16 @@ export default function DLife() {
         </div>
       </section>
 
-      <section id="dva" className="dark">
+      <section id="dva">
         {/* Bounded panel, not a full-viewport band: the brief wants DVA
-            "small, dark, contained" so it reads against Youth's openness. */}
-        {/* Reference slide 8: a contained teaser on flat deep green, centred
-            under a small emblem, closing on an outlined action — not a
-            dominant open-recruitment band, and no photograph behind it. The
-            name now leads at heading scale, with the proposition beneath it. */}
+            "contained" so it reads against Youth's openness below.
+
+            On the same ivory ground as "Grow with D'Life" above it, at the
+            client's direction. With no dark wash left to sit on, the team
+            photograph takes its own half of the card rather than running
+            behind the copy. */}
         <div className="panel rv">
-          <div className="bg ph">
+          <div className="ph">
             <Plate photo={PHOTOS.dva} parallax />
           </div>
           <div className="fg">
@@ -978,7 +982,7 @@ export default function DLife() {
                 Value Associates, in the section and in the footer. */}
             <h2>Drive Value Associates (DVA)</h2>
             <p>Built for leaders, a selective circle shaped by shared values and experience.</p>
-            <a className="pill sand" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
+            <a className="pill" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
               <span>Discover DVA</span>
             </a>
           </div>
@@ -1076,22 +1080,28 @@ export default function DLife() {
         </div>
       </section>
 
-      {/* The hero opens the page with a photograph behind the type; this closes
-          it on the same gesture reflected — scrim heaviest at the top, holding
-          a plateau under the copy, then releasing downward so the photograph
-          resolves in the lower third. That release is what stops closing and
-          footer reading as one undifferentiated dark mass, which is the risk
-          the brief's one permitted adjacent dark pair carries.
+      {/* Restored at the client's request: the photograph, its scrim stack and
+          the "D'Life" label are back, so the page closes on a picture rather
+          than on a flat green band. The hero opens on one at the right of the
+          band; this is the only place a photograph still runs behind the type,
+          which is what makes it read as the closing frame.
+
+          Scrim heaviest at the top, holding a plateau under the copy, then
+          releasing downward so the photograph resolves in the lower third.
+          That release is what stops closing and footer reading as one
+          undifferentiated dark mass, which is the risk the brief's one
+          permitted adjacent dark pair carries.
 
           `parallax` is load-bearing, not decorative: .prlx both earns the
           scroll drift and excludes this plate from the generic `.ph img`
           settle pass, which would otherwise slam a full-bleed background from
           scale 1.16 to 1 on entry. */}
-      {/* Flat deep green and compact. The full-bleed photograph, its scrim
-          stack and the "D'Life" label are all gone: this is the page's last
-          action, and it only needs to ask once. */}
       <section id="close" className="dark">
+        <div className="bg ph">
+          <Plate photo={PHOTOS.close} parallax />
+        </div>
         <div className="fg">
+          <span className="lb rv">D’Life</span>
           <h2 className="rv">
             A clearer future can begin with <i>one conversation.</i>
           </h2>

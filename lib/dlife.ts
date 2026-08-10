@@ -71,7 +71,11 @@ export function initDLife(root: HTMLElement): () => void {
         .to("#hero h1 .lw span", { y: 0, duration: 1.2, stagger: 0.14, delay: 0.1 })
         .to("#hero .lb.rv", { opacity: 1, y: 0, duration: 0.8 }, "-=.8")
         .to("#hero p.rv, #hero .acts.rv", { opacity: 1, y: 0, duration: 0.9, stagger: 0.12 }, "-=.6")
-        .from("#hero .bg", { scale: 1.08, duration: 2.2, ease: "power2.out" }, 0);
+        /* The picture, not its container. The hero plate is a grid column now
+           rather than a full-bleed backdrop, so scaling .bg would grow the
+           column itself and push the copy sideways; the over-scanned .prlx
+           inside it is what the crop was drawn to absorb. */
+        .from("#hero .bg .prlx", { scale: 1.08, duration: 2.2, ease: "power2.out" }, 0);
     };
     // The prototype removed the loader node outright; hiding it keeps the
     // element under React's control while being visually identical.
@@ -164,7 +168,7 @@ export function initDLife(root: HTMLElement): () => void {
         ease: "none",
         scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
       });
-      gsap.to("#hero .bg", {
+      gsap.to("#hero .bg .prlx", {
         scale: 1.06,
         ease: "none",
         scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
@@ -246,7 +250,7 @@ export function initDLife(root: HTMLElement): () => void {
           duration: 1.05,
           stagger: 0.11,
           ease: "power3.out",
-          scrollTrigger: { trigger: "#stories .grid", start: "top 84%" },
+          scrollTrigger: { trigger: "#stories .reel", start: "top 84%" },
         },
       );
 
