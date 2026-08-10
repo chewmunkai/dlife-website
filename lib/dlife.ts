@@ -291,6 +291,23 @@ export function initDLife(root: HTMLElement): () => void {
 
   /* ---------- header ---------- */
   const hd = $("#hd");
+
+  /* The hero's photograph starts on the header's lower edge, so the header's
+     height has to be a number the stylesheet can read. The stylesheet carries
+     a correct default for the bar as drawn; this measures the bar as rendered,
+     which keeps the seam closed if its contents ever change.
+     `.solid` comes off first — that state is 20px shorter, and measuring it
+     would put the hero plate under a bar that is only that height mid-scroll. */
+  const measureHeader = () => {
+    if (!hd) return;
+    const solid = hd.classList.contains("solid");
+    if (solid) hd.classList.remove("solid");
+    root.style.setProperty("--dl-hd", `${(hd as HTMLElement).offsetHeight}px`);
+    if (solid) hd.classList.add("solid");
+  };
+  measureHeader();
+  on(window, "resize", measureHeader, { passive: true } as AddEventListenerOptions);
+
   on(window, "scroll", () => hd?.classList.toggle("solid", scrollY > 80 && !root.classList.contains("menu-open")), {
     passive: true,
   });
@@ -439,7 +456,10 @@ export function initDLife(root: HTMLElement): () => void {
   }
 
   /* Webfont metrics shift every measured trigger — recalculate once they land. */
-  document.fonts?.ready.then(() => ScrollTrigger.refresh());
+  document.fonts?.ready.then(() => {
+    measureHeader();
+    ScrollTrigger.refresh();
+  });
 
   return () => {
     teardown.forEach((fn) => fn());
