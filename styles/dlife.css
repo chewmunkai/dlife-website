@@ -480,14 +480,12 @@ body:has(.dlife) {
 }
 .dlife #hd .burger .ln::before { top: 1px; }
 .dlife #hd .burger .ln::after { top: 9px; }
-/* The nav bar and the burger are two routes to the same places, so only one
-   shows at a time: the bar on desktop, the overlay below 1180px where the bar
-   cannot fit. Stated after the burger's own display:flex so it wins on order
-   rather than needing extra specificity. */
-.dlife #hd .burger { display: none; }
-@media (max-width: 1180px) {
-  .dlife #hd .burger { display: flex; }
-}
+/* The burger rides at every width, restored at the client's request.
+   A round of review hid it above 1180px on the grounds that the bar and the
+   overlay were two routes to the same fourteen places; the client wants the
+   expanding menu back, so both routes ship again. They are not redundant in
+   practice — the bar is for a visitor who already knows where they are going,
+   the overlay is the whole site at a glance. */
 /* The overlay is dark, so the bar drops its white ground and inverts while the
    menu is open. */
 .dlife.menu-open #hd {
