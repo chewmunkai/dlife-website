@@ -774,12 +774,12 @@ export default function DLife() {
             Understand the protection you already have. Speak with our team to review your coverage with greater
             confidence, and see what next step, if any, makes sense.
           </p>
+          {/* One action. The "See how we can help" text link beside it is out
+              at the client's request — the section now routes to a single
+              place. */}
           <div className="acts rv">
             <a className="pill" data-wa="Hi D'Life, I'd like guidance on my existing policy." href="#">
               <span>Get guidance on my policy</span>
-            </a>
-            <a className="tx-link" href="#faq">
-              See how we can help
             </a>
           </div>
         </div>
@@ -1055,15 +1055,16 @@ export default function DLife() {
         </div>
       </section>
 
+      {/* Centred column at the client's request, replacing the two-column
+          split that put the heading on the left and the questions on the
+          right. The "Explore Our FAQ" link is out with it — it pointed back at
+          this same section. */}
       <section id="faq">
-        <div>
+        <div className="head">
           <span className="lb rv">Helpful answers</span>
           <h2 className="rv">
             A few common <i>questions</i>
           </h2>
-          <a className="tlink rv" href="#faq">
-            Explore Our FAQ
-          </a>
         </div>
         <div className="items">
           {FAQS.map(([q, a]) => (

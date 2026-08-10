@@ -572,17 +572,16 @@ body:has(.dlife) {
   padding: calc(var(--dl-pad) * .5 + 76px) 0 0 var(--dl-pad);
   overflow: hidden;
 }
-/* The plate's inner edge is softened into the page rather than butted against
-   it — the reference shows the photograph resolving out of the beige, not
-   sitting in a hard-edged box. Masked rather than covered with a beige
-   gradient, so the fade carries no colour of its own and stays correct
-   whatever ground the section is on. */
+/* One clean edge, no feather. The plate briefly carried a mask that faded its
+   inner 8% into the page: over this photograph — whose left third is a pale
+   window curtain — that read as a 70px band of neither picture nor ground,
+   which is exactly the blank space the client flagged. The reference has a
+   defined edge, so the plate gets one: the picture starts where the beige
+   stops. */
 .dlife #hero .bg {
   position: relative;
   align-self: stretch;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%);
-  mask-image: linear-gradient(to right, transparent 0, #000 8%);
 }
 .dlife #hero .fg {
   position: relative;
@@ -636,13 +635,10 @@ body:has(.dlife) {
   }
   .dlife #hero .fg { padding-right: var(--dl-pad); }
   /* Full-bleed again once stacked: the section's left inset is cancelled so
-     the band runs edge to edge under the copy, and the inner-edge fade goes
-     with the edge it was softening. */
+     the band runs edge to edge under the copy. */
   .dlife #hero .bg {
     height: clamp(280px, 46vh, 420px);
     margin-left: calc(var(--dl-pad) * -1);
-    -webkit-mask-image: none;
-    mask-image: none;
   }
 }
 
@@ -911,14 +907,6 @@ body:has(.dlife) {
   margin-top: 20px;
 }
 .dlife #policy .acts { display: flex; gap: 20px; margin-top: 32px; flex-wrap: wrap; align-items: center; }
-/* Secondary route, per the reference: a text link beside the primary action,
-   not a second button competing with it. */
-.dlife #policy .acts .tx-link {
-  font: 600 16px/1 var(--dl-sans);
-  color: var(--s-accent);
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 3px;
-}
 .dlife #policy .ph { min-height: 100%; }
 
 /* ---------- founder ---------- */
@@ -1413,15 +1401,27 @@ body:has(.dlife) {
 .dlife #youth .loop .said { margin-top: 0; font: 500 17px/1.6 var(--dl-sans); color: var(--dl-teal); }
 @media (max-width: 900px) { .dlife #youth .loop { grid-template-columns: 1fr; } }
 
-/* ---------- faq ---------- */
+/* ---------- faq (centred column) ----------
+   One centred column, at the client's request: the label and heading sit on
+   the page's centre line and the questions run beneath them, rather than the
+   heading holding a left column while the accordion filled a right one.
+
+   The question rows keep their own text left-aligned. They are a list of
+   sentences with a toggle at the far right, and centring the sentence inside
+   a full-width row would leave every question floating at a different
+   distance from the control that opens it. */
 .dlife #faq {
   background: var(--s-bg);
   padding: var(--dl-sec-y) var(--dl-pad);
-  display: grid;
-  grid-template-columns: .8fr 1.2fr;
-  gap: clamp(40px, 6vw, 110px);
 }
-.dlife #faq h2 { font-size: var(--dl-section-title); margin-top: 26px; line-height: 1.04; }
+.dlife #faq .head { text-align: center; margin-bottom: clamp(30px, 4.5vh, 52px); }
+/* Narrow enough that the toggle stays with its question rather than drifting
+   350px away at the far side of the row. */
+.dlife #faq .items { max-width: 760px; margin: 0 auto; }
+/* The measure belongs on the heading, not on the block around it: `ch` on the
+   wrapper resolves against 18px body text and would cut a 52px display line
+   to a third of its width. */
+.dlife #faq h2 { font-size: var(--dl-section-title); margin: 16px auto 0; line-height: 1.06; max-width: 22ch; }
 .dlife #faq .item { border-top: 1px solid var(--s-line); }
 .dlife #faq .item:last-of-type { border-bottom: 1px solid var(--s-line); }
 .dlife #faq button.q {
@@ -1588,15 +1588,21 @@ body:has(.dlife) {
    comes from type, rhythm and one sand accent — no boxes, no icons.
 
    Every colour below is a --s-* token, so this survives a mode change. */
-/* Compacted at the client's request. Nothing is cut — every channel, every
-   directory group and the whole compliance notice stay — but the bands that
-   separated them were sized like editorial sections rather than like a
+/* Compacted at the client's request, twice. Nothing is cut — every channel,
+   every directory group and the whole compliance notice stay — but the bands
+   that separated them were sized like editorial sections rather than like a
    utility footer, and the directory only fitted two of its three groups per
-   row, which pushed the third onto a line of its own beside empty space. */
+   row, which pushed the third onto a line of its own beside empty space.
+
+   The second pass took the type down with the spacing. The contact column is
+   what sets the footer's height — four channels, each a label, a 27px line and
+   a hint — so trimming padding alone could only reach so far. Contact lines,
+   addresses and hints all come down a step; targets stay at or above 43px and
+   every colour still clears AA on charcoal. */
 .dlife #ft {
   background: var(--s-bg);
   color: var(--s-body);
-  padding: clamp(48px, 7vh, 82px) var(--dl-pad) clamp(20px, 3vh, 32px);
+  padding: clamp(36px, 5vh, 58px) var(--dl-pad) clamp(16px, 2.2vh, 24px);
 }
 
 /* The global ring is copper-dark, which sits at 2.35:1 on charcoal — below
@@ -1613,7 +1619,7 @@ body:has(.dlife) {
   align-items: flex-end;
   gap: 24px 48px;
   flex-wrap: wrap;
-  padding-bottom: clamp(26px, 3.6vh, 40px);
+  padding-bottom: clamp(18px, 2.6vh, 28px);
   border-bottom: 1px solid var(--s-line-soft);
 }
 .dlife #ft .wm {
@@ -1622,9 +1628,9 @@ body:has(.dlife) {
 }
 .dlife #ft .lmark { height: clamp(26px, 2.6vw, 34px); }
 .dlife #ft .tag {
-  font: 500 clamp(18px, 1.5vw, 22px)/1.5 var(--dl-disp);
+  font: 500 clamp(16px, 1.2vw, 19px)/1.45 var(--dl-disp);
   color: var(--s-accent);          /* sand, 6.99:1 */
-  margin-top: 14px;
+  margin-top: 10px;
 }
 /* Blockified as a flex item, so text-align applies. */
 .dlife #ft .est {
@@ -1638,16 +1644,18 @@ body:has(.dlife) {
 /* ---- band 2: contact + directory ---- */
 .dlife #ft .mid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
-  gap: clamp(40px, 5vw, 84px);
-  padding: clamp(32px, 4.5vh, 54px) 0 clamp(32px, 4.5vh, 54px);
+  /* Contact takes more of the row now that its channels are paired; the
+     directory keeps just enough to hold its three groups side by side. */
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.3fr);
+  gap: clamp(34px, 4vw, 68px);
+  padding: clamp(24px, 3.2vh, 38px) 0 clamp(24px, 3.2vh, 38px);
 }
 
 /* Family, weight and style all come from the global h2 rules — one Lora 600,
    no font swap inside the sentence. Only size, measure and rhythm here. */
 .dlife #ft .lede {
-  font-size: clamp(24px, 2.3vw, 36px);
-  line-height: 1.08;
+  font-size: clamp(21px, 1.9vw, 29px);
+  line-height: 1.1;
   max-width: 22ch;
   color: var(--s-heading);
 }
@@ -1662,10 +1670,29 @@ body:has(.dlife) {
   color: var(--s-label);
 }
 
-.dlife #ft .chan { margin-top: clamp(22px, 3vh, 32px); }
-.dlife #ft .chan li { padding: 15px 0 13px; border-top: 1px solid var(--s-line); }
-.dlife #ft .chan li:last-child { border-bottom: 1px solid var(--s-line); }
+/* Two channels across, not four stacked. Four full-width rows made the
+   contact block twice the height of the directory beside it, and the footer
+   had to be tall enough for the taller of the two — so half of the right-hand
+   side was empty and the band was carrying 300px of nothing. Paired up, the
+   two columns finish at roughly the same depth and the whole band shortens by
+   about a third, with no channel and no hint removed. */
+.dlife #ft .chan {
+  margin-top: clamp(16px, 2.2vh, 24px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(20px, 2.4vw, 40px);
+}
+.dlife #ft .chan li { padding: 12px 0 10px; border-top: 1px solid var(--s-line); }
+/* The final row, whichever cells that turns out to be. */
+.dlife #ft .chan li:nth-last-child(-n+2) { border-bottom: 1px solid var(--s-line); }
 .dlife #ft .chan .k { margin-bottom: 6px; }
+/* Single file below the two-column breakpoint, where a paired row would give
+   each channel about 130px. */
+@media (max-width: 1080px) {
+  .dlife #ft .chan { grid-template-columns: minmax(0, 1fr); }
+  .dlife #ft .chan li:nth-last-child(-n+2) { border-bottom: none; }
+  .dlife #ft .chan li:last-child { border-bottom: 1px solid var(--s-line); }
+}
 
 /* Same hover language as #path a.opt and #careers .rows a — the footer should
    move the way the rest of the page moves. */
@@ -1674,10 +1701,10 @@ body:has(.dlife) {
   align-items: baseline;
   justify-content: space-between;
   gap: 20px;
-  font: 500 clamp(20px, 1.8vw, 27px)/1.2 var(--dl-sans);
+  font: 500 clamp(18px, 1.45vw, 23px)/1.2 var(--dl-sans);
   letter-spacing: -.02em;
   color: var(--s-strong);
-  padding: 10px 0;                 /* 24px type at the clamp floor + 20px = 44px */
+  padding: 12px 0;                 /* 22px line box at the clamp floor + 24px = 46px */
   transition: padding-left .45s cubic-bezier(.22, .7, .24, 1);
 }
 .dlife #ft .go em {
@@ -1690,14 +1717,14 @@ body:has(.dlife) {
 
 /* font: shorthand resets the UA's italic on <address>. */
 .dlife #ft address {
-  font: 400 clamp(19px, 1.6vw, 24px)/1.4 var(--dl-sans);
+  font: 400 clamp(17px, 1.3vw, 20px)/1.4 var(--dl-sans);
   color: var(--s-strong);
 }
 .dlife #ft .hint {
-  font: 400 15px/1.65 var(--dl-sans);
+  font: 400 14px/1.6 var(--dl-sans);
   color: var(--s-muted);           /* 6.89:1 */
-  margin-top: 10px;
-  max-width: 38ch;
+  margin-top: 7px;
+  max-width: 40ch;
 }
 
 /* .dlife a strips underlines globally, so inline links inside running text
@@ -1714,9 +1741,9 @@ body:has(.dlife) {
 .dlife #ft .hint a:hover,
 .dlife #ft .note a:hover { text-decoration-color: var(--s-accent); }
 
-.dlife #ft .soc { display: flex; flex-wrap: wrap; gap: 8px 26px; }
+.dlife #ft .soc { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 .dlife #ft .soc a {
-  font: 400 16px/1.5 var(--dl-sans);
+  font: 400 15px/1.5 var(--dl-sans);
   color: var(--s-body);
   transition: color .3s;
 }
@@ -1729,17 +1756,20 @@ body:has(.dlife) {
    to hold it. */
 .dlife #ft .dirs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(158px, 206px));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 190px));
   justify-content: space-between;
-  gap: clamp(26px, 3vw, 40px) clamp(20px, 2.4vw, 36px);
+  gap: clamp(26px, 3vw, 40px) clamp(18px, 2vw, 30px);
   align-content: start;
 }
-.dlife #ft .dirs .k { margin-bottom: 14px; }
+/* The group headings are the longest labels in the footer and the columns are
+   narrow enough that two of them wrap; the shared .k sets line-height 1, which
+   would run those two lines into each other. */
+.dlife #ft .dirs .k { margin-bottom: 10px; line-height: 1.4; }
 .dlife #ft .dirs a {
   display: block;
-  font: 400 16px/1.45 var(--dl-sans);
+  font: 400 15px/1.4 var(--dl-sans);
   color: var(--s-body);            /* 8.7:1 */
-  padding: 11px 0;                 /* 23px line box + 22px = 45px target */
+  padding: 11px 0;                 /* 21px line box + 22px = 43px target */
   transition: color .3s;
 }
 .dlife #ft .dirs a:hover { color: var(--s-strong); }
@@ -1753,12 +1783,12 @@ body:has(.dlife) {
    whole band now, and its own 74ch measure keeps it off the full width. */
 .dlife #ft .fine {
   border-top: 1px solid var(--s-rule);
-  padding: clamp(20px, 3vh, 30px) 0;
+  padding: clamp(16px, 2.2vh, 24px) 0;
 }
 .dlife #ft .note {
-  font: 400 14px/1.75 var(--dl-sans);
+  font: 400 13px/1.7 var(--dl-sans);
   color: var(--s-muted);
-  max-width: 74ch;
+  max-width: 82ch;
 }
 
 /* ---- band 4: base ---- */
@@ -1768,7 +1798,7 @@ body:has(.dlife) {
   align-items: baseline;
   gap: 14px 36px;
   flex-wrap: wrap;
-  padding-top: clamp(18px, 2.4vh, 24px);
+  padding-top: clamp(14px, 2vh, 20px);
   border-top: 1px solid var(--s-line-soft);
   font: 400 13px/1.7 var(--dl-sans);
   color: var(--s-quiet);           /* 4.89:1 at 13px */
@@ -1833,13 +1863,11 @@ html:not(.js) .dlife #loader { display: none; }
 }
 
 @media (max-width: 1080px) {
-  .dlife #path { grid-template-columns: 1fr; }
-  .dlife #path .vis { display: none; }
   .dlife #policy { grid-template-columns: 1fr; }
   .dlife #policy .ph { min-height: 48vh; }
+  /* #faq is not in this list: it is a centred single column at every width. */
   .dlife #founder,
-  .dlife #careers,
-  .dlife #faq { grid-template-columns: 1fr; }
+  .dlife #careers { grid-template-columns: 1fr; }
   .dlife #youth .grid { grid-template-columns: 1fr; }
   .dlife #youth .head { grid-template-columns: 1fr; }
   .dlife #trust { grid-template-columns: 1fr 1fr; }
