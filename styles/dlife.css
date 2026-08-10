@@ -465,9 +465,34 @@ body:has(.dlife) {
   font: 600 12px/1 var(--dl-sans);
   letter-spacing: .2em;
   text-transform: uppercase;
-  padding: 13px 4px;
+  padding: 13px 10px;
+  margin-right: -10px;
+  border-radius: 99px;
+  position: relative;
+  /* No `transform` here on purpose. The press knock is a GSAP tween on this
+     element, and an inline transform from GSAP would permanently outrank a
+     `:active { transform: … }` rule — the squash would work once and never
+     again. CSS owns the wash below; the motion engine owns the transform. */
 }
-.dlife #hd .burger .ln { width: 26px; height: 10px; position: relative; }
+.dlife #hd .burger::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transform: scale(.7);
+  transition: opacity .4s, transform .4s cubic-bezier(.22, .7, .24, 1);
+  pointer-events: none;
+}
+/* The press has to be felt on the control itself, not only in the panel that
+   answers it: a wash blooms out from under the button as the finger goes down,
+   and the motion engine springs the button back on release. Without this the
+   only feedback for the first 200ms of an 800ms expansion is the pointer
+   changing shape. */
+.dlife #hd .burger:hover::before { opacity: .07; transform: scale(1); }
+.dlife #hd .burger:active::before { opacity: .16; transform: scale(1); transition-duration: .08s; }
+.dlife #hd .burger .ln { width: 26px; height: 10px; position: relative; z-index: 1; }
 .dlife #hd .burger .ln::before,
 .dlife #hd .burger .ln::after {
   content: "";
@@ -476,10 +501,16 @@ body:has(.dlife) {
   width: 100%;
   height: 1px;
   background: currentColor;
-  transition: transform .4s, top .4s;
+  /* Overshooting ease, so the two strokes swing into the cross rather than
+     sliding into it. */
+  transition: transform .45s cubic-bezier(.34, 1.4, .5, 1), top .3s cubic-bezier(.22, .7, .24, 1);
 }
 .dlife #hd .burger .ln::before { top: 1px; }
 .dlife #hd .burger .ln::after { top: 9px; }
+/* The strokes draw apart under the pointer, so the control reads as live
+   before it is pressed. */
+.dlife #hd .burger:hover .ln::before { top: 0; }
+.dlife #hd .burger:hover .ln::after { top: 10px; }
 /* The burger rides at every width, restored at the client's request.
    A round of review hid it above 1180px on the grounds that the bar and the
    overlay were two routes to the same fourteen places; the client wants the
@@ -512,26 +543,55 @@ body:has(.dlife) {
   padding: 120px var(--dl-pad) 60px;
   gap: 60px;
 }
+/* The overlay's own type identity, brought back onto the brand's.
+   These lines were set in Work Sans, uppercase, at -.03em — a treatment that
+   appears nowhere else on the site and read as generic at 54px. They are
+   display type by size, so they take the display face and the heading
+   settings every other large line on the page uses: Lora 600 at -.012em, in
+   sentence case, in ivory. The ordinals stay sand and the accent under a
+   hovered line is the brand copper, which is legal as a decorative rule where
+   no contrast minimum applies. */
 .dlife #menu .big a {
   display: block;
-  font: 600 clamp(32px, 4vw, 54px)/1.2 var(--dl-sans);
-  letter-spacing: -.03em;
-  text-transform: uppercase;
-  color: rgba(246, 241, 232, .85);
-  padding: 6px 0;
+  font: 600 clamp(30px, 3.8vw, 52px)/1.18 var(--dl-disp);
+  letter-spacing: -.012em;
+  color: var(--dl-ivory);
+  padding: 6px 0 10px;
   position: relative;
   width: max-content;
   max-width: 100%;
+  transition: color .35s;
 }
 .dlife #menu .big a i {
   font-style: normal;
   color: var(--dl-sand);
-  font-size: .5em;
+  font-family: var(--dl-sans);
+  font-weight: 700;
+  font-size: .3em;
   vertical-align: super;
-  margin-left: 10px;
-  letter-spacing: .1em;
+  margin-left: 14px;
+  letter-spacing: .16em;
 }
-.dlife #menu .big a:hover { color: var(--dl-sand); }
+/* Wipes in from the left under the line being pointed at. */
+.dlife #menu .big a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  height: 2px;
+  background: var(--dl-copper);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .5s cubic-bezier(.22, .7, .24, 1);
+}
+.dlife #menu .big a:hover,
+.dlife #menu .big a:focus-visible { color: var(--dl-sand); }
+.dlife #menu .big a:hover::after,
+.dlife #menu .big a:focus-visible::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .dlife #menu .big a::after { transition: none; }
+}
 .dlife #menu .side {
   display: flex;
   flex-direction: column;
@@ -1866,6 +1926,13 @@ html:not(.js) .dlife #loader { display: none; }
   .js .dlife #hero h1 .lw span,
   .js .dlife #loader .wm { transform: none; }
   .dlife #man .man .w { opacity: 1; }
+  /* The menu control still changes state, it just stops travelling to get
+     there. The motion engine skips its own press tween under the same query. */
+  .dlife #hd .burger::before,
+  .dlife #hd .burger .ln::before,
+  .dlife #hd .burger .ln::after { transition: none; }
+  .dlife #hd .burger:hover .ln::before { top: 1px; }
+  .dlife #hd .burger:hover .ln::after { top: 9px; }
 }
 
 /* ---- responsive ---- */

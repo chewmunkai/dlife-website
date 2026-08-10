@@ -345,25 +345,55 @@ export function initDLife(root: HTMLElement): () => void {
     if (mlabel) mlabel.textContent = open ? "Close" : "Menu";
     if (open) hd?.classList.remove("solid");
     if (!reduced) {
+      /* The press itself, answered on the control before the panel has moved:
+         the button takes a knock and springs back. CSS carries the :active
+         squash while the finger is down; this is the release. */
+      if (burger) gsap.fromTo(burger, { scale: 0.9 }, { scale: 1, duration: 0.55, ease: "elastic.out(1, 0.45)" });
+
       if (open) {
         gsap.set(menu, { visibility: "visible" });
         gsap
           .timeline()
           .to(menu, { clipPath: "inset(0 0 0% 0)", duration: 0.8, ease: "power4.inOut" })
+          /* Each line wipes up out of its own mask as well as rising, so the
+             list assembles rather than simply fading in. clipPath finishes past
+             100% to clear Lora's descenders. */
           .fromTo(
             menu.querySelectorAll(".big a"),
-            { y: 40, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.7, stagger: 0.07, ease: "power3.out" },
-            "-=.3",
+            { y: 56, opacity: 0, clipPath: "inset(0 0 100% 0)" },
+            {
+              y: 0,
+              opacity: 1,
+              clipPath: "inset(0 0 -14% 0)",
+              duration: 0.85,
+              stagger: 0.075,
+              ease: "power4.out",
+            },
+            "-=.45",
           )
-          .fromTo(menu.querySelectorAll(".side"), { opacity: 0 }, { opacity: 1, duration: 0.6 }, "-=.5");
+          /* y is reset here as well as x: the close tween below drops both
+             columns by 18px, and a from-state that ignored it would leave the
+             side panel 18px low on every reopen. */
+          .fromTo(
+            menu.querySelectorAll(".side"),
+            { opacity: 0, x: 34, y: 0 },
+            { opacity: 1, x: 0, y: 0, duration: 0.7, ease: "power3.out" },
+            "-=.6",
+          );
       } else {
-        gsap.to(menu, {
-          clipPath: "inset(0 0 100% 0)",
-          duration: 0.7,
-          ease: "power4.inOut",
-          onComplete: () => gsap.set(menu, { visibility: "hidden" }),
-        });
+        /* Closing is not the opening reversed: the contents drop away first and
+           quickly, then the panel leaves. Running the panel over still-visible
+           links reads as the type being cut off. */
+        gsap
+          .timeline({ onComplete: () => gsap.set(menu, { visibility: "hidden" }) })
+          .to(menu.querySelectorAll(".big a, .side"), {
+            y: 18,
+            opacity: 0,
+            duration: 0.3,
+            stagger: 0.03,
+            ease: "power2.in",
+          })
+          .to(menu, { clipPath: "inset(0 0 100% 0)", duration: 0.65, ease: "power4.inOut" }, "-=.12");
       }
     } else {
       const m = menu as HTMLElement;
