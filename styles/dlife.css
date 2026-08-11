@@ -1440,13 +1440,14 @@ body:has(.dlife) {
 .dlife #dva .panel {
   position: relative;
   overflow: hidden;
-  /* Held to the footprint the split card had — 1060 wide, and a height the
-     copy sets rather than the picture. Going full-bleed is not a licence to
-     grow: the client's note is that the card should not read long, and a
-     photographic panel that has swallowed its own section is exactly what
-     "long" describes. The picture gained the whole card; it does not also get
-     more page. */
-  max-width: 1060px;
+  /* 880, which is what this panel was the last time the photograph covered it.
+     The previous pass sized it to 1060 — the split card's width — but the
+     split card is the design the client asked to move away from, not the one
+     to match, and a width drawn for two columns is too much for one centred
+     block: the copy filled half the card and the rest was empty photograph,
+     which is what still read as big. At 880 the copy fills ~70% and the card
+     is sized by what is in it. */
+  max-width: 880px;
   margin: 0 auto;
   border-radius: clamp(14px, 1.4vw, 20px);
   border: 1px solid rgba(246, 241, 232, .16);
@@ -1498,7 +1499,11 @@ body:has(.dlife) {
 .dlife #dva .fg {
   position: relative;
   z-index: 3;
-  max-width: 46ch;
+  /* 620px, the measure this panel carried when the photograph last covered it.
+     A `ch` measure scales with the type and left the block at ~46% of the card
+     — the copy has to hold the centre of a photograph, so it is set against
+     the card's width rather than against its own font size. */
+  max-width: 620px;
   text-shadow: 0 1px 18px rgba(11, 33, 29, .55);
 }
 .dlife #dva h2 { font-size: var(--dl-section-title); margin-top: 14px; max-width: 18ch; margin-inline: auto; }
