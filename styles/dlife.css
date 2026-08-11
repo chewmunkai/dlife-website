@@ -1440,7 +1440,13 @@ body:has(.dlife) {
 .dlife #dva .panel {
   position: relative;
   overflow: hidden;
-  max-width: 1120px;
+  /* Held to the footprint the split card had — 1060 wide, and a height the
+     copy sets rather than the picture. Going full-bleed is not a licence to
+     grow: the client's note is that the card should not read long, and a
+     photographic panel that has swallowed its own section is exactly what
+     "long" describes. The picture gained the whole card; it does not also get
+     more page. */
+  max-width: 1060px;
   margin: 0 auto;
   border-radius: clamp(14px, 1.4vw, 20px);
   border: 1px solid rgba(246, 241, 232, .16);
@@ -1448,8 +1454,12 @@ body:has(.dlife) {
   display: grid;
   place-items: center;
   text-align: center;
-  padding: clamp(52px, 8vh, 92px) clamp(26px, 5vw, 76px);
-  min-height: clamp(300px, 32vw, 430px);
+  padding: clamp(42px, 6vh, 72px) clamp(26px, 5vw, 76px);
+  /* A floor, not a target: the copy is taller than this at every width the
+     panel is wide, so the card is sized by its content and this only catches
+     a very short viewport. Above the content height it would pad the card out
+     for no reason — which is how the last version ran long. */
+  min-height: clamp(280px, 28vw, 380px);
   /* Wide, low and soft — the panel lifts off the ivory rather than sitting on
      it, which is the whole of "stand out" here. Nothing sharp: the shadow is
      offset less than its own blur. */
