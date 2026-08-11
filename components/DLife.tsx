@@ -767,7 +767,7 @@ export default function DLife() {
           <span className="lb rv">
             Existing policyholders
           </span>
-          <h2 className="rv" style={{ marginTop: 26 }}>
+          <h2 className="rv" style={{ marginTop: 16 }}>
             Need clarity on your <i>current coverage?</i>
           </h2>
           <p className="rv">
@@ -823,16 +823,16 @@ export default function DLife() {
       </section>
 
       <section id="stories" className="dark" ref={stories}>
+        {/* Centred at the client's request. The label and the heading now sit
+            on the same centre line the reel and its controls already use, so
+            the section reads as one column rather than a left-aligned heading
+            with an action floating opposite it. "View all stories" moves with
+            that change — see the foot of the section. */}
         <div className="head">
-          <div>
-            <span className="lb rv">Featured videos</span>
-            <h2 className="rv" style={{ marginTop: 26 }}>
-              Meet the people <i>behind D’Life</i>
-            </h2>
-          </div>
-          <a className="pill ghost rv" href="/stories">
-            <span>View all stories</span>
-          </a>
+          <span className="lb rv">Featured videos</span>
+          <h2 className="rv" style={{ marginTop: 16 }}>
+            Meet the people <i>behind D’Life</i>
+          </h2>
         </div>
         {/* Centre stage: the playing film sits in the middle of the row at the
             larger size, with the other two held either side as previews.
@@ -928,6 +928,16 @@ export default function DLife() {
             →
           </button>
         </div>
+        {/* The relocated action. At the head it sat opposite the title and
+            competed with it for the same glance; here it is what a visitor
+            reaches after the three films have been seen, on the section's own
+            centre line and reading as the way onward rather than as a second
+            heading. */}
+        <div className="more rv">
+          <a className="pill ghost" href="/stories">
+            <span>View all stories</span>
+          </a>
+        </div>
       </section>
 
       {/* Cream, not dark: this sits between Stories and DVA, and the brand's
@@ -968,12 +978,19 @@ export default function DLife() {
         {/* Bounded panel, not a full-viewport band: the brief wants DVA
             "contained" so it reads against Youth's openness below.
 
-            On the same ivory ground as "Grow with D'Life" above it, at the
-            client's direction. With no dark wash left to sit on, the team
-            photograph takes its own half of the card rather than running
-            behind the copy. */}
-        <div className="panel rv">
-          <div className="ph">
+            The photograph covers the whole panel again, at the client's
+            request, with the copy centred over it rather than beside it in a
+            split card. The dark now belongs to the panel and not to the
+            section: the page ground stays the same ivory as "Grow with D'Life"
+            above it, so the card lifts off the page as its own frame — which
+            is what makes the section stand out without a full dark band
+            interrupting the run.
+
+            Soft, not heavy: the flat 72% block this used to carry is a graded
+            wash now, deep enough behind the type to hold ivory at AA and light
+            enough at the edges that the team still reads as a photograph. */}
+        <div className="panel dark rv">
+          <div className="bg ph">
             <Plate photo={PHOTOS.dva} parallax />
           </div>
           <div className="fg">
