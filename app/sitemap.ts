@@ -1,13 +1,23 @@
 import type { MetadataRoute } from "next";
-import { SITE } from "../lib/site";
+import { ALL_ROUTES } from "../lib/routes";
+import { abs } from "../lib/seo";
 
-// Fixed, not new Date(): a lastModified that changes every deploy cries wolf
-// to crawlers. Bump it when the page changes materially.
-const LASTMOD = "2026-08-04";
+/**
+ * Generated from the route map, so a page added to lib/routes.ts is in the
+ * sitemap the moment it exists. Utility routes — the four legal drafts — are
+ * excluded: they are noindex until they have been through compliance review,
+ * and listing a noindex page only wastes crawl budget.
+ *
+ * Fixed lastModified, not `new Date()`: a date that changes every deploy cries
+ * wolf to crawlers. Bump it when pages change materially.
+ */
+const LASTMOD = "2026-08-14";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    { url: SITE, lastModified: LASTMOD, changeFrequency: "monthly", priority: 1 },
-    { url: `${SITE}/stories`, lastModified: LASTMOD, changeFrequency: "monthly", priority: 0.7 },
-  ];
+  return ALL_ROUTES.filter((r) => !r.utility).map((r) => ({
+    url: abs(r.path),
+    lastModified: LASTMOD,
+    changeFrequency: "monthly" as const,
+    priority: r.priority,
+  }));
 }

@@ -633,3 +633,51 @@
    dlife.css and apply site-wide. A second `.rv` rule scoped to `.dl-band`
    would out-specify the original and quietly change the approved travel
    distance on the homepage. */
+
+/* ---------- portrait slot ----------
+   Awaiting real brand photography. `.slot-empty` is defined in dlife.css and
+   already carries the marked-placeholder treatment the brief asks for. */
+.dlife .dl-portrait { aspect-ratio: 4 / 5; border-radius: 3px; }
+
+/* ---------- legal pages ----------
+   Draft state made visible. An unreviewed legal page that looks finished is
+   the failure mode worth designing against, so the notice is loud and the
+   unfinished passages are coloured rather than hidden in a code comment. */
+.dlife .dl-notice {
+  padding: clamp(20px, 2.2vw, 28px);
+  border: 1px solid var(--s-rule);
+  border-left: 3px solid var(--dl-copper-d);
+  border-radius: 3px;
+  background: var(--s-plate);
+  margin-bottom: clamp(34px, 5vh, 56px);
+}
+.dlife .dl-notice strong {
+  display: block;
+  font: 600 var(--dl-card-title)/1.35 var(--dl-disp);
+  color: var(--s-heading);
+  margin-bottom: 8px;
+}
+.dlife .dl-notice p {
+  font: 400 16px/1.65 var(--dl-sans);
+  color: var(--s-body);
+}
+.dlife .dl-notice em { font-style: normal; color: var(--s-accent); font-weight: 500; }
+
+.dlife .dl-legal__section + .dl-legal__section { margin-top: clamp(30px, 4vh, 46px); }
+.dlife .dl-legal__section h2 {
+  font-size: clamp(22px, 2vw, 29px);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.dlife .dl-legal__section p {
+  font: 400 var(--dl-section-body)/1.75 var(--dl-sans);
+  color: var(--s-body);
+}
+.dlife .dl-legal__section p + p { margin-top: 1em; }
+/* Unfinished passages, coloured so a read-through cannot miss them. */
+.dlife .dl-tbc {
+  color: var(--s-accent);
+  font-style: italic;
+  padding-left: 16px;
+  border-left: 2px solid var(--s-rule);
+}
