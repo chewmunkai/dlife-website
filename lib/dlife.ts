@@ -80,7 +80,12 @@ export function initDLife(root: HTMLElement): () => void {
     // The prototype removed the loader node outright; hiding it keeps the
     // element under React's control while being visually identical.
     const hideLoader = () => loader && (loader as HTMLElement).style.setProperty("display", "none");
-    if (!reduced) {
+    // Inner pages ship no loader. Without this they would still sit through
+    // the curtain's 2.4s before anything revealed, because the hero entrance
+    // is sequenced off the end of that timeline.
+    if (!loader) {
+      heroIn();
+    } else if (!reduced) {
       gsap
         .timeline()
         .to("#loader .wm", { y: 0, duration: 0.9, ease: "power4.out", delay: 0.1 })
@@ -123,11 +128,16 @@ export function initDLife(root: HTMLElement): () => void {
 
       /* Groups that sit side by side are animated as staggered sets further
          down; letting the generic pass also drive their opacity would put two
-         competing tweens on the same property. */
+         competing tweens on the same property.
+
+         Scoped to the two homepage sections that own those explicit staggers.
+         Unscoped, this was a trap for every page added later: a `.story` card
+         anywhere else on the site would be skipped here and picked up by
+         nothing, so it would sit at opacity 0 forever. */
       const staggered = ".pillar, .story, .yc";
       $$(".rv").forEach((el) => {
         if (el.closest("#hero")) return;
-        if (el.matches(staggered)) return;
+        if (el.matches(staggered) && el.closest("#stories, #youth")) return;
         const p = el.matches(".lb") ? PACE_LABEL : PACE[el.closest("section")?.id ?? ""] ?? PACE_DEFAULT;
         gsap.to(el, {
           opacity: 1,
@@ -428,8 +438,13 @@ export function initDLife(root: HTMLElement): () => void {
     });
   });
 
-  /* ---------- FAQ accordion ---------- */
-  $$("#faq .item").forEach((item) => {
+  /* ---------- FAQ accordion ----------
+     Bound by attribute rather than by `#faq`, so any number of accordions can
+     appear on any page — and so the same behaviour survives the WordPress
+     rebuild, where the container is an Elementor widget with
+     `data-dl-accordion` set on its Advanced → Attributes tab rather than a
+     section this codebase named. */
+  $$("[data-dl-accordion] .item").forEach((item) => {
     const btn = item.querySelector(".q");
     const body = item.querySelector(".a");
     if (!btn || !body) return;
@@ -441,20 +456,22 @@ export function initDLife(root: HTMLElement): () => void {
     });
   });
 
-  /* ---------- youth signup ----------
+  /* ---------- "Stay in the Loop" signup ----------
      Front end only — no endpoint is wired and the consent wording is still
-     pending, so the form acknowledges inline rather than implying storage. */
-  const loopForm = $("#loopform");
-  if (loopForm) {
-    on(loopForm, "submit", (e) => {
+     pending, so the form acknowledges inline rather than implying storage.
+     Attribute-bound like the accordion, and the acknowledgement travels with
+     the form in `data-dl-signup` so each instance can answer in its own words. */
+  $$("[data-dl-signup]").forEach((form) => {
+    on(form, "submit", (e) => {
       e.preventDefault();
       const said = document.createElement("p");
       said.className = "said";
       said.setAttribute("role", "status");
-      said.textContent = "Thanks — we’ll be in touch with the next Youth Community update.";
-      loopForm.replaceWith(said);
+      said.textContent =
+        (form as HTMLElement).dataset.dlSignup || "Thanks — we’ll be in touch.";
+      form.replaceWith(said);
     });
-  }
+  });
 
   /* ---------- cursor + magnetic pills ---------- */
   const cur = $("#cur");

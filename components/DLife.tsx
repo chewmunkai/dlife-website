@@ -1,29 +1,30 @@
 "use client";
 
-import "../styles/dlife.css";
 import React, { useEffect, useRef, useState, type ReactNode } from "react";
+import { asset, link } from "../lib/asset";
+import { ROUTES } from "../lib/routes";
+import { WA } from "../lib/contact";
+import { VIDEOS } from "../content/videos";
+import Faq from "./blocks/Faq";
+import { HOME_FAQS } from "../content/home";
 
 /* ============================================================
-   D'Life — "Real Support. Beyond the Policy."
-   Implementation of the Claude Design handoff
-   (Website v3 publication → project/index.html).
+   D'Life — homepage.
 
-   The prototype's <image-slot> elements are a design-tool affordance
-   (drag-to-fill placeholders with a persistence sidecar); in production
-   they become plain <img> against D'Life's own media.
+   The client-approved long-scroll page, in the confirmed fourteen-section
+   sequence. Everything outside the sections themselves — the header, the
+   overlay menu, the footer, the loader and the floating contact point — now
+   lives in components/site/SiteShell, which wraps every route on the site.
+
+   The prototype's <image-slot> elements were a design-tool affordance
+   (drag-to-fill placeholders with a persistence sidecar); in production they
+   are plain <img> against D'Life's own media.
    ============================================================ */
 
 type Photo = {
   src: string;
   alt: string;
 };
-
-/**
- * Self-hosted media under /public. GitHub Pages serves the project from
- * /<repo>, and a bare <img src> does not pick up Next's basePath, so it is
- * applied here. Empty in local dev and on any root-served host.
- */
-const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
 
 /**
  * Most images are D'Life's own — the client photography plus stills lifted
@@ -85,108 +86,6 @@ function Plate({ photo, parallax, eager }: { photo: Photo; parallax?: boolean; e
   return parallax ? <div className="prlx">{img}</div> : img;
 }
 
-const WA_ADVISOR = "Hi D'Life, I'd like to speak with an advisor.";
-
-/**
- * ⚠️ Placeholders. Brief §14 Q8 — the launch WhatsApp number is unconfirmed
- * (lib/dlife.ts still ships WA_NUMBER = "60123456789"), and no project
- * document states a street address. Confirm both before launch.
- */
-const CONTACT = {
-  phone: "+60 12-345 6789",
-  email: "hello@dlife.com.my",
-  city: "Kuala Lumpur, Malaysia",
-};
-
-/* Brief §13: every major CTA carries a distinct pre-filled message so the team
-   sees intent and source before replying — so the footer cannot reuse the
-   header's string. */
-const WA_FOOTER = "Hi D'Life, I'd like to get in touch — I found your contact details on the website.";
-const WA_VISIT = "Hi D'Life, I'd like to arrange a time to meet at your office.";
-
-/**
- * Footer directory, grouped and ordered by the audience priority in brief §7:
- * potential clients (1) → existing policyholders and resources (2, 7) →
- * future advisors, stories, DVA, Youth (3–6). Corporate Solutions stays
- * discoverable inside group 1 rather than claiming a group of its own, per
- * §7's note that it "must not compete for a major homepage branch".
- * [group label, [link text, href][]]
- * NOTE(launch): hrefs resolve to the homepage sections that exist today; "#"
- * entries are pages not yet built.
- */
-const FOOTER_NAV: Array<[string, Array<[string, string]>]> = [
-  [
-    "Protection & Planning",
-    [
-      ["Protecting Family", "#needs"],
-      ["Protecting Income", "#needs"],
-      ["Medical & Health", "#needs"],
-      ["Planning for the Future", "#needs"],
-      ["Wealth & Legacy", "#needs"],
-      ["Corporate Solutions", "#"],
-    ],
-  ],
-  [
-    "Guidance & Support",
-    [
-      ["Existing Policy Support", "#policy"],
-      ["Find Your Path", "#path"],
-      ["Common Questions", "#faq"],
-      ["Articles & Events", "#"],
-    ],
-  ],
-  [
-    "People & Community",
-    [
-      ["Our Founders", "#founder"],
-      ["Advisor Stories", "#stories"],
-      ["Careers at D’Life", "#careers"],
-      ["Drive Value Associates (DVA)", "#dva"],
-      ["Youth Community", "#youth"],
-    ],
-  ],
-];
-
-/**
- * The single swappable logo slot the correction brief asks for (G7): one
- * component, used by the loading screen, the header and the footer, so
- * replacing the artwork updates all three at once. The placeholder clover it
- * replaces was a stand-in drawn while the real brand files were outstanding.
- *
- * Two cuts, because the lockup is flat artwork rather than currentColor:
- * `logo.png` is the teal-and-gold original for ivory grounds, and
- * `logo-reversed.png` the ivory cut for the dark loader and footer.
- *
- * The lockup already carries the "D'LIFE" wordmark, so no text sits beside
- * it — the alt text is what names it, and the sizing below is by height with
- * width left to follow the artwork's own 5.04:1 ratio.
- */
-const Logo = ({ reversed = false, alt = "D’Life" }: { reversed?: boolean; alt?: string }) => (
-  <img
-    className={reversed ? "lmark rev" : "lmark"}
-    src={asset(`/media/img/${reversed ? "logo-reversed" : "logo"}.png`)}
-    alt={alt}
-    width={2890}
-    height={573}
-    decoding="async"
-  />
-);
-
-/**
- * Slug for a life need. These come out identical to the link map's own route
- * names — "Medical & Health Preparation" → medical-health-preparation — so
- * when the Solutions pages land, `#${slug}` becomes `/solutions/${slug}/`
- * with no renaming.
- */
-const slug = (s: string) =>
-  s.toLowerCase().replace(/&/g, " ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
-const Caret = (
-  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
-    <path d="m6 9 6 6 6-6" />
-  </svg>
-);
-
 /** Geometric outline icons, per the brief's icon direction. */
 const Ico = ({ children }: { children: ReactNode }) => (
   <svg
@@ -203,37 +102,16 @@ const Ico = ({ children }: { children: ReactNode }) => (
 );
 
 /**
- * Primary navigation, following link map E — which lists fourteen routes:
- * home, /solutions/ and its five children, /existing-policy-support/,
- * /about/, /careers/, /dva/, /youth-community/, /stories/ and /contact/.
- *
- * Home is the lockup, contact is the two advisor actions on the right, and
- * the rest sit in these five pillars. Targets are the homepage sections that
- * cover them today — /stories/ is the one inner page that exists — so nothing
- * in the bar is a dead link. The Solutions entries deep-link to their own
- * life-needs card, and their anchors are already the route slugs.
- * [label, href]
- */
-const SOLUTIONS: Array<[string, string]> = [
-  ["Protecting Your Family", "#protecting-your-family"],
-  ["Protecting Your Income", "#protecting-your-income"],
-  ["Medical & Health Preparation", "#medical-health-preparation"],
-  ["Planning for Your Future", "#planning-for-your-future"],
-  ["Wealth & Legacy", "#wealth-legacy"],
-];
-
-const COMMUNITY: Array<[string, string]> = [
-  ["Youth Community", "#youth"],
-  ["Drive Value Associates (DVA)", "#dva"],
-  ["About D’Life & Founders", "#founder"],
-];
-
-/**
  * The compact path selector's five routes, in the brief's first-person voice.
  *
- * Targets are in-page anchors rather than the /solutions/… routes the link map
- * eventually calls for: this export ships a single page, so those URLs would
- * 404 today. They become real hrefs when the inner pages land.
+ * These are now the real routes rather than in-page anchors. The guide's
+ * journey map runs "homepage → pathway selector → relevant solution page", so
+ * a visitor who already knows what they want leaves the homepage on the first
+ * click instead of being scrolled to a section that only teases it.
+ *
+ * The first-person wording here is deliberately not the life-needs section's
+ * noun wording ("Protect my family" vs "Protecting Your Family") — the
+ * non-duplication rule.
  */
 const PATHS: Array<[ReactNode, string, string]> = [
   [
@@ -242,7 +120,7 @@ const PATHS: Array<[ReactNode, string, string]> = [
       d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
     />,
     "Protect my family",
-    "#needs",
+    ROUTES["protecting-your-family"].path,
   ],
   [
     <>
@@ -250,7 +128,7 @@ const PATHS: Array<[ReactNode, string, string]> = [
       <path d="M14 2v4a2 2 0 0 0 2 2h4M9 13h6M9 17h4" />
     </>,
     "Review my coverage",
-    "#policy",
+    ROUTES.policy.path,
   ],
   [
     <>
@@ -258,7 +136,7 @@ const PATHS: Array<[ReactNode, string, string]> = [
       <path d="m22 7-8.5 8.5-5-5L2 17" />
     </>,
     "Plan for the future",
-    "#needs",
+    ROUTES["planning-for-your-future"].path,
   ],
   [
     <>
@@ -266,7 +144,7 @@ const PATHS: Array<[ReactNode, string, string]> = [
       <rect x="2" y="6" width="20" height="14" rx="2" />
     </>,
     "Explore a career",
-    "#careers",
+    ROUTES.careers.path,
   ],
   [
     <>
@@ -275,7 +153,7 @@ const PATHS: Array<[ReactNode, string, string]> = [
       <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
     </>,
     "Join a community",
-    "#youth",
+    ROUTES.youth.path,
   ],
 ];
 
@@ -286,65 +164,26 @@ const PATHS: Array<[ReactNode, string, string]> = [
  * emotional weight than the pathway strip above, and explicitly says not to
  * repeat the pathway's labels or scale.
  *
- * Cards are not links yet. Each is meant to open its own Solutions page, but
- * this export ships a single page, so they stay plain cards until those routes
- * exist rather than shipping five dead links.
+ * Each card now opens its own Solutions page. The slug the card derived from
+ * its own title was always the route name, so nothing had to be renamed for
+ * these to become real links.
+ * [photo, title, copy, route]
  */
-const NEEDS: Array<[Photo, string, string]> = [
+const NEEDS: Array<[Photo, string, string, string]> = [
   // Four original Malaysian lifestyle plates replace the generic library
   // frames. Planning deliberately retains the existing D'Life photograph.
-  [PHOTOS.n1, "Protecting Your Family", "Coverage built around the people who depend on you."],
-  [PHOTOS.n2, "Protecting Your Income", "Keep life steady even when the unexpected happens."],
-  [PHOTOS.n3, "Medical & Health Preparation", "Practical support for health and recovery costs."],
-  [PHOTOS.p4, "Planning for Your Future", "Retirement and legacy planning, with confidence."],
-  [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built."],
+  [PHOTOS.n1, "Protecting Your Family", "Coverage built around the people who depend on you.", ROUTES["protecting-your-family"].path],
+  [PHOTOS.n2, "Protecting Your Income", "Keep life steady even when the unexpected happens.", ROUTES["protecting-your-income"].path],
+  [PHOTOS.n3, "Medical & Health Preparation", "Practical support for health and recovery costs.", ROUTES["medical-health-preparation"].path],
+  [PHOTOS.p4, "Planning for Your Future", "Retirement and legacy planning, with confidence.", ROUTES["planning-for-your-future"].path],
+  [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built.", ROUTES["wealth-legacy"].path],
 ];
 
-/**
- * Featured videos. The brief requires these to play inside the site with audio
- * rather than bouncing a visitor out to social, so they open in an in-page
- * dialog. Sources are vertical 9:16 with burned-in bilingual subtitles; the
- * poster is a 4:5 crop that matches the card and keeps the speaker's face.
- */
-export type Video = {
-  src: string;
-  poster: string;
-  /** Deliberate focal point for the poster when the carousel card crops it. */
-  focus: string;
-  /** Poster is decorative — the card's own heading names the story. */
-  title: string;
-  runtime: string;
-};
-
-export const VIDEOS: Video[] = [
-  {
-    src: asset("/media/video/advisor-alex.mp4"),
-    poster: asset("/media/poster/advisor-alex.jpg"),
-    focus: "50% 47%",
-    title: "A Career Beyond Selling Policies",
-    runtime: "1 min 36",
-  },
-  {
-    src: asset("/media/video/advisor-mayyee.mp4"),
-    poster: asset("/media/poster/advisor-mayyee.jpg"),
-    focus: "50% 54%",
-    title: "What Real Guidance Looks Like",
-    runtime: "1 min 30",
-  },
-  {
-    src: asset("/media/video/dva-workshop.mp4"),
-    poster: asset("/media/poster/dva-workshop.jpg"),
-    focus: "50% 48%",
-    title: "Inside D’Life Leadership",
-    runtime: "1 min 09",
-  },
-];
-
-/** [photo, title, copy, link label] */
-const YOUTH: Array<[Photo, string, string, string]> = [
-  [PHOTOS.y1, "Events & Workshops", "Hands-on sessions on money, mindset and growth.", "See what’s on →"],
-  [PHOTOS.y2, "Stories", "Real journeys from young leaders and mentors.", "Read stories →"],
-  [PHOTOS.y3, "Educational Resources", "Practical guides on health, wealth and leadership.", "Start learning →"],
+/** [photo, title, copy, link label, route] */
+const YOUTH: Array<[Photo, string, string, string, string]> = [
+  [PHOTOS.y1, "Events & Workshops", "Hands-on sessions on money, mindset and growth.", "See what’s on →", `${ROUTES.youth.path}#events`],
+  [PHOTOS.y2, "Stories", "Real journeys from young leaders and mentors.", "Read stories →", `${ROUTES.youth.path}#stories`],
+  [PHOTOS.y3, "Educational Resources", "Practical guides on health, wealth and leadership.", "Start learning →", `${ROUTES.youth.path}#resources`],
 ];
 
 /** Trust strip: [figure, italic unit, label, copy] */
@@ -437,24 +276,6 @@ const CAREER_ROWS: Array<[string, string, string]> = [
   ["04", "Culture", "People who measure a good year by the clients who stayed."],
 ];
 
-const FAQS: Array<[string, string]> = [
-  [
-    "How do I know which protection I actually need?",
-    "Start with a conversation, not a product. We’ll look at your situation, your responsibilities and what you already have, then explain your options in plain language.",
-  ],
-  [
-    "Can I get clarity on a policy I already hold?",
-    "Yes. Many people simply want to understand what they’re covered for. We’re happy to walk you through it, with no obligation to change anything.",
-  ],
-  [
-    "Can I speak with someone before deciding anything?",
-    "Always. Most conversations with us don’t end in a decision, and that’s completely fine.",
-  ],
-  [
-    "What happens after I take up a policy?",
-    "Your advisor stays with you. Life changes, and your coverage should be reviewed as it does.",
-  ],
-];
 
 const PlayIcon = () => (
   <span className="play">
@@ -465,7 +286,6 @@ const PlayIcon = () => (
 );
 
 export default function DLife() {
-  const root = useRef<HTMLDivElement>(null);
   /* ---------- featured videos (correction report, video activation) ----------
      One centre card is active and larger than the side previews. When the
      section first enters view the active card starts playing muted, because
@@ -532,131 +352,8 @@ export default function DLife() {
     }
   };
 
-  useEffect(() => {
-    const el = root.current;
-    if (!el) return;
-    let dispose: (() => void) | undefined;
-    let cancelled = false;
-    import("../lib/dlife").then(({ initDLife }) => {
-      if (cancelled) return;
-      dispose = initDLife(el);
-    });
-    return () => {
-      cancelled = true;
-      dispose?.();
-    };
-  }, []);
-
   return (
-    <div className="dlife" ref={root}>
-      <div id="cur" aria-hidden="true" />
-      {/* Read progress. Decorative — the scroll position is already conveyed by
-          the scrollbar to anyone relying on assistive tech. */}
-      <div id="prog" aria-hidden="true">
-        <i />
-      </div>
-      <div id="loader" aria-hidden="true">
-        <div>
-          <div className="in">
-            <span className="wm">
-              <Logo reversed />
-            </span>
-          </div>
-          <div className="sub">Real support, beyond the policy.</div>
-        </div>
-      </div>
-
-      <header id="hd">
-        {/* Both cuts ship; the ground decides which is visible. The link owns
-            the accessible name so the pair stays decorative and "D’Life" is
-            announced once, not twice. */}
-        <a className="wm" href="#hero" aria-label="D’Life, back to top">
-          <Logo reversed alt="" />
-          <Logo alt="" />
-        </a>
-        {/* Hover and focus both open a panel, so the caret never lies to a
-            keyboard user. These are plain links, not a menubar widget. */}
-        <nav className="nav" aria-label="Primary">
-          <div className="grp">
-            <a className="top" href="#needs">
-              Solutions
-              {Caret}
-            </a>
-            <div className="drop">
-              {SOLUTIONS.map(([label, href]) => (
-                <a href={href} key={href}>
-                  {label}
-                </a>
-              ))}
-            </div>
-          </div>
-          <a className="top" href="#policy">
-            Existing Policy Support
-          </a>
-          <a className="top" href="/stories">
-            Stories
-          </a>
-          <a className="top" href="#careers">
-            Careers
-          </a>
-          <div className="grp">
-            <a className="top" href="#youth">
-              Community
-              {Caret}
-            </a>
-            <div className="drop">
-              {COMMUNITY.map(([label, href]) => (
-                <a href={href} key={href}>
-                  {label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </nav>
-        <div className="rt">
-          <a className="pill" data-wa={WA_ADVISOR} href="#">
-            <span>Speak with an Advisor</span>
-          </a>
-          <button className="burger" id="burger" aria-label="Menu" aria-controls="menu" aria-expanded={false}>
-            <span id="mlabel">Menu</span>
-            <span className="ln" />
-          </button>
-        </div>
-      </header>
-
-      <nav id="menu" aria-hidden="true">
-        <div className="big">
-          <a href="#needs">
-            Solutions<i>01</i>
-          </a>
-          <a href="#policy">
-            Existing Policy Support<i>02</i>
-          </a>
-          <a href="#stories">
-            Stories<i>03</i>
-          </a>
-          <a href="#careers">
-            Careers<i>04</i>
-          </a>
-          <a href="#youth">
-            Community<i>05</i>
-          </a>
-        </div>
-        <div className="side">
-          <p>
-            Whether you are protecting a family, reviewing a policy or exploring a career, a conversation is the right
-            place to start.
-          </p>
-          <div className="c">
-            <a data-wa={WA_ADVISOR} href="#">
-              Message an Advisor on WhatsApp
-            </a>
-            <a href="mailto:hello@dlife.com.my">Ask a Question</a>
-          </div>
-          <span className="lb">D’Life · Financial Advisory</span>
-        </div>
-      </nav>
-
+    <>
       {/* Split hero, per the client's reference: the copy on the beige page
           ground at the left, the photograph held at the very right edge. The
           section keeps the page's light mode — nothing sits on the picture
@@ -679,7 +376,7 @@ export default function DLife() {
             life’s changes.
           </p>
           <div className="acts rv">
-            <a className="pill" data-wa={WA_ADVISOR} href="#">
+            <a className="pill" data-wa={WA.advisor} href="#">
               <span>Speak with an Advisor</span>
             </a>
             <a className="pill ghost" href="#path">
@@ -740,20 +437,22 @@ export default function DLife() {
             five visible at one glance on desktop. The pinned horizontal track
             this replaces was the scroll-jacking the report rules out. */}
         <div className="grid">
-          {NEEDS.map(([photo, title, copy]) => (
-            <article className="ncard rv" id={slug(title)} key={title}>
+          {NEEDS.map(([photo, title, copy, href]) => (
+            <article className="ncard rv" key={title}>
               <div className="ph">
                 <Plate photo={photo} />
               </div>
               <div className="cap">
                 <h3>{title}</h3>
                 <p>{copy}</p>
-                {/* The direct CTA slide 10 requires. It opens WhatsApp with a
-                    need-specific prefill rather than pointing at the Solutions
-                    route, which does not exist yet — so the card converts today
-                    instead of 404ing. */}
-                <a className="ncta" href="#" data-wa={`Hi D'Life, I'd like to talk about ${title}.`}>
-                  Talk about this
+                {/* The direct CTA slide 10 requires. It now opens the card's
+                    own Solutions page rather than WhatsApp: the guide's journey
+                    map runs life-needs → relevant solution page → speak with an
+                    advisor, and jumping straight to a message skips the
+                    explanation the visitor came for. The need-specific prefill
+                    lives on that page's own CTA. */}
+                <a className="ncta" href={link(href)}>
+                  Read more
                   <em>→</em>
                 </a>
               </div>
@@ -774,12 +473,15 @@ export default function DLife() {
             Understand the protection you already have. Speak with our team to review your coverage with greater
             confidence, and see what next step, if any, makes sense.
           </p>
-          {/* One action. The "See how we can help" text link beside it is out
-              at the client's request — the section now routes to a single
-              place. */}
+          {/* One primary action, per the client's request that this section
+              route to a single place. The secondary is a text link, not a
+              second pill — the homepage teases, the page explains. */}
           <div className="acts rv">
-            <a className="pill" data-wa="Hi D'Life, I'd like guidance on my existing policy." href="#">
+            <a className="pill" data-wa={WA.policy} href="#">
               <span>Get guidance on my policy</span>
+            </a>
+            <a className="tlink" href={link(ROUTES.policy.path)}>
+              How a review works <em aria-hidden="true">→</em>
             </a>
           </div>
         </div>
@@ -816,7 +518,7 @@ export default function DLife() {
             long after a policy is signed. Her sister <b>Rachel Cheang</b> leads business development and the community
             side of the practice.
           </p>
-          <a className="tlink rv" data-wa="Hi D'Life, I'd like to start a conversation." href="#">
+          <a className="tlink rv" href={link(ROUTES.about.path)}>
             Discover our story
           </a>
         </div>
@@ -934,7 +636,7 @@ export default function DLife() {
             centre line and reading as the way onward rather than as a second
             heading. */}
         <div className="more rv">
-          <a className="pill ghost" href="/stories">
+          <a className="pill ghost" href={link(ROUTES.stories.path)}>
             <span>View all stories</span>
           </a>
         </div>
@@ -956,13 +658,13 @@ export default function DLife() {
             <p>“D’Life gave me the mentorship I couldn’t find anywhere else.”</p>
             <span>D’Life Advisor</span>
           </blockquote>
-          <a className="pill rv" data-wa="Hi D'Life, I'd like to explore a career conversation." href="#">
+          <a className="pill rv" data-wa={WA.career} href="#">
             <span>Explore a career conversation</span>
           </a>
         </div>
         <div className="rows">
           {CAREER_ROWS.map(([no, title, copy]) => (
-            <a className="rv" href="#" key={no}>
+            <a className="rv" href={link(ROUTES.careers.path)} key={no}>
               <i>{no}</i>
               <div>
                 <b>{title}</b>
@@ -999,7 +701,7 @@ export default function DLife() {
                 Value Associates, in the section and in the footer. */}
             <h2>Drive Value Associates (DVA)</h2>
             <p>Built for leaders, a selective circle shaped by shared values and experience.</p>
-            <a className="pill" data-wa="Hi D'Life, I'd like to know more about DVA." href="#">
+            <a className="pill" href={link(ROUTES.dva.path)}>
               <span>Discover DVA</span>
             </a>
           </div>
@@ -1027,7 +729,7 @@ export default function DLife() {
               link stretched over it instead, so the heading and copy stay
               outside the link's accessible name rather than being swallowed
               into one very long label. */}
-          {YOUTH.map(([photo, title, copy, cta]) => (
+          {YOUTH.map(([photo, title, copy, cta, href]) => (
             <div className="yc rv" key={title}>
               <div className="ph">
                 <Plate photo={photo} />
@@ -1035,7 +737,7 @@ export default function DLife() {
               <div className="tx">
                 <h3>{title}</h3>
                 <p>{copy}</p>
-                <a className="cta" href="#youth">
+                <a className="cta" href={link(href)}>
                   <em>{cta}</em>
                 </a>
               </div>
@@ -1052,7 +754,7 @@ export default function DLife() {
             {/* Front end only: no endpoint is wired, so on submit the form is
                 replaced by an inline acknowledgement rather than anything that
                 implies the address has been stored. */}
-            <form id="loopform">
+            <form data-dl-signup="Thanks — we’ll be in touch with the next Youth Community update.">
               <input type="email" placeholder="Your email" required aria-label="Your email" />
               <button className="pill" type="submit">
                 <span>Sign Up</span>
@@ -1064,7 +766,7 @@ export default function DLife() {
               By signing up you agree to receive Youth Community updates. Unsubscribe anytime.
             </p>
             <div className="alt">
-              <a className="tlink" data-wa="Hi D'Life, I'd like Youth Community updates." href="#">
+              <a className="tlink" data-wa={WA.youth} href="#">
                 Get updates on WhatsApp
               </a>
             </div>
@@ -1075,28 +777,16 @@ export default function DLife() {
       {/* Centred column at the client's request, replacing the two-column
           split that put the heading on the left and the questions on the
           right. The "Explore Our FAQ" link is out with it — it pointed back at
-          this same section. */}
-      <section id="faq">
-        <div className="head">
-          <span className="lb rv">Helpful answers</span>
-          <h2 className="rv">
-            A few common <i>questions</i>
-          </h2>
-        </div>
-        <div className="items">
-          {FAQS.map(([q, a]) => (
-            <div className="item" key={q}>
-              <button className="q" type="button" aria-expanded={false}>
-                {q}
-                <span className="x" />
-              </button>
-              <div className="a">
-                <p>{a}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+          this same section.
+
+          Now the shared <Faq> block —
+          the same component serves every page on the site, so a change to the
+          accordion is made once. Markup and styling are the approved ones. */}
+      <Faq
+        items={HOME_FAQS}
+        label="Helpful answers"
+        more={{ label: "See all common questions", href: ROUTES.contact.path }}
+      />
 
       {/* Restored at the client's request: the photograph, its scrim stack and
           the "D'Life" label are back, so the page closes on a picture rather
@@ -1125,7 +815,7 @@ export default function DLife() {
           </h2>
           <div className="sub rv">Let it begin with you.</div>
           <div className="acts rv">
-            <a className="pill" data-wa="Hi D'Life, I'd like to start a conversation." href="#">
+            <a className="pill" data-wa={WA.conversation} href="#">
               <span>Speak with an Advisor</span>
             </a>
             <a className="pill ghost" href="#path">
@@ -1135,137 +825,6 @@ export default function DLife() {
         </div>
       </section>
 
-      {/* The one permitted adjacent dark pair (brief §10): deep-green closing
-          CTA into charcoal footer. #close owns the page's last primary action,
-          so nothing here is a copper .pill — this band is utility, not
-          conversion. */}
-      <footer id="ft" className="dark charcoal">
-        <div className="mast rv">
-          <div>
-            <div className="wm">
-              <Logo reversed />
-            </div>
-            <p className="tag">Real support, beyond the policy.</p>
-          </div>
-          {/* "Since 1999" comes from the client's own logo lockup, and
-              2026−1999 = 27 corroborates the trust strip. Still governed by
-              brief §14 Q1 — Sharon personally, or the organisation. */}
-          <span className="est">
-            Est. 1999
-            <br />
-            Malaysia
-          </span>
-        </div>
-
-        <div className="mid">
-          <div className="reach rv">
-            <h2 className="lede">
-              Talk to a person, <i>not a form.</i>
-            </h2>
-            <ul className="chan">
-              <li>
-                <span className="k">WhatsApp</span>
-                {/* aria-label contains the visible string, so WCAG 2.5.3
-                    (label in name) holds while the name still says which
-                    channel this opens. */}
-                <a
-                  className="go"
-                  data-wa={WA_FOOTER}
-                  href="#"
-                  aria-label={`Message D’Life on WhatsApp at ${CONTACT.phone}`}
-                >
-                  <span>{CONTACT.phone}</span>
-                  <em aria-hidden="true">→</em>
-                </a>
-                <p className="hint">
-                  Monday to Friday, 9am–6pm. Most messages get a reply the same day, and no one will chase you
-                  afterwards.
-                </p>
-              </li>
-              <li>
-                <span className="k">Email</span>
-                <a className="go" href={`mailto:${CONTACT.email}`}>
-                  <span>{CONTACT.email}</span>
-                  <em aria-hidden="true">→</em>
-                </a>
-                <p className="hint">For anything that needs a longer answer, or a document attached.</p>
-              </li>
-              <li>
-                <span className="k">Office</span>
-                {/* ⚠️ Full street address pending — see CONTACT above. */}
-                <address>{CONTACT.city}</address>
-                <p className="hint">
-                  Visits by appointment.{" "}
-                  <a data-wa={WA_VISIT} href="#">
-                    Message us to arrange a time
-                  </a>
-                  .
-                </p>
-              </li>
-              <li>
-                {/* Brief §8: social feeds the website, not the other way round.
-                    The exits are grouped once, quietly, at the end of the
-                    contact list rather than scattered as icons. */}
-                <span className="k">Elsewhere</span>
-                <div className="soc">
-                  <a href="#">Instagram</a>
-                  <a href="#">Facebook</a>
-                  <a href="#">YouTube</a>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <nav className="dirs rv" aria-label="Site directory">
-            {FOOTER_NAV.map(([group, links]) => (
-              <div key={group}>
-                <h3 className="k">{group}</h3>
-                <ul>
-                  {links.map(([label, href]) => (
-                    <li key={label}>
-                      <a href={href}>{label}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </nav>
-        </div>
-
-        {/* This is a financial advisory; trust is the product. Deliberately no
-            .rv on this band or the one below — they are the last elements on
-            the page, and a missed scroll trigger must never leave a legal
-            notice stuck at opacity 0.
-
-            The Licensing slot that sat beside this notice is gone at the
-            client's request: it was a marked placeholder for brief §14 Q4
-            (is D'Life a licensed agency in its own right, or a team under a
-            larger insurer?), and that question is still open. Nothing is
-            invented in its place — the answer, when it lands, comes back here
-            as real copy. */}
-        <div className="fine">
-          <p className="note">
-            D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read
-            here is general information, not personal advice. It does not take your circumstances into account. A
-            recommendation only follows a conversation, a needs assessment and the relevant product disclosure
-            documents.
-          </p>
-        </div>
-
-        <div className="base">
-          <span>© 2026 D’Life Revolution. All rights reserved.</span>
-          <div className="lx">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Use</a>
-            <a href="#">Disclosures</a>
-            <a href="#">Complaints &amp; Feedback</a>
-          </div>
-          <a className="top" href="#hero">
-            Back to top <em aria-hidden="true">↑</em>
-          </a>
-        </div>
-      </footer>
-
-    </div>
+    </>
   );
 }

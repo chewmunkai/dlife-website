@@ -1647,21 +1647,21 @@ body:has(.dlife) {
    sentences with a toggle at the far right, and centring the sentence inside
    a full-width row would leave every question floating at a different
    distance from the control that opens it. */
-.dlife #faq {
+.dlife .dl-faq {
   background: var(--s-bg);
   padding: var(--dl-sec-y) var(--dl-pad);
 }
-.dlife #faq .head { text-align: center; margin-bottom: clamp(30px, 4.5vh, 52px); }
+.dlife .dl-faq .head { text-align: center; margin-bottom: clamp(30px, 4.5vh, 52px); }
 /* Narrow enough that the toggle stays with its question rather than drifting
    350px away at the far side of the row. */
-.dlife #faq .items { max-width: 760px; margin: 0 auto; }
+.dlife .dl-faq .items { max-width: 760px; margin: 0 auto; }
 /* The measure belongs on the heading, not on the block around it: `ch` on the
    wrapper resolves against 18px body text and would cut a 52px display line
    to a third of its width. */
-.dlife #faq h2 { font-size: var(--dl-section-title); margin: 16px auto 0; line-height: 1.06; max-width: 22ch; }
-.dlife #faq .item { border-top: 1px solid var(--s-line); }
-.dlife #faq .item:last-of-type { border-bottom: 1px solid var(--s-line); }
-.dlife #faq button.q {
+.dlife .dl-faq h2 { font-size: var(--dl-section-title); margin: 16px auto 0; line-height: 1.06; max-width: 22ch; }
+.dlife .dl-faq .item { border-top: 1px solid var(--s-line); }
+.dlife .dl-faq .item:last-of-type { border-bottom: 1px solid var(--s-line); }
+.dlife .dl-faq button.q {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -1676,9 +1676,9 @@ body:has(.dlife) {
   letter-spacing: -.01em;
   padding: 30px 0;
 }
-.dlife #faq .x { width: 14px; height: 14px; position: relative; flex: none; }
-.dlife #faq .x::before,
-.dlife #faq .x::after {
+.dlife .dl-faq .x { width: 14px; height: 14px; position: relative; flex: none; }
+.dlife .dl-faq .x::before,
+.dlife .dl-faq .x::after {
   content: "";
   position: absolute;
   background: var(--dl-copper-d);
@@ -1688,10 +1688,10 @@ body:has(.dlife) {
   height: 1px;
   transition: transform .4s;
 }
-.dlife #faq .x::after { transform: rotate(90deg); }
-.dlife #faq .item.open .x::after { transform: rotate(0); }
-.dlife #faq .a { overflow: hidden; height: 0; }
-.dlife #faq .a p {
+.dlife .dl-faq .x::after { transform: rotate(90deg); }
+.dlife .dl-faq .item.open .x::after { transform: rotate(0); }
+.dlife .dl-faq .a { overflow: hidden; height: 0; }
+.dlife .dl-faq .a p {
   font: 400 var(--dl-section-body)/1.7 var(--dl-sans);
   color: var(--s-body);
   max-width: 56ch;
@@ -2119,7 +2119,7 @@ html:not(.js) .dlife #loader { display: none; }
 @media (max-width: 1080px) {
   .dlife #policy { grid-template-columns: 1fr; }
   .dlife #policy .ph { min-height: 48vh; }
-  /* #faq is not in this list: it is a centred single column at every width. */
+  /* .dl-faq is not in this list: it is a centred single column at every width. */
   .dlife #founder,
   .dlife #careers { grid-template-columns: 1fr; }
   .dlife #youth .grid { grid-template-columns: 1fr; }
@@ -2153,5 +2153,5 @@ html:not(.js) .dlife #loader { display: none; }
   .dlife #stories .head { margin-bottom: 34px; }
   .dlife #stories .reelctl { gap: 12px; }
   .dlife #youth .grid { margin-top: 40px; }
-  .dlife #faq button.q { padding: 20px 0; }
+  .dlife .dl-faq button.q { padding: 20px 0; }
 }
