@@ -22,12 +22,25 @@
 /* ---------- band ----------
    The wrapper every inner-page block sits in. Owns the vertical rhythm and
    the page margin so no block restates either. */
+/* One container width across the whole site, matching the page hero's 1180, so
+   every page reads as a single column with one left edge.
+
+   The container is expressed as padding rather than as a max-width on each
+   child, deliberately. A `max-width` + `margin-inline: auto` on the children
+   centres each one inside the band — which is fine for a full-width card grid
+   and wrong for a 68ch paragraph, because the paragraph ends up floating in
+   the middle of the page while the H1 above it starts at the left margin.
+   Constraining the content box instead means narrow content simply starts
+   where everything else starts. */
 .dlife .dl-band {
   background: var(--s-bg);
   color: var(--s-body);
-  padding: var(--dl-sec-y) var(--dl-pad);
+  padding: var(--dl-sec-y) max(var(--dl-pad), calc((100% - 1180px) / 2));
 }
-.dlife .dl-band--read > * { max-width: 820px; margin-inline: auto; }
+.dlife .dl-band--read .dl-prose,
+.dlife .dl-band--read .dl-quote,
+.dlife .dl-band--read .dl-legal__section,
+.dlife .dl-band--read .dl-notice { max-width: 72ch; }
 .dlife .dl-band__head { margin-bottom: clamp(28px, 4vh, 48px); }
 .dlife .dl-band__head h2 {
   font-size: var(--dl-section-title);
@@ -35,8 +48,6 @@
   max-width: 20ch;
   margin-top: 14px;
 }
-.dlife .dl-band--read .dl-band__head { text-align: center; }
-.dlife .dl-band--read .dl-band__head h2 { margin-inline: auto; }
 
 /* Lede: the paragraph under a heading. One tier above body copy, and capped
    at a measure that stays readable at the top of a page. */
@@ -46,7 +57,6 @@
   max-width: 62ch;
   margin-top: 18px;
 }
-.dlife .dl-band--read .dl-lede { margin-inline: auto; }
 
 .dlife .dl-actions {
   display: flex;
@@ -54,7 +64,6 @@
   gap: 14px;
   margin-top: clamp(24px, 3vh, 36px);
 }
-.dlife .dl-band--read .dl-actions { justify-content: center; }
 
 /* ---------- breadcrumbs ----------
    Small, quiet, and above the label rather than beside it: this is orientation,
@@ -370,7 +379,9 @@
   gap: clamp(30px, 5vw, 84px);
   background: var(--s-bg);
   color: var(--s-body);
-  padding: var(--dl-sec-y) var(--dl-pad);
+  /* Same 1180 container as every other band, so a split section's left edge
+     lines up with the prose above and below it. */
+  padding: var(--dl-sec-y) max(var(--dl-pad), calc((100% - 1180px) / 2));
 }
 .dlife .dl-split--flip .dl-split__ph { order: 2; }
 .dlife .dl-split__ph { aspect-ratio: 4 / 5; border-radius: 3px; max-height: 78vh; }
