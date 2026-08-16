@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import SolutionPage from "../../../components/pages/SolutionPage";
+import SolutionPage from "../../../components/v2/SolutionPage";
 import { SOLUTIONS } from "../../../content/solutions";
 import { ROUTES, SOLUTION_SLUGS, type RouteKey } from "../../../lib/routes";
 import { pageMeta } from "../../../lib/seo";

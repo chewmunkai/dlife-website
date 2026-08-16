@@ -65,7 +65,27 @@
    is renaming one of the two in the design project; until then, this. */
 section.said { margin-top: 0; }
 
-/* ---- 4. Belt and braces on sideways scroll ----
+/* ---- 4. Stacked grids blow out their container on a phone ----
+   Every two-column band stacks with `grid-template-columns: 1fr` below its
+   breakpoint. `1fr` is `minmax(auto, 1fr)`, and the `auto` minimum is the
+   item's min-content width — which `.lbl { width: max-content }` pins to the
+   label's full single line. On Youth Community, "Empowering youth. Building
+   tomorrow." made the hero track 581px wide inside a 375px viewport, so the
+   photograph, the label and the lede were all cut off mid-word. The page did
+   not scroll sideways only because rule 5 below clips it.
+
+   `min-width: 0` on the grid items removes the automatic minimum, so the
+   track resolves to the container and `.lbl`'s own `max-width: 100%` caps the
+   label. No-op at desktop, where these tracks are already `minmax(0, …)`. */
+.wrap :is(
+  .hero, .open, .duo, .split-shot, .folk, .two, .spread, .ask-host, .trip, .quad,
+  .stmt, .mv, .figs, .cadence, .pillars, .stated, .checks, .rail, .stagger,
+  .index, .traits, .seq, .closing, .dl-cards, .dl-videos__grid
+) > * {
+  min-width: 0;
+}
+
+/* ---- 5. Belt and braces on sideways scroll ----
    The bands are full-bleed and several use negative margins at the edges, so
    a single mis-measured child can reintroduce the scrollbar. The page never
    scrolls sideways by design. */
