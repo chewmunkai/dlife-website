@@ -1,0 +1,92 @@
+/* ============================================================
+   Local corrections to the vendored design system.
+
+   Everything under styles/ds/tokens, css/ and pages.css is a verbatim copy of
+   the Claude Design project (c7e01c03), so it can be re-synced by overwriting
+   those files. Fixes live here instead, where they survive a re-sync and stay
+   reviewable as a short list.
+
+   Keep this file small. If an entry here grows into a design change rather
+   than a defect fix, it belongs back in the design project.
+   ============================================================ */
+
+/* ---- 1. Header overflow between 1180px and 1440px ----
+   The bar carries seven pillars, the lockup, a full-size action pill and the
+   burger. chrome.css only drops the nav below 1180px, but the row does not
+   actually fit until about 1460px, so every laptop width in between pushed
+   ~185px of horizontal scroll onto the page. (The repo has been here before:
+   "Stop the page scrolling sideways on a phone", fe641d9.)
+
+   Rather than hiding the nav on the most common desktop widths, the bar
+   tightens: the action takes its own .sm sizing, the burger keeps its icon
+   but drops the word, and both gaps come in. That recovers roughly 200px and
+   keeps all seven pillars plus the CTA visible. */
+@media (min-width: 1181px) and (max-width: 1440px) {
+  .dl-header { gap: 12px; }
+  .dl-header .nav { gap: 10px; margin-left: 16px; }
+  .dl-header .rt { gap: 8px; }
+  .dl-header .rt .pill { padding: 13px 20px; font-size: 13px; }
+  .dl-header .burger { gap: 0; }
+  .dl-header .burger > span:not(.ln) {
+    /* Visually gone, still the button's accessible name alongside aria-label. */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ---- 2. The burger falls off the screen on a phone ----
+   Below 1180px the overlay is the only navigation, and the burger is the only
+   way into it. But chrome.css never shrinks the header's action, so at 375px
+   the row is logo + a 274px "Speak with an Advisor" pill + the burger — about
+   574px of content in a 375px viewport. The burger lands at x=538, off-screen,
+   and the phone build has no navigation at all.
+
+   The action gives way rather than the control: below 620px the pill goes and
+   the burger stays. Contact is not lost — the floating WhatsApp point is
+   persistent (and goes icon-only at this same 620px breakpoint, which is why
+   the number matches), and the overlay carries Contact in its side panel. */
+@media (max-width: 620px) {
+  .dl-header .rt .pill { display: none; }
+}
+
+/* ---- 3. `.said` means two different things ----
+   css/blocks.css defines `.said` as the inline acknowledgement shown after an
+   unwired sign-up, and gives it `margin-top: clamp(26px,3.5vh,40px)`.
+   pages.css independently defines `.said` as the quote-carried-on-a-photograph
+   band. Both sheets ship together, so the band inherits the acknowledgement's
+   top margin and opens a 28px strip of the ink body background between it and
+   the section above — a dark stripe across an otherwise edge-to-edge page.
+
+   Scoped to the section so the acknowledgement keeps its spacing. The real fix
+   is renaming one of the two in the design project; until then, this. */
+section.said { margin-top: 0; }
+
+/* ---- 4. Stacked grids blow out their container on a phone ----
+   Every two-column band stacks with `grid-template-columns: 1fr` below its
+   breakpoint. `1fr` is `minmax(auto, 1fr)`, and the `auto` minimum is the
+   item's min-content width — which `.lbl { width: max-content }` pins to the
+   label's full single line. On Youth Community, "Empowering youth. Building
+   tomorrow." made the hero track 581px wide inside a 375px viewport, so the
+   photograph, the label and the lede were all cut off mid-word. The page did
+   not scroll sideways only because rule 5 below clips it.
+
+   `min-width: 0` on the grid items removes the automatic minimum, so the
+   track resolves to the container and `.lbl`'s own `max-width: 100%` caps the
+   label. No-op at desktop, where these tracks are already `minmax(0, …)`. */
+.wrap :is(
+  .hero, .open, .duo, .split-shot, .folk, .two, .spread, .ask-host, .trip, .quad,
+  .stmt, .mv, .figs, .cadence, .pillars, .stated, .checks, .rail, .stagger,
+  .index, .traits, .seq, .closing, .dl-cards, .dl-videos__grid
+) > * {
+  min-width: 0;
+}
+
+/* ---- 5. Belt and braces on sideways scroll ----
+   The bands are full-bleed and several use negative margins at the edges, so
+   a single mis-measured child can reintroduce the scrollbar. The page never
+   scrolls sideways by design. */
+.wrap { overflow-x: clip; }

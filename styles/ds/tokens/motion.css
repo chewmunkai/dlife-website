@@ -1,0 +1,23 @@
+:root{
+  --dl-t-fast:.25s; /* @kind other */    /* dropdown panels, small colour shifts */
+  --dl-t-base:.35s; /* @kind other */    /* hover on links and actions */
+  --dl-t-slow:.45s; /* @kind other */    /* the pill's fill wipe */
+  --dl-t-plate:.8s; /* @kind other */    /* image scale inside a plate */
+  --dl-t-reveal:.9s; /* @kind other */
+
+  --dl-ease:cubic-bezier(.2,.7,.3,1); /* @kind other */        /* default: settles, never bounces */
+  --dl-ease-wipe:cubic-bezier(.65,0,.35,1); /* @kind other */  /* the pill fill */
+  --dl-lift-card:-3px; /* @kind other */                       /* cards rise 3px, nothing more */
+  --dl-lift-float:-2px; /* @kind other */
+  --dl-reveal-y:22px; /* @kind other */
+}
+
+/* Quiet reveal — the baseline motion of the brand. Opt in per element; there
+   are no entrance animations by default. */
+@keyframes dl-reveal{from{opacity:0;transform:translateY(var(--dl-reveal-y))}to{opacity:1;transform:none}}
+.dl-reveal{animation:dl-reveal var(--dl-t-reveal) var(--dl-ease) both}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .dl-reveal{animation:none}
+}

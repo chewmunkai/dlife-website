@@ -1,0 +1,20 @@
+:root{
+  /* Restrained rounding. Plates, cards and panels sit at 3px; only actions and
+     the WhatsApp point are pills. Nothing else is round. */
+  --dl-r-plate:3px;
+  --dl-r-chip:2px;
+  --dl-r-panel:10px;   /* nav dropdown, the one raised surface */
+  --dl-r-pill:99px;
+
+  --dl-bw:1px; /* @kind other */
+  --dl-rule-w:2px; /* @kind other */   /* pull-quote and callout rules */
+
+  /* Shadows are tinted deep teal, never black, and used sparingly: the system
+     separates surfaces with warm ground and hairlines first. */
+  --dl-shadow-none:none;
+  --dl-shadow-panel:0 16px 36px rgba(15,51,44,.18);
+  --dl-shadow-float:0 6px 22px rgba(11,33,29,.22);
+
+  /* Text protection over photography — opt-in, and only where type sits. */
+  --dl-scrim-b:linear-gradient(to top,rgba(11,33,29,.72) 0%,rgba(11,33,29,.28) 22%,transparent 48%); /* @kind other */
+}

@@ -1,41 +1,86 @@
 import type { Metadata } from "next";
-import SiteShell from "../../components/site/SiteShell";
-import { E2Band, E2Bar, E2Checks, E2Closing, E2Hero, E2Qa, E2Rail, E2Said } from "../../components/blocks/E2";
+import Shell from "../../components/v2/Shell";
+import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Prose, CheckList, Pullquote } from "../../components/blocks/Prose";
-import { Steps, Contrast } from "../../components/blocks/Steps";
-import RelatedContent from "../../components/blocks/Related";
+import { Hero, Bar, Band, Open, Checks, Closing } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { WA } from "../../lib/contact";
 import { link } from "../../lib/asset";
+import { WA, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.policy);
 
 /* ============================================================
-   ⚠️ GUARDRAILED PAGE. Read before editing.
+   Existing Policy Support.
 
-   The direction guide draws a hard boundary around this journey. It is a
-   service-led trust offering for people who already hold a policy — NOT a
-   client-acquisition play built on dissatisfaction with another advisor.
+   ⚠️ STANDING GUARDRAIL, from the design bundle and the direction guide.
+   This page must never:
+     · name an insurer or a competitor
+     · imply that whoever advised the visitor before did a poor job
+     · suggest switching agency, or read as acquisition dressed as service
 
-   Nothing on this page may contain:
-     ✗ an insurer or competing agency name
-     ✗ "lost touch with your agent" or any variation
-     ✗ advisor disappearance or abandonment language
-     ✗ negative competitor comparison
-     ✗ any agency-switching or client-poaching implication
-
-   What it may contain: clarity, current coverage, guidance and review,
-   confidence and questions, low-pressure human support.
-
-   The approved wording directions are used verbatim where they fit —
-   "Need clarity on your current coverage?", "Understand the protection you
-   already have", "Review your coverage with greater confidence".
-
-   This applies to the page copy, the FAQ, the CTA wording, the metadata and
-   the WhatsApp prefills alike.
+   It is a service offer. The page says outright that most reviews end with
+   the client keeping exactly what they had, and the `.fnote` states what the
+   review is not. Removing either of those turns a service page into a
+   prospecting page, which is the failure mode this copy was written against.
    ============================================================ */
+
+const IS = [
+  {
+    title: "Your cover, in plain language",
+    copy: "What you actually hold, without the policy wording. You keep a written summary you can read again in two years.",
+  },
+  {
+    title: "A check on the details",
+    copy: "Nominations, contact details and sums insured, against the circumstances you are in now rather than the ones on file.",
+  },
+  {
+    title: "An honest view of the fit",
+    copy: "Including when the honest view is that your arrangements are already reasonable. That is a common outcome.",
+  },
+  {
+    title: "The questions you have been meaning to ask",
+    copy: "The ones people put off, because they assumed they should already know the answer.",
+  },
+  {
+    title: "A conversation you can end",
+    copy: "At any point, with no follow-up sequence waiting behind it.",
+  },
+  {
+    title: "No cost",
+    copy: "Understanding what you already hold is something we are happy to help with, whether or not anything follows from it.",
+  },
+];
+
+const POINTS = [
+  "What the policy actually covers, in ordinary words",
+  "The limits: annual, lifetime, and per condition where they apply",
+  "What you would pay yourself before cover begins",
+  "Any exclusions, and whether they still apply to you",
+  "Whether the cover continues if you change jobs or retire",
+  "Whether your nominated beneficiaries are still the right ones",
+  "Whether the amount still matches your responsibilities today",
+  "What would happen at the point of a claim, step by step",
+];
+
+const STEPS = [
+  {
+    k: "Step one",
+    title: "Send us what you have",
+    copy: "A photograph of the policy schedule is enough. If you cannot find it, the policy number will usually do.",
+  },
+  { k: "Step two", title: "We read it properly", copy: "Before the conversation, not during it." },
+  {
+    k: "Step three",
+    title: "We go through it together",
+    copy: "In person, by call, or over WhatsApp if that is easier.",
+  },
+  {
+    k: "Step four",
+    title: "You keep a plain summary",
+    copy: "What you hold, in words you can read again in two years. Whether anything changes is entirely up to you.",
+  },
+];
 
 const FAQS = [
   {
@@ -62,137 +107,154 @@ const FAQS = [
 
 export default function Page() {
   const route = ROUTES.policy;
+  const clarity = waHref(WA.policyClarity);
 
   return (
-    <SiteShell path={route.path}>
-      <E2Hero
+    <Shell>
+      <Hero
         route={route}
         label="Existing policyholders"
-        title={<>Need clarity on your current coverage?</>}
+        title="Need clarity on your current coverage?"
         lede="Understand the protection you already have, and review it with greater confidence. Wherever you bought it, and with no obligation to change anything."
         photo={{
           src: "/media/img/policy-review.jpg",
           alt: "An advisor talking a client through their coverage",
+          position: "55% 40%",
         }}
+        actions={
+          <a className="pill" href={clarity}>
+            <span>Get clarity on my coverage</span>
+          </a>
+        }
       />
 
-      <E2Band read>
-        <Prose>
+      <Bar
+        facts={["No cost", "No obligation to change anything", "Wherever you bought it"]}
+        statement="A review, not a transfer."
+        action={
+          <a className="pill" href={waHref(WA.policy)}>
+            <span>Send us your policy</span>
+          </a>
+        }
+      />
+
+      <Band>
+        <Open lead="Most people have not read their policy since the day they signed it.">
           <p>
-            A lot of people hold a policy they have not looked at since the day they signed it. That is completely
-            normal. Policies are written in a language most of us do not use, filed somewhere sensible, and then left
-            alone for a decade while life carries on changing around them.
+            That is normal. These documents are written in language most of us do not use, and then left alone while
+            life carries on changing around them.
           </p>
           <p>
-            This is simply an offer to read it with you. What it covers, what it does not, and whether it still matches
-            the circumstances you are in now rather than the ones you were in when you bought it.
+            This is an offer to read yours with you: what it covers, what it does not, and whether it still fits the
+            circumstances you are in now rather than the ones you were in when you bought it.
           </p>
-        </Prose>
-      </E2Band>
+        </Open>
+      </Band>
 
-      {/* Drawing the boundary explicitly is more reassuring than any amount of
-          soft language around it. */}
-      <E2Band tone="sand" label="To be clear" title={<>What this is, and what it is not</>}>
-        <Contrast
-          left={{
-            heading: "What this is",
-            items: [
-              "A plain-language explanation of cover you already hold",
-              "A check that your nominations and details are still current",
-              "An honest view on whether it still fits your circumstances",
-              "Answers to the questions you have been meaning to ask someone",
-              "A conversation you can end at any point",
-            ],
-          }}
-          right={{
-            heading: "What this is not",
-            items: [
-              "A sales meeting with a review attached",
-              "An assessment of whoever advised you before",
-              "A comparison exercise designed to reach one conclusion",
-              "Something that obliges you to change anything at all",
-              "The start of a follow-up sequence",
-            ],
-          }}
-        />
-      </E2Band>
+      <Band tone="sand" label="What a review is">
+        <h2 style={{ maxWidth: "26ch" }}>Six things that happen, and one that does not</h2>
+        <div className="stated">
+          {IS.map((i) => (
+            <div key={i.title}>
+              <b>{i.title}</b>
+              <p>{i.copy}</p>
+            </div>
+          ))}
+        </div>
+        {/* The boundary, stated as a sentence. This is the guardrail in copy
+            form — do not soften it into a benefit. */}
+        <p className="fnote">
+          <b>What it is not.</b> Not a sales meeting with a review attached, and not an assessment of whoever advised
+          you before. Nothing here obliges you to move or change a policy, and most reviews end with the client keeping
+          exactly what they had.
+        </p>
+      </Band>
 
-      <E2Band label="What we look at" title={<>The parts that usually matter</>}>
-        <Prose>
-          <p>
-            Most of the useful information is in a document you already own. These are the points we work through, and
-            in our experience they answer the great majority of questions people arrive with.
+      <section className="bleed light">
+        <div className="r" />
+        <p className="lead">Most of the answers are already in a document you own.</p>
+        <p className="foot">
+          We read it before we speak, so the time is spent on your questions rather than on us finding our place in a
+          policy schedule.
+        </p>
+      </section>
+
+      {/* Runs straight on from the statement above it, so it drops its own top
+          padding rather than doubling the band rhythm. */}
+      <section className="band light" style={{ paddingTop: 0 }}>
+        <p className="lbl">What we look at</p>
+        <h2>The eight points that answer most of it</h2>
+        <Checks items={POINTS} />
+      </section>
+
+      <section className="spread sand">
+        <div className="spread__rail">
+          <p className="lbl">How it works</p>
+          <h2>A review, start to finish</h2>
+          <p className="aside">
+            Usually under an hour. Bring someone if you would rather not do it alone, and stop at any point.
           </p>
-        </Prose>
-        <CheckList
-          items={[
-            "What the policy actually covers, in ordinary words",
-            "The limits — annual, lifetime, and per condition where they apply",
-            "What you would pay yourself before cover begins",
-            "Any exclusions, and whether they still apply to you",
-            "Whether the cover continues if you change jobs or retire",
-            "Whether your nominated beneficiaries are still the right ones",
-            "Whether the amount still matches your responsibilities today",
-            "What would happen at the point of a claim, step by step",
-          ]}
-        />
-      </E2Band>
+        </div>
+        <div className="spread__body">
+          <div className="seq">
+            {STEPS.map((s) => (
+              <div key={s.title}>
+                <span className="k">{s.k}</span>
+                <h3>{s.title}</h3>
+                <p>{s.copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <E2Band tone="sand" label="How it works" title={<>A review, start to finish</>}>
-        <E2Rail
-          steps={[
-            {
-              title: "Send us what you have",
-              copy: "A photograph of the policy schedule is enough. If you cannot find it, the policy number will usually do, and we can help you request a copy.",
-            },
-            {
-              title: "We read it properly",
-              copy: "Before the conversation, not during it. That way the time is spent on your questions rather than on us finding our place in a document.",
-            },
-            {
-              title: "We go through it together",
-              copy: "In person, by call, or over WhatsApp if that is easier. Usually under an hour, and you are welcome to bring someone.",
-            },
-            {
-              title: "You keep a plain summary",
-              copy: "What you hold, in words you can read again in two years. Whether anything changes is entirely up to you.",
-            },
-          ]}
-        />
-      </E2Band>
+      {/* The plain quote variant: same band, no photograph behind it. Its rule
+          and body carry the page margin themselves, because the figure is not
+          a full band. */}
+      <figure className="said said--plain dark" style={{ margin: 0 }}>
+        <div className="r" style={{ marginInline: "var(--m)" }} />
+        <div style={{ paddingInline: "var(--m)" }}>
+          <blockquote>
+            “Most of the reviews we do end with the client keeping exactly what they had. They just finally know what it
+            is.”
+          </blockquote>
+          <figcaption>D’Life advisory team</figcaption>
+        </div>
+      </figure>
 
-      <E2Band tone="dark" read>
-        <Pullquote cite="D’Life advisory team">
-          “Most of the reviews we do end with the client keeping exactly what they had. They just finally know what it
-          is.”
-        </Pullquote>
-      </E2Band>
+      <section className="ask-host light">
+        <div className="ask-head">
+          <p className="lbl">Common questions</p>
+          <h2>What people ask us first</h2>
+        </div>
+        <div>
+          <Ask items={FAQS} />
+          <div className="dl-actions" style={{ marginTop: "clamp(28px,4vh,44px)" }}>
+            <a className="pill ghost" href={link(ROUTES.contact.path)}>
+              <span>Ask us something else</span>
+            </a>
+          </div>
+        </div>
+      </section>
 
-      <E2Band read label="Common questions" title={<>What people ask us first</>}>
-        <E2Qa items={FAQS} />
-      </E2Band>
-
-      <E2Closing
+      <Closing
         photo={{ src: "/media/img/path-review.jpg", alt: "", position: "50% 40%" }}
-        label="Next step"
         title="Get guidance on your existing policy"
         lede="Send the policy schedule, or just the number. We will read it before we speak, and see what next step, if any, makes sense."
         actions={
           <>
-            <a className="pill sand" data-wa={WA.policyClarity} href="#">
+            <a className="pill sand" href={clarity}>
               <span>Get clarity on my coverage</span>
             </a>
             <a className="pill ghost" href={link(ROUTES.solutions.path)}>
-              <span>Explore protection & planning</span>
+              <span>Explore protection &amp; planning</span>
             </a>
           </>
         }
       />
 
-      <RelatedContent keys={["medical-health-preparation", "protecting-your-family", "contact"]} tone="sand" />
-
       <JsonLd data={breadcrumbLd(route)} />
       <JsonLd data={faqLd(FAQS)} />
-    </SiteShell>
+    </Shell>
   );
 }

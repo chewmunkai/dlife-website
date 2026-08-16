@@ -1,0 +1,49 @@
+/* Element defaults. The page is full-bleed by design: warm ground edge to
+   edge, no framed panel. */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--s-bg);color:var(--s-body);font:var(--dl-w-regular) var(--dl-body)/var(--dl-lh-body) var(--dl-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+p,figure,blockquote,dl,dd{margin:0}
+p{text-wrap:pretty}
+
+/* One family, one weight, one style per heading. Lora's letterforms carry
+   their own contrast, so no uppercase and no tight tracking at display size. */
+h1,h2,h3,h4{font-family:var(--dl-disp);font-weight:var(--dl-w-semibold);letter-spacing:var(--dl-tr-heading);line-height:var(--dl-lh-heading);color:var(--s-heading);margin:0;text-wrap:pretty}
+h1{font-size:var(--dl-page-title);line-height:var(--dl-lh-display)}
+h2{font-size:var(--dl-section-title);line-height:var(--dl-lh-title)}
+h3{font-size:var(--dl-card-title)}
+h4{font-size:var(--dl-body);font-weight:var(--dl-w-medium)}
+/* Emphasis comes from size, spacing and grouping — never from an italic span
+   or a bold run mid-sentence. <i> is kept where it groups a line, and
+   neutralised here. */
+h1 i,h2 i,h3 i{font:inherit;font-style:normal;color:inherit}
+
+a{color:var(--s-accent);text-decoration:none;transition:color var(--dl-t-base) var(--dl-ease)}
+a:hover{color:var(--dl-copper-x)}
+.dark a:hover,.sand a:hover{color:var(--s-accent);opacity:.82}
+img{display:block;max-width:100%}
+::selection{background:rgba(179,107,67,.22)}
+:focus-visible{outline:2px solid var(--dl-copper-d);outline-offset:2px}
+.dark :focus-visible{outline-color:var(--dl-sand)}
+
+/* ---------- section label ----------
+   The middle tier between a section title and body copy. No leading rule or
+   dash: the label starts on its first letter, everywhere. */
+.lb{display:inline-flex;align-items:center;gap:12px;font:var(--dl-w-bold) var(--dl-section-sub)/1.35 var(--dl-sans);letter-spacing:var(--dl-tr-label);text-transform:uppercase;color:var(--s-label)}
+
+/* ---------- lede ---------- */
+.dl-lede{font:var(--dl-w-regular) var(--dl-section-sub)/1.6 var(--dl-sans);color:var(--s-muted);max-width:var(--dl-measure-lede);margin-top:18px}
+
+/* ---------- photo plate ----------
+   Photographs render as shot — warm natural light, no grade, no duotone.
+   Only plates that carry type over them get a scrim, and only where the type
+   sits. */
+.ph{position:relative;overflow:hidden;background:var(--s-plate)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph.scrim-b::after{content:"";position:absolute;inset:0;background:var(--dl-scrim-b);pointer-events:none}
+
+/* ---------- marked empty slot ----------
+   Warm-toned placeholder, clearly marked, for photography that has not landed
+   yet. Never a stock photo standing in for a real person. */
+.slot-empty{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;background:var(--dl-cream);box-shadow:inset 0 0 0 1px var(--s-line);font:var(--dl-w-medium) 15px/1.5 var(--dl-disp);color:var(--dl-copper-d)}
+.slot-empty em{display:block;font-style:normal;font:var(--dl-w-bold) 11px/1 var(--dl-sans);letter-spacing:.18em;text-transform:uppercase;margin-top:10px;color:var(--s-quiet)}

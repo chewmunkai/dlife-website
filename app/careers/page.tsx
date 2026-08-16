@@ -1,42 +1,88 @@
 import type { Metadata } from "next";
-import SiteShell from "../../components/site/SiteShell";
-import { E2Band, E2Bar, E2Checks, E2Closing, E2Hero, E2Qa, E2Rail, E2Said } from "../../components/blocks/E2";
+import Shell from "../../components/v2/Shell";
+import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Prose, Pullquote, CheckList } from "../../components/blocks/Prose";
-import { Steps, Contrast } from "../../components/blocks/Steps";
-import SelectedVideos from "../../components/blocks/Video";
-import RelatedContent from "../../components/blocks/Related";
+import { Hero, Bar, Band, Open, Said, Closing } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { WA } from "../../lib/contact";
-import { VIDEOS } from "../../content/videos";
-import { link } from "../../lib/asset";
+import { asset, link } from "../../lib/asset";
+import { WA, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.careers);
 
 /* ============================================================
-   ⚠️ GUARDRAILED PAGE. Read before editing.
+   Grow With D'Life — careers.
 
-   The recruitment boundary in the direction guide is as firm as the
-   existing-policy one. Nothing on this page may contain:
-     ✗ mass-recruitment framing
-     ✗ easy-money or lifestyle promises
-     ✗ income claims of any kind
-     ✗ MLM-style language ("be your own boss", "unlimited earning")
-     ✗ generic motivational claims
+   ⚠️ NO INCOME FIGURES ON THIS PAGE. That is a standing guardrail from the
+   design bundle, and it is also the page's argument: the FAQ says plainly
+   that any figure published here would be someone else's and not the
+   reader's. Do not add a range, an average or a top-earner number, and do not
+   soften the "it starts slowly" line.
 
-   What it should contain: realistic career exploration, mentorship and
-   professional development, advisor voices and learning journeys, and culture,
-   standards and responsibility.
+   The page is deliberately unexciting next to how the industry usually
+   recruits. `.stated` replaced a tick-and-cross pair, because an agency
+   describing its own work should state what the work is rather than argue
+   with an imagined objection; the one honest exclusion sits underneath as a
+   sentence (`.fnote`) instead of a column of crosses.
 
-   The practical test applied throughout: would this sentence be equally at
-   home on a recruitment site we would be embarrassed to be mistaken for? If
-   so, it is rewritten or removed.
-
-   ⚠️ The advisor quotation used here is attributed generically pending
-   consent — the guide lists testimonials and advisor quotations as
-   verify-before-publish.
+   The pull-quote attribution is pending advisor consent. Do not attach a name
+   to it until that is in writing.
    ============================================================ */
+
+const WORK = [
+  {
+    title: "Licensed advice",
+    copy: "A regulated profession with real examinations behind it, and disclosure obligations that matter.",
+  },
+  {
+    title: "Long conversations",
+    copy: "Most of the week is spent talking with people about money, risk and what they are responsible for.",
+  },
+  {
+    title: "A client base built slowly",
+    copy: "Relationships meant to last years, rather than a pipeline that resets every quarter.",
+  },
+  {
+    title: "Being the person who picks up",
+    copy: "At the point of a claim you are the one the family calls. That is the part of the job that decides your reputation.",
+  },
+  {
+    title: "Continuous learning",
+    copy: "Products, rules and tax treatment keep moving. Staying current is in the job description.",
+  },
+  {
+    title: "Judgement",
+    copy: "Knowing when the right recommendation is to recommend nothing, and saying so.",
+  },
+];
+
+const GROWTH = [
+  {
+    title: "Mentorship before independence",
+    copy: "You learn the craft beside someone senior before you ever learn a pitch. You sit in on real client conversations, and are observed in your own.",
+  },
+  {
+    title: "Licensing and professional standards",
+    copy: "Licensing, product knowledge and proper disclosure. Doing this correctly is not the boring part of the job. It is the job.",
+  },
+  {
+    title: "A route into leadership",
+    copy: "For those who want it, a path from advisor to team leader with training at each step. More than 40 young managers have come through it here.",
+  },
+  {
+    title: "A culture that measures the right thing",
+    copy: "People here judge a good year by the clients who stayed, and the families who were properly looked after when something happened.",
+  },
+];
+
+const SUITS = [
+  "Comfortable starting a conversation with someone they do not know",
+  "Genuinely interested in other people’s circumstances",
+  "Able to sit with a slow first year without panicking",
+  "Willing to tell a client they do not need something",
+  "Organised enough to follow up years later, unprompted",
+  "From a professional background, in any field",
+];
 
 const FAQS = [
   {
@@ -49,11 +95,11 @@ const FAQS = [
   },
   {
     q: "What does the first year actually look like?",
-    a: "Learning, mostly. Licensing, product knowledge, and sitting in on conversations before you lead them. Building a client base takes time and the early months are the hardest part of the job — we would rather say that now than have you discover it.",
+    a: "Learning, mostly. Licensing, product knowledge, and sitting in on conversations before you lead them. Building a client base takes time and the early months are the hardest part of the job. We would rather say that now than have you discover it.",
   },
   {
     q: "How is the income structured?",
-    a: "Advisor income is commission-based, which means it varies and it starts slowly. We will talk through the specifics honestly with you, including what a realistic first two years looks like. We do not publish income figures, because any figure we published would be someone else's and not yours.",
+    a: "Advisor income is commission-based, which means it varies and it starts slowly. We will talk through the specifics honestly with you, including what a realistic first two years looks like. We do not publish income figures, because any figure we published would be someone else’s and not yours.",
   },
   {
     q: "Is this a full-time commitment?",
@@ -67,126 +113,142 @@ const FAQS = [
 
 export default function Page() {
   const route = ROUTES.careers;
+  const career = waHref(WA.career);
 
   return (
-    <SiteShell path={route.path}>
-      <E2Hero
+    <Shell>
+      <Hero
         route={route}
         label="Grow with D’Life"
-        title={<>A career built on real guidance, not just sales</>}
-        lede="Advising people on their protection and planning is a profession. It takes licensing, training, judgement and a long attention span. If that sounds like the version of this job you were hoping existed, it is worth a conversation."
-        photo={{ src: "/media/img/path-career.jpg", alt: "Looking out over the trees, weighing what’s next" }}
+        title="A career built on real guidance, not just sales"
+        lede="Advising people on their protection and planning is a profession. It takes licensing, training, judgement and a long attention span."
+        photo={{
+          src: "/media/img/path-career.jpg",
+          alt: "A woman looking out through a window at trees",
+          position: "30% 50%",
+        }}
+        actions={
+          <a className="pill" href={career}>
+            <span>Explore a career conversation</span>
+          </a>
+        }
       />
 
-      <E2Band read>
-        <Prose>
-          <p>
-            You have probably seen how this industry usually recruits. We are not going to do that. There is no income
-            figure on this page, no promise about your lifestyle, and no suggestion that this is easy or fast.
-          </p>
+      <Bar
+        facts={["No income figures", "No lifestyle promises", "Not an interview"]}
+        statement="An honest conversation about what the work involves."
+        action={
+          <a className="pill" href={career}>
+            <span>Start there</span>
+          </a>
+        }
+      />
+
+      <Band>
+        <Open lead="You have probably seen how this industry usually recruits. We are not going to do that.">
           <p>
             What we can tell you is what the work actually involves, how you would be trained, and who tends to do well
             at it. If that reads as less exciting than the alternative, we would rather you decided on the accurate
             version.
           </p>
-        </Prose>
-      </E2Band>
+        </Open>
+      </Band>
 
-      <E2Band tone="sand" label="Straight answers" title={<>What this is, and what it is not</>}>
-        <Contrast
-          left={{
-            heading: "What the job is",
-            items: [
-              "A licensed profession with real examinations behind it",
-              "Long conversations with people about money and risk",
-              "Building a client base slowly, and keeping it for years",
-              "Being the person somebody calls at the point of a claim",
-              "Continuous learning, because the products and rules keep moving",
-            ],
-          }}
-          right={{
-            heading: "What it is not",
-            items: [
-              "A fast route to a large income",
-              "Something that works well as a side project",
-              "A recruitment structure where you earn from signing people up",
-              "A job with a salary floor while you are building",
-              "Suited to everybody, including some people who would be good at it",
-            ],
-          }}
-        />
-      </E2Band>
+      <Band label="The work itself">
+        <h2 style={{ maxWidth: "24ch" }}>What an advisor actually does</h2>
+        <p className="dl-lede">Six things that make up the job, before anyone mentions a product or a target.</p>
+        <div className="stated">
+          {WORK.map((w) => (
+            <div key={w.title}>
+              <b>{w.title}</b>
+              <p>{w.copy}</p>
+            </div>
+          ))}
+        </div>
+        {/* The one honest exclusion, as a sentence rather than a column of
+            crosses. Note: no figure, by design. */}
+        <p className="fnote">
+          <b>Two things it is not.</b> It does not work as a side project, and nobody here earns from signing other
+          people up. Advisor income is commission-based, which means it varies and starts slowly. We would rather talk
+          that through with you properly than publish a figure that belongs to somebody else.
+        </p>
+      </Band>
 
-      <E2Band label="How you would grow" title={<>What we actually provide</>}>
-        <E2Rail
-          steps={[
-            {
-              title: "Mentorship before independence",
-              copy: "You learn the craft beside someone senior before you ever learn a pitch. That means sitting in on real client conversations, and being observed in your own.",
-            },
-            {
-              title: "Licensing and professional standards",
-              copy: "We take you through licensing, product knowledge and proper disclosure. Doing this correctly is not the boring part of the job — it is the job.",
-            },
-            {
-              title: "A route into leadership",
-              copy: "For those who want it, there is a path from advisor to team leader with training at each step. More than 40 young managers have come through that route here.",
-            },
-            {
-              title: "A culture that measures the right thing",
-              copy: "People here judge a good year by the clients who stayed and the families who were properly looked after when something happened.",
-            },
-          ]}
-        />
-      </E2Band>
+      <Band tone="sand" label="How you would grow" title="What we actually provide">
+        <div className="index">
+          {GROWTH.map((g, i) => (
+            <div key={g.title}>
+              <b>{String(i + 1).padStart(2, "0")}</b>
+              <div className="with">
+                <h3>{g.title}</h3>
+                <p>{g.copy}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Band>
 
-      <E2Band tone="dark" read>
-        {/* ⚠️ Attribution pending consent. */}
-        <Pullquote cite="D’Life advisor">
-          “D’Life gave me the mentorship I couldn’t find anywhere else.”
-        </Pullquote>
-      </E2Band>
-
-      <SelectedVideos
-        videos={VIDEOS}
-        tone="light"
-        label="Advisor stories"
-        title="Hear it from people doing the job"
-        lede="Advisors in their own words, on what the work involves and why they stayed."
-        id="stories"
+      <Said
+        photo={{
+          src: "/media/img/dva-workshop.jpg",
+          alt: "A presenter leading a workshop session",
+          position: "30% 40%",
+        }}
+        quote={<>“D’Life gave me the mentorship I couldn’t find anywhere else.”</>}
+        cite="D’Life advisor · attribution pending consent"
       />
 
-      <E2Band tone="sand" label="Who tends to do well" title={<>The people this suits</>}>
-        <Prose>
-          <p>
-            There is no single background. Across the advisors who have built something lasting here, these are the
-            things they had in common when they started.
+      <section className="two two--flip sand">
+        <div className="plate ph">
+          <img
+            src={asset("/media/img/dva-team.jpg")}
+            alt="The D’Life advisory team"
+            style={{ objectPosition: "60% 50%" }}
+          />
+        </div>
+        <div>
+          <p className="lbl">Who tends to do well</p>
+          <h2>The people this suits</h2>
+          <p className="dl-lede" style={{ maxWidth: "38ch" }}>
+            No single background. This is what they had in common on day one.
           </p>
-        </Prose>
-        <CheckList
-          items={[
-            "Comfortable initiating conversations with people they do not know",
-            "Genuinely interested in other people’s circumstances",
-            "Able to sit with a slow first year without panicking",
-            "Willing to tell a client that they do not need something",
-            "Organised enough to follow up years later, unprompted",
-            "Coming from a professional background, in any field",
-          ]}
-        />
-      </E2Band>
+          <div className="traits">
+            {SUITS.map((s, i) => (
+              <div key={s}>
+                <b>{String(i + 1).padStart(2, "0")}</b>
+                <span>{s}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <E2Band read label="Common questions" title={<>The questions worth asking us</>}>
-        <E2Qa items={FAQS} />
-      </E2Band>
+      <section className="ask-host light">
+        <div className="ask-head">
+          <p className="lbl">Common questions</p>
+          <h2>The questions worth asking us</h2>
+        </div>
+        <div>
+          <Ask items={FAQS} />
+          <div className="dl-actions" style={{ marginTop: "clamp(28px,4vh,44px)" }}>
+            <a className="pill ghost" href={link(ROUTES.contact.path)}>
+              <span>Ask us something else</span>
+            </a>
+          </div>
+        </div>
+      </section>
 
-      <E2Closing
-        photo={{ src: "/media/img/youth-workshop.jpg", alt: "Attendees seated at a workshop session", position: "50% 30%" }}
-        label="Next step"
+      <Closing
+        photo={{
+          src: "/media/img/youth-workshop.jpg",
+          alt: "Attendees seated at a workshop session",
+          position: "50% 30%",
+        }}
         title="Explore a career conversation"
         lede="An honest discussion about what the work involves and whether it fits. It is not an interview, and it does not commit you to anything."
         actions={
           <>
-            <a className="pill sand" data-wa={WA.career} href="#">
+            <a className="pill sand" href={career}>
               <span>Explore a career conversation</span>
             </a>
             <a className="pill ghost" href={link(ROUTES.about.path)}>
@@ -196,10 +258,8 @@ export default function Page() {
         }
       />
 
-      <RelatedContent keys={["stories", "dva", "about"]} tone="light" />
-
       <JsonLd data={breadcrumbLd(route)} />
       <JsonLd data={faqLd(FAQS)} />
-    </SiteShell>
+    </Shell>
   );
 }

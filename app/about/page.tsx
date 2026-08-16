@@ -1,43 +1,35 @@
 import type { Metadata } from "next";
-import SiteShell from "../../components/site/SiteShell";
-import { E2Band, E2Checks, E2Closing, E2Hero, E2Qa, E2Said } from "../../components/blocks/E2";
+import type { ReactNode } from "react";
+import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
-import { Prose, Pullquote, CheckList } from "../../components/blocks/Prose";
-import { SplitStory } from "../../components/blocks/Steps";
-import { Portrait, CardGrid } from "../../components/blocks/Cards";
-import RelatedContent from "../../components/blocks/Related";
+import { Hero, Band, Open, SplitShot, Checks, Closing, Cards } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { WA } from "../../lib/contact";
 import { link } from "../../lib/asset";
+import { WA, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.about);
 
 /* ============================================================
-   About D'Life & our founders.
+   About D'Life.
 
-   Source: the client's own "About the Founders" document.
+   ⚠️ VERIFY BEFORE PUBLISH. Every figure on this page came through the client
+   brief unverified and is listed as such in the design bundle's own README:
+   the 27 years, all eight recognition entries, the 3 agency managers, the 40+
+   unit managers and the MDRT line. They are stated plainly rather than
+   displayed as achievements, and the recognition band says on the page that
+   it is pending verification. Do not promote any of them into a headline
+   claim until the client confirms them.
 
-   ⚠️ LANGUAGE NOTE. The source material describes D'Life as a "transformation
-   platform" and organises Sharon's work around mindset, personality, wealth
-   and quality of life. That is internal language: to a stranger it reads as
-   vague and seminar-like, which the brand's own guide rules out. Public copy
-   stays anchored to financial advisory and protection, and lets the
-   transformation show through what people actually did rather than as a label.
+   ⚠️ "Protect Lives. Build Wealth. Transform People. Create Impact." is
+   presented here as the practice's four commitments, NOT as a quotation from
+   Sharon. It arrived through the brief as D'Life's own four-part line, and
+   whether Sharon ever said it as a sentence is unconfirmed. No attribution is
+   printed. Confirm before adding one.
 
-   ⚠️ Sharon's philosophy — "Protect Lives. Build Wealth. Transform People.
-   Create Impact." — is kept verbatim and attributed to her, rather than
-   paraphrased into house copy. It is hers.
-
-   ⚠️ The founder is a trust anchor, not the subject. The guide is explicit:
-   use Sharon's story for values, credibility and commitment "without turning
-   the website into a personal biography". This page stays under that line —
-   two sisters and an agency, not a profile.
-
-   ⚠️ PENDING VERIFICATION before publication: every award, credential and
-   figure in the recognition section below is transcribed from the client's
-   document and is listed in the direction guide as verify-before-publish.
-   Confirm with D'Life which of these may appear publicly.
+   Founder portraits are marked empty slots, not stock photography. A stock
+   photograph standing in for a real named person is the one substitution this
+   design system refuses to make.
    ============================================================ */
 
 const RECOGNITION = [
@@ -51,159 +43,193 @@ const RECOGNITION = [
   "Multiple overseas convention qualifier",
 ];
 
-const DEVELOPED = [
-  "Multiple MDRT consultants",
-  "Three agency managers",
-  "More than 40 young assistant and unit managers",
-  "Professionals moving from corporate careers into financial planning",
-];
+function Founder({
+  name,
+  role,
+  flip = false,
+  tone = "light",
+  children,
+}: {
+  name: string;
+  role: string;
+  flip?: boolean;
+  tone?: "light" | "sand";
+  children: ReactNode;
+}) {
+  return (
+    <Band tone={tone}>
+      <div className={`folk${flip ? " folk--flip" : ""}`}>
+        <div className="plate ph">
+          {/* Marked placeholder, deliberately. See the header note. */}
+          <div className="slot-empty">
+            {name}
+            <em>{role}</em>
+          </div>
+        </div>
+        <div>
+          <p className="lbl">{role}</p>
+          <h2 style={{ marginTop: 6 }}>{name}</h2>
+          <div className="dl-prose" style={{ marginTop: 22 }}>
+            {children}
+          </div>
+        </div>
+      </div>
+    </Band>
+  );
+}
 
 export default function Page() {
   const route = ROUTES.about;
+  const advisor = waHref(WA.advisor);
 
   return (
-    <SiteShell path={route.path}>
-      <E2Hero
+    <Shell>
+      <Hero
         route={route}
         label="About D’Life"
-        title={<>Founded by sisters, built with purpose</>}
-        lede="D’Life was started by two sisters who believed that success is not simply about making money — it is about building a life that means something, and helping other people do the same."
+        title="Founded by sisters, built with purpose"
+        lede="D’Life was started by two sisters who believed that success is not simply about making money. It is about building a life that means something."
         photo={{ src: "/media/img/policy-review.jpg", alt: "Two women talking across a table", position: "55% 40%" }}
+        actions={
+          <a className="pill" href={advisor}>
+            <span>Speak with an Advisor</span>
+          </a>
+        }
       />
 
-      <E2Band read>
-        <Prose>
+      <Band>
+        <Open lead="Sharon and Rachel Cheang grew up without financial abundance. What that taught them became the foundation of the agency they built.">
           <p>
-            Sharon and Rachel Cheang grew up without financial abundance. What that taught them — hard work, integrity,
-            compassion and a habit of continuing to learn — became the foundation of the agency they built. It is also
-            why the first question here is usually about your circumstances rather than your budget.
+            Hard work, integrity, compassion and a habit of continuing to learn. It is also why the first question here
+            is usually about your circumstances rather than your budget.
           </p>
           <p>
             D’Life is a Malaysian financial advisory and insurance agency. We help individuals, families, professionals
-            and business owners protect what matters and plan for what is ahead — and we stay with them after the
+            and business owners protect what matters and plan for what is ahead, and we stay with them after the
             paperwork is done. Alongside that, we develop advisors, and we run two community initiatives: the{" "}
-            <a href="/dva">Drive Value Associates</a> leadership circle and the{" "}
-            <a href="/youth-community">Youth Community</a>.
+            <a href={link(ROUTES.dva.path)}>Drive Value Associates</a> leadership circle and the{" "}
+            <a href={link(ROUTES.youth.path)}>Youth Community</a>.
           </p>
-        </Prose>
-      </E2Band>
+        </Open>
+      </Band>
 
-      {/* Her words, kept as hers rather than translated into house copy. */}
-      <E2Band tone="dark" read>
-        <Pullquote cite="Sharon Cheang, Founder">
-          “Protect Lives. Build Wealth. Transform People. Create Impact.”
-        </Pullquote>
-        <Prose>
-          <p>
-            In practice, that comes down to something simpler: we help you protect what matters, plan for what is
-            ahead, and we are still here afterwards.
-          </p>
-        </Prose>
-      </E2Band>
-
-      <E2Band tone="sand" label="What we are working towards" title={<>Mission and vision</>}>
-        <div className="dl-cards dl-cards--2">
-          <article className="dl-card rv">
-            <div className="dl-card__body">
-              <span className="dl-card__no">Mission</span>
-              <h3>Financial confidence, and leaders worth trusting</h3>
-              <p>
-                To empower individuals and families with financial confidence, create lasting value through professional
-                financial advice, and nurture future leaders who serve with integrity and purpose.
-              </p>
-            </div>
-          </article>
-          <article className="dl-card rv">
-            <div className="dl-card__body">
-              <span className="dl-card__no">Vision</span>
-              <h3>The most trusted advisory practice we can be</h3>
-              <p>
-                To become the most trusted financial advisory company — transforming lives through meaningful financial
-                planning, while helping financial advisors become respected professionals and capable leaders.
-              </p>
-            </div>
-          </article>
+      <Band tone="dark" label="What the practice is for">
+        <h2 style={{ maxWidth: "22ch" }}>Four commitments, in the order they matter</h2>
+        <div className="pillars">
+          <div>
+            <b>Protect Lives</b>
+            <p>Cover built around the people who actually depend on you.</p>
+          </div>
+          <div>
+            <b>Build Wealth</b>
+            <p>Decisions you could explain, in your own words, to your own family.</p>
+          </div>
+          <div>
+            <b>Transform People</b>
+            <p>Advisors developed into professionals, and professionals into leaders.</p>
+          </div>
+          <div>
+            <b>Create Impact</b>
+            <p>A practice that leaves the profession in better standing than it found it.</p>
+          </div>
         </div>
-      </E2Band>
+        <p className="dl-lede" style={{ maxWidth: "48ch", marginTop: "clamp(30px,4vh,46px)" }}>
+          In practice it comes down to something simpler: we help you protect what matters, plan for what is ahead, and
+          we are still here afterwards.
+        </p>
+      </Band>
 
-      {/* ── Sharon ───────────────────────────────────────────── */}
-      <section id="sharon" className="dl-band dl-split">
-        <div className="dl-split__ph">
-          {/* TODO(launch): founder portraits. The slot stays marked rather than
-              filled with a film still — photography rights are a blocking
-              question, and a founder's face is the last thing to fake. */}
-          <Portrait name="Sharon Cheang" role="Founder" />
-        </div>
-        <div className="dl-split__body">
-          <span className="lb rv">Founder</span>
-          <h2 className="rv">Sharon Cheang</h2>
-          <div className="dl-prose rv">
+      <Band tone="sand" label="What we are working towards" title="Mission and vision">
+        <div className="mv">
+          <div>
+            <span className="k">Mission</span>
+            <h3>Financial confidence, and leaders worth trusting</h3>
             <p>
-              Sharon founded D’Life after more than two decades in financial services. She entered the industry with an
-              aim larger than selling policies: to help families build secure, well-considered lives, and to raise the
-              standard of the advice they were being given.
+              To empower individuals and families with financial confidence, create lasting value through professional
+              financial advice, and nurture future leaders who serve with integrity and purpose.
             </p>
+          </div>
+          <div>
+            <span className="k">Vision</span>
+            <h3>The most trusted advisory practice we can be</h3>
             <p>
-              Over 27 years she has advised a great many Malaysian families and mentored a generation of financial
-              consultants. Her title inside the practice is Founder and Transformation Leadership Mentor, and she also
-              founded <a href="/dva">Drive Value Associates</a>, the leadership circle that grew out of that mentoring
-              work.
-            </p>
-            <p>
-              She is unusually firm on one point: financial success should not come at the cost of family, health or
-              personal fulfilment. It should create the freedom to enjoy all three.
+              To become the most trusted financial advisory company, transforming lives through meaningful financial
+              planning, while helping financial advisors become respected professionals and capable leaders.
             </p>
           </div>
         </div>
-      </section>
+      </Band>
 
-      {/* ── Rachel ───────────────────────────────────────────── */}
-      <section id="rachel" className="dl-band dl-split dl-split--flip sand">
-        <div className="dl-split__ph">
-          <Portrait name="Rachel Cheang" role="Co-Founder" />
-        </div>
-        <div className="dl-split__body">
-          <span className="lb rv">Co-Founder</span>
-          <h2 className="rv">Rachel Cheang</h2>
-          <div className="dl-prose rv">
-            <p>
-              Rachel leads business development, community engagement and the youth development side of D’Life. Where
-              Sharon is strategic, Rachel is relational — she builds the rooms people want to come back to.
-            </p>
-            <p>
-              She is particularly involved with young professionals and families finding their direction, and she leads
-              the <a href="/youth-community">Youth Community</a>, D’Life’s open platform for students, fresh graduates
-              and people early in their careers.
-            </p>
-            <p>
-              The two of them are sisters, and the partnership works on the ordinary basis that good partnerships do:
-              trust, shared values, and a common idea of what the work is for.
-            </p>
+      <Founder name="Sharon Cheang" role="Founder">
+        <p>
+          Sharon founded D’Life after more than two decades in financial services. She entered the industry with an aim
+          larger than selling policies: to help families build secure, well-considered lives, and to raise the standard
+          of the advice they were being given.
+        </p>
+        <p>
+          Over 27 years she has advised a great many Malaysian families and mentored a generation of financial
+          consultants. She also founded <a href={link(ROUTES.dva.path)}>Drive Value Associates</a>, the leadership
+          circle that grew out of that mentoring work.
+        </p>
+        <p>
+          She is unusually firm on one point: financial success should not come at the cost of family, health or
+          personal fulfilment. It should create the freedom to enjoy all three.
+        </p>
+      </Founder>
+
+      <Founder name="Rachel Cheang" role="Co-Founder" flip tone="sand">
+        <p>
+          Rachel leads business development, community engagement and the youth development side of D’Life. Where
+          Sharon is strategic, Rachel is relational: she builds the rooms people want to come back to.
+        </p>
+        <p>
+          She is particularly involved with young professionals and families finding their direction, and she leads the{" "}
+          <a href={link(ROUTES.youth.path)}>Youth Community</a>, D’Life’s open platform for students, fresh graduates
+          and people early in their careers.
+        </p>
+        <p>
+          The two of them are sisters, and the partnership works on the ordinary basis that good partnerships do:
+          trust, shared values, and a common idea of what the work is for.
+        </p>
+      </Founder>
+
+      <SplitShot
+        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team" }}
+        tone="dark"
+        label="Recognition"
+        title="Professional record"
+      >
+        <p className="dl-lede">
+          Stated plainly rather than displayed: Sharon’s credentials over a 27-year career. Every entry is pending
+          client verification.
+        </p>
+        <Checks items={RECOGNITION} />
+      </SplitShot>
+
+      <Band label="Advisor development">
+        <h2 style={{ maxWidth: "none" }}>Advisors she has built</h2>
+        <p className="dl-lede">
+          The part of the work Sharon is proudest of is not her own production. It is the advisors and leaders who came
+          through the practice and went on to run teams of their own, a number of them arriving from corporate careers
+          in other industries.
+        </p>
+        <div className="figs">
+          <div>
+            <b>3</b>
+            <span>agency managers now running teams of their own</span>
+          </div>
+          <div>
+            <b>40+</b>
+            <span>young assistant and unit managers developed</span>
+          </div>
+          <div>
+            <b>MDRT</b>
+            <span>consultants, several of them multiple-year qualifiers</span>
           </div>
         </div>
-      </section>
-
-      {/* ⚠️ Everything in this band is pending client verification. */}
-      <E2Band label="Recognition" title={<>Professional record</>}>
-        <Prose>
-          <p>
-            Stated plainly rather than displayed. These are Sharon’s professional credentials over a 27-year career in
-            the industry.
-          </p>
-        </Prose>
-        <E2Checks items={RECOGNITION} />
-      </E2Band>
-
-      <E2Band tone="sand" label="Advisor development" title={<>People she has helped build</>}>
-        <Prose>
-          <p>
-            The part of the work Sharon is proudest of is not her own production. It is the advisors and leaders who
-            came through the practice and went on to run teams of their own.
-          </p>
-        </Prose>
-        <E2Checks items={DEVELOPED} columns={1} />
-        <CardGrid
-          cards={[
+        <Cards
+          columns={2}
+          items={[
             {
               title: "Grow With D’Life",
               copy: "What a career here actually involves, and who it suits.",
@@ -217,30 +243,30 @@ export default function Page() {
               cta: "Watch the stories",
             },
           ]}
-          columns={2}
         />
-      </E2Band>
+      </Band>
 
-      <E2Closing
-        photo={{ src: "/media/img/community-gathering.jpg", alt: "People seated around a table at a community gathering", position: "50% 26%" }}
-        label="Next step"
+      <Closing
+        photo={{
+          src: "/media/img/community-gathering.jpg",
+          alt: "People seated around a table at a community gathering",
+          position: "50% 26%",
+        }}
         title="Meet the people, not the brochure"
         lede="If you would rather start by talking to someone than by reading about us, that is usually the better order."
         actions={
           <>
-            <a className="pill sand" data-wa={WA.conversation} href="#">
+            <a className="pill sand" href={advisor}>
               <span>Speak with an Advisor</span>
             </a>
-            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+            <a className="pill ghost" href={link(ROUTES["protecting-your-family"].path)}>
               <span>See how we can help</span>
             </a>
           </>
         }
       />
 
-      <RelatedContent keys={["dva", "youth", "careers"]} tone="sand" />
-
       <JsonLd data={breadcrumbLd(route)} />
-    </SiteShell>
+    </Shell>
   );
 }

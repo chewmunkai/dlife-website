@@ -1,0 +1,8 @@
+/* Two families, and only two — a third is out of system.
+   Lora    → headings, section titles, editorial statements, pull quotes (600 / 500)
+   Work Sans → body, navigation, labels, buttons, cards, FAQ, footer (300–600)
+
+   No licensed binaries were supplied with the brand pack, so both are served
+   from Google Fonts. Replace this import with self-hosted @font-face rules if
+   D'Life ships font files. */
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..600&family=Work+Sans:wght@300;400;500;600;700&display=swap");
