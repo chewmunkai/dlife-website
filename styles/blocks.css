@@ -692,3 +692,86 @@
   padding-left: 16px;
   border-left: 2px solid var(--s-rule);
 }
+
+/* ---------- inline literal ----------
+   A path, a filename, a marker: the rare case where the exact string is the
+   point. Reads the mode's own plate and ink, so it sits on ivory, sand and
+   deep green without an override. */
+.dlife code {
+  font: 400 .88em/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--s-strong);
+  background: var(--s-plate);
+  border-radius: 2px;
+  padding: .1em .35em;
+}
+
+/* ---------- site index: hero ----------
+   The one page that opens on a cream panel cut into a deep ground rather than
+   on the standard page hero. It carries no photograph — the subject is the
+   build itself — so the panel stands alone against the band's colour.
+
+   `light` on the panel re-declares the default mode, so the cream surface
+   keeps its teal headings and dark body copy inside the dark band. Clears the
+   fixed header explicitly, exactly as .dl-pagehero does, because it is the
+   first thing on the page. */
+.dlife .dl-indexhero {
+  background: var(--s-bg);
+  color: var(--s-body);
+  padding: calc(var(--dl-hd) + clamp(30px, 5vh, 58px)) 0 clamp(48px, 7vh, 96px);
+}
+.dlife .dl-indexhero__card {
+  max-width: 56ch;
+  /* The site's one container, so the panel's left edge lands on the same line
+     as every band below it. */
+  margin-inline: max(var(--dl-pad), calc((100% - 1180px) / 2));
+  padding: clamp(30px, 3.6vw, 56px);
+  background: var(--dl-cream);
+  border-radius: 3px;
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .55);
+}
+.dlife .dl-indexhero h1 {
+  font-size: clamp(36px, 4.9vw, 72px);
+  line-height: .98;
+  letter-spacing: -.022em;
+  max-width: 15ch;
+  margin-top: 14px;
+}
+.dlife .dl-indexhero .dl-lede {
+  max-width: 36ch;
+  font-size: clamp(16px, 1.25vw, 19px);
+}
+
+/* ---------- site index: page rows ----------
+   A page per row: its name, the address it lives at, and a marker. The address
+   is shown rather than tucked away — this block describes the build, so the
+   path is the useful half of the row.
+
+   No margin-top: the band head owns the gap above, the same way .dl-cards
+   does, so a row list and a card grid sit at the same height under a heading. */
+.dlife .dl-sitemap { border-top: 1px solid var(--s-line); }
+.dlife .dl-sitemap a {
+  display: grid;
+  /* The address column is wider than the design's 220px: that was sized for
+     `family.html`, and a route path — /solutions/medical-health-preparation —
+     is half as long again. At 280px the longest one still sets on one line. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 280px) 24px;
+  gap: 12px 20px;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--s-line);
+  color: var(--s-body);
+  transition: padding-left .35s cubic-bezier(.22, .7, .24, 1);
+}
+.dlife .dl-sitemap a:hover { padding-left: 14px; }
+.dlife .dl-sitemap b {
+  font: 500 clamp(17px, 1.6vw, 23px)/1.3 var(--dl-disp);
+  letter-spacing: -.01em;
+  color: var(--s-heading);
+}
+.dlife .dl-sitemap span { font: 400 14px/1.5 var(--dl-sans); color: var(--s-quiet); }
+.dlife .dl-sitemap em { font-style: normal; color: var(--s-accent); justify-self: end; }
+
+@media (max-width: 620px) {
+  .dlife .dl-sitemap a { grid-template-columns: 1fr 24px; }
+  .dlife .dl-sitemap span { grid-column: 1 / -1; }
+}

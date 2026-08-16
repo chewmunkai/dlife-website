@@ -90,6 +90,12 @@ read from it — so renaming a route cannot leave a dead link somewhere else on 
 site, and adding one gives it a canonical URL, an OG record, a breadcrumb trail
 and a sitemap entry with no second edit.
 
+**`/site-index`** reads the same map back out: every route, grouped as the site
+is grouped, with the address each one lives at. It describes the build rather
+than the practice, so it is a `utility` route — noindex, out of the sitemap, and
+deliberately absent from the nav, the overlay menu and the footer. Reached by
+typing the address.
+
 ## Editorial guardrails
 
 Three pages carry hard constraints from the client's guide, stated as comment

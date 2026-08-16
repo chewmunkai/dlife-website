@@ -245,6 +245,21 @@ export const ROUTES = {
     priority: 0.3,
     utility: true,
   },
+
+  /* Build reference, not a page of the practice. It describes the site rather
+     than serving a visitor, so it is `utility`: noindex, out of the sitemap,
+     and reachable only from a direct link. It is deliberately absent from the
+     primary nav, the overlay menu and the footer directory for the same
+     reason — nothing about D'Life is explained here. */
+  siteIndex: {
+    path: "/site-index",
+    label: "Site index",
+    title: "Site index",
+    description: "Every page in this build, grouped the way the site is structured.",
+    teaser: "Every page in this build, with the address each one lives at.",
+    priority: 0.1,
+    utility: true,
+  },
 } satisfies Record<string, Route>;
 
 export type RouteKey = keyof typeof ROUTES;
