@@ -1,0 +1,472 @@
+/* ============================================================
+   D'Life — inner-page layer, direction E2 ("layered depth").
+
+   Ported from the Claude Design handoff bundle's `site/pages.css`. Sits on top
+   of dlife.css and blocks.css: tokens, section modes, `.lb`, `.dl-lede`,
+   `.dl-prose`, `.dl-defs`, `.ph` and the rest of the block library come from
+   there. This file only adds the layered patterns the direction introduces —
+   bleeding plates, overlapping copy panels, the intent bar, ledger rows, the
+   diptych and the quote-over-photograph band.
+
+   ── Why the names carry an `e2-` prefix ────────────────────
+   The design writes these as bare roots: `.hero`, `.band`, `.said`, `.panel`.
+   Three of those already exist in this codebase — `.dlife .said` is declared
+   unscoped in blocks.css, and `#dva .panel` / `#stories .count` are live on the
+   homepage — so porting them verbatim would have two different rule sets
+   fighting over the same elements. The prefix is on the pattern ROOT only;
+   descendants keep the design's own names (`.art`, `.card`, `.shot`, `.lead`),
+   because a descendant is already namespaced by the root above it.
+
+   Mapping back to the design is therefore mechanical: `.hero` → `.e2-hero`,
+   `.split-shot` → `.e2-split`, and so on.
+
+   Every value is a token. Nothing here invents a colour or a typeface.
+   ============================================================ */
+
+/* The page margin the whole layer measures from. 1180px is this site's one
+   container — the design bundle used 1240, but every band already shipped
+   here sits on 1180, and a page whose left edge differs from its neighbours
+   by 30px reads as a mistake rather than as a variation. */
+.dlife { --m: max(var(--dl-pad), calc((100% - 1180px) / 2)); }
+
+/* pre-headline — the site's own .lb scale */
+.dlife .lbl {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  font: 700 var(--dl-section-sub)/1.35 var(--dl-sans);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--s-label);
+  margin-bottom: 6px;
+}
+.dlife .micro {
+  font: 700 12px/1.4 var(--dl-sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--s-quiet);
+}
+
+/* ---------- hero: photograph bleeds off the edge, copy panel cuts into it ---------- */
+.dlife .e2-hero {
+  position: relative;
+  background: var(--s-bg);
+  padding: calc(var(--dl-hd) + clamp(30px, 5vh, 58px)) 0 clamp(40px, 6vh, 80px);
+  display: grid;
+  grid-template-columns: minmax(0, 50fr) minmax(0, 50fr);
+  align-items: center;
+}
+.dlife .e2-hero .art {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  justify-self: stretch;
+  height: min(80vh, 660px);
+  border-radius: var(--dl-r-plate) 0 0 var(--dl-r-plate);
+}
+.dlife .e2-hero .card {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 3;
+  background: var(--dl-cream);
+  border-radius: var(--dl-r-plate);
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .55);
+  padding: clamp(30px, 3.6vw, 56px);
+  margin: 0 clamp(-120px, -7vw, -40px) 0 var(--m);
+}
+.dlife .e2-hero .card--green { background: var(--dl-green); }
+.dlife .e2-hero h1 {
+  font-size: clamp(36px, 4.9vw, 72px);
+  line-height: .98;
+  letter-spacing: -.022em;
+  max-width: 15ch;
+  margin: 14px 0 0;
+}
+.dlife .e2-hero .card .dl-lede {
+  max-width: 36ch;
+  font-size: clamp(16px, 1.25vw, 19px);
+}
+.dlife .e2-hero--noart { grid-template-columns: 1fr; padding-bottom: clamp(48px, 7vh, 96px); }
+.dlife .e2-hero--noart .card { grid-column: 1; margin-right: var(--m); max-width: 56ch; }
+
+/* ---------- intent bar: sand on the page's own edge, sticky under the header ---------- */
+.dlife .e2-bar {
+  position: sticky;
+  top: var(--dl-hd);
+  z-index: 100;
+  background: var(--dl-sand);
+  color: var(--dl-ink);
+  padding: 14px var(--m);
+  display: flex;
+  align-items: center;
+  gap: 16px 26px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(47, 53, 50, .14);
+}
+.dlife .e2-bar strong { font: 500 clamp(15px, 1.2vw, 19px)/1.3 var(--dl-disp); color: var(--dl-ink); }
+.dlife .e2-bar .facts { display: flex; gap: 8px 22px; flex-wrap: wrap; margin-right: auto; }
+.dlife .e2-bar .facts span {
+  font: 700 11px/1.4 var(--dl-sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #744329;
+}
+.dlife .e2-bar .pill { padding: 13px 24px; font-size: 13px; }
+
+/* ---------- band ---------- */
+.dlife .e2-band {
+  background: var(--s-bg);
+  color: var(--s-body);
+  padding: clamp(56px, 8vh, 116px) var(--m);
+}
+.dlife .e2-band h2 { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.04; max-width: 20ch; margin-top: 14px; }
+.dlife .e2-band--read > .dl-prose,
+.dlife .e2-band--read > .e2-qa { max-width: 72ch; }
+
+/* ---------- opening: editorial lead beside the prose ---------- */
+.dlife .e2-open {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(26px, 4vw, 72px);
+  align-items: start;
+}
+.dlife .e2-open .lead {
+  font: 500 clamp(21px, 2.3vw, 34px)/1.32 var(--dl-disp);
+  color: var(--s-heading);
+  letter-spacing: -.014em;
+  max-width: 24ch;
+}
+.dlife .e2-open .dl-prose { max-width: 54ch; }
+
+/* ---------- offset photograph pair ---------- */
+.dlife .e2-duo {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(16px, 2vw, 30px);
+  align-items: start;
+  margin-top: clamp(34px, 5vh, 68px);
+}
+.dlife .e2-duo figure { margin: 0; }
+.dlife .e2-duo .a { aspect-ratio: 3 / 2; border-radius: var(--dl-r-plate); }
+.dlife .e2-duo .b { aspect-ratio: 4 / 5; border-radius: var(--dl-r-plate); margin-top: clamp(28px, 4vw, 72px); }
+.dlife .e2-duo--one { grid-template-columns: minmax(0, 9fr) minmax(0, 3fr); }
+.dlife .e2-duo figcaption { margin-top: 12px; font: 400 13px/1.5 var(--dl-sans); color: var(--s-quiet); }
+
+/* ---------- half-page photograph beside content ---------- */
+.dlife .e2-split {
+  background: var(--s-bg);
+  color: var(--s-body);
+  display: grid;
+  grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+  align-items: stretch;
+}
+.dlife .e2-split .shot { min-height: 100%; }
+.dlife .e2-split .body { padding: clamp(48px, 7vh, 104px) var(--m) clamp(48px, 7vh, 104px) clamp(28px, 4vw, 72px); }
+.dlife .e2-split--flip { grid-template-columns: minmax(0, 58fr) minmax(0, 42fr); }
+.dlife .e2-split--flip .shot { order: 2; }
+.dlife .e2-split--flip .body { padding: clamp(48px, 7vh, 104px) clamp(28px, 4vw, 72px) clamp(48px, 7vh, 104px) var(--m); }
+.dlife .e2-split h2 { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.04; max-width: 18ch; margin-top: 14px; }
+
+/* ---------- count marker ---------- */
+.dlife .e2-count { display: flex; align-items: baseline; gap: 14px; margin: clamp(22px, 3vh, 34px) 0 clamp(6px, 1vh, 12px); }
+.dlife .e2-count b { font: 500 clamp(38px, 4.6vw, 72px)/1 var(--dl-disp); color: var(--s-rule); letter-spacing: -.03em; }
+.dlife .e2-count span {
+  font: 700 11px/1.5 var(--dl-sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--s-label);
+  max-width: 17ch;
+}
+
+/* ---------- ledger rows: numbered, hairlined, one or two columns ---------- */
+.dlife .e2-checks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 clamp(26px, 3.2vw, 56px);
+  margin-top: clamp(14px, 2vh, 22px);
+}
+.dlife .e2-checks--1 { grid-template-columns: 1fr; }
+.dlife .e2-checks ul { margin: 0; padding: 0; }
+.dlife .e2-checks li {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding: 15px 0;
+  border-top: 1px solid var(--s-line);
+  font: 400 clamp(15px, 1.1vw, 17px)/1.5 var(--dl-sans);
+  color: var(--s-body);
+}
+.dlife .e2-checks li:last-child { border-bottom: 1px solid var(--s-line); }
+.dlife .e2-checks b { font: 500 clamp(17px, 1.5vw, 22px)/1 var(--dl-disp); letter-spacing: .02em; color: var(--s-label); }
+
+/* ---------- steps as a timeline on a copper line ---------- */
+.dlife .e2-rail {
+  margin-top: clamp(30px, 4vh, 50px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 38px);
+}
+.dlife .e2-rail--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dlife .e2-rail > div { position: relative; padding-top: 36px; }
+.dlife .e2-rail > div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: calc(-1 * clamp(18px, 2.4vw, 38px));
+  height: 1px;
+  background: var(--s-rule);
+}
+.dlife .e2-rail > div:last-child::before { right: 0; }
+.dlife .e2-rail > div::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--s-accent);
+}
+.dlife .e2-rail b {
+  display: block;
+  font: 500 clamp(26px, 2.6vw, 40px)/1 var(--dl-disp);
+  color: var(--s-rule);
+  letter-spacing: -.02em;
+  margin-bottom: 14px;
+}
+.dlife .e2-rail h3 { font-size: clamp(18px, 1.5vw, 23px); line-height: 1.22; margin-bottom: 9px; }
+.dlife .e2-rail p { font: 400 15px/1.6 var(--dl-sans); color: var(--s-muted); }
+
+/* ---------- boundary pair as a full-bleed diptych ---------- */
+.dlife .e2-dip { display: grid; grid-template-columns: 1fr 1fr; }
+.dlife .e2-dip > div { padding: clamp(40px, 6vh, 86px) clamp(24px, 3.4vw, 60px); background: var(--s-bg); }
+.dlife .e2-dip .intro { grid-column: 1 / -1; padding: clamp(48px, 7vh, 104px) var(--m) clamp(30px, 4vh, 52px); }
+.dlife .e2-dip h3 {
+  font: 500 14px/1.4 var(--dl-sans);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--s-label);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--s-rule);
+}
+.dlife .e2-dip ul { list-style: none; margin: 0; padding: 0; }
+.dlife .e2-dip li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--s-line-soft);
+  font: 400 clamp(15px, 1.2vw, 19px)/1.5 var(--dl-sans);
+  color: var(--s-body);
+}
+.dlife .e2-dip em { font-style: normal; font-size: 15px; line-height: 1.6; color: var(--s-accent); }
+.dlife .e2-dip .no em { color: var(--s-quiet); }
+
+/* ---------- questions as open rows ---------- */
+.dlife .e2-qa { margin-top: clamp(22px, 3vh, 36px); }
+.dlife .e2-qa > div { padding: clamp(20px, 2.6vh, 28px) 0; border-top: 1px solid var(--s-line); }
+.dlife .e2-qa > div:last-child { border-bottom: 1px solid var(--s-line); }
+.dlife .e2-qa h3 {
+  font: 500 var(--dl-card-title)/1.4 var(--dl-sans);
+  letter-spacing: -.01em;
+  color: var(--s-heading);
+  margin-bottom: 9px;
+}
+.dlife .e2-qa p { font: 400 var(--dl-section-body)/1.7 var(--dl-sans); color: var(--s-body); max-width: 62ch; }
+
+/* ---------- quote carried on a photograph ---------- */
+.dlife .e2-said { position: relative; min-height: min(72vh, 660px); display: grid; align-items: end; }
+.dlife .e2-said > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.dlife .e2-said::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(11, 33, 29, .92) 0%, rgba(11, 33, 29, .78) 46%, rgba(11, 33, 29, .34) 78%, rgba(11, 33, 29, .14) 100%),
+    linear-gradient(to top, rgba(11, 33, 29, .5) 0%, transparent 55%);
+}
+.dlife .e2-said figure { position: relative; z-index: 2; margin: 0; padding: clamp(40px, 7vh, 96px) var(--m); }
+.dlife .e2-said blockquote {
+  font: 500 clamp(26px, 3.6vw, 54px)/1.12 var(--dl-disp);
+  letter-spacing: -.02em;
+  color: var(--dl-ivory);
+  max-width: 26ch;
+  margin: 22px 0 0;
+}
+.dlife .e2-said figcaption {
+  margin-top: 26px;
+  font: 700 11px/1 var(--dl-sans);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--dl-sand);
+}
+.dlife .e2-said .r { width: 64px; height: 2px; background: var(--dl-copper); }
+/* the same quote with no photograph behind it */
+.dlife .e2-said--plain { min-height: 0; background: var(--s-bg); padding: clamp(56px, 9vh, 124px) 0; }
+.dlife .e2-said--plain::after { display: none; }
+.dlife .e2-said--plain blockquote { color: var(--s-heading); }
+.dlife .e2-said--plain figcaption { color: var(--s-label); }
+
+/* ---------- closing: panel over a photograph ---------- */
+.dlife .e2-closing { position: relative; padding-bottom: clamp(56px, 8vw, 116px); background: var(--dl-ivory); }
+.dlife .e2-closing .shot { width: 100%; height: min(58vh, 440px); }
+.dlife .e2-closing .panel {
+  position: relative;
+  z-index: 2;
+  margin: clamp(-150px, -9vw, -72px) var(--m) 0;
+  background: var(--dl-green);
+  color: rgba(246, 241, 232, .86);
+  border-radius: var(--dl-r-plate);
+  padding: clamp(34px, 4.4vw, 64px);
+  max-width: 780px;
+  box-shadow: 0 40px 90px -50px rgba(11, 33, 29, .7);
+}
+.dlife .e2-closing h2 { font-size: clamp(28px, 3.4vw, 50px); line-height: 1.04; max-width: 19ch; margin: 16px 0 0; color: var(--dl-ivory); }
+.dlife .e2-closing .note { margin-top: 22px; font: 400 15px/1.6 var(--dl-sans); color: rgba(246, 241, 232, .62); max-width: 38ch; }
+
+/* ---------- portrait split (founders) ---------- */
+.dlife .e2-folk {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: clamp(26px, 4vw, 76px);
+  align-items: start;
+}
+.dlife .e2-folk--flip .plate { order: 2; }
+.dlife .e2-folk .plate { position: relative; aspect-ratio: 4 / 5; border-radius: var(--dl-r-plate); }
+.dlife .e2-folk .dl-prose { max-width: 56ch; }
+
+/* ---------- ink mode: a second dark, so a dark page can modulate ---------- */
+.dlife .dark.ink { --s-bg: var(--dl-ink); }
+
+/* ---------- statement: one large Lora line against supporting prose ---------- */
+.dlife .e2-stmt {
+  background: var(--s-bg);
+  color: var(--s-body);
+  padding: clamp(48px, 7vh, 104px) var(--m);
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(24px, 4vw, 72px);
+  align-items: start;
+  border-top: 1px solid var(--s-line-soft);
+}
+.dlife .e2-stmt h2 { font-size: clamp(24px, 2.9vw, 42px); line-height: 1.1; max-width: 22ch; margin: 0; }
+.dlife .e2-stmt .dl-prose { max-width: 46ch; }
+.dlife .e2-stmt .dl-prose p { font-size: clamp(15px, 1.15vw, 17px); }
+
+/* ---------- triptych: three panels, hairline seams, no boxes ---------- */
+.dlife .e2-trip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--s-bg); color: var(--s-body); }
+.dlife .e2-trip > div { padding: clamp(34px, 5vh, 72px) clamp(20px, 2.6vw, 44px); border-left: 1px solid var(--s-line); }
+/* the outer columns keep the page's own left and right edge, so the triptych
+   reads on the same single column as every other band */
+.dlife .e2-trip > div:nth-child(3n+2) { border-left: none; padding-left: var(--m); }
+.dlife .e2-trip > div:nth-child(3n+1):not(.head) { padding-right: var(--m); }
+.dlife .e2-trip b {
+  display: block;
+  font: 500 clamp(30px, 3.4vw, 54px)/1 var(--dl-disp);
+  color: var(--s-rule);
+  letter-spacing: -.03em;
+  margin-bottom: clamp(16px, 2.4vh, 26px);
+}
+.dlife .e2-trip h3 { font-size: clamp(21px, 1.9vw, 29px); line-height: 1.14; margin-bottom: 12px; }
+.dlife .e2-trip p { font: 400 clamp(15px, 1.1vw, 17px)/1.6 var(--dl-sans); color: var(--s-muted); }
+.dlife .e2-trip .head { grid-column: 1 / -1; border-left: none; padding: clamp(48px, 7vh, 104px) var(--m) clamp(24px, 3vh, 38px); }
+.dlife .e2-trip > div:nth-child(n+5) { border-top: 1px solid var(--s-line); }
+
+/* ---------- quadrant: 2x2 with internal hairlines only ---------- */
+.dlife .e2-quad { display: grid; grid-template-columns: 1fr 1fr; margin-top: clamp(26px, 4vh, 46px); border-top: 1px solid var(--s-line); }
+.dlife .e2-quad > div { padding: clamp(26px, 3.4vh, 40px) clamp(20px, 2.6vw, 44px) clamp(26px, 3.4vh, 40px) 0; border-bottom: 1px solid var(--s-line); }
+.dlife .e2-quad > div:nth-child(even) { padding-left: clamp(20px, 2.6vw, 44px); padding-right: 0; border-left: 1px solid var(--s-line); }
+.dlife .e2-quad b { font: 500 13px/1 var(--dl-sans); letter-spacing: .16em; color: var(--s-label); }
+.dlife .e2-quad h3 { font-size: clamp(19px, 1.6vw, 25px); line-height: 1.2; margin: 12px 0 10px; }
+.dlife .e2-quad p { font: 400 clamp(15px, 1.1vw, 17px)/1.62 var(--dl-sans); color: var(--s-muted); max-width: 44ch; }
+
+/* ---------- staggered card row: rhythm without a masonry library ---------- */
+.dlife .e2-stagger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.2vw, 30px);
+  margin-top: clamp(28px, 4vh, 46px);
+  align-items: start;
+}
+.dlife .e2-stagger > *:nth-child(3n+2) { margin-top: clamp(20px, 3vw, 52px); }
+/* in a narrow staggered column the two meta labels need their own lines */
+.dlife .e2-stagger .dl-event__meta { flex-direction: column; gap: 5px; }
+
+/* ---------- panel that overlaps the band above it ---------- */
+.dlife .e2-lift {
+  position: relative;
+  z-index: 2;
+  margin: clamp(-90px, -6vw, -48px) var(--m) 0;
+  background: var(--dl-cream);
+  border-radius: var(--dl-r-plate);
+  box-shadow: 0 40px 90px -50px rgba(15, 51, 44, .5);
+  padding: clamp(30px, 4vw, 58px);
+}
+.dlife .e2-lift-host { padding-bottom: clamp(56px, 8vh, 110px); }
+
+/* ---------- unfinished-copy marker: deliberately loud, never quiet ---------- */
+.dlife .tbc {
+  display: inline;
+  font: 700 13px/1.5 var(--dl-sans);
+  letter-spacing: .02em;
+  color: #85482B;
+  background: rgba(179, 107, 67, .12);
+  box-shadow: inset 0 -1px 0 rgba(133, 72, 43, .45);
+  padding: 1px 6px;
+}
+.dlife .dl-notice .tbc { background: none; box-shadow: none; padding: 0; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 880px) {
+  .dlife .e2-hero { grid-template-columns: 1fr; padding-bottom: 0; }
+  .dlife .e2-hero .art { grid-column: 1; grid-row: 1; height: min(52vh, 340px); border-radius: 0; }
+  .dlife .e2-hero .card { grid-column: 1; grid-row: 2; margin: clamp(-70px, -9vw, -44px) var(--dl-pad) 0; }
+  .dlife .e2-hero--noart .card { margin: 0 var(--dl-pad); }
+  .dlife .e2-open,
+  .dlife .e2-duo,
+  .dlife .e2-split,
+  .dlife .e2-folk { grid-template-columns: 1fr; }
+  .dlife .e2-duo .b { margin-top: 0; }
+  .dlife .e2-split .shot,
+  .dlife .e2-split--flip .shot { order: 0; height: min(44vh, 320px); }
+  .dlife .e2-split .body,
+  .dlife .e2-split--flip .body { padding: clamp(40px, 6vh, 72px) var(--dl-pad); }
+  .dlife .e2-checks { grid-template-columns: 1fr; }
+  .dlife .e2-rail,
+  .dlife .e2-rail--3 { grid-template-columns: 1fr 1fr; }
+  .dlife .e2-dip { grid-template-columns: 1fr; }
+  .dlife .e2-dip .intro { padding-left: var(--dl-pad); padding-right: var(--dl-pad); }
+  .dlife .e2-folk--flip .plate { order: 0; }
+  .dlife .e2-stmt,
+  .dlife .e2-trip { grid-template-columns: 1fr; }
+  .dlife .e2-trip > div {
+    border-left: none;
+    border-top: 1px solid var(--s-line);
+    padding-left: var(--dl-pad);
+    padding-right: var(--dl-pad);
+  }
+  .dlife .e2-trip .head { padding-left: var(--dl-pad); padding-right: var(--dl-pad); }
+  .dlife .e2-quad { grid-template-columns: 1fr; }
+  .dlife .e2-quad > div { padding-right: 0; }
+  .dlife .e2-quad > div:nth-child(even) { padding-left: 0; border-left: none; }
+  .dlife .e2-lift { margin-inline: var(--dl-pad); }
+}
+
+@media (max-width: 900px) {
+  .dlife .e2-stagger { grid-template-columns: 1fr 1fr; }
+  .dlife .e2-stagger > *:nth-child(3n+2) { margin-top: 0; }
+  .dlife .e2-stagger > *:nth-child(even) { margin-top: clamp(20px, 3vw, 52px); }
+}
+
+@media (max-width: 620px) {
+  .dlife .e2-rail,
+  .dlife .e2-rail--3 { grid-template-columns: 1fr; }
+  .dlife .e2-rail > div::before { right: 0; }
+  .dlife .e2-stagger { grid-template-columns: 1fr; }
+  .dlife .e2-stagger > *:nth-child(even) { margin-top: 0; }
+}

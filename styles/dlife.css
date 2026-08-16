@@ -64,6 +64,14 @@
   --dl-section-sub: clamp(18px, 1.45vw, 22px);
   --dl-section-body: clamp(16px, 1.2vw, 19px);
   --dl-card-title: clamp(20px, 1.55vw, 24px);
+  /* Shape and motion, named so the inner-page layer in styles/pages.css can
+     read them rather than restating literals. Values are the ones already in
+     use across this file: plates and panels at 3px, chips at 2px, and the
+     site's one easing curve. */
+  --dl-r-plate: 3px;
+  --dl-r-chip: 2px;
+  --dl-t-base: .35s;
+  --dl-ease: cubic-bezier(.22, .7, .24, 1);
 }
 
 /* ---------- section modes ----------

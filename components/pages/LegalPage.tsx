@@ -1,14 +1,16 @@
 import SiteShell from "../site/SiteShell";
 import JsonLd from "../site/JsonLd";
-import PageHero from "../blocks/PageHero";
-import { Band } from "../blocks/Prose";
+import { E2Hero, E2Band } from "../blocks/E2";
 import RelatedContent from "../blocks/Related";
 import { LEGAL } from "../../content/legal";
 import { ROUTES } from "../../lib/routes";
 import { breadcrumbLd } from "../../lib/seo";
 
 /**
- * One template, four legal pages.
+ * One template, four legal pages — direction E2 ("layered depth").
+ *
+ * The hero is the flat variant: these pages have no photograph, and the
+ * subject is not something a photograph could carry honestly.
  *
  * ⚠️ Every one of these is a draft pending review by D'Life's compliance owner
  * and legal adviser. The banner below says so on the page itself rather than
@@ -25,9 +27,9 @@ export default function LegalPage({ slug }: { slug: keyof typeof LEGAL }) {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero route={route} label={c.label} title={c.h1} lede={c.lede} />
+      <E2Hero route={route} label={c.label} title={c.h1} lede={c.lede} />
 
-      <Band width="read">
+      <E2Band read>
         <div className="dl-notice rv" role="note">
           <strong>Draft — pending legal and compliance review.</strong>
           <p>
@@ -47,7 +49,7 @@ export default function LegalPage({ slug }: { slug: keyof typeof LEGAL }) {
             ))}
           </section>
         ))}
-      </Band>
+      </E2Band>
 
       <RelatedContent keys={c.related} heading="Other legal pages" tone="sand" />
 

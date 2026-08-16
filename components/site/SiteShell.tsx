@@ -2,6 +2,7 @@
 
 import "../../styles/dlife.css";
 import "../../styles/blocks.css";
+import "../../styles/pages.css";
 import { useEffect, useRef, type ReactNode } from "react";
 import { SiteHeader, SiteMenu } from "./SiteHeader";
 import SiteFooter from "./SiteFooter";

@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose } from "../../components/blocks/Prose";
+import { Prose } from "../../components/blocks/Prose";
 import { CardGrid } from "../../components/blocks/Cards";
-import { Steps } from "../../components/blocks/Steps";
-import Faq from "../../components/blocks/Faq";
-import ContextualCTA from "../../components/blocks/CTA";
 import RelatedContent from "../../components/blocks/Related";
+import { E2Hero, E2Bar, E2Band, E2Rail, E2Qa, E2Stmt, E2Closing } from "../../components/blocks/E2";
 import { ROUTES, LIFE_NEEDS } from "../../lib/routes";
 import { SOLUTIONS } from "../../content/solutions";
 import { WA } from "../../lib/contact";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.solutions);
@@ -47,23 +45,38 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
         label="Protection & planning"
         title={<>Start wherever you are</>}
         lede="Five areas most households eventually need to think about. None of them require a decision today, and you will not be asked to make one."
+        photo={{ src: "/media/img/path-family.jpg", alt: "A family at home together" }}
+        actions={
+          <a className="pill" data-wa={WA.advisor} href="#">
+            <span>Speak with an Advisor</span>
+          </a>
+        }
       />
 
-      <Band width="wide">
-        <CardGrid cards={needCards} columns={3} media />
-      </Band>
+      <E2Bar
+        facts={["No products in the first meeting", "No cost", "Under an hour"]}
+        statement="Most people arrive with a situation, not a category."
+        action={
+          <a className="pill" data-wa={WA.advisor} href="#">
+            <span>Start a conversation</span>
+          </a>
+        }
+      />
 
-      <Band
-        tone="sand"
-        label="How we work"
-        title={<>What every conversation has in common</>}
-        width="wide"
+      <E2Band
+        label="The five life needs"
+        title={<>Pick the one closest to your situation</>}
+        lede="Each page explains what that area covers, the terms worth understanding, and how a conversation about it actually goes."
       >
+        <CardGrid cards={needCards} columns={3} media />
+      </E2Band>
+
+      <E2Band tone="sand" label="How we work" title={<>What every conversation has in common</>}>
         <Prose>
           <p>
             Whichever of these brought you here, the shape of the conversation is the same. It begins with your
@@ -71,8 +84,8 @@ export default function Page() {
             anything changes as a result.
           </p>
         </Prose>
-        <Steps
-          items={[
+        <E2Rail
+          steps={[
             {
               title: "We start with your situation",
               copy: "Who depends on you, what you are responsible for, and what you are already carrying. No product is mentioned in this part.",
@@ -91,39 +104,39 @@ export default function Page() {
             },
           ]}
         />
-      </Band>
+      </E2Band>
 
       {/* Corporate stays discoverable here rather than claiming a branch of its
           own — the guide is explicit that it is a smaller segment and should
           not compete for a major homepage branch. */}
-      <Band label="For businesses" title={<>Corporate solutions</>} width="wide">
-        <Prose>
-          <p>
-            Employee benefits, key person cover and business continuity arrangements for Malaysian companies. A smaller
-            part of what we do, handled by the same advisors and with the same approach.
-          </p>
-        </Prose>
-        <CardGrid
-          cards={[
-            {
-              title: ROUTES.corporate.label,
-              copy: ROUTES.corporate.teaser,
-              href: ROUTES.corporate.path,
-              cta: "See corporate solutions",
-            },
-          ]}
-          columns={2}
-        />
-      </Band>
+      <E2Stmt label="For businesses" title={<>Corporate solutions</>}>
+        <p>
+          Employee benefits, key person cover and business continuity arrangements for Malaysian companies. A smaller
+          part of what we do, handled by the same advisors and with the same approach.
+        </p>
+        <p>
+          <a href={link(ROUTES.corporate.path)}>See corporate solutions →</a>
+        </p>
+      </E2Stmt>
 
-      <Faq items={FAQS} label="Before you get in touch" title={<>What to expect</>} />
+      <E2Band tone="sand" read label="Before you get in touch" title={<>What to expect</>}>
+        <E2Qa items={FAQS} />
+      </E2Band>
 
-      <ContextualCTA
-        label="Next step"
+      <E2Closing
+        photo={{ src: "/media/img/close-conversation.jpg", alt: "", position: "50% 40%" }}
         title="Not sure which of these applies to you?"
-        copy="That is the most common way people arrive. Tell us the situation and we will work out the category together."
-        wa={WA.advisor}
-        secondary={{ label: "Review an existing policy", href: ROUTES.policy.path }}
+        lede="That is the most common way people arrive. Tell us the situation and we will work out the category together."
+        actions={
+          <>
+            <a className="pill sand" data-wa={WA.advisor} href="#">
+              <span>Speak with an Advisor</span>
+            </a>
+            <a className="pill ghost" href={link(ROUTES.policy.path)}>
+              <span>Review an existing policy</span>
+            </a>
+          </>
+        }
       />
 
       <RelatedContent keys={["policy", "about", "stories"]} tone="sand" />
