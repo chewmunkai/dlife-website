@@ -23,6 +23,14 @@
    Every value is a token. Nothing here invents a colour or a typeface.
    ============================================================ */
 
+/* ---------- why every track is minmax(0, 1fr) ----------
+   A bare `1fr` is `minmax(auto, 1fr)`, so a child's min-content width becomes
+   the track's floor. `.lbl` below sets `width: max-content`, which makes its
+   min-content contribution the width of the label unwrapped — on a 390px
+   phone that floored the hero column at 636px and pushed the whole document
+   sideways. `minmax(0, …)` lets the track shrink to the viewport and leaves
+   the wrapping to the text. */
+
 /* The page margin the whole layer measures from. 1180px is this site's one
    container — the design bundle used 1240, but every band already shipped
    here sits on 1180, and a page whose left edge differs from its neighbours
@@ -87,7 +95,7 @@
   max-width: 36ch;
   font-size: clamp(16px, 1.25vw, 19px);
 }
-.dlife .e2-hero--noart { grid-template-columns: 1fr; padding-bottom: clamp(48px, 7vh, 96px); }
+.dlife .e2-hero--noart { grid-template-columns: minmax(0, 1fr); padding-bottom: clamp(48px, 7vh, 96px); }
 .dlife .e2-hero--noart .card { grid-column: 1; margin-right: var(--m); max-width: 56ch; }
 
 /* ---------- intent bar: sand on the page's own edge, sticky under the header ---------- */
@@ -182,11 +190,11 @@
 /* ---------- ledger rows: numbered, hairlined, one or two columns ---------- */
 .dlife .e2-checks {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0 clamp(26px, 3.2vw, 56px);
   margin-top: clamp(14px, 2vh, 22px);
 }
-.dlife .e2-checks--1 { grid-template-columns: 1fr; }
+.dlife .e2-checks--1 { grid-template-columns: minmax(0, 1fr); }
 .dlife .e2-checks ul { margin: 0; padding: 0; }
 .dlife .e2-checks li {
   list-style: none;
@@ -242,7 +250,7 @@
 .dlife .e2-rail p { font: 400 15px/1.6 var(--dl-sans); color: var(--s-muted); }
 
 /* ---------- boundary pair as a full-bleed diptych ---------- */
-.dlife .e2-dip { display: grid; grid-template-columns: 1fr 1fr; }
+.dlife .e2-dip { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 .dlife .e2-dip > div { padding: clamp(40px, 6vh, 86px) clamp(24px, 3.4vw, 60px); background: var(--s-bg); }
 .dlife .e2-dip .intro { grid-column: 1 / -1; padding: clamp(48px, 7vh, 104px) var(--m) clamp(30px, 4vh, 52px); }
 .dlife .e2-dip h3 {
@@ -378,7 +386,7 @@
 .dlife .e2-trip > div:nth-child(n+5) { border-top: 1px solid var(--s-line); }
 
 /* ---------- quadrant: 2x2 with internal hairlines only ---------- */
-.dlife .e2-quad { display: grid; grid-template-columns: 1fr 1fr; margin-top: clamp(26px, 4vh, 46px); border-top: 1px solid var(--s-line); }
+.dlife .e2-quad { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin-top: clamp(26px, 4vh, 46px); border-top: 1px solid var(--s-line); }
 .dlife .e2-quad > div { padding: clamp(26px, 3.4vh, 40px) clamp(20px, 2.6vw, 44px) clamp(26px, 3.4vh, 40px) 0; border-bottom: 1px solid var(--s-line); }
 .dlife .e2-quad > div:nth-child(even) { padding-left: clamp(20px, 2.6vw, 44px); padding-right: 0; border-left: 1px solid var(--s-line); }
 .dlife .e2-quad b { font: 500 13px/1 var(--dl-sans); letter-spacing: .16em; color: var(--s-label); }
@@ -423,27 +431,27 @@
 
 /* ---------- responsive ---------- */
 @media (max-width: 880px) {
-  .dlife .e2-hero { grid-template-columns: 1fr; padding-bottom: 0; }
+  .dlife .e2-hero { grid-template-columns: minmax(0, 1fr); padding-bottom: 0; }
   .dlife .e2-hero .art { grid-column: 1; grid-row: 1; height: min(52vh, 340px); border-radius: 0; }
   .dlife .e2-hero .card { grid-column: 1; grid-row: 2; margin: clamp(-70px, -9vw, -44px) var(--dl-pad) 0; }
   .dlife .e2-hero--noart .card { margin: 0 var(--dl-pad); }
   .dlife .e2-open,
   .dlife .e2-duo,
   .dlife .e2-split,
-  .dlife .e2-folk { grid-template-columns: 1fr; }
+  .dlife .e2-folk { grid-template-columns: minmax(0, 1fr); }
   .dlife .e2-duo .b { margin-top: 0; }
   .dlife .e2-split .shot,
   .dlife .e2-split--flip .shot { order: 0; height: min(44vh, 320px); }
   .dlife .e2-split .body,
   .dlife .e2-split--flip .body { padding: clamp(40px, 6vh, 72px) var(--dl-pad); }
-  .dlife .e2-checks { grid-template-columns: 1fr; }
+  .dlife .e2-checks { grid-template-columns: minmax(0, 1fr); }
   .dlife .e2-rail,
-  .dlife .e2-rail--3 { grid-template-columns: 1fr 1fr; }
-  .dlife .e2-dip { grid-template-columns: 1fr; }
+  .dlife .e2-rail--3 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .dlife .e2-dip { grid-template-columns: minmax(0, 1fr); }
   .dlife .e2-dip .intro { padding-left: var(--dl-pad); padding-right: var(--dl-pad); }
   .dlife .e2-folk--flip .plate { order: 0; }
   .dlife .e2-stmt,
-  .dlife .e2-trip { grid-template-columns: 1fr; }
+  .dlife .e2-trip { grid-template-columns: minmax(0, 1fr); }
   .dlife .e2-trip > div {
     border-left: none;
     border-top: 1px solid var(--s-line);
@@ -451,22 +459,40 @@
     padding-right: var(--dl-pad);
   }
   .dlife .e2-trip .head { padding-left: var(--dl-pad); padding-right: var(--dl-pad); }
-  .dlife .e2-quad { grid-template-columns: 1fr; }
+  .dlife .e2-quad { grid-template-columns: minmax(0, 1fr); }
   .dlife .e2-quad > div { padding-right: 0; }
   .dlife .e2-quad > div:nth-child(even) { padding-left: 0; border-left: none; }
   .dlife .e2-lift { margin-inline: var(--dl-pad); }
 }
 
 @media (max-width: 900px) {
-  .dlife .e2-stagger { grid-template-columns: 1fr 1fr; }
+  .dlife .e2-stagger { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .dlife .e2-stagger > *:nth-child(3n+2) { margin-top: 0; }
   .dlife .e2-stagger > *:nth-child(even) { margin-top: clamp(20px, 3vw, 52px); }
 }
 
 @media (max-width: 620px) {
   .dlife .e2-rail,
-  .dlife .e2-rail--3 { grid-template-columns: 1fr; }
+  .dlife .e2-rail--3 { grid-template-columns: minmax(0, 1fr); }
   .dlife .e2-rail > div::before { right: 0; }
-  .dlife .e2-stagger { grid-template-columns: 1fr; }
+  .dlife .e2-stagger { grid-template-columns: minmax(0, 1fr); }
   .dlife .e2-stagger > *:nth-child(even) { margin-top: 0; }
+}
+
+/* ---------- mobile: lift the smallest type off 11px ----------
+   The intent bar's facts, the quote attribution and the count marker are set
+   at 11px uppercase — right for a desktop band, below comfortable reading on
+   a phone, where the same line is held at arm's length. Tracking comes down
+   a touch as the size goes up so the words keep their shape. */
+@media (max-width: 720px) {
+  .dlife .e2-bar .facts span,
+  .dlife .e2-said figcaption,
+  .dlife .e2-count span {
+    font-size: 12.5px;
+    letter-spacing: .14em;
+  }
+  /* The bar stacks rather than wrapping mid-phrase, and its action goes full
+     width so it is a comfortable target. */
+  .dlife .e2-bar { gap: 10px 18px; }
+  .dlife .e2-bar .pill { width: 100%; justify-content: center; }
 }

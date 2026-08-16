@@ -771,7 +771,7 @@ body:has(.dlife) {
    the copy — still edge to edge, just horizontal. */
 @media (max-width: 900px) {
   .dlife #hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: clamp(28px, 5vh, 48px);
     min-height: 0;
     padding: var(--dl-hd) 0 0 var(--dl-pad);
@@ -806,7 +806,7 @@ body:has(.dlife) {
   background: var(--s-line-soft);
   color: var(--s-body);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
 }
 .dlife #trust .c {
@@ -837,8 +837,8 @@ body:has(.dlife) {
   color: var(--s-muted);
   max-width: 40ch;
 }
-@media (max-width: 980px) { .dlife #trust { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .dlife #trust { grid-template-columns: 1fr; } }
+@media (max-width: 980px) { .dlife #trust { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .dlife #trust { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- 03 · pathway (compact routing strip) ----------
    A light horizontal router. The reference is explicit that this must read as
@@ -950,7 +950,7 @@ body:has(.dlife) {
 
 .dlife #needs .grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: clamp(12px, 1.2vw, 20px);
   padding: 0 var(--dl-pad);
 }
@@ -1023,7 +1023,7 @@ body:has(.dlife) {
 /* Tablet: the lead card runs full width so the remaining four pair off
    cleanly — three across would leave a half-empty row. */
 @media (max-width: 1080px) {
-  .dlife #needs .grid { grid-template-columns: repeat(4, 1fr); }
+  .dlife #needs .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .dlife .ncard,
   .dlife .ncard:nth-child(-n+2) { grid-column: span 2; }
   .dlife .ncard:nth-child(1) { grid-column: span 4; }
@@ -1039,7 +1039,7 @@ body:has(.dlife) {
     max-width: 31ch;
     padding-left: 16px;
   }
-  .dlife #needs .grid { grid-template-columns: 1fr; }
+  .dlife #needs .grid { grid-template-columns: minmax(0, 1fr); }
   .dlife .ncard,
   .dlife .ncard:nth-child(1),
   .dlife .ncard:nth-child(-n+2) { grid-column: span 1; }
@@ -1048,7 +1048,7 @@ body:has(.dlife) {
 }
 
 /* ---------- existing-policy guidance (sand) ---------- */
-.dlife #policy { background: var(--s-bg); color: var(--s-body); display: grid; grid-template-columns: 1fr 1fr; }
+.dlife #policy { background: var(--s-bg); color: var(--s-body); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 /* Was 18vh top and bottom, then the shared section rhythm; compacted again at
    the client's request. Four lines of copy and one action do not need the same
    band as a five-card mosaic, and the picture beside them shortens with the
@@ -1079,7 +1079,7 @@ body:has(.dlife) {
 .dlife #founder .ph { aspect-ratio: 3/4; }
 /* Two founders, not one. The taller/offset pair reads as a portrait diptych
    rather than a split image, and keeps the section asymmetric. */
-.dlife #founder .fpair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 1.4vw, 22px); }
+.dlife #founder .fpair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(12px, 1.4vw, 22px); }
 .dlife #founder .fpair .ph:last-child { transform: translateY(clamp(24px, 5vw, 64px)); }
 .dlife #founder h2 { font-size: var(--dl-section-title); max-width: 18ch; margin-top: 22px; }
 .dlife #founder p {
@@ -1589,7 +1589,7 @@ body:has(.dlife) {
 }
 .dlife #youth .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(18px, 2vw, 32px);
   margin-top: clamp(32px, 5vh, 58px);
 }
@@ -1629,7 +1629,7 @@ body:has(.dlife) {
   border-radius: 10px;
   padding: clamp(26px, 3.4vw, 44px);
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(24px, 3vw, 52px);
   align-items: start;
 }
@@ -1664,7 +1664,7 @@ body:has(.dlife) {
 /* Inline acknowledgement that replaces the form on submit — nothing is
    stored, so it must not imply a subscription. */
 .dlife #youth .loop .said { margin-top: 0; font: 500 17px/1.6 var(--dl-sans); color: var(--dl-teal); }
-@media (max-width: 900px) { .dlife #youth .loop { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .dlife #youth .loop { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- faq (centred column) ----------
    One centred column, at the client's request: the label and heading sit on
@@ -2126,7 +2126,7 @@ html:not(.js) .dlife #loader { display: none; }
 
 /* ---- responsive ---- */
 @media (max-width: 1080px) {
-  .dlife #ft .mid { grid-template-columns: 1fr; gap: clamp(34px, 5vh, 54px); }
+  .dlife #ft .mid { grid-template-columns: minmax(0, 1fr); gap: clamp(34px, 5vh, 54px); }
 }
 
 @media (max-width: 640px) {
@@ -2145,15 +2145,15 @@ html:not(.js) .dlife #loader { display: none; }
 }
 
 @media (max-width: 1080px) {
-  .dlife #policy { grid-template-columns: 1fr; }
+  .dlife #policy { grid-template-columns: minmax(0, 1fr); }
   .dlife #policy .ph { min-height: 48vh; }
   /* .dl-faq is not in this list: it is a centred single column at every width. */
   .dlife #founder,
-  .dlife #careers { grid-template-columns: 1fr; }
-  .dlife #youth .grid { grid-template-columns: 1fr; }
-  .dlife #youth .head { grid-template-columns: 1fr; }
-  .dlife #trust { grid-template-columns: 1fr 1fr; }
-  .dlife #menu { grid-template-columns: 1fr; }
+  .dlife #careers { grid-template-columns: minmax(0, 1fr); }
+  .dlife #youth .grid { grid-template-columns: minmax(0, 1fr); }
+  .dlife #youth .head { grid-template-columns: minmax(0, 1fr); }
+  .dlife #trust { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .dlife #menu { grid-template-columns: minmax(0, 1fr); }
   .dlife #menu .side { border-left: none; padding-left: 0; }
 }
 
@@ -2182,4 +2182,51 @@ html:not(.js) .dlife #loader { display: none; }
   .dlife #stories .reelctl { gap: 12px; }
   .dlife #youth .grid { margin-top: 40px; }
   .dlife .dl-faq button.q { padding: 20px 0; }
+}
+
+/* ---------- mobile: the stories reel becomes a scroll strip ----------
+   The reel is three fixed-width 9:16 frames in a centred flex row — about
+   520px at its narrowest, which is wider than any phone, so the page scrolled
+   sideways. Shrinking the frames to fit would put the playing film at roughly
+   95px across, which is not watchable.
+
+   So on a phone the row keeps its frame sizes and becomes a snap-scrolling
+   strip instead. The centre-stage idea survives: the active card is still the
+   larger frame, and snap centres it. Desktop is untouched. */
+@media (max-width: 720px) {
+  .dlife #stories .reel {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* full-bleed the strip so a card can sit against the page edge mid-scroll */
+    padding-inline: var(--dl-pad);
+    margin-inline: calc(-1 * var(--dl-pad));
+  }
+  .dlife #stories .reel::-webkit-scrollbar { display: none; }
+  .dlife #stories .reel .story { scroll-snap-align: center; }
+}
+
+/* ---------- why the tracks above are minmax(0, …) ----------
+   A bare `1fr` is `minmax(auto, 1fr)`: the track can never be narrower than
+   its content's min-content width, so one long unbreakable label sets a floor
+   the viewport cannot argue with. At 390px that floored #careers at 416px and
+   scrolled the whole page sideways — and because `.dlife` is the containing
+   block for the fixed chrome, the header, menu and read-progress bar
+   inherited the wrong width with it. `minmax(0, …)` lets a track shrink to
+   its share of the row and leaves wrapping to the text. It changes nothing
+   while the content fits. */
+
+/* ---------- mobile: long action labels wrap ----------
+   Pills are `white-space: nowrap` so a two-word label never breaks awkwardly
+   mid-phrase. At 390px that turned "Explore a career conversation" into a
+   392px pill on a 390px screen and pushed the page sideways. On a phone the
+   label wraps and centres instead: two tidy lines beat a horizontal scrollbar,
+   and the guarantee that matters — the label is never clipped — is kept. */
+@media (max-width: 720px) {
+  .dlife .pill {
+    white-space: normal;
+    text-align: center;
+    max-width: 100%;
+  }
 }

@@ -188,7 +188,7 @@
   color: var(--s-body);
 }
 .dlife .dl-checks svg { width: 18px; height: 18px; margin-top: 5px; color: var(--s-accent); }
-@media (max-width: 720px) { .dlife .dl-checks--2 { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .dlife .dl-checks--2 { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- definition rows ---------- */
 .dlife .dl-defs { margin-top: clamp(24px, 3.5vh, 40px); }
@@ -210,7 +210,7 @@
   color: var(--s-body);
   max-width: 58ch;
 }
-@media (max-width: 780px) { .dlife .dl-defs > div { grid-template-columns: 1fr; } }
+@media (max-width: 780px) { .dlife .dl-defs > div { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- cards ----------
    Warm neutrals, restrained borders, modest rounding, short copy — the
@@ -269,7 +269,7 @@
 @media (max-width: 700px) {
   .dlife .dl-cards--2,
   .dlife .dl-cards--3,
-  .dlife .dl-cards--4 { grid-template-columns: 1fr; }
+  .dlife .dl-cards--4 { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ---------- story card ---------- */
@@ -366,7 +366,7 @@
   max-width: 58ch;
 }
 @media (max-width: 640px) {
-  .dlife .dl-steps li { grid-template-columns: 1fr; gap: 10px; }
+  .dlife .dl-steps li { grid-template-columns: minmax(0, 1fr); gap: 10px; }
 }
 
 /* ---------- story-led split ----------
@@ -388,7 +388,7 @@
 .dlife .dl-split__body h2 { font-size: var(--dl-section-title); line-height: 1.08; max-width: 16ch; margin-top: 14px; }
 .dlife .dl-split__body .dl-prose { margin-top: 22px; }
 @media (max-width: 900px) {
-  .dlife .dl-split { grid-template-columns: 1fr; }
+  .dlife .dl-split { grid-template-columns: minmax(0, 1fr); }
   .dlife .dl-split--flip .dl-split__ph { order: 0; }
   .dlife .dl-split__ph { aspect-ratio: 3 / 2; max-height: none; }
 }
@@ -433,7 +433,7 @@
 .dlife .dl-contrast__col--yes li::before { content: "✓"; color: var(--s-accent); }
 .dlife .dl-contrast__col--no li::before { content: "×"; color: var(--s-quiet); }
 .dlife .dl-contrast__col--no li { color: var(--s-muted); }
-@media (max-width: 760px) { .dlife .dl-contrast { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .dlife .dl-contrast { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- link row ---------- */
 .dlife .dl-linkrow {
