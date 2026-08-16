@@ -1,0 +1,564 @@
+/* ============================================================
+   D'Life — site chrome: fixed header, overlay menu, charcoal footer and the
+   single floating WhatsApp point.
+
+   Ported from the shipped site. Selectors are classes rather than ids so more
+   than one instance can render on a specimen page: .dl-header, .dl-menu,
+   .dl-footer, .dl-burger. The overlay's open state is .dl-menu-open on the
+   page root.
+   ============================================================ */
+
+/* ---------- fixed header ----------
+   Ivory ground, five pillars, one copper action. --dl-hd is its height: 26px
+   above and below the 51px action pill. */
+.dl-header{position:fixed;top:0;left:0;right:0;z-index:120;display:flex;align-items:center;gap:clamp(12px,2vw,28px);padding:26px var(--dl-pad);background:var(--dl-ivory);color:var(--dl-char);transition:background var(--dl-t-base) var(--dl-ease),color var(--dl-t-base) var(--dl-ease),box-shadow var(--dl-t-base) var(--dl-ease)}
+.dl-header.is-stuck{box-shadow:0 1px 0 rgba(47,53,50,.10)}
+.dl-menu-open .dl-header{background:transparent;color:var(--dl-ivory)}
+/* Static variant for specimen pages and screens that scroll inside a frame. */
+.dl-header.dl-header--static{position:relative}
+
+
+/* ---------- header ---------- */
+.dl-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px var(--dl-pad);
+  /* The bar carries its ground from the top of the page, not only once the
+     page has scrolled: over a photograph the transparent state put the
+     navigation on whatever the picture happened to be doing behind it.
+     .solid now only tightens the bar as the page moves under it.
+
+     Ivory, not white. White was the one surface on the site that belonged to
+     no section — it read as a separate application chrome sitting on top of
+     the page. The bar now carries the same beige ground as the hero it opens
+     onto, so header and page are one material and the seam only appears where
+     the bar crosses a dark band.
+
+     Near-opaque, where a scrolled-only bar could afford .92: it also sits over
+     the dark sections, and at .92 those ghosted through the blur. */
+  background: rgba(246, 241, 232, .96);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(47, 53, 50, .10);
+  color: var(--dl-ink);
+  transition: background .5s, padding .5s, box-shadow .5s, color .5s;
+}
+.dl-header.solid { padding: 16px var(--dl-pad); }
+.dl-header .wm {
+  display: inline-flex;
+  align-items: center;
+  /* Must not shrink. As a flex child it defaults to shrinkable, and the base
+     `img { max-width: 100% }` then resolves the lockup against a collapsed
+     parent — which is how adding the nav made the logo disappear entirely. */
+  flex: none;
+}
+.lmark { display: block; flex: none; width: auto; }
+/* Down from 26px. At 26 the lockup stood a third taller than the cap height of
+   the navigation beside it and read as the loudest thing in the bar; at 22 it
+   still leads the row but sits in proportion with the 15px links. */
+.dl-header .lmark { height: 22px; }
+/* The bar's ground is beige throughout, so the teal-and-gold cut is the
+   resting state. A flat PNG can't follow currentColor the way the drawn clover
+   did, so both cuts ship and the ground picks: the ivory one appears only
+   behind the open menu overlay, where the bar goes dark. */
+.dl-header .lmark.rev { display: none; }
+.dl-menu-open .dl-header .lmark.rev { display: block; }
+.dl-menu-open .dl-header .lmark:not(.rev) { display: none; }
+/* Primary navigation. The links inherit the bar's own colour, so they follow
+   it to ivory behind the open menu overlay and need no rules of their own. */
+.dl-header .nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 26px);
+  margin-right: auto;
+  margin-left: clamp(16px, 2.6vw, 44px);
+}
+.dl-header .grp { position: relative; }
+.dl-header .nav a.top {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 15px 2px;
+  font: 500 15px/1 var(--dl-sans);
+  color: currentColor;
+  white-space: nowrap;
+  box-shadow: inset 0 -1px 0 transparent;
+  transition: box-shadow .3s;
+}
+.dl-header .nav a.top:hover,
+.dl-header .nav a.top:focus-visible { box-shadow: inset 0 -1px 0 currentColor; }
+.dl-header .nav a.top svg { transition: transform .3s; }
+.dl-header .grp:hover a.top svg { transform: rotate(180deg); }
+/* Hover and focus both open the panel, so the caret is never a lie for a
+   keyboard user. Nothing here is a menubar widget — they are plain links. */
+.dl-header .drop {
+  position: absolute;
+  top: 100%;
+  left: -14px;
+  min-width: 268px;
+  padding: 9px;
+  border-radius: 10px;
+  /* Cream rather than ivory: the bar it drops out of is ivory now, and an
+     ivory panel on an ivory bar has only its shadow to separate the two. */
+  background: var(--dl-cream);
+  border: 1px solid rgba(47, 53, 50, .14);
+  box-shadow: 0 16px 36px rgba(15, 51, 44, .18);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity .25s, transform .25s, visibility .25s;
+}
+.dl-header .grp:hover .drop,
+.dl-header .grp:focus-within .drop { opacity: 1; visibility: visible; transform: none; }
+.dl-header .drop a {
+  display: block;
+  padding: 11px 12px;
+  border-radius: 6px;
+  font: 400 15px/1.35 var(--dl-sans);
+  color: var(--dl-char);
+  transition: background .25s, color .25s;
+}
+.dl-header .drop a:hover { background: rgba(23, 74, 69, .08); color: var(--dl-teal); }
+/* The bar cannot hold five pillars plus two actions below this; the burger
+   overlay already carries the same routes. */
+@media (max-width: 1180px) {
+  .dl-header .nav { display: none; }
+}
+
+.dl-header .rt { display: flex; align-items: center; gap: 14px; }
+
+.dl-header .burger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  color: currentColor;
+  cursor: pointer;
+  font: 600 12px/1 var(--dl-sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 13px 10px;
+  margin-right: -10px;
+  border-radius: 99px;
+  position: relative;
+  /* No `transform` here on purpose. The press knock is a GSAP tween on this
+     element, and an inline transform from GSAP would permanently outrank a
+     `:active { transform: … }` rule — the squash would work once and never
+     again. CSS owns the wash below; the motion engine owns the transform. */
+}
+.dl-header .burger::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transform: scale(.7);
+  transition: opacity .4s, transform .4s cubic-bezier(.22, .7, .24, 1);
+  pointer-events: none;
+}
+/* The press has to be felt on the control itself, not only in the panel that
+   answers it: a wash blooms out from under the button as the finger goes down,
+   and the motion engine springs the button back on release. Without this the
+   only feedback for the first 200ms of an 800ms expansion is the pointer
+   changing shape. */
+.dl-header .burger:hover::before { opacity: .07; transform: scale(1); }
+.dl-header .burger:active::before { opacity: .16; transform: scale(1); transition-duration: .08s; }
+.dl-header .burger .ln { width: 26px; height: 10px; position: relative; z-index: 1; }
+.dl-header .burger .ln::before,
+.dl-header .burger .ln::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  /* Overshooting ease, so the two strokes swing into the cross rather than
+     sliding into it. */
+  transition: transform .45s cubic-bezier(.34, 1.4, .5, 1), top .3s cubic-bezier(.22, .7, .24, 1);
+}
+.dl-header .burger .ln::before { top: 1px; }
+.dl-header .burger .ln::after { top: 9px; }
+/* The strokes draw apart under the pointer, so the control reads as live
+   before it is pressed. */
+.dl-header .burger:hover .ln::before { top: 0; }
+.dl-header .burger:hover .ln::after { top: 10px; }
+/* The burger rides at every width, restored at the client's request.
+   A round of review hid it above 1180px on the grounds that the bar and the
+   overlay were two routes to the same fourteen places; the client wants the
+   expanding menu back, so both routes ship again. They are not redundant in
+   practice — the bar is for a visitor who already knows where they are going,
+   the overlay is the whole site at a glance. */
+/* The overlay is dark, so the bar drops its white ground and inverts while the
+   menu is open. */
+.dl-menu-open .dl-header {
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.dl-menu-open .dl-header,
+.dl-menu-open .dl-header .wm,
+.dl-menu-open .dl-header .burger { color: var(--dl-ivory); }
+.dl-menu-open .dl-header .burger .ln::before { top: 5px; transform: rotate(45deg); }
+.dl-menu-open .dl-header .burger .ln::after { top: 5px; transform: rotate(-45deg); }
+
+
+
+/* ---------- overlay menu ---------- */
+.dl-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: var(--dl-ink);
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  padding: 120px var(--dl-pad) 60px;
+  gap: 60px;
+}
+/* The overlay's own type identity, brought back onto the brand's.
+   These lines were set in Work Sans, uppercase, at -.03em — a treatment that
+   appears nowhere else on the site and read as generic at 54px. They are
+   display type by size, so they take the display face and the heading
+   settings every other large line on the page uses: Lora 600 at -.012em, in
+   sentence case, in ivory. The ordinals stay sand and the accent under a
+   hovered line is the brand copper, which is legal as a decorative rule where
+   no contrast minimum applies. */
+.dl-menu-open .dl-menu{clip-path:inset(0 0 0 0);visibility:visible;transition:clip-path .8s var(--dl-ease)}
+.dl-menu .big{display:flex;flex-direction:column;justify-content:center;gap:2px}
+.dl-menu .side .c{display:flex;flex-direction:column;gap:2px}
+@media (max-width:900px){.dl-menu{grid-template-columns:1fr;padding-top:96px}.dl-menu .side{border-left:none;padding-left:0;border-top:1px solid rgba(246,241,232,.14);padding-top:28px}}
+.dl-menu .big a {
+  display: block;
+  font: 600 clamp(30px, 3.8vw, 52px)/1.18 var(--dl-disp);
+  letter-spacing: -.012em;
+  color: var(--dl-ivory);
+  padding: 6px 0 10px;
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  transition: color .35s;
+}
+.dl-menu .big a i {
+  font-style: normal;
+  color: var(--dl-sand);
+  font-family: var(--dl-sans);
+  font-weight: 700;
+  font-size: .3em;
+  vertical-align: super;
+  margin-left: 14px;
+  letter-spacing: .16em;
+}
+/* Wipes in from the left under the line being pointed at. */
+.dl-menu .big a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  height: 2px;
+  background: var(--dl-copper);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .5s cubic-bezier(.22, .7, .24, 1);
+}
+.dl-menu .big a:hover,
+.dl-menu .big a:focus-visible { color: var(--dl-sand); }
+.dl-menu .big a:hover::after,
+.dl-menu .big a:focus-visible::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .dl-menu .big a::after { transition: none; }
+}
+.dl-menu .side {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 34px;
+  border-left: 1px solid rgba(246, 241, 232, .14);
+  padding-left: 60px;
+}
+.dl-menu .side p {
+  font: 400 16px/1.8 var(--dl-sans);
+  color: rgba(246, 241, 232, .78);
+  max-width: 30ch;
+}
+.dl-menu .side .c a {
+  display: block;
+  font: 400 22px/1.7 var(--dl-disp);
+  color: var(--dl-ivory);
+}
+.dl-menu .side .c a:hover { color: var(--dl-sand); }
+.dl-menu .side .lb { color: var(--dl-sand); }
+
+
+
+/* ---------- footer (charcoal) — warm utility directory ----------
+   Charcoal is the page's one non-green dark (brief §10), and CTA → footer is
+   the single permitted adjacent dark pair. The job here is utility, not
+   another conversion moment: #close directly above already owns the page's
+   last primary action, so nothing in this block is a copper .pill. Warmth
+   comes from type, rhythm and one sand accent — no boxes, no icons.
+
+   Every colour below is a --s-* token, so this survives a mode change. */
+/* Compacted at the client's request, twice. Nothing is cut — every channel,
+   every directory group and the whole compliance notice stay — but the bands
+   that separated them were sized like editorial sections rather than like a
+   utility footer, and the directory only fitted two of its three groups per
+   row, which pushed the third onto a line of its own beside empty space.
+
+   The second pass took the type down with the spacing. The contact column is
+   what sets the footer's height — four channels, each a label, a 27px line and
+   a hint — so trimming padding alone could only reach so far. Contact lines,
+   addresses and hints all come down a step.
+
+   The third goes through every band again: the lockup, the tagline, the lede,
+   the channel rows, the directory links and the compliance notice each lose a
+   step of size or spacing, and the notice drops its 82ch measure so it fills
+   the width it already had and wraps one line shorter.
+
+   Targets are the one thing that gave ground. Directory links land at 37px and
+   contact lines at 40px, down from 43-46px: still comfortably over the 24px
+   floor WCAG 2.5.8 sets at AA, but no longer clearing the 44px that 2.5.5 asks
+   for at AAA. That is the cost of the height, and it is the only place the
+   compaction is not free. Every colour still clears AA on charcoal. */
+.dl-footer {
+  background: var(--s-bg);
+  color: var(--s-body);
+  padding: clamp(26px, 3.6vh, 42px) var(--dl-pad) clamp(12px, 1.6vh, 18px);
+}
+
+/* The global ring is copper-dark, which sits at 2.35:1 on charcoal — below
+   the 3:1 floor for a focus indicator. Sand clears it at 6.99:1. Scoped to
+   .dl-footer so the light sections keep the copper ring they already pass with. */
+.dl-footer :focus-visible { outline-color: var(--s-accent); outline-offset: 3px; }
+
+.dl-footer ul { list-style: none; padding: 0; }
+
+/* ---- band 1: masthead ---- */
+.dl-footer .mast {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 48px;
+  flex-wrap: wrap;
+  padding-bottom: clamp(13px, 1.8vh, 18px);
+  border-bottom: 1px solid var(--s-line-soft);
+}
+.dl-footer .wm {
+  display: inline-flex;
+  align-items: center;
+}
+.dl-footer .lmark { height: clamp(22px, 2.1vw, 28px); }
+.dl-footer .tag {
+  font: 500 clamp(15px, 1.05vw, 17px)/1.4 var(--dl-disp);
+  color: var(--s-accent);          /* sand, 6.99:1 */
+  margin-top: 7px;
+}
+/* Blockified as a flex item, so text-align applies. */
+.dl-footer .est {
+  font: 700 12px/1.7 var(--dl-sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--s-label);           /* 6.99:1 */
+  text-align: right;
+}
+
+/* ---- band 2: contact + directory ---- */
+.dl-footer .mid {
+  display: grid;
+  /* Contact takes more of the row now that its channels are paired; the
+     directory keeps just enough to hold its three groups side by side. */
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.3fr);
+  gap: clamp(34px, 4vw, 68px);
+  padding: clamp(18px, 2.4vh, 26px) 0 clamp(18px, 2.4vh, 26px);
+}
+
+/* Family, weight and style all come from the global h2 rules — one Lora 600,
+   no font swap inside the sentence. Only size, measure and rhythm here. */
+.dl-footer .lede {
+  font-size: clamp(19px, 1.6vw, 25px);
+  line-height: 1.12;
+  max-width: 22ch;
+  color: var(--s-heading);
+}
+
+/* One micro-label style shared by the channel labels, the directory group
+   headings (<h3>, overridden here) and the compliance label. */
+.dl-footer .k {
+  display: block;
+  font: 700 12px/1 var(--dl-sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--s-label);
+}
+
+/* Two channels across, not four stacked. Four full-width rows made the
+   contact block twice the height of the directory beside it, and the footer
+   had to be tall enough for the taller of the two — so half of the right-hand
+   side was empty and the band was carrying 300px of nothing. Paired up, the
+   two columns finish at roughly the same depth and the whole band shortens by
+   about a third, with no channel and no hint removed. */
+.dl-footer .chan {
+  margin-top: clamp(13px, 1.7vh, 18px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(20px, 2.4vw, 40px);
+}
+.dl-footer .chan li { padding: 10px 0 8px; border-top: 1px solid var(--s-line); }
+/* The final row, whichever cells that turns out to be. */
+.dl-footer .chan li:nth-last-child(-n+2) { border-bottom: 1px solid var(--s-line); }
+.dl-footer .chan .k { margin-bottom: 4px; }
+/* Single file below the two-column breakpoint, where a paired row would give
+   each channel about 130px. */
+@media (max-width: 1080px) {
+  .dl-footer .chan { grid-template-columns: minmax(0, 1fr); }
+  .dl-footer .chan li:nth-last-child(-n+2) { border-bottom: none; }
+  .dl-footer .chan li:last-child { border-bottom: 1px solid var(--s-line); }
+}
+
+/* Same hover language as #path a.opt and #careers .rows a — the footer should
+   move the way the rest of the page moves. */
+.dl-footer .go {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  font: 500 clamp(17px, 1.3vw, 21px)/1.2 var(--dl-sans);
+  letter-spacing: -.02em;
+  color: var(--s-strong);
+  padding: 10px 0;                 /* 20px line box at the clamp floor + 20px = 40px */
+  transition: padding-left .45s cubic-bezier(.22, .7, .24, 1);
+}
+.dl-footer .go em {
+  font: 400 15px/1 var(--dl-sans);
+  color: var(--s-quiet);           /* 4.89:1 — never opacity, which would fail */
+  transition: color .35s;
+}
+.dl-footer .go:hover { padding-left: 14px; }
+.dl-footer .go:hover em { color: var(--s-accent); }
+
+/* font: shorthand resets the UA's italic on <address>. */
+.dl-footer address {
+  font: 400 clamp(16px, 1.15vw, 18px)/1.35 var(--dl-sans);
+  color: var(--s-strong);
+}
+.dl-footer .hint {
+  font: 400 13px/1.55 var(--dl-sans);
+  color: var(--s-muted);           /* 6.89:1 */
+  margin-top: 5px;
+  max-width: 42ch;
+}
+
+/* a strips underlines globally, so inline links inside running text
+   need theirs back — colour alone is not a link affordance. */
+.dl-footer .hint a,
+.dl-footer .note a {
+  color: var(--s-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+  text-decoration-color: var(--s-rule);
+  transition: text-decoration-color .3s;
+}
+.dl-footer .hint a:hover,
+.dl-footer .note a:hover { text-decoration-color: var(--s-accent); }
+
+.dl-footer .soc { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.dl-footer .soc a {
+  font: 400 15px/1.5 var(--dl-sans);
+  color: var(--s-body);
+  transition: color .3s;
+}
+.dl-footer .soc a:hover { color: var(--s-strong); }
+
+/* auto-fit does the whole responsive job: 3 columns on desktop, 2 on tablet,
+   1 on phone, with no breakpoint of its own. The 240px cap it used to carry
+   was 30px wider than the three groups could fit side by side, so the third
+   one wrapped to a row of its own and the footer grew a band of empty space
+   to hold it. */
+.dl-footer .dirs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 190px));
+  justify-content: space-between;
+  gap: clamp(26px, 3vw, 40px) clamp(18px, 2vw, 30px);
+  align-content: start;
+}
+/* The group headings are the longest labels in the footer and the columns are
+   narrow enough that two of them wrap; the shared .k sets line-height 1, which
+   would run those two lines into each other. */
+.dl-footer .dirs .k { margin-bottom: 7px; line-height: 1.35; }
+.dl-footer .dirs a {
+  display: block;
+  font: 400 15px/1.4 var(--dl-sans);
+  color: var(--s-body);            /* 8.7:1 */
+  padding: 8px 0;                  /* 21px line box + 16px = 37px target */
+  transition: color .3s;
+}
+.dl-footer .dirs a:hover { color: var(--s-strong); }
+
+/* ---- band 3: compliance ----
+   Bronze is decorative-only in this system (it fails AA as text), and this is
+   the one hairline that should read warm rather than neutral: it marks the
+   seam between the human content and the fine print.
+
+   One column, not two, since the Licensing slot came out: the notice is the
+   whole band now, and its own 74ch measure keeps it off the full width. */
+.dl-footer .fine {
+  border-top: 1px solid var(--s-rule);
+  padding: clamp(13px, 1.8vh, 18px) 0;
+}
+.dl-footer .note {
+  font: 400 13px/1.65 var(--dl-sans);
+  color: var(--s-muted);
+  max-width: none;
+}
+
+/* ---- band 4: base ---- */
+.dl-footer .base {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px 36px;
+  flex-wrap: wrap;
+  padding-top: clamp(11px, 1.5vh, 15px);
+  border-top: 1px solid var(--s-line-soft);
+  font: 400 13px/1.7 var(--dl-sans);
+  color: var(--s-quiet);           /* 4.89:1 at 13px */
+}
+.dl-footer .lx { display: flex; flex-wrap: wrap; gap: 6px 26px; }
+.dl-footer .base a { color: var(--s-quiet); transition: color .3s; }
+.dl-footer .base a:hover { color: var(--s-body); }
+.dl-footer .base .lx a { padding: 11px 0; margin: -11px 0; }
+.dl-footer .base a.top {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 12px/1 var(--dl-sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--s-label);           /* 6.99:1 */
+  /* Negative margins absorb the padding, so the band's rhythm is untouched
+     while the target reaches 44px. */
+  padding: 17px 8px;
+  margin: -17px -8px;
+  transition: gap .35s, color .3s;
+}
+.dl-footer .base a.top:hover { gap: 16px; color: var(--s-strong); }
+.dl-footer .base a.top em { font-style: normal; }
+
+
+/* ---------- floating WhatsApp ----------
+   The one restrained persistent contact point. Single, small, and out of the
+   thumb's way rather than covering the content it supports. */
+.dl-wafloat{position:fixed;right:clamp(16px,2.4vw,30px);bottom:clamp(16px,2.4vw,30px);z-index:110;display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border-radius:var(--dl-r-pill);background:var(--dl-copper-d);color:#fff;font:var(--dl-w-medium) 14px/1 var(--dl-sans);letter-spacing:.01em;box-shadow:var(--dl-shadow-float);transition:background var(--dl-t-base) var(--dl-ease),transform var(--dl-t-base) var(--dl-ease),opacity var(--dl-t-fast) var(--dl-ease)}
+.dl-wafloat:hover{background:var(--dl-copper-x);color:#fff;transform:translateY(var(--dl-lift-float))}
+.dl-menu-open .dl-wafloat{opacity:0;pointer-events:none}
+@media (max-width:620px){.dl-wafloat{padding:13px}.dl-wafloat span{display:none}}
+@media (prefers-reduced-motion:reduce){.dl-wafloat{transition:background var(--dl-t-base)}.dl-wafloat:hover{transform:none}}

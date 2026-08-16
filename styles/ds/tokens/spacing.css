@@ -1,0 +1,21 @@
+:root{
+  --dl-1:4px;
+  --dl-2:8px;
+  --dl-3:12px;
+  --dl-4:16px;
+  --dl-5:20px;
+  --dl-6:24px;
+  --dl-8:32px;
+  --dl-10:40px;
+  --dl-12:48px;
+  --dl-16:64px;
+  --dl-20:80px;
+
+  /* rhythm — "compact the page" is one number, not a dozen paddings */
+  --dl-sec-y:clamp(56px,9vh,104px); /* @kind spacing */   /* vertical padding of a band */
+  --dl-pad:clamp(24px,5vw,84px); /* @kind spacing */      /* page side margin */
+  --dl-container:1180px; /* @kind spacing */              /* one container width, whole site */
+  --dl-grid-gap:clamp(18px,2vw,28px); /* @kind spacing */
+  --dl-head-gap:clamp(28px,4vh,48px); /* @kind spacing */ /* band head → content */
+  --dl-hd:103px; /* @kind spacing */                      /* fixed header height */
+}

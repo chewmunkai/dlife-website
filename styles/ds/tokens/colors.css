@@ -1,0 +1,69 @@
+:root{
+  /* ---- Brand palette (approved baseline, Visual System §01) ---- */
+  --dl-teal:#174A45;      /* primary teal — headings on light */
+  --dl-green:#1D4B3E;     /* deep green — the dark accent sections */
+  --dl-ink:#0F332C;       /* dark teal — deepest panels, overlays */
+  --dl-deep:#0B211D;      /* below-palette deepest: loader, video mattes */
+  --dl-copper:#B36B43;    /* decorative accents, rules */
+  --dl-copper-d:#9C5A37;  /* primary action fill (5.34:1 on white), labels on light */
+  --dl-copper-x:#85482B;  /* primary action hover (7.09:1 on white) */
+  --dl-bronze:#A88752;    /* decorative rules only — mid-tone, fails AA as text */
+  --dl-char:#2F3532;      /* footer ground, body text */
+  --dl-sand:#D0BFA9;      /* warm section backgrounds */
+  --dl-cream:#EFE8DA;     /* soft neutral surfaces, cards, dropdowns */
+  --dl-ivory:#F6F1E8;     /* default page background */
+  --dl-white:#FFFFFF;
+}
+
+/* ---------- section modes ----------
+   Every block reads these, never a palette value directly, so a block dropped
+   into a .sand or .dark band recolours itself with no per-instance override.
+   Light is the default and lives on :root. */
+:root{
+  --s-bg:var(--dl-ivory);
+  --s-heading:var(--dl-teal);
+  --s-strong:var(--dl-ink);
+  --s-body:rgba(47,53,50,.88);
+  --s-muted:rgba(47,53,50,.74);
+  --s-quiet:rgba(47,53,50,.55);
+  --s-label:var(--dl-copper-x);
+  --s-accent:var(--dl-copper-d);
+  --s-line:rgba(47,53,50,.18);
+  --s-line-soft:rgba(47,53,50,.10);
+  --s-rule:rgba(156,90,55,.45);
+  --s-outline:rgba(23,74,69,.45);
+  --s-outline-wash:rgba(23,74,69,.08);
+  --s-plate:var(--dl-cream);
+}
+/* Light scope: re-declares the default mode so a cream panel can sit inside a
+   dark band without inheriting its ivory type. */
+.light{--s-bg:var(--dl-ivory);--s-heading:var(--dl-teal);--s-strong:var(--dl-ink);--s-body:rgba(47,53,50,.88);--s-muted:rgba(47,53,50,.74);--s-quiet:rgba(47,53,50,.55);--s-label:var(--dl-copper-x);--s-accent:var(--dl-copper-d);--s-line:rgba(47,53,50,.18);--s-line-soft:rgba(47,53,50,.10);--s-rule:rgba(156,90,55,.45);--s-outline:rgba(23,74,69,.45);--s-outline-wash:rgba(23,74,69,.08);--s-plate:var(--dl-cream)}
+
+/* Deep green band. Labels go to sand (~5.5:1); bronze stays decorative. */
+.dark{
+  --s-bg:var(--dl-green);
+  --s-heading:var(--dl-ivory);
+  --s-strong:var(--dl-ivory);
+  --s-body:rgba(246,241,232,.86);
+  --s-muted:rgba(246,241,232,.74);
+  --s-quiet:rgba(246,241,232,.58);
+  --s-label:var(--dl-sand);
+  --s-accent:var(--dl-sand);
+  --s-line:rgba(246,241,232,.18);
+  --s-line-soft:rgba(246,241,232,.10);
+  --s-rule:rgba(168,135,82,.55);
+  --s-outline:rgba(246,241,232,.45);
+  --s-outline-wash:rgba(246,241,232,.10);
+  --s-plate:rgba(11,33,29,.45);
+}
+/* Sand is darker than ivory, so copper-dark drops to 2.98:1 here and fails as
+   label text. Same hue, taken down until it clears 4.5:1 on sand. */
+.sand{
+  --s-bg:var(--dl-sand);
+  --s-plate:rgba(47,53,50,.08);
+  --s-label:#744329;
+  --s-accent:#744329;
+  --s-rule:rgba(116,67,41,.45);
+}
+/* Charcoal is the footer's ground — a dark band with the green swapped out. */
+.dark.charcoal{--s-bg:var(--dl-char)}

@@ -1,0 +1,32 @@
+/* ---------- primary action ----------
+   Copper fill, white text, restrained radius, darker copper on hover — one per
+   section, maximum. The hover is a fill that wipes up from the bottom edge. */
+.pill{display:inline-flex;align-items:center;gap:10px;background:var(--dl-copper-d);color:#fff;font:var(--dl-w-bold) 15px/1 var(--dl-sans);letter-spacing:var(--dl-tr-button);text-transform:uppercase;padding:18px 34px;border-radius:var(--dl-r-pill);border:none;cursor:pointer;white-space:nowrap;position:relative;overflow:hidden;transition:color var(--dl-t-base) var(--dl-ease)}
+.pill span{position:relative;z-index:1}
+.pill::before{content:"";position:absolute;inset:0;background:var(--dl-copper-x);transform:translateY(101%);transition:transform var(--dl-t-slow) var(--dl-ease-wipe)}
+.pill:hover{color:#fff}
+.pill:hover::before{transform:translateY(0)}
+.pill:active{transform:translateY(1px)}
+/* Secondary action: outline, or a text-and-arrow, depending on the ground.
+   Never a second copper fill in the same section. */
+.pill.ghost{background:transparent;box-shadow:inset 0 0 0 1px var(--s-outline);color:var(--s-heading)}
+.pill.ghost::before{background:var(--s-outline-wash)}
+.pill.ghost:hover{color:var(--s-heading)}
+/* Sand fill: a third action colour for grounds that are neither copper nor
+   outline. Ink on sand measures 9.6:1. */
+.pill.sand{background:var(--dl-sand);color:var(--dl-ink)}
+.pill.sand::before{background:var(--dl-cream)}
+.pill.sand:hover{color:var(--dl-ink)}
+.pill.sm{padding:13px 24px;font-size:13px}
+.pill[aria-disabled="true"],.pill:disabled{opacity:.45;pointer-events:none}
+
+/* ---------- text action ----------
+   The everyday onward link: uppercase, tracked, a hairline under it, and an
+   arrow that opens a wider gap on hover. */
+.tlink{display:inline-flex;align-items:center;gap:12px;font:var(--dl-w-bold) 14px/1 var(--dl-sans);letter-spacing:var(--dl-tr-link);text-transform:uppercase;color:var(--s-accent);padding-bottom:10px;border-bottom:1px solid var(--s-rule);background:none;border-left:0;border-right:0;border-top:0;cursor:pointer;transition:gap var(--dl-t-base) var(--dl-ease),border-color var(--dl-t-base) var(--dl-ease)}
+.tlink em{font-style:normal}
+.tlink:hover{gap:20px;border-color:var(--s-accent);color:var(--s-accent)}
+
+.dl-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(24px,3vh,36px)}
+.dl-linkrow{display:flex;flex-wrap:wrap;gap:14px 34px;margin-top:clamp(24px,3vh,36px)}
+.dl-linkrow .tlink{margin-top:0}
