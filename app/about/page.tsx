@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
+import { E2Band, E2Checks, E2Closing, E2Hero, E2Qa, E2Said } from "../../components/blocks/E2";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose, Pullquote, CheckList } from "../../components/blocks/Prose";
+import { Prose, Pullquote, CheckList } from "../../components/blocks/Prose";
 import { SplitStory } from "../../components/blocks/Steps";
 import { Portrait, CardGrid } from "../../components/blocks/Cards";
-import ContextualCTA from "../../components/blocks/CTA";
 import RelatedContent from "../../components/blocks/Related";
 import { ROUTES } from "../../lib/routes";
 import { WA } from "../../lib/contact";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.about);
@@ -63,14 +63,15 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
         label="About D’Life"
         title={<>Founded by sisters, built with purpose</>}
         lede="D’Life was started by two sisters who believed that success is not simply about making money — it is about building a life that means something, and helping other people do the same."
+        photo={{ src: "/media/img/policy-review.jpg", alt: "Two women talking across a table", position: "55% 40%" }}
       />
 
-      <Band width="read">
+      <E2Band read>
         <Prose>
           <p>
             Sharon and Rachel Cheang grew up without financial abundance. What that taught them — hard work, integrity,
@@ -85,10 +86,10 @@ export default function Page() {
             <a href="/youth-community">Youth Community</a>.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
       {/* Her words, kept as hers rather than translated into house copy. */}
-      <Band tone="dark" width="read">
+      <E2Band tone="dark" read>
         <Pullquote cite="Sharon Cheang, Founder">
           “Protect Lives. Build Wealth. Transform People. Create Impact.”
         </Pullquote>
@@ -98,9 +99,9 @@ export default function Page() {
             ahead, and we are still here afterwards.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
-      <Band tone="sand" label="What we are working towards" title={<>Mission and vision</>} width="wide">
+      <E2Band tone="sand" label="What we are working towards" title={<>Mission and vision</>}>
         <div className="dl-cards dl-cards--2">
           <article className="dl-card rv">
             <div className="dl-card__body">
@@ -123,7 +124,7 @@ export default function Page() {
             </div>
           </article>
         </div>
-      </Band>
+      </E2Band>
 
       {/* ── Sharon ───────────────────────────────────────────── */}
       <section id="sharon" className="dl-band dl-split">
@@ -183,24 +184,24 @@ export default function Page() {
       </section>
 
       {/* ⚠️ Everything in this band is pending client verification. */}
-      <Band label="Recognition" title={<>Professional record</>} width="wide">
+      <E2Band label="Recognition" title={<>Professional record</>}>
         <Prose>
           <p>
             Stated plainly rather than displayed. These are Sharon’s professional credentials over a 27-year career in
             the industry.
           </p>
         </Prose>
-        <CheckList items={RECOGNITION} />
-      </Band>
+        <E2Checks items={RECOGNITION} />
+      </E2Band>
 
-      <Band tone="sand" label="Advisor development" title={<>People she has helped build</>} width="wide">
+      <E2Band tone="sand" label="Advisor development" title={<>People she has helped build</>}>
         <Prose>
           <p>
             The part of the work Sharon is proudest of is not her own production. It is the advisors and leaders who
             came through the practice and went on to run teams of their own.
           </p>
         </Prose>
-        <CheckList items={DEVELOPED} columns={1} />
+        <E2Checks items={DEVELOPED} columns={1} />
         <CardGrid
           cards={[
             {
@@ -218,14 +219,23 @@ export default function Page() {
           ]}
           columns={2}
         />
-      </Band>
+      </E2Band>
 
-      <ContextualCTA
+      <E2Closing
+        photo={{ src: "/media/img/community-gathering.jpg", alt: "People seated around a table at a community gathering", position: "50% 26%" }}
         label="Next step"
         title="Meet the people, not the brochure"
-        copy="If you would rather start by talking to someone than by reading about us, that is usually the better order."
-        wa={WA.conversation}
-        secondary={{ label: "See how we can help", href: ROUTES.solutions.path }}
+        lede="If you would rather start by talking to someone than by reading about us, that is usually the better order."
+        actions={
+          <>
+            <a className="pill sand" data-wa={WA.conversation} href="#">
+              <span>Speak with an Advisor</span>
+            </a>
+            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+              <span>See how we can help</span>
+            </a>
+          </>
+        }
       />
 
       <RelatedContent keys={["dva", "youth", "careers"]} tone="sand" />

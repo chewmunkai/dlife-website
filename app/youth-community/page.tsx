@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
+import { E2Band, E2Checks, E2Closing, E2Hero, E2Qa } from "../../components/blocks/E2";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose, CheckList } from "../../components/blocks/Prose";
+import { Prose, CheckList } from "../../components/blocks/Prose";
 import { CardGrid, EventCard } from "../../components/blocks/Cards";
 import StayInLoop from "../../components/blocks/Signup";
-import Faq from "../../components/blocks/Faq";
-import ContextualCTA from "../../components/blocks/CTA";
 import RelatedContent from "../../components/blocks/Related";
 import { ROUTES } from "../../lib/routes";
 import { WA } from "../../lib/contact";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.youth);
@@ -67,7 +66,7 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
         tone="sand"
         label="Empowering youth. Building tomorrow."
@@ -76,7 +75,7 @@ export default function Page() {
         photo={{ src: "/media/img/youth-workshop.jpg", alt: "Attendees seated at a D’Life workshop session" }}
       />
 
-      <Band width="read">
+      <E2Band read>
         <Prose>
           <p>
             Young people leaving university today need more than a qualification. They need confidence, the ability to
@@ -90,10 +89,10 @@ export default function Page() {
             generation after them.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
       {/* The three-word spine of the whole programme. */}
-      <Band tone="dark" width="wide" label="The three pillars" title={<>Health · Wealth · Leadership</>}>
+      <E2Band tone="dark" label="The three pillars" title={<>Health · Wealth · Leadership</>}>
         <CardGrid
           cards={[
             {
@@ -114,9 +113,9 @@ export default function Page() {
           ]}
           columns={3}
         />
-      </Band>
+      </E2Band>
 
-      <Band id="resources" width="wide" label="Development pillars" title={<>What the programme covers</>}>
+      <E2Band id="resources" label="Development pillars" title={<>What the programme covers</>}>
         <Prose>
           <p>
             Practical learning experiences across four areas. Sessions move between them through the year rather than
@@ -165,9 +164,9 @@ export default function Page() {
             </div>
           </article>
         </div>
-      </Band>
+      </E2Band>
 
-      <Band tone="sand" width="wide" label="Who it’s for" title={<>Who can join</>}>
+      <E2Band tone="sand" label="Who it’s for" title={<>Who can join</>}>
         <Prose>
           <p>
             The Youth Community welcomes anyone young and genuinely willing to grow — personally and professionally.
@@ -185,10 +184,10 @@ export default function Page() {
             "Anyone with a positive mindset and a willingness to learn",
           ]}
         />
-      </Band>
+      </E2Band>
 
       {/* ⚠️ Programme types, not a dated calendar — see the note at the top. */}
-      <Band id="events" width="wide" label="Events & workshops" title={<>The kinds of sessions that run</>}>
+      <E2Band id="events" label="Events & workshops" title={<>The kinds of sessions that run</>}>
         <Prose>
           <p>
             Sessions run through the year across the community and alongside D’Life’s wider programme. Dates and venues
@@ -239,9 +238,9 @@ export default function Page() {
             cta={{ label: "Ask about the next one", wa: WA.event }}
           />
         </div>
-      </Band>
+      </E2Band>
 
-      <Band id="stories" tone="dark" width="wide" label="What members take away" title={<>What people leave with</>}>
+      <E2Band id="stories" tone="dark" label="What members take away" title={<>What people leave with</>}>
         <Prose>
           <p>
             Members leave with more than knowledge — practical skills, real relationships and a bit more confidence than
@@ -262,7 +261,7 @@ export default function Page() {
             "Meaningful friendships and a supportive community",
           ]}
         />
-      </Band>
+      </E2Band>
 
       <StayInLoop
         tone="sand"
@@ -272,15 +271,28 @@ export default function Page() {
         ack="Thanks — we’ll be in touch with the next Youth Community update."
       />
 
-      <Faq items={FAQS} label="Common questions" title={<>Before you join us</>} more={{ label: "Ask us anything", href: ROUTES.contact.path }} />
+      <E2Band read label="Common questions" title={<>Before you join us</>}>
+        <E2Qa items={FAQS} />
+        <p className="dl-prose rv" style={{ marginTop: "clamp(22px, 3vh, 34px)" }}>
+          <a href={link(ROUTES.contact.path)}>Ask us anything →</a>
+        </p>
+      </E2Band>
 
-      <ContextualCTA
+      <E2Closing
+        photo={{ src: "/media/img/youth-workshop.jpg", alt: "Attendees seated at a workshop session", position: "50% 34%" }}
         label="Get involved"
         title="Come to one and see"
-        copy="The easiest way to find out whether this is for you is to turn up to a session. Message us and we will tell you what is next."
-        wa={WA.youth}
-        action="Ask about joining"
-        secondary={{ label: "Read about D’Life", href: ROUTES.about.path }}
+        lede="The easiest way to find out whether this is for you is to turn up to a session. Message us and we will tell you what is next."
+        actions={
+          <>
+            <a className="pill sand" data-wa={WA.youth} href="#">
+              <span>Ask about joining</span>
+            </a>
+            <a className="pill ghost" href={link(ROUTES.about.path)}>
+              <span>Read about D’Life</span>
+            </a>
+          </>
+        }
       />
 
       <RelatedContent keys={["about", "dva", "careers"]} tone="light" />

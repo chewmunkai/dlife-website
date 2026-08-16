@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
+import { E2Band, E2Bar, E2Checks, E2Closing, E2Hero, E2Qa, E2Rail, E2Said } from "../../components/blocks/E2";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose, Pullquote, CheckList } from "../../components/blocks/Prose";
+import { Prose, Pullquote, CheckList } from "../../components/blocks/Prose";
 import { Steps, Contrast } from "../../components/blocks/Steps";
 import SelectedVideos from "../../components/blocks/Video";
-import Faq from "../../components/blocks/Faq";
-import ContextualCTA from "../../components/blocks/CTA";
 import RelatedContent from "../../components/blocks/Related";
 import { ROUTES } from "../../lib/routes";
 import { WA } from "../../lib/contact";
 import { VIDEOS } from "../../content/videos";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.careers);
@@ -71,7 +70,7 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
         label="Grow with D’Life"
         title={<>A career built on real guidance, not just sales</>}
@@ -79,7 +78,7 @@ export default function Page() {
         photo={{ src: "/media/img/path-career.jpg", alt: "Looking out over the trees, weighing what’s next" }}
       />
 
-      <Band width="read">
+      <E2Band read>
         <Prose>
           <p>
             You have probably seen how this industry usually recruits. We are not going to do that. There is no income
@@ -91,9 +90,9 @@ export default function Page() {
             version.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
-      <Band tone="sand" label="Straight answers" title={<>What this is, and what it is not</>} width="wide">
+      <E2Band tone="sand" label="Straight answers" title={<>What this is, and what it is not</>}>
         <Contrast
           left={{
             heading: "What the job is",
@@ -116,11 +115,11 @@ export default function Page() {
             ],
           }}
         />
-      </Band>
+      </E2Band>
 
-      <Band label="How you would grow" title={<>What we actually provide</>} width="wide">
-        <Steps
-          items={[
+      <E2Band label="How you would grow" title={<>What we actually provide</>}>
+        <E2Rail
+          steps={[
             {
               title: "Mentorship before independence",
               copy: "You learn the craft beside someone senior before you ever learn a pitch. That means sitting in on real client conversations, and being observed in your own.",
@@ -139,14 +138,14 @@ export default function Page() {
             },
           ]}
         />
-      </Band>
+      </E2Band>
 
-      <Band tone="dark" width="read">
+      <E2Band tone="dark" read>
         {/* ⚠️ Attribution pending consent. */}
         <Pullquote cite="D’Life advisor">
           “D’Life gave me the mentorship I couldn’t find anywhere else.”
         </Pullquote>
-      </Band>
+      </E2Band>
 
       <SelectedVideos
         videos={VIDEOS}
@@ -157,7 +156,7 @@ export default function Page() {
         id="stories"
       />
 
-      <Band tone="sand" label="Who tends to do well" title={<>The people this suits</>} width="wide">
+      <E2Band tone="sand" label="Who tends to do well" title={<>The people this suits</>}>
         <Prose>
           <p>
             There is no single background. Across the advisors who have built something lasting here, these are the
@@ -174,17 +173,27 @@ export default function Page() {
             "Coming from a professional background, in any field",
           ]}
         />
-      </Band>
+      </E2Band>
 
-      <Faq items={FAQS} label="Common questions" title={<>The questions worth asking us</>} />
+      <E2Band read label="Common questions" title={<>The questions worth asking us</>}>
+        <E2Qa items={FAQS} />
+      </E2Band>
 
-      <ContextualCTA
+      <E2Closing
+        photo={{ src: "/media/img/youth-workshop.jpg", alt: "Attendees seated at a workshop session", position: "50% 30%" }}
         label="Next step"
         title="Explore a career conversation"
-        copy="An honest discussion about what the work involves and whether it fits. It is not an interview, and it does not commit you to anything."
-        wa={WA.career}
-        action="Explore a career conversation"
-        secondary={{ label: "Read about D’Life", href: ROUTES.about.path }}
+        lede="An honest discussion about what the work involves and whether it fits. It is not an interview, and it does not commit you to anything."
+        actions={
+          <>
+            <a className="pill sand" data-wa={WA.career} href="#">
+              <span>Explore a career conversation</span>
+            </a>
+            <a className="pill ghost" href={link(ROUTES.about.path)}>
+              <span>Read about D’Life</span>
+            </a>
+          </>
+        }
       />
 
       <RelatedContent keys={["stories", "dva", "about"]} tone="light" />

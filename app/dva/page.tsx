@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
+import { E2Band, E2Checks, E2Closing, E2Hero, E2Qa, E2Said } from "../../components/blocks/E2";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose, Pullquote, CheckList, DefList } from "../../components/blocks/Prose";
-import ContextualCTA from "../../components/blocks/CTA";
+import { Prose, Pullquote, CheckList, DefList } from "../../components/blocks/Prose";
 import RelatedContent from "../../components/blocks/Related";
-import Faq from "../../components/blocks/Faq";
 import { ROUTES } from "../../lib/routes";
 import { WA } from "../../lib/contact";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.dva);
@@ -57,15 +56,17 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
-        tone="dark"
+        tone="ink"
         label="Drive Value Associates"
         title={<>By invitation. Built for leaders.</>}
         lede="A selective circle of financial advisors, shaped by shared values and experience. Founded by Sharon Cheang."
+        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team", position: "60% 40%" }}
+        panel="green"
       />
 
-      <Band tone="dark" width="read">
+      <E2Band tone="dark" read>
         <Prose>
           <p>
             Drive Value Associates is a leadership and collaboration community for financial advisors who arrive from a
@@ -78,9 +79,9 @@ export default function Page() {
             members are asked to give rather than what they are offered.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
-      <Band width="read" label="Purpose" title={<>What the circle is for</>}>
+      <E2Band read label="Purpose" title={<>What the circle is for</>}>
         <Prose>
           <p>
             To build a community of exceptional financial advisors who lead with integrity, grow with purpose, and
@@ -92,11 +93,11 @@ export default function Page() {
           “Sustainable success is achieved through integrity, continuous growth, meaningful collaboration, and creating
           lasting value for clients.”
         </Pullquote>
-      </Band>
+      </E2Band>
 
       {/* The selectivity is stated plainly. Softening it would misrepresent how
           membership actually works. */}
-      <Band tone="sand" width="read" label="Membership" title={<>DVA is not for everyone</>}>
+      <E2Band tone="sand" read label="Membership" title={<>DVA is not for everyone</>}>
         <Prose>
           <p>
             It is built for financial advisors who believe in doing the right things, for the right reasons. Every
@@ -108,9 +109,9 @@ export default function Page() {
             the only way to keep that true is to be careful about who joins.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
-      <Band width="wide" label="What members develop" title={<>The work of the circle</>}>
+      <E2Band label="What members develop" title={<>The work of the circle</>}>
         <DefList
           items={[
             {
@@ -139,9 +140,9 @@ export default function Page() {
             },
           ]}
         />
-      </Band>
+      </E2Band>
 
-      <Band tone="sand" width="wide" label="Across the year" title={<>How members spend their time</>}>
+      <E2Band tone="sand" label="Across the year" title={<>How members spend their time</>}>
         <CheckList
           items={[
             "Leadership workshops — strategic thinking, decision-making, coaching",
@@ -154,18 +155,31 @@ export default function Page() {
             "Cross-agency collaboration and joint initiatives",
           ]}
         />
-      </Band>
+      </E2Band>
 
-      <Faq items={FAQS} label="Questions" title={<>About membership</>} more={{ label: "Ask about DVA", href: ROUTES.contact.path }} />
+      <E2Band read label="Questions" title={<>About membership</>}>
+        <E2Qa items={FAQS} />
+        <p className="dl-prose rv" style={{ marginTop: "clamp(22px, 3vh, 34px)" }}>
+          <a href={link(ROUTES.contact.path)}>Ask about DVA →</a>
+        </p>
+      </E2Band>
 
       {/* The CTA asks a question rather than inviting an application. */}
-      <ContextualCTA
+      <E2Closing
+        photo={{ src: "/media/img/need-legacy.jpg", alt: "An interior ceiling with a ring chandelier", position: "50% 42%" }}
         label="Discover DVA"
         title="If this sounds like the room you have been looking for"
-        copy="Membership is by invitation, but a conversation is not. Tell us a little about your practice and we will take it from there."
-        wa={WA.dva}
-        action="Ask about DVA"
-        secondary={{ label: "Read about D’Life", href: ROUTES.about.path }}
+        lede="Membership is by invitation, but a conversation is not. Tell us a little about your practice and we will take it from there."
+        actions={
+          <>
+            <a className="pill sand" data-wa={WA.dva} href="#">
+              <span>Ask about DVA</span>
+            </a>
+            <a className="pill ghost" href={link(ROUTES.about.path)}>
+              <span>Read about D’Life</span>
+            </a>
+          </>
+        }
       />
 
       <RelatedContent keys={["careers", "about", "youth"]} tone="light" />

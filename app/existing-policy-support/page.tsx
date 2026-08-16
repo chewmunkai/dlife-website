@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
+import { E2Band, E2Bar, E2Checks, E2Closing, E2Hero, E2Qa, E2Rail, E2Said } from "../../components/blocks/E2";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose, CheckList, Pullquote } from "../../components/blocks/Prose";
+import { Prose, CheckList, Pullquote } from "../../components/blocks/Prose";
 import { Steps, Contrast } from "../../components/blocks/Steps";
-import Faq from "../../components/blocks/Faq";
-import ContextualCTA from "../../components/blocks/CTA";
 import RelatedContent from "../../components/blocks/Related";
 import { ROUTES } from "../../lib/routes";
 import { WA } from "../../lib/contact";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.policy);
@@ -66,7 +65,7 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
         label="Existing policyholders"
         title={<>Need clarity on your current coverage?</>}
@@ -77,7 +76,7 @@ export default function Page() {
         }}
       />
 
-      <Band width="read">
+      <E2Band read>
         <Prose>
           <p>
             A lot of people hold a policy they have not looked at since the day they signed it. That is completely
@@ -89,11 +88,11 @@ export default function Page() {
             the circumstances you are in now rather than the ones you were in when you bought it.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
       {/* Drawing the boundary explicitly is more reassuring than any amount of
           soft language around it. */}
-      <Band tone="sand" label="To be clear" title={<>What this is, and what it is not</>} width="wide">
+      <E2Band tone="sand" label="To be clear" title={<>What this is, and what it is not</>}>
         <Contrast
           left={{
             heading: "What this is",
@@ -116,9 +115,9 @@ export default function Page() {
             ],
           }}
         />
-      </Band>
+      </E2Band>
 
-      <Band label="What we look at" title={<>The parts that usually matter</>} width="wide">
+      <E2Band label="What we look at" title={<>The parts that usually matter</>}>
         <Prose>
           <p>
             Most of the useful information is in a document you already own. These are the points we work through, and
@@ -137,11 +136,11 @@ export default function Page() {
             "What would happen at the point of a claim, step by step",
           ]}
         />
-      </Band>
+      </E2Band>
 
-      <Band tone="sand" label="How it works" title={<>A review, start to finish</>} width="wide">
-        <Steps
-          items={[
+      <E2Band tone="sand" label="How it works" title={<>A review, start to finish</>}>
+        <E2Rail
+          steps={[
             {
               title: "Send us what you have",
               copy: "A photograph of the policy schedule is enough. If you cannot find it, the policy number will usually do, and we can help you request a copy.",
@@ -160,24 +159,34 @@ export default function Page() {
             },
           ]}
         />
-      </Band>
+      </E2Band>
 
-      <Band tone="dark" width="read">
+      <E2Band tone="dark" read>
         <Pullquote cite="D’Life advisory team">
           “Most of the reviews we do end with the client keeping exactly what they had. They just finally know what it
           is.”
         </Pullquote>
-      </Band>
+      </E2Band>
 
-      <Faq items={FAQS} label="Common questions" title={<>What people ask us first</>} />
+      <E2Band read label="Common questions" title={<>What people ask us first</>}>
+        <E2Qa items={FAQS} />
+      </E2Band>
 
-      <ContextualCTA
+      <E2Closing
+        photo={{ src: "/media/img/path-review.jpg", alt: "", position: "50% 40%" }}
         label="Next step"
         title="Get guidance on your existing policy"
-        copy="Send the policy schedule, or just the number. We will read it before we speak, and see what next step, if any, makes sense."
-        wa={WA.policyClarity}
-        action="Get clarity on my coverage"
-        secondary={{ label: "Explore protection & planning", href: ROUTES.solutions.path }}
+        lede="Send the policy schedule, or just the number. We will read it before we speak, and see what next step, if any, makes sense."
+        actions={
+          <>
+            <a className="pill sand" data-wa={WA.policyClarity} href="#">
+              <span>Get clarity on my coverage</span>
+            </a>
+            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+              <span>Explore protection & planning</span>
+            </a>
+          </>
+        }
       />
 
       <RelatedContent keys={["medical-health-preparation", "protecting-your-family", "contact"]} tone="sand" />

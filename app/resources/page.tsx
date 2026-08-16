@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
+import { E2Band, E2Closing, E2Hero, E2Qa } from "../../components/blocks/E2";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose } from "../../components/blocks/Prose";
+import { Prose } from "../../components/blocks/Prose";
 import { CardGrid, EventCard } from "../../components/blocks/Cards";
 import SelectedVideos from "../../components/blocks/Video";
 import StayInLoop from "../../components/blocks/Signup";
-import ContextualCTA from "../../components/blocks/CTA";
 import RelatedContent from "../../components/blocks/Related";
 import { ROUTES, LIFE_NEEDS } from "../../lib/routes";
 import { WA } from "../../lib/contact";
 import { VIDEOS } from "../../content/videos";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.resources);
@@ -65,14 +65,15 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
         label="Articles & events"
         title={<>Guidance, and what’s coming up</>}
         lede="Practical explanations of the things people most often ask us about, the films our advisors have recorded, and the sessions that run across the D’Life community."
+        photo={{ src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress" }}
       />
 
-      <Band width="wide" label="Guidance" title={<>Explained in plain language</>}>
+      <E2Band label="Guidance" title={<>Explained in plain language</>}>
         <Prose>
           <p>
             Each of these walks through one area — what it covers, the terms worth understanding, and how a conversation
@@ -80,7 +81,7 @@ export default function Page() {
           </p>
         </Prose>
         <CardGrid cards={guides} columns={3} />
-      </Band>
+      </E2Band>
 
       <SelectedVideos
         videos={VIDEOS}
@@ -92,7 +93,7 @@ export default function Page() {
       />
 
       {/* ⚠️ Standing programme, not a dated calendar. See the note above. */}
-      <Band id="events" tone="sand" width="wide" label="Events" title={<>What runs across the year</>}>
+      <E2Band id="events" tone="sand" label="Events" title={<>What runs across the year</>}>
         <Prose>
           <p>
             D’Life and <a href={ROUTES.dva.path}>DVA</a> run a programme of workshops, forums and community sessions
@@ -144,7 +145,7 @@ export default function Page() {
             cta={{ label: "Ask about attending", wa: WA.event }}
           />
         </div>
-      </Band>
+      </E2Band>
 
       <StayInLoop
         tone="light"
@@ -154,13 +155,21 @@ export default function Page() {
         ack="Thanks — we’ll let you know what’s coming up next."
       />
 
-      <ContextualCTA
+      <E2Closing
+        photo={{ src: "/media/img/youth-workshop.jpg", alt: "", position: "50% 40%" }}
         label="Next step"
         title="Would rather just ask someone?"
-        copy="Reading is a fine place to start, but most questions are quicker to answer in a conversation."
-        wa={WA.question}
-        action="Ask a question"
-        secondary={{ label: "Explore protection & planning", href: ROUTES.solutions.path }}
+        lede="Reading is a fine place to start, but most questions are quicker to answer in a conversation."
+        actions={
+          <>
+            <a className="pill sand" data-wa={WA.question} href="#">
+              <span>Ask a question</span>
+            </a>
+            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+              <span>Explore protection & planning</span>
+            </a>
+          </>
+        }
       />
 
       <RelatedContent keys={["solutions", "youth", "dva"]} tone="sand" />

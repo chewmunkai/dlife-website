@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
+import { E2Band, E2Closing, E2Hero, E2Qa } from "../../components/blocks/E2";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose } from "../../components/blocks/Prose";
+import { Prose } from "../../components/blocks/Prose";
 import SelectedVideos from "../../components/blocks/Video";
-import ContextualCTA from "../../components/blocks/CTA";
 import RelatedContent from "../../components/blocks/Related";
 import { ROUTES } from "../../lib/routes";
 import { WA } from "../../lib/contact";
 import { VIDEOS } from "../../content/videos";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.stories);
@@ -31,7 +31,7 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
         label="Advisor stories"
         title={<>Meet the people behind D’Life</>}
@@ -47,7 +47,7 @@ export default function Page() {
         id="films"
       />
 
-      <Band tone="sand" width="read">
+      <E2Band tone="sand" read>
         <Prose>
           <p>
             These are advisors talking about their work, not testimonials about ours. We have deliberately not scripted
@@ -59,15 +59,23 @@ export default function Page() {
             job these films do not, including the difficult first year.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
-      <ContextualCTA
+      <E2Closing
+        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team", position: "50% 28%" }}
         label="Next step"
         title="Talk to one of them"
-        copy="If a particular story landed, we can put you in touch with the advisor who told it."
-        wa={WA.career}
-        action="Explore a career conversation"
-        secondary={{ label: "Read about the work", href: ROUTES.careers.path }}
+        lede="If a particular story landed, we can put you in touch with the advisor who told it."
+        actions={
+          <>
+            <a className="pill sand" data-wa={WA.career} href="#">
+              <span>Explore a career conversation</span>
+            </a>
+            <a className="pill ghost" href={link(ROUTES.careers.path)}>
+              <span>Read about the work</span>
+            </a>
+          </>
+        }
       />
 
       <RelatedContent keys={["careers", "about", "dva"]} tone="light" />

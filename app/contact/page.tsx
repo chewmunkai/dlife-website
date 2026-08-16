@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import SiteShell from "../../components/site/SiteShell";
+import { E2Band, E2Closing, E2Hero, E2Qa } from "../../components/blocks/E2";
 import JsonLd from "../../components/site/JsonLd";
-import PageHero from "../../components/blocks/PageHero";
-import { Band, Prose } from "../../components/blocks/Prose";
-import Faq from "../../components/blocks/Faq";
+import { Prose } from "../../components/blocks/Prose";
 import RelatedContent from "../../components/blocks/Related";
 import { ROUTES } from "../../lib/routes";
 import { CONTACT, WA } from "../../lib/contact";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.contact);
@@ -88,14 +88,15 @@ export default function Page() {
 
   return (
     <SiteShell path={route.path}>
-      <PageHero
+      <E2Hero
         route={route}
         label="Contact"
         title={<>Talk to a person, not a form</>}
         lede="Pick whichever line below is closest to your situation. It opens WhatsApp with a first message already written, so the right person picks it up."
+        photo={{ src: "/media/img/close-conversation.jpg", alt: "Two people talking across a table" }}
       />
 
-      <Band width="wide" label="Get in touch" title={<>What brings you here?</>}>
+      <E2Band label="Get in touch" title={<>What brings you here?</>}>
         <div className="dl-cards dl-cards--2">
           {ROUTES_IN.map((r) => (
             <article className="dl-card rv" key={r.title}>
@@ -109,9 +110,9 @@ export default function Page() {
             </article>
           ))}
         </div>
-      </Band>
+      </E2Band>
 
-      <Band tone="sand" width="wide" label="Other ways" title={<>Email, phone and office</>}>
+      <E2Band tone="sand" label="Other ways" title={<>Email, phone and office</>}>
         <div className="dl-cards dl-cards--3">
           <article className="dl-card rv">
             <div className="dl-card__body">
@@ -146,9 +147,9 @@ export default function Page() {
             </div>
           </article>
         </div>
-      </Band>
+      </E2Band>
 
-      <Band width="read">
+      <E2Band read>
         <Prose>
           <p>
             If you are not sure which of the above fits, send anything at all. Working out what someone actually needs
@@ -159,9 +160,14 @@ export default function Page() {
             <a href={ROUTES.solutions.path}>protection and planning pages</a> explain most of it without involving us.
           </p>
         </Prose>
-      </Band>
+      </E2Band>
 
-      <Faq items={FAQS} label="Before you message" title={<>Reasonable things to wonder</>} more={{ label: "Read about how we work", href: ROUTES.about.path }} />
+      <E2Band read label="Before you message" title={<>Reasonable things to wonder</>}>
+        <E2Qa items={FAQS} />
+        <p className="dl-prose rv" style={{ marginTop: "clamp(22px, 3vh, 34px)" }}>
+          <a href={link(ROUTES.about.path)}>Read about how we work →</a>
+        </p>
+      </E2Band>
 
       <RelatedContent keys={["solutions", "policy", "careers"]} tone="sand" />
 
