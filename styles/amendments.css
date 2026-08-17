@@ -36,14 +36,36 @@
   background: var(--dl-ivory);
 }
 
-/* The intent bar: a thin utility strip, not a section. Cream keeps it inside
-   the beige family while still reading as a distinct rail. Non-sticky. */
+/* ---- The trust bar ----
+   Round 4: was a chain of things we do not do ("No products in the first
+   meeting"). It now carries credentials in the site's own voice, set out like
+   a partner strip: a copper tick above each item and a hairline between them.
+   Non-sticky, and a rail rather than a section. */
 .bar {
   position: static;
   background: var(--dl-cream);
   border-top: 1px solid rgba(47, 53, 50, .10);
   border-bottom: 1px solid rgba(47, 53, 50, .10);
+  padding-block: clamp(18px, 2.4vh, 26px);
+  align-items: stretch;
 }
+.bar .facts { display: flex; gap: 0; flex-wrap: nowrap; }
+.bar .facts span {
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 clamp(14px, 1.6vw, 26px);
+  border-left: 1px solid rgba(47, 53, 50, .16);
+  font: var(--dl-w-bold) 11px/1.45 var(--dl-sans);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--dl-ink);
+  max-width: 20ch;
+}
+.bar .facts span:first-child { border-left: 0; padding-left: 0; }
+/* The copper tick above each credential, as on the reference strip. */
+.bar .facts span::before {
+  content: ""; display: block; width: 16px; height: 2px;
+  background: var(--dl-copper-d); margin-bottom: 10px;
+}
+.bar strong { align-self: center; }
+@media (max-width: 1080px) { .bar .facts { display: none; } }
 
 /* Consecutive same-ground bands doubled their vertical padding, which is half
    of "too much space, hard to scroll": on one ground the seam is invisible,
@@ -124,7 +146,9 @@
 .moments .mcard {
   position: relative; overflow: hidden;
   background: var(--dl-cream);
-  border-radius: 12px;
+  /* Square corners at the client's direction, which also matches the design
+     system's own note that nothing but an action is round. */
+  border-radius: 0;
   box-shadow: inset 0 0 0 1px var(--s-line-soft);
   display: flex; flex-direction: column;
   transition: transform var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
@@ -147,21 +171,12 @@
   font: 500 clamp(16px, 1.1vw, 18.5px)/1.45 var(--dl-disp);
   color: var(--s-strong); text-wrap: pretty;
 }
-/* The arrow sits on the photograph, in a small ink disc so it holds on any
-   crop, and rotates into the diagonal on hover. */
-.moments .mcard .arw {
-  position: absolute; top: 12px; right: 12px; width: 34px; height: 34px;
-  padding: 7px; border-radius: 50%;
-  background: rgba(11, 33, 29, .58); color: var(--dl-ivory);
-  transition: transform var(--dl-t-base) var(--dl-ease), background var(--dl-t-base) var(--dl-ease);
-}
 @media (hover: hover) {
   .moments .mcard:hover { transform: translateY(var(--dl-lift-card)); box-shadow: var(--dl-shadow-float); }
   .moments .mcard:hover .shot img { filter: saturate(1); transform: scale(1.05); }
-  .moments .mcard:hover .arw { transform: rotate(-45deg); background: var(--dl-copper-d); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .moments .mcard, .moments .mcard .shot img, .moments .mcard .arw { transition: none; }
+  .moments .mcard, .moments .mcard .shot img { transition: none; }
   .moments .mcard .shot img { filter: saturate(1); }
 }
 @media (max-width: 900px) { .moments .rows { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -180,23 +195,24 @@
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(14px, 1.6vw, 22px);
 }
+/* Round 4: four different washes read as four different intentions. One
+   surface for the whole set — the brand's own card cream, square, with a
+   copper rule capping each card. The ordinal and the icon carry the
+   individuality; the colour no longer has to. */
 .ideas .icard {
   position: relative; overflow: hidden;
-  border-radius: 18px;
+  background: var(--dl-cream);
+  border-radius: 0;
+  border-top: 2px solid var(--dl-copper-d);
   padding: clamp(22px, 2.4vw, 30px);
-  min-height: clamp(280px, 34vh, 360px);
+  min-height: clamp(270px, 32vh, 340px);
   display: flex; flex-direction: column;
   box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .07);
   transition: transform var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
 }
-/* Four brand washes, cycled by the component. */
-.ideas .icard.t1 { background: linear-gradient(160deg, rgba(23, 74, 69, .13), rgba(23, 74, 69, .05)); }
-.ideas .icard.t2 { background: linear-gradient(160deg, rgba(156, 90, 55, .14), rgba(156, 90, 55, .05)); }
-.ideas .icard.t3 { background: linear-gradient(160deg, rgba(208, 191, 169, .46), rgba(208, 191, 169, .16)); }
-.ideas .icard.t4 { background: linear-gradient(160deg, rgba(29, 75, 62, .13), rgba(29, 75, 62, .05)); }
 .ideas .icard .no {
-  font: var(--dl-w-medium) 11.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: .04em; color: var(--s-quiet);
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
+  letter-spacing: .16em; color: var(--s-label);
 }
 .ideas .icard .dl-icon { margin-top: clamp(20px, 3vh, 30px); color: var(--dl-teal); }
 .ideas .icard .foot { margin-top: auto; padding-top: clamp(22px, 3vh, 32px); }

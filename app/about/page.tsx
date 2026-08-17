@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, Open, SplitShot, Checks, Closing, Cards } from "../../components/v2/blocks";
+import { Hero, Band, Open, SplitShot, Checks, ClosingCard, Cards } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -197,7 +197,7 @@ export default function Page() {
 
       <SplitShot
         photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team" }}
-        tone="dark"
+        tone="light"
         label="Recognition"
         title="Professional record"
       >
@@ -248,12 +248,7 @@ export default function Page() {
         />
       </Band>
 
-      <Closing
-        photo={{
-          src: "/media/img/community-gathering.jpg",
-          alt: "People seated around a table at a community gathering",
-          position: "50% 26%",
-        }}
+      <ClosingCard
         title="Meet the people, not the brochure"
         lede="If you would rather start by talking to someone than by reading about us, that is usually the better order."
         actions={

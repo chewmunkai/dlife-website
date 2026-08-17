@@ -5,7 +5,7 @@ import JsonLd from "../site/JsonLd";
 import { Hero, Bar, Band, Said, OpenStatement, Moments, Ideas, StepsPanel, ClosingCard } from "./blocks";
 import { SOLUTIONS } from "../../content/solutions";
 import { SOLUTIONS_E2 } from "../../content/solutions-e2";
-import { ROUTES, type RouteKey } from "../../lib/routes";
+import { ROUTES, SOLUTION_SLUGS, type RouteKey } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { waHref } from "../../lib/contact";
 import { breadcrumbLd, faqLd, serviceLd } from "../../lib/seo";
@@ -49,6 +49,10 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
   const e = SOLUTIONS_E2[slug];
   const route = ROUTES[slug as RouteKey];
   const wa = waHref(c.cta.wa);
+  /* The six areas read as a sequence, wrapping at the end, so the closing
+     card always has somewhere new to send the reader. */
+  const order = SOLUTION_SLUGS;
+  const next = order[(order.indexOf(slug as (typeof order)[number]) + 1) % order.length] as RouteKey;
 
   return (
     <Shell>
@@ -120,9 +124,10 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
         </div>
       </section>
 
-      {/* ACT — one premium card; the photograph is the card's own ground. */}
+      {/* ACT — the primary action is this page's own conversation; the
+          secondary now advances the reader to the next area rather than
+          repeating the hero's CTA or dropping them back on the hub. */}
       <ClosingCard
-        photo={e.closing.photo}
         title={e.closing.title}
         lede={e.closing.lede}
         actions={
@@ -130,8 +135,8 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
             <a className="pill" href={wa}>
               <span>{e.action}</span>
             </a>
-            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
-              <span>Explore protection &amp; planning</span>
+            <a className="pill ghost" href={link(ROUTES[next].path)}>
+              <span>Next: {ROUTES[next].label}</span>
             </a>
           </>
         }

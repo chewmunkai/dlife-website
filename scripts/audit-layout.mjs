@@ -7,7 +7,7 @@ const EXPECT = {
   "dva.html": [
     "section.crest dark ink", "section.bleed light", "section.band sand", "section.said ph",
     "section.band light", "section.band sand", "section.spread light", "section.band dark ink",
-    "section.ask-host light", "section.closing",
+    "section.ask-host light", "section.band light close-host",
   ],
   /* August 2026 amendments: open statement, moments, ideas pane, steps
      panel, closing card. */
@@ -22,35 +22,35 @@ const EXPECT = {
   "complaints.html": ["section.hero hero--noart dark", "section.band light band--read", "section.band sand"],
   "solutions.html": [
     "section.hero dark", "div.bar", "section.band light", "section.band sand", "section.stmt light",
-    "section.ask-host sand", "section.closing",
+    "section.ask-host sand", "section.band light close-host",
   ],
   "about.html": [
     "section.hero dark", "section.band light", "section.band dark", "section.band sand",
-    "section.band light", "section.band sand", "section.split-shot dark", "section.band light",
-    "section.closing",
+    "section.band light", "section.band sand", "section.split-shot light", "section.band light",
+    "section.band light close-host",
   ],
   "careers.html": [
     "section.hero dark", "div.bar", "section.band light", "section.band light", "section.band sand",
-    "section.said ph", "section.two two--flip sand", "section.ask-host light", "section.closing",
+    "section.said ph", "section.two two--flip sand", "section.ask-host light", "section.band light close-host",
   ],
   "existing-policy-support.html": [
     "section.hero dark", "div.bar", "section.band light", "section.band sand", "section.bleed light",
     "section.band light", "section.spread sand", "figure.said said--plain dark",
-    "section.ask-host light", "section.closing",
+    "section.ask-host light", "section.band light close-host",
   ],
   "contact.html": [
     "section.hero dark", "section.band light", "section.band sand", "section.band light band--read",
-    "section.ask-host light", "section.closing",
+    "section.ask-host light", "section.band light close-host",
   ],
-  "stories.html": ["section.hero dark", "section.band light", "section.band sand", "section.closing"],
+  "stories.html": ["section.hero dark", "section.band light", "section.band sand", "section.band light close-host"],
   "youth-community.html": [
     "section.hero sand", "section.band light", "section.trip dark",
-    "section.band sand", "section.band light", "section.split-shot dark lift-host", "section.lift",
-    "section.ask-host light", "section.closing",
+    "section.band sand", "section.band light", "section.split-shot light lift-host", "section.lift",
+    "section.ask-host light", "section.band light close-host",
   ],
   "resources.html": [
     "section.hero dark", "section.band light", "section.band sand", "section.band light band--read",
-    "section.band sand band--read", "section.closing",
+    "section.band sand band--read", "section.band light close-host",
   ],
 };
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Film from "../../components/v2/Film";
 import JsonLd from "../../components/site/JsonLd";
-import { Band, Open, Closing, Crumbs } from "../../components/v2/blocks";
+import { Band, Open, ClosingCard, Crumbs } from "../../components/v2/blocks";
 import { VIDEOS } from "../../content/videos";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
@@ -108,8 +108,7 @@ export default function Page() {
         </Open>
       </Band>
 
-      <Closing
-        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team", position: "50% 28%" }}
+      <ClosingCard
         title="Talk to one of them"
         lede="If a particular story landed, we can put you in touch with the advisor who told it."
         actions={

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Rail, Closing, Cards } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Rail, ClosingCard, Cards } from "../../components/v2/blocks";
 import { SOLUTIONS } from "../../content/solutions";
 import { ROUTES, SOLUTION_SLUGS } from "../../lib/routes";
 import { link } from "../../lib/asset";
@@ -88,7 +88,7 @@ export default function Page() {
       />
 
       <Bar
-        facts={["No products in the first meeting", "No cost", "Under an hour"]}
+        facts={["27 years of guidance", "People-first advice", "We stay after the paperwork"]}
         statement="Most people arrive with a situation, not a category."
         action={
           <a className="pill" href={advisor}>
@@ -159,8 +159,7 @@ export default function Page() {
         </div>
       </section>
 
-      <Closing
-        photo={{ src: "/media/img/close-conversation.jpg", alt: "", position: "50% 40%" }}
+      <ClosingCard
         title="Not sure which of these applies to you?"
         lede="That is the most common way people arrive. Tell us the situation and we will work out the category together."
         actions={

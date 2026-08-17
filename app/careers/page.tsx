@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Open, Said, Closing } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Open, Said, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -238,12 +238,7 @@ export default function Page() {
         </div>
       </section>
 
-      <Closing
-        photo={{
-          src: "/media/img/youth-workshop.jpg",
-          alt: "Attendees seated at a workshop session",
-          position: "50% 30%",
-        }}
+      <ClosingCard
         title="Explore a career conversation"
         lede="An honest discussion about what the work involves and whether it fits. It is not an interview, and it does not commit you to anything."
         actions={

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask, { type Question } from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
+import { ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
@@ -333,32 +334,24 @@ export default function Page() {
         </div>
       </section>
 
-      {/* The CTA asks a question rather than inviting an application. */}
-      <section className="closing" style={{ background: "var(--dl-cream)" }}>
-        <div className="shot ph">
-          <img
-            src={asset("/media/img/need-legacy.jpg")}
-            alt="An interior ceiling with a ring chandelier"
-            style={{ objectPosition: "50% 42%" }}
-          />
-        </div>
-        <div className="panel dark">
-          <p className="lbl">Discover DVA</p>
-          <h2>If this sounds like the room you have been looking for</h2>
-          <p className="dl-lede">
-            Membership is by invitation, but a conversation is not. Tell us a little about your practice and we will
-            take it from there.
-          </p>
-          <div className="dl-actions">
-            <a className="pill sand" href={link(ROUTES.contact.path)}>
+      {/* The CTA asks a question rather than inviting an application. Now the
+          standardised next-step card, as on every other page. */}
+      <ClosingCard
+        label="Discover DVA"
+        title="If this sounds like the room you have been looking for"
+        lede="Membership is by invitation, but a conversation is not. Tell us a little about your practice and we will take it from there."
+        note=""
+        actions={
+          <>
+            <a className="pill" href={link(ROUTES.contact.path)}>
               <span>Ask about DVA</span>
             </a>
             <a className="pill ghost" href={link(ROUTES.about.path)}>
               <span>Read about D’Life</span>
             </a>
-          </div>
-        </div>
-      </section>
+          </>
+        }
+      />
 
       <JsonLd data={breadcrumbLd(route)} />
       <JsonLd data={faqLd(FAQS.map(({ q, a }) => ({ q, a })))} />
