@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { asset, link } from "../../lib/asset";
 import { trail, type Route } from "../../lib/routes";
+import { Icon, type IconKey } from "./icons";
 
 /* ============================================================
    Block library for the new design.
@@ -176,35 +177,72 @@ export function OpenStatement({ kick, lead, children }: { kick: string; lead: st
   );
 }
 
-/** The prompting situations as a kanban of cream cards on the page ground:
- *  copper hairline, quiet ordinal, the statement in Lora. */
-export function Moments({ title, items, tone = "light" }: { title: ReactNode; items: ReadonlyArray<ReactNode>; tone?: Tone }) {
+/**
+ * The prompting situations as image-topped cards, three to a row.
+ *
+ * The photograph gives the visitor something to picture beside a sentence
+ * about their own life. It rests desaturated and comes to full colour on
+ * hover, with the corner arrow turning — the same gesture as the reference
+ * the client supplied, done in CSS so no motion library ships and
+ * `prefers-reduced-motion` is honoured (styles/amendments.css §2).
+ */
+export function Moments({
+  title,
+  items,
+  photos,
+  tone = "light",
+}: {
+  title: ReactNode;
+  items: ReadonlyArray<ReactNode>;
+  photos?: ReadonlyArray<Photo>;
+  tone?: Tone;
+}) {
   return (
     <section className={`band moments ${mode(tone)}`}>
       <h2>{title}</h2>
       <div className="rows">
-        {items.map((item, i) => (
-          <div className="card" key={i}>
-            <b>{String(i + 1).padStart(2, "0")}</b>
-            <span>{item}</span>
-          </div>
-        ))}
+        {items.map((item, i) => {
+          const photo = photos?.[i];
+          return (
+            <article className="mcard" key={i}>
+              {photo && (
+                <div className="shot">
+                  <Img photo={photo} />
+                </div>
+              )}
+              <div className="body">
+                <b>{String(i + 1).padStart(2, "0")}</b>
+                <span>{item}</span>
+              </div>
+              <svg className="arw" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                <path d="M5 12h13M12.5 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </article>
+          );
+        })}
       </div>
     </section>
   );
 }
 
-/** Definitions as a windowpane: 2×2 with internal hairlines only. */
+/**
+ * The definitions as rounded tinted cards: ordinal, geometric icon, term,
+ * one plain-language sentence. Structure follows the reference the client
+ * supplied; the tints are brand washes rather than the reference's purple /
+ * green / red, and the icons are the system's own outline set.
+ */
 export function Ideas({
   label,
   title,
   lede,
   items,
+  icons,
 }: {
   label?: string;
   title: ReactNode;
   lede?: ReactNode;
   items: ReadonlyArray<{ term: string; copy: ReactNode }>;
+  icons?: ReadonlyArray<IconKey>;
 }) {
   return (
     <section className="band light ideas">
@@ -213,11 +251,16 @@ export function Ideas({
       {lede && <p className="dl-lede">{lede}</p>}
       <div className="pane">
         {items.map((d, i) => (
-          <div className="cell" key={d.term}>
-            <span className="no">{String(i + 1).padStart(2, "0")}</span>
-            <h3>{d.term}</h3>
-            <p>{d.copy}</p>
-          </div>
+          /* Four brand tints, cycled — the wash says "these are a set of
+             peers", which a single flat surface would not. */
+          <article className={`icard t${(i % 4) + 1}`} key={d.term}>
+            <span className="no">( {String(i + 1).padStart(3, "0")} )</span>
+            {icons?.[i] && <Icon name={icons[i]} />}
+            <div className="foot">
+              <h3>{d.term}</h3>
+              <p>{d.copy}</p>
+            </div>
+          </article>
         ))}
       </div>
     </section>
