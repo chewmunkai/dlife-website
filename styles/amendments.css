@@ -59,13 +59,13 @@
    top rule. Roughly half the height, and the eye lands on the sentence
    instead of scrolling to find it.
    ============================================================ */
+/* Round 3: the full-width rule above the label was cutting across the band
+   with nothing to attach to. The label carries its own weight instead. */
 .dl-open2 {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
   gap: clamp(26px, 4.5vw, 84px);
   align-items: start;
-  padding-top: clamp(8px, 1.6vh, 18px);
-  border-top: 2px solid var(--s-rule);
 }
 .dl-open2 .kick {
   display: block;
@@ -79,7 +79,13 @@
   letter-spacing: -.015em; color: var(--s-heading);
   max-width: 20ch; text-wrap: balance; margin: 0;
 }
-.dl-open2 .side { padding-top: clamp(4px, 1.2vh, 12px); max-width: 48ch; }
+/* The prose column starts on the statement's first baseline, and takes the
+   copper rule the band used to wear full-width. */
+.dl-open2 .side {
+  max-width: 48ch;
+  padding-top: clamp(14px, 2vh, 22px);
+  border-top: 2px solid var(--s-rule);
+}
 /* The lead's remaining sentence, carried as a Lora subline above the prose. */
 .dl-open2 .say-rest {
   font: 500 clamp(17px, 1.45vw, 22px)/1.5 var(--dl-disp);
@@ -88,84 +94,151 @@
 .dl-open2 .side p { color: var(--s-body); }
 .dl-open2 .side p + p { margin-top: 13px; }
 @media (max-width: 860px) {
-  .dl-open2 { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .dl-open2 .side { max-width: none; padding-top: 0; }
+  .dl-open2 { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .dl-open2 .side { max-width: none; }
 }
-/* The wide plate under the opening was 606px of scroll for a single image,
-   which is most of what made this band feel long. Letterboxed to a
-   cinematic strip: the photograph still sets the warmth, at a third of the
-   height. */
+/* Where a wide plate is still used (pages outside the solution template) it
+   stays a controlled strip rather than 600px of scroll for one image, with a
+   taller crop on phones where 24:7 would be a sliver. */
 .band .dl-open2 + .duo { margin-top: clamp(28px, 4vh, 50px); }
 .band .duo--one .a { aspect-ratio: 24 / 7; max-height: 330px; height: auto; }
-/* A 24:7 letterbox is 95px tall on a phone, which is a sliver rather than a
-   photograph. Narrow screens get a portrait-friendly crop instead. */
 @media (max-width: 700px) {
   .band .duo--one .a { aspect-ratio: 3 / 2; max-height: none; }
 }
 
 /* ============================================================
    2 · Moments (.moments)
-   Round 2: the five situations as a clean kanban of cream cards on the page
-   ground. Simple and premium: a copper hairline capping each card, the
-   ordinal small and quiet, the statement in Lora doing the work. Reflows
-   5 → 4 → 3 → 2 → 1 on its own.
+   Round 3: image-topped cards, three to a row. The photograph gives the
+   visitor something to picture beside a sentence about their own life; it
+   rests desaturated and comes to full colour on hover while the corner arrow
+   turns. Same gesture as the client's reference component, in CSS — no
+   motion library, and reduced-motion is honoured.
    ============================================================ */
 .moments h2 { max-width: 24ch; }
 .moments .rows {
   margin-top: var(--dl-head-gap);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(206px, 1fr));
-  gap: clamp(12px, 1.4vw, 20px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 26px);
 }
-.moments .card {
+.moments .mcard {
+  position: relative; overflow: hidden;
   background: var(--dl-cream);
-  border-radius: 10px;
-  border-top: 2px solid var(--dl-copper-d);
-  padding: clamp(20px, 2.4vw, 28px) clamp(18px, 2vw, 24px) clamp(24px, 3vh, 32px);
-  display: flex; flex-direction: column; gap: 12px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--s-line-soft);
+  display: flex; flex-direction: column;
   transition: transform var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
 }
-.moments .card b {
+.moments .mcard .shot { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--s-plate); }
+.moments .mcard .shot img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(.35);
+  transition: filter var(--dl-t-plate) var(--dl-ease), transform var(--dl-t-plate) var(--dl-ease);
+}
+.moments .mcard .body {
+  padding: clamp(18px, 2vw, 24px) clamp(18px, 2vw, 24px) clamp(22px, 2.6vh, 28px);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.moments .mcard b {
   font: var(--dl-w-bold) 11px/1 var(--dl-sans);
   letter-spacing: .16em; color: var(--s-label);
 }
-.moments .card span {
-  font: 500 clamp(16px, 1.15vw, 19px)/1.45 var(--dl-disp);
+.moments .mcard span {
+  font: 500 clamp(16px, 1.1vw, 18.5px)/1.45 var(--dl-disp);
   color: var(--s-strong); text-wrap: pretty;
 }
-@media (hover: hover) {
-  .moments .card:hover { transform: translateY(var(--dl-lift-card)); box-shadow: var(--dl-shadow-float); }
+/* The arrow sits on the photograph, in a small ink disc so it holds on any
+   crop, and rotates into the diagonal on hover. */
+.moments .mcard .arw {
+  position: absolute; top: 12px; right: 12px; width: 34px; height: 34px;
+  padding: 7px; border-radius: 50%;
+  background: rgba(11, 33, 29, .58); color: var(--dl-ivory);
+  transition: transform var(--dl-t-base) var(--dl-ease), background var(--dl-t-base) var(--dl-ease);
 }
-@media (prefers-reduced-motion: reduce) { .moments .card { transition: none; } }
+@media (hover: hover) {
+  .moments .mcard:hover { transform: translateY(var(--dl-lift-card)); box-shadow: var(--dl-shadow-float); }
+  .moments .mcard:hover .shot img { filter: saturate(1); transform: scale(1.05); }
+  .moments .mcard:hover .arw { transform: rotate(-45deg); background: var(--dl-copper-d); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .moments .mcard, .moments .mcard .shot img, .moments .mcard .arw { transition: none; }
+  .moments .mcard .shot img { filter: saturate(1); }
+}
+@media (max-width: 900px) { .moments .rows { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .moments .rows { grid-template-columns: minmax(0, 1fr); } }
 
 /* ============================================================
-   3 · Ideas (.ideas) — the hairline windowpane. Unchanged in round 2.
+   3 · Ideas (.ideas)
+   Round 3: rounded tinted cards — ordinal in mono, geometric icon, term,
+   one sentence. Structure from the client's reference; the tints are brand
+   washes (teal, copper, sand, green at low alpha) rather than the
+   reference's purple / green / red, so a card set still reads as D'Life.
+   The icon set is components/v2/icons.
    ============================================================ */
 .ideas .pane {
   margin-top: var(--dl-head-gap);
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid var(--s-line);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 22px);
 }
-.ideas .cell {
-  padding: clamp(24px, 3.2vh, 40px) clamp(22px, 2.6vw, 44px) clamp(26px, 3.6vh, 44px) 0;
-  border-bottom: 1px solid var(--s-line);
+.ideas .icard {
+  position: relative; overflow: hidden;
+  border-radius: 18px;
+  padding: clamp(22px, 2.4vw, 30px);
+  min-height: clamp(280px, 34vh, 360px);
+  display: flex; flex-direction: column;
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .07);
+  transition: transform var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
 }
-.ideas .cell:nth-child(2n) {
-  padding-left: clamp(22px, 2.6vw, 44px); padding-right: 0;
-  border-left: 1px solid var(--s-line);
+/* Four brand washes, cycled by the component. */
+.ideas .icard.t1 { background: linear-gradient(160deg, rgba(23, 74, 69, .13), rgba(23, 74, 69, .05)); }
+.ideas .icard.t2 { background: linear-gradient(160deg, rgba(156, 90, 55, .14), rgba(156, 90, 55, .05)); }
+.ideas .icard.t3 { background: linear-gradient(160deg, rgba(208, 191, 169, .46), rgba(208, 191, 169, .16)); }
+.ideas .icard.t4 { background: linear-gradient(160deg, rgba(29, 75, 62, .13), rgba(29, 75, 62, .05)); }
+.ideas .icard .no {
+  font: var(--dl-w-medium) 11.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .04em; color: var(--s-quiet);
 }
-.ideas .cell .no {
-  display: block; font: var(--dl-w-bold) 11px/1 var(--dl-sans);
-  letter-spacing: .16em; color: var(--s-label); margin-bottom: 13px;
+.ideas .icard .dl-icon { margin-top: clamp(20px, 3vh, 30px); color: var(--dl-teal); }
+.ideas .icard .foot { margin-top: auto; padding-top: clamp(22px, 3vh, 32px); }
+.ideas .icard h3 { font-size: clamp(18px, 1.4vw, 22px); line-height: 1.22; margin: 0 0 8px; }
+.ideas .icard p { color: var(--s-muted); font-size: var(--dl-body-sm); line-height: 1.6; margin: 0; }
+@media (hover: hover) {
+  .ideas .icard:hover { transform: translateY(var(--dl-lift-card)); box-shadow: var(--dl-shadow-float); }
 }
-.ideas .cell h3 { font-size: clamp(20px, 1.8vw, 26px); margin: 0 0 9px; }
-.ideas .cell p { color: var(--s-muted); max-width: 46ch; margin: 0; }
-@media (max-width: 760px) {
+@media (prefers-reduced-motion: reduce) { .ideas .icard { transition: none; } }
+/* Five-term pages (medical) wrap to a second row rather than squeezing. */
+@media (max-width: 1180px) { .ideas .pane { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
   .ideas .pane { grid-template-columns: minmax(0, 1fr); }
-  .ideas .cell, .ideas .cell:nth-child(2n) {
-    padding-left: 0; padding-right: 0; border-left: 0;
-  }
+  .ideas .icard { min-height: 0; }
 }
+
+/* ============================================================
+   3b · One subheadline size
+   `.dl-lede` was doing three jobs at three scales (hero lede, section
+   subheadline, panel lede). Section subheadlines are now one size with one
+   measure and one margin, so the rhythm reads as deliberate. The hero keeps
+   its larger setting.
+   ============================================================ */
+/* Every lede on the page — hero, section subheadline, panel, card — now
+   resolves to one size and one margin. Previously the same class rendered at
+   16.6px, 18px and 20.9px on a single page depending on which parent it sat
+   in, which read as three different intentions. */
+.wrap .dl-lede,
+/* pages.css sets the hero's lede one step smaller at narrow widths, which
+   put it half a pixel off every other lede on a phone. Matched here. */
+.wrap .hero .card .dl-lede {
+  font: var(--dl-w-regular) clamp(16.5px, 1.25vw, 19px)/1.6 var(--dl-sans);
+  margin-top: clamp(14px, 1.8vh, 18px);
+}
+.wrap :is(.band, .moments, .ideas, .ask-host, .spread, .trip, .stmt) > .dl-lede {
+  color: var(--s-muted);
+  max-width: 62ch;
+}
+/* A label above a heading needs less air beneath it than a heading needs
+   above its body copy — compact, without crowding. */
+.wrap :is(.band, .moments, .ideas, .ask-host) > .lbl { margin-bottom: clamp(10px, 1.4vh, 14px); }
+.wrap :is(.band, .moments, .ideas) > h2 { margin-top: 0; }
 
 /* ============================================================
    4 · Steps panel (.steps-panel)

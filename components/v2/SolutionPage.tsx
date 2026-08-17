@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Shell from "./Shell";
 import Ask from "./Ask";
 import JsonLd from "../site/JsonLd";
-import { Hero, Bar, Band, Duo, Said, OpenStatement, Moments, Ideas, StepsPanel, ClosingCard } from "./blocks";
+import { Hero, Bar, Band, Said, OpenStatement, Moments, Ideas, StepsPanel, ClosingCard } from "./blocks";
 import { SOLUTIONS } from "../../content/solutions";
 import { SOLUTIONS_E2 } from "../../content/solutions-e2";
 import { ROUTES, type RouteKey } from "../../lib/routes";
@@ -75,20 +75,29 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
         }
       />
 
+      {/* The opening carries no photograph: the letterboxed plate sat between
+          the statement and the section below it at an awkward crop, and the
+          page already opens on the hero image and closes on another. Type
+          alone here reads more confidently. */}
       <Band>
         <OpenStatement kick={c.label} lead={e.open.lead}>
           {e.open.prose.map((p) => (
             <p key={p}>{withPolicyLink(p)}</p>
           ))}
         </OpenStatement>
-        <Duo a={e.duo} />
       </Band>
 
-      {/* RECOGNISE — the visitor's own situations, at reading scale. */}
-      <Moments title={e.split.title} items={c.recognise.questions} />
+      {/* RECOGNISE — the visitor's own situations, each with a photograph. */}
+      <Moments title={e.split.title} items={c.recognise.questions} photos={e.moments} />
 
-      {/* EXPLAIN — the windowpane. */}
-      <Ideas label={e.explain.label} title={e.explain.title} lede={e.explain.lede} items={c.explain.terms} />
+      {/* EXPLAIN — tinted icon cards. */}
+      <Ideas
+        label={e.explain.label}
+        title={e.explain.title}
+        lede={e.explain.lede}
+        items={c.explain.terms}
+        icons={e.ideaIcons}
+      />
 
       {/* The steps, on their dark room. */}
       <StepsPanel label={e.steps.label} title={e.steps.title} lede={e.steps.lede} steps={c.steps.items} />

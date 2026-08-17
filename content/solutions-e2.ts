@@ -1,4 +1,5 @@
 import type { Photo } from "../components/blocks/E2";
+import type { IconKey } from "../components/v2/icons";
 
 /* ============================================================
    D'Life — Solutions pages, direction E2 layer.
@@ -28,6 +29,17 @@ export type SolutionE2 = {
   duo: Photo & { caption?: string };
   /** Half-page photograph beside the "what prompts this" ledger. */
   split: { photo: Photo; label: string; title: string; flip: boolean };
+  /**
+   * One photograph per prompting moment, in the same order as
+   * `recognise.questions` in content/solutions.ts. These are atmospheric
+   * rather than literal — they give the visitor something to picture beside
+   * a sentence about their own life. Drawn from the repo's Malaysian
+   * photography; several are reused across pages where the subject genuinely
+   * overlaps.
+   */
+  moments: Photo[];
+  /** One icon per `explain.terms` entry, same order. Keys: components/v2/icons. */
+  ideaIcons: IconKey[];
   explain: { label: string; title: string; lede: string };
   steps: { label: string; title: string; lede?: string };
   /** `photo` omitted renders the plain variant — the same quote, no photograph. */
@@ -50,6 +62,14 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     },
     duo: { src: "/media/img/close-conversation.jpg", alt: "An advisor mid-conversation with two people" },
     split: { photo: { src: "/media/img/path-future.jpg", alt: "A desk with photographs and keepsakes" }, label: "What usually prompts this", title: "Five moments that start this conversation", flip: false },
+    moments: [
+      { src: "/media/img/need-family-malaysia.jpg", alt: "A family together at home" },
+      { src: "/media/img/need-planning.jpg", alt: "Keys and paperwork on a table" },
+      { src: "/media/img/path-family.jpg", alt: "Three generations of a family" },
+      { src: "/media/img/close-conversation.jpg", alt: "Two people in a careful conversation" },
+      { src: "/media/img/policy-review.jpg", alt: "A policy document being read together" },
+    ],
+    ideaIcons: ["shield", "people", "pulse", "doc"],
     explain: { label: "What it actually means", title: "The four ideas that do the work", lede: "Each one explained in a sentence you will not need translated. Most families use two or three of them, not all four." },
     steps: { label: "How the conversation goes", title: "It is a conversation before it is anything else" },
     said: { photo: { src: "/media/img/path-career.jpg", alt: "A woman looking out through a window at trees", position: "18% 50%" }, quote: "The families who are glad they did this are rarely the ones who bought the most. They are the ones who understood what they bought.", cite: "D’Life advisory team" },
@@ -68,6 +88,14 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     },
     duo: { src: "/media/img/path-review.jpg", alt: "", caption: "Fixed costs first. The salary figure comes later." },
     split: { photo: { src: "/media/img/close-conversation.jpg", alt: "" }, label: "One question worth sitting with", title: "What would change, and in what order", flip: false },
+    moments: [
+      { src: "/media/img/need-planning.jpg", alt: "Household paperwork on a table" },
+      { src: "/media/img/path-review.jpg", alt: "Figures being worked through" },
+      { src: "/media/img/need-income-malaysia.jpg", alt: "A couple at home" },
+      { src: "/media/img/close-conversation.jpg", alt: "Two people in a careful conversation" },
+      { src: "/media/img/community-gathering.jpg", alt: "People seated around a table" },
+    ],
+    ideaIcons: ["coins", "clock", "gauge", "people"],
     explain: { label: "What it actually means", title: "What income protection covers", lede: "This area gets confused with medical cover more often than any other. They do different jobs, and most households need to understand both." },
     steps: { label: "How the conversation goes", title: "How we work it through" },
     said: { quote: "People insure the car and the house without thinking. The income that pays for both is the one that gets left to last.", cite: "D’Life advisory team" },
@@ -86,6 +114,14 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     },
     duo: { src: "/media/img/policy-review.jpg", alt: "" },
     split: { photo: { src: "/media/img/path-review.jpg", alt: "" }, label: "What people usually want to know", title: "The questions that come up every time", flip: false },
+    moments: [
+      { src: "/media/img/policy-review.jpg", alt: "A schedule of benefits being read" },
+      { src: "/media/img/path-review.jpg", alt: "Figures being worked through" },
+      { src: "/media/img/need-health-malaysia.jpg", alt: "A hospital corridor" },
+      { src: "/media/img/path-career.jpg", alt: "A woman looking out through a window" },
+      { src: "/media/img/close-conversation.jpg", alt: "Two people in a careful conversation" },
+    ],
+    ideaIcons: ["gauge", "coins", "building", "pulse", "swap"],
     explain: { label: "What it actually means", title: "The parts of a plan that decide everything", lede: "Five terms. Once these are clear, most medical plans become straightforward to compare." },
     steps: { label: "How the conversation goes", title: "How a medical review works", lede: "Most people who come to us on this subject already have cover. The work is usually understanding it, not replacing it." },
     said: { photo: { src: "/media/img/close-conversation.jpg", alt: "" }, quote: "Ninety per cent of the medical questions we are asked are answered by a document the client already owns. Reading it together is most of the job.", cite: "D’Life advisory team" },
@@ -104,6 +140,14 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     },
     duo: { src: "/media/img/community-gathering.jpg", alt: "", caption: "The number follows from the life you have in mind." },
     split: { photo: { src: "/media/img/need-income.jpg", alt: "" }, label: "Where people usually start", title: "The worries underneath the feeling", flip: false },
+    moments: [
+      { src: "/media/img/need-planning.jpg", alt: "Retirement paperwork on a table" },
+      { src: "/media/img/path-future.jpg", alt: "A desk with photographs and keepsakes" },
+      { src: "/media/img/path-review.jpg", alt: "Figures being worked through" },
+      { src: "/media/img/path-family.jpg", alt: "A family at home together" },
+      { src: "/media/img/community-gathering.jpg", alt: "People seated around a table" },
+    ],
+    ideaIcons: ["coins", "growth", "clock", "shield"],
     explain: { label: "What it actually means", title: "The pieces of a retirement picture", lede: "Four components, and most Malaysian households already have at least two of them." },
     steps: { label: "How the conversation goes", title: "How we approach it" },
     said: { quote: "The best plans we see are not the most sophisticated ones. They are the ones the client can still explain, five years later, without looking anything up.", cite: "D’Life advisory team" },
@@ -122,6 +166,14 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     },
     duo: { src: "/media/img/path-family.jpg", alt: "", caption: "Nominations kept current resolve more difficulty than anything else on this page." },
     split: { photo: { src: "/media/img/policy-review.jpg", alt: "" }, label: "The questions behind this one", title: "What people are actually asking", flip: false },
+    moments: [
+      { src: "/media/img/need-legacy-malaysia.jpg", alt: "An interior with warm evening light" },
+      { src: "/media/img/path-family.jpg", alt: "A family at home together" },
+      { src: "/media/img/dva-team.jpg", alt: "A business team together" },
+      { src: "/media/img/close-conversation.jpg", alt: "Two people in a careful conversation" },
+      { src: "/media/img/policy-review.jpg", alt: "Documents being read together" },
+    ],
+    ideaIcons: ["growth", "doc", "coins", "people"],
     explain: { label: "What it actually means", title: "What this covers", lede: "Some of this is financial planning and some of it is administration. Both matter, and the administrative half is usually the neglected one." },
     steps: { label: "How the conversation goes", title: "How we work with you on this", lede: "Estate matters touch law and tax as well as financial planning. We are clear about where our advice ends." },
     said: { photo: { src: "/media/img/community-gathering.jpg", alt: "" }, quote: "The families who have the easiest time are not the wealthiest. They are the ones where someone wrote things down and told somebody where they were.", cite: "D’Life advisory team" },
@@ -140,6 +192,14 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     },
     duo: { src: "/media/img/dva-workshop.jpg", alt: "" },
     split: { photo: { src: "/media/img/dva-team.jpg", alt: "" }, label: "What businesses come to us with", title: "The point at which the question arrives", flip: false },
+    moments: [
+      { src: "/media/img/dva-team.jpg", alt: "A business team together" },
+      { src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress" },
+      { src: "/media/img/close-conversation.jpg", alt: "Two people in a careful conversation" },
+      { src: "/media/img/policy-review.jpg", alt: "Scheme documents being reviewed" },
+      { src: "/media/img/community-gathering.jpg", alt: "Colleagues seated around a table" },
+    ],
+    ideaIcons: ["people", "building", "shield", "doc"],
     explain: { label: "What it actually means", title: "What we help with", lede: "Three areas. Most companies need the first, and should at least have considered the other two." },
     steps: { label: "How the conversation goes", title: "How an engagement works" },
     said: { quote: "A benefits scheme nobody has explained to the staff is a cost, not a benefit. Half the value is in the briefing.", cite: "D’Life advisory team" },
