@@ -63,7 +63,7 @@ export const ORGANISATION_LD = {
       "@type": ["FinancialService", "InsuranceAgency"],
       "@id": ORG_ID,
       name: "D’Life",
-      legalName: "D’Life Revolution",
+      legalName: "D’Life Sdn Bhd",
       url: SITE,
       slogan: "Real Support. Beyond the Policy.",
       description: ROUTES.home.description,

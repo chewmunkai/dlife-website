@@ -1,6 +1,6 @@
 # D'Life — Real Support. Beyond the Policy.
 
-Marketing site for **D'Life Revolution**, a Malaysian financial advisory and
+Marketing site for **D'Life Sdn Bhd**, a Malaysian financial advisory and
 insurance agency. Built to the client's *Brand, Website Direction &
 Implementation Guide (Rev 4)* and its companion *Visual System & Prototype
 Reference*.

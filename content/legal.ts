@@ -53,7 +53,7 @@ export const LEGAL: Record<string, LegalContent> = {
       {
         heading: "Who we are",
         paras: [
-          `D’Life Revolution ${tbc("company registration number and registered address")} is a financial advisory and insurance agency operating in Malaysia. This policy explains what we do with personal information you give us through this website or in the course of an advisory relationship.`,
+          `D’Life Sdn Bhd ${tbc("company registration number and registered address")} is a financial advisory and insurance agency operating in Malaysia. This policy explains what we do with personal information you give us through this website or in the course of an advisory relationship.`,
           "If you have a question about anything in this policy, or you want to exercise any of the rights described below, contact us at hello@dlife.com.my.",
         ],
       },
@@ -113,7 +113,7 @@ export const LEGAL: Record<string, LegalContent> = {
       {
         heading: "About these terms",
         paras: [
-          `This website is operated by D’Life Revolution ${tbc("company registration number")}. By using it, you accept these terms.`,
+          `This website is operated by D’Life Sdn Bhd ${tbc("company registration number")}. By using it, you accept these terms.`,
         ],
       },
       {

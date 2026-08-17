@@ -47,7 +47,7 @@ export default function Page() {
         <div className="reach">
           <div className="reach__info">
             <p className="lbl">Where to find us</p>
-            <h2>D’Life Revolution</h2>
+            <h2>D’Life Sdn Bhd</h2>
             <p className="dl-lede">
               A Malaysian financial advisory and insurance agency, based in the Klang Valley and working with clients
               across the country.
@@ -100,7 +100,7 @@ export default function Page() {
         data={{
           "@context": "https://schema.org",
           "@type": "FinancialService",
-          name: "D’Life Revolution",
+          name: "D’Life Sdn Bhd",
           email: CONTACT.email,
           telephone: `+${WA_NUMBER}`,
           address: { "@type": "PostalAddress", addressLocality: "Kuala Lumpur", addressCountry: "MY" },

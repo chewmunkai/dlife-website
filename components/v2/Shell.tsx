@@ -202,7 +202,7 @@ export default function Shell({ children }: { children: ReactNode }) {
         <div className="ft2-note">
           <p className="k">General information</p>
           <p>
-            D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read
+            D’Life Sdn Bhd is a financial advisory and insurance agency operating in Malaysia. Anything you read
             here is general information, not personal advice. It does not take your circumstances into account. A
             recommendation only follows a conversation, a needs assessment and the relevant product disclosure
             documents.
@@ -211,7 +211,7 @@ export default function Shell({ children }: { children: ReactNode }) {
 
         <div className="ft2-base">
           <span>
-            © {new Date().getFullYear()} D’Life Revolution
+            © {new Date().getFullYear()} D’Life Sdn Bhd
             <em>Financial advisory · Est. 1999, Malaysia</em>
           </span>
           <div className="lx">

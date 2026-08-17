@@ -159,7 +159,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           headline: a.title,
           description: a.blurb,
           datePublished: a.date,
-          author: { "@type": "Organization", name: "D’Life Revolution" },
+          author: { "@type": "Organization", name: "D’Life Sdn Bhd" },
         }}
       />
     </Shell>

@@ -114,14 +114,14 @@ export function SiteFooter() {
           real copy. */}
       <div className="fine">
         <p className="note">
-          D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read here
+          D’Life Sdn Bhd is a financial advisory and insurance agency operating in Malaysia. Anything you read here
           is general information, not personal advice. It does not take your circumstances into account. A
           recommendation only follows a conversation, a needs assessment and the relevant product disclosure documents.
         </p>
       </div>
 
       <div className="base">
-        <span>© 2026 D’Life Revolution. All rights reserved.</span>
+        <span>© 2026 D’Life Sdn Bhd. All rights reserved.</span>
         <div className="lx">
           {LEGAL_NAV.map((l) => (
             <a href={link(l.href)} key={l.href}>
