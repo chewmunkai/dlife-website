@@ -340,7 +340,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Planning for your future",
     lede:
       "Retirement planning is less about a number than about a series of decisions you could explain, in your own words, to your own family.",
-    photo: { src: "/media/img/sol-retire-hero.jpg", alt: "An older couple outside their home" },
+    photo: { src: "/media/img/need-family.jpg", alt: "People sitting together at an outdoor table" },
     recognise: {
       title: "Where people usually start",
       intro:
