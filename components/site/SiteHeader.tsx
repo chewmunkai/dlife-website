@@ -1,4 +1,10 @@
-import { PRIMARY_NAV, ROUTES } from "../../lib/routes";
+import { ROUTES } from "../../lib/routes";
+/* The homepage shares the ported pages' navigation model so the bar carries
+   the same seven pillars in the same order everywhere. lib/routes' PRIMARY_NAV
+   held the older five-pillar architecture, with About buried under Community
+   and no Articles & Events. Only the data is shared: the markup and styling
+   here are the approved homepage chrome. */
+import { NAV, OVERLAY_NAV } from "../v2/nav";
 import { WA } from "../../lib/contact";
 import { link } from "../../lib/asset";
 import Logo from "./Logo";
@@ -35,7 +41,7 @@ export function SiteHeader({ path }: { path: string }) {
         <Logo alt="" />
       </a>
       <nav className="nav" aria-label="Primary">
-        {PRIMARY_NAV.map((item) =>
+        {NAV.map((item) =>
           item.children ? (
             <div className="grp" key={item.label}>
               <a
@@ -84,7 +90,7 @@ export function SiteHeader({ path }: { path: string }) {
 }
 
 /**
- * Full-screen overlay menu, opened by the burger. Carries the same five
+ * Full-screen overlay menu, opened by the burger. Carries the same seven
  * pillars as the bar — below the nav's breakpoint it is the only navigation,
  * so it cannot be a reduced set.
  */
@@ -92,7 +98,7 @@ export function SiteMenu({ path }: { path: string }) {
   return (
     <nav id="menu" aria-hidden="true">
       <div className="big">
-        {PRIMARY_NAV.map((item, i) => (
+        {OVERLAY_NAV.map((item, i) => (
           <a
             href={link(item.href)}
             key={item.href}

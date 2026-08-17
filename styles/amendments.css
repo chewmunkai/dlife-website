@@ -530,3 +530,59 @@
 .arts .art p { color: var(--s-muted); font-size: var(--dl-body-sm); line-height: 1.6; margin: 0; }
 @media (max-width: 860px) { .arts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .arts { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============================================================
+   10 · Article page (.art-head, .art-body)
+   Round 6: the reading template. One measure, one rhythm, and a lead plate
+   that sits under the headline rather than behind it — an article is read,
+   not scanned, so nothing competes with the first line of body copy.
+   ============================================================ */
+.art-head { padding-bottom: 0; }
+.art-head h1 {
+  font-size: clamp(31px, 4vw, 60px); line-height: 1.05;
+  max-width: 26ch; text-wrap: balance; margin-top: 10px;
+}
+.art-head .dl-lede { max-width: 54ch; }
+.art-meta {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline;
+  margin-top: clamp(18px, 2.4vh, 26px);
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--s-quiet);
+}
+.art-meta em { font-style: normal; color: var(--s-line); }
+.art-plate {
+  margin-top: clamp(26px, 4vh, 46px);
+  aspect-ratio: 21 / 9; max-height: 420px;
+}
+.art-plate img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 700px) { .art-plate { aspect-ratio: 3 / 2; max-height: none; } }
+
+/* The body: one column at a comfortable measure, centred on the container. */
+.art-body { max-width: 68ch; }
+.art-body h2 {
+  font-size: clamp(21px, 2vw, 30px); line-height: 1.18;
+  margin: clamp(30px, 4.4vh, 52px) 0 12px; max-width: 34ch;
+}
+.art-body p { margin: 0 0 16px; }
+.art-body ul {
+  margin: 4px 0 22px; padding: 0; list-style: none;
+  display: grid; gap: 10px;
+}
+.art-body ul li { padding-left: 22px; position: relative; }
+.art-body ul li::before {
+  content: ""; position: absolute; left: 0; top: .68em;
+  width: 9px; height: 2px; background: var(--dl-copper-d);
+}
+.art-body blockquote {
+  margin: clamp(28px, 4vh, 44px) 0;
+  padding-left: clamp(20px, 2.4vw, 32px);
+  border-left: var(--dl-rule-w) solid var(--s-rule);
+}
+.art-body blockquote p {
+  font: 500 clamp(19px, 1.8vw, 26px)/1.42 var(--dl-disp);
+  color: var(--s-heading); margin: 0 0 10px; text-wrap: pretty;
+}
+.art-body blockquote cite {
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans); font-style: normal;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--s-label);
+}

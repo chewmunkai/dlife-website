@@ -301,6 +301,12 @@ export function trail(route: Route): Route[] {
    Solutions and Community carry panels; the rest are direct. */
 export type NavItem = { label: string; href: string; children?: Array<{ label: string; href: string }> };
 
+/**
+ * @deprecated Unused since the homepage header moved to components/v2/nav's
+ * NAV (August 2026). Kept only so the older five-pillar architecture is on
+ * record: About sat under Community and Articles & Events was absent. Delete
+ * once nothing references NavItem either.
+ */
 export const PRIMARY_NAV: NavItem[] = [
   {
     label: "Solutions",
