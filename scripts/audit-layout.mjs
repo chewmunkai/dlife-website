@@ -5,9 +5,8 @@ import { readFileSync } from "node:fs";
    by tag + class. */
 const EXPECT = {
   "dva.html": [
-    "section.crest dark ink", "section.bleed light", "section.band sand", "section.said ph",
-    "section.band light", "section.band sand", "section.spread light", "section.band dark ink",
-    "section.ask-host light", "section.band light close-host",
+    "section.crest dark ink", "section.bleed light", "section.band sand", "section.band light", "section.band sand", "section.spread light", "section.band dark ink", "section.ask-host light", "section.band light close-host",
+  
   ],
   /* August 2026 amendments: open statement, moments, ideas pane, steps
      panel, closing card. */
@@ -30,27 +29,28 @@ const EXPECT = {
     "section.band light close-host",
   ],
   "careers.html": [
-    "section.hero dark", "div.bar", "section.band light", "section.band light", "section.band sand",
-    "section.said ph", "section.two two--flip sand", "section.ask-host light", "section.band light close-host",
+    "section.hero dark", "div.bar", "section.band light", "section.band light", "section.band sand", "section.band light spreview", "section.two two--flip sand", "section.ask-host light", "section.band light close-host",
+  
   ],
   "existing-policy-support.html": [
-    "section.hero dark", "div.bar", "section.band light", "section.band sand", "section.bleed light",
-    "section.band light", "section.spread sand", "figure.said said--plain dark",
-    "section.ask-host light", "section.band light close-host",
+    "section.hero dark", "div.bar", "section.band light", "section.band light ideas", "section.band light", "section.band light", "section.spread sand", "section.ask-host light", "section.band light close-host",
+  
   ],
   "contact.html": [
     "section.hero dark", "section.band light", "section.band sand", "section.band light band--read",
     "section.ask-host light", "section.band light close-host",
   ],
-  "stories.html": ["section.hero dark", "section.band light", "section.band sand", "section.band light close-host"],
+  "stories.html": [
+    "section.hero dark", "section.band light", "section.band light", "section.band light close-host",
+  ],
   "youth-community.html": [
     "section.hero sand", "section.band light", "section.trip dark",
     "section.band sand", "section.band light", "section.split-shot light lift-host", "section.lift",
     "section.ask-host light", "section.band light close-host",
   ],
   "resources.html": [
-    "section.hero dark", "section.band light", "section.band sand", "section.band light band--read",
-    "section.band sand band--read", "section.band light close-host",
+    "section.hero dark", "section.band light", "section.band light", "section.band light close-host",
+  
   ],
 };
 

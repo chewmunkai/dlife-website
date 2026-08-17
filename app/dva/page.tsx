@@ -211,21 +211,6 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="said ph">
-        <img
-          src={asset("/media/img/dva-workshop.jpg")}
-          alt="A presenter leading a workshop session"
-          style={{ objectPosition: "30% 40%" }}
-        />
-        <figure>
-          <div className="r" />
-          <blockquote>
-            “Sustainable success is achieved through integrity, continuous growth, meaningful collaboration, and
-            creating lasting value for clients.”
-          </blockquote>
-          <figcaption>Founding principle</figcaption>
-        </figure>
-      </section>
 
       <section className="band light">
         <p className="lbl">What members develop</p>

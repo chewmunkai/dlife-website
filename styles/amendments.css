@@ -389,3 +389,144 @@
 .ft2-base a { color: var(--s-quiet); }
 .ft2-base a:hover { color: var(--dl-ivory); opacity: 1; }
 .ft2-base .top { color: rgba(246, 241, 232, .78); }
+
+/* ============================================================
+   7 · Stories preview (.spreview)
+   Round 5: replaces the unattributed pull-quote on Careers. Real film
+   posters, runtimes and categories, routing to the page where they play.
+   ============================================================ */
+.spreview .reel {
+  margin-top: var(--dl-head-gap);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 26px);
+}
+.spreview .tile { display: grid; gap: 12px; color: inherit; }
+.spreview .tile .ph {
+  position: relative; overflow: hidden; aspect-ratio: 4 / 5;
+  background: var(--s-plate);
+}
+.spreview .tile img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(.4);
+  transition: filter var(--dl-t-plate) var(--dl-ease), transform var(--dl-t-plate) var(--dl-ease);
+}
+.spreview .tile .play {
+  position: absolute; left: 14px; bottom: 14px;
+  width: 38px; height: 38px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(11, 33, 29, .62); color: var(--dl-ivory);
+  transition: background var(--dl-t-base) var(--dl-ease);
+}
+.spreview .tile .run {
+  position: absolute; right: 12px; bottom: 16px;
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans); letter-spacing: .12em;
+  color: var(--dl-ivory); text-shadow: 0 1px 6px rgba(11, 33, 29, .6);
+}
+.spreview .tile .cat {
+  font: var(--dl-w-bold) 10.5px/1 var(--dl-sans); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--s-label);
+}
+.spreview .tile .ttl {
+  font: var(--dl-w-semibold) clamp(17px, 1.3vw, 21px)/1.25 var(--dl-disp);
+  color: var(--s-heading);
+}
+@media (hover: hover) {
+  .spreview .tile:hover img { filter: saturate(1); transform: scale(1.04); }
+  .spreview .tile:hover .play { background: var(--dl-copper-d); }
+  .spreview .tile:hover .ttl { color: var(--s-accent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spreview .tile img { transition: none; filter: saturate(1); }
+}
+@media (max-width: 860px) { .spreview .reel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .spreview .reel { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============================================================
+   8 · Numbered points (.points)
+   Round 5: the eight review points as a 2 x 4 timeline, adapted from the
+   client's reference (bordered numeral circles joined by a connecting line)
+   into the brand's hairlines and teal.
+
+   Column flow, not row flow: with eight items in a two-column grid the
+   default row-first fill would number them 1,2 / 3,4 across, and the
+   connecting line would then join items that do not follow each other.
+   `grid-auto-flow: column` with four explicit rows gives 1-4 down the first
+   column and 5-8 down the second, which is what the line is describing.
+   ============================================================ */
+.points {
+  margin-top: var(--dl-head-gap);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(4, auto);
+  grid-auto-flow: column;
+  column-gap: clamp(28px, 4.5vw, 80px);
+}
+.points .pt {
+  position: relative;
+  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(16px, 1.6vw, 22px);
+  padding: clamp(14px, 1.8vh, 20px) 0;
+}
+/* The connecting line, clipped to a half-run on the first and last of each
+   column so it starts and stops inside a numeral rather than in mid-air. */
+.points .pt::before {
+  content: ""; position: absolute; left: 21px; top: 0; bottom: 0;
+  width: 1px; background: var(--s-line);
+}
+.points .pt:nth-child(4n + 1)::before { top: 22px; }
+.points .pt:nth-child(4n)::before { bottom: calc(100% - 22px); }
+.points .pt .n {
+  position: relative; z-index: 1;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--s-bg);
+  box-shadow: inset 0 0 0 1px var(--s-outline);
+  font: var(--dl-w-bold) 12.5px/1 var(--dl-sans);
+  letter-spacing: .04em; color: var(--dl-teal);
+  transition: background var(--dl-t-base) var(--dl-ease), color var(--dl-t-base) var(--dl-ease);
+}
+.points .pt p {
+  align-self: center; margin: 0;
+  font: 500 clamp(16px, 1.15vw, 18.5px)/1.5 var(--dl-disp);
+  color: var(--s-strong); max-width: 34ch; text-wrap: pretty;
+}
+@media (hover: hover) {
+  .points .pt:hover .n { background: var(--dl-teal); color: var(--dl-ivory); }
+}
+@media (prefers-reduced-motion: reduce) { .points .pt .n { transition: none; } }
+@media (max-width: 820px) {
+  .points { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-auto-flow: row; }
+  .points .pt:nth-child(4n + 1)::before { top: 0; }
+  .points .pt:nth-child(4n)::before { bottom: 0; }
+  .points .pt:first-child::before { top: 22px; }
+  .points .pt:last-child::before { bottom: calc(100% - 22px); }
+}
+
+/* ============================================================
+   9 · Article template (.arts)
+   Round 5: the scaffold for a future article library. Marked placeholder
+   copy, so an unfinished library reads as unfinished rather than as three
+   real posts nobody wrote.
+   ============================================================ */
+.arts {
+  margin-top: var(--dl-head-gap);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+}
+.arts .art {
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px var(--s-line-soft);
+  display: flex; flex-direction: column;
+}
+.arts .art .ph { aspect-ratio: 3 / 2; background: var(--s-plate); position: relative; overflow: hidden; }
+.arts .art .ph .slot-empty { font-size: 13px; }
+.arts .art .body { padding: clamp(18px, 2vw, 24px); display: grid; gap: 10px; }
+.arts .art .meta {
+  display: flex; gap: 12px; align-items: baseline;
+  font: var(--dl-w-bold) 10.5px/1 var(--dl-sans); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--s-label);
+}
+.arts .art .meta em { font-style: normal; color: var(--s-quiet); letter-spacing: .08em; }
+.arts .art h3 { font-size: clamp(18px, 1.4vw, 22px); line-height: 1.24; margin: 0; }
+.arts .art p { color: var(--s-muted); font-size: var(--dl-body-sm); line-height: 1.6; margin: 0; }
+@media (max-width: 860px) { .arts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .arts { grid-template-columns: minmax(0, 1fr); } }

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Open, Checks, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Open, Ideas, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -25,25 +25,26 @@ export const metadata: Metadata = pageMeta(ROUTES.policy);
    prospecting page, which is the failure mode this copy was written against.
    ============================================================ */
 
+/* Keyed `term` to match the Ideas card contract. */
 const IS = [
   {
-    title: "Your cover, in plain language",
+    term: "Your cover, in plain language",
     copy: "What you actually hold, without the policy wording. You keep a written summary you can read again in two years.",
   },
   {
-    title: "A check on the details",
+    term: "A check on the details",
     copy: "Nominations, contact details and sums insured, against the circumstances you are in now rather than the ones on file.",
   },
   {
-    title: "An honest view of the fit",
+    term: "An honest view of the fit",
     copy: "Including when the honest view is that your arrangements are already reasonable. That is a common outcome.",
   },
   {
-    title: "The questions you have been meaning to ask",
+    term: "The questions you have been meaning to ask",
     copy: "The ones people put off, because they assumed they should already know the answer.",
   },
   {
-    title: "A conversation you can end",
+    term: "A conversation you can end",
     copy: "At any point, with no follow-up sequence waiting behind it.",
   },
 ];
@@ -147,39 +148,37 @@ export default function Page() {
         </Open>
       </Band>
 
-      <Band tone="sand" label="What a review is">
-        <h2 style={{ maxWidth: "26ch" }}>Five things that happen, and one that does not</h2>
-        <div className="stated">
-          {IS.map((i) => (
-            <div key={i.title}>
-              <b>{i.title}</b>
-              <p>{i.copy}</p>
-            </div>
-          ))}
-        </div>
-        {/* The boundary, stated as a sentence. This is the guardrail in copy
-            form — do not soften it into a benefit. */}
+      {/* Same treatment as a solution page's "What it actually means": the
+          review's components as icon cards. */}
+      <Ideas
+        label="What a review is"
+        title="Five things that happen, and one that does not"
+        items={IS}
+        icons={["doc", "gauge", "shield", "clock", "people"]}
+      />
+
+      {/* The boundary, stated as a sentence. This is the guardrail in copy
+          form: do not soften it into a benefit. Runs on from the cards above,
+          so it drops its own top padding. */}
+      <section className="band light" style={{ paddingTop: 0 }}>
         <p className="fnote">
           <b>What it is not.</b> Not a sales meeting with a review attached, and not an assessment of whoever advised
           you before. Nothing here obliges you to move or change a policy.
         </p>
-      </Band>
-
-      <section className="bleed light">
-        <div className="r" />
-        <p className="lead">Most of the answers are already in a document you own.</p>
-        <p className="foot">
-          We read it before we speak, so the time is spent on your questions rather than on us finding our place in a
-          policy schedule.
-        </p>
       </section>
 
-      {/* Runs straight on from the statement above it, so it drops its own top
-          padding rather than doubling the band rhythm. */}
-      <section className="band light" style={{ paddingTop: 0 }}>
+      <section className="band light">
         <p className="lbl">What we look at</p>
         <h2>The eight points that answer most of it</h2>
-        <Checks items={POINTS} />
+        {/* 2 x 4 numbered timeline, adapted from the client's reference. */}
+        <div className="points">
+          {POINTS.map((p, i) => (
+            <div className="pt" key={p}>
+              <span className="n">{String(i + 1).padStart(2, "0")}</span>
+              <p>{p}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="spread sand">
@@ -203,19 +202,6 @@ export default function Page() {
         </div>
       </section>
 
-      {/* The plain quote variant: same band, no photograph behind it. Its rule
-          and body carry the page margin themselves, because the figure is not
-          a full band. */}
-      <figure className="said said--plain dark" style={{ margin: 0 }}>
-        <div className="r" style={{ marginInline: "var(--m)" }} />
-        <div style={{ paddingInline: "var(--m)" }}>
-          <blockquote>
-            “Most of the reviews we do end with the client keeping exactly what they had. They just finally know what it
-            is.”
-          </blockquote>
-          <figcaption>D’Life advisory team</figcaption>
-        </div>
-      </figure>
 
       <section className="ask-host light">
         <div className="ask-head">

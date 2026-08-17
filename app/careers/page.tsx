@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Open, Said, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Open, StoriesPreview, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
+import { VIDEOS } from "../../content/videos";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.careers);
@@ -188,14 +189,20 @@ export default function Page() {
         </div>
       </Band>
 
-      <Said
-        photo={{
-          src: "/media/img/dva-workshop.jpg",
-          alt: "A presenter leading a workshop session",
-          position: "30% 40%",
-        }}
-        quote={<>“D’Life gave me the mentorship I couldn’t find anywhere else.”</>}
-        cite="D’Life advisor · attribution pending consent"
+      {/* The guide runs the career journey through the advisor films, so this
+          is a preview of them rather than an unattributed pull-quote. */}
+      <StoriesPreview
+        label="Advisor stories"
+        title="Hear it from the advisors, not from us"
+        lede="Three of them talking about the work: what an ordinary week contains, and what made them stay."
+        items={VIDEOS.map((v) => ({
+          poster: v.poster,
+          focus: v.focus,
+          title: v.title,
+          runtime: v.runtime,
+          category: v.category,
+        }))}
+        href={ROUTES.stories.path}
       />
 
       <section className="two two--flip sand">
