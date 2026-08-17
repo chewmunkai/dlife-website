@@ -60,10 +60,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Protecting your family",
     lede:
       "Most people come to this with one quiet question: if I were not here, would the people I love be alright? That is a reasonable thing to want an answer to.",
-    photo: {
-      src: "/media/img/need-family-malaysia.jpg",
-      alt: "A multigenerational Malaysian family sharing a meal at home",
-    },
+    photo: { src: "/media/img/need-family-malaysia.jpg", alt: "Three generations of a family sharing a meal" },
     recognise: {
       title: "What usually prompts this",
       intro:
@@ -158,10 +155,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Protecting your income",
     lede:
       "Your income is the thing everything else is built on. It is also the thing most households have thought about least.",
-    photo: {
-      src: "/media/img/need-income-malaysia.jpg",
-      alt: "A Malaysian couple planning together in their home office",
-    },
+    photo: { src: "/media/img/need-income-malaysia.jpg", alt: "A couple working through figures at a laptop" },
     recognise: {
       title: "One question worth sitting with",
       intro:
@@ -251,10 +245,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Medical & health preparation",
     lede:
       "Treatment in Malaysia can be excellent and it can be expensive. Preparation is mostly about understanding which costs land on you, and when.",
-    photo: {
-      src: "/media/img/need-health-malaysia.jpg",
-      alt: "A Malaysian family discussing preventive health with a doctor",
-    },
+    photo: { src: "/media/img/need-health-malaysia.jpg", alt: "Two family members in consultation with an advisor" },
     recognise: {
       title: "What people usually want to know",
       intro:
@@ -349,10 +340,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Planning for your future",
     lede:
       "Retirement planning is less about a number than about a series of decisions you could explain, in your own words, to your own family.",
-    photo: {
-      src: "/media/img/need-planning.jpg",
-      alt: "Planning at a laptop at the kitchen table",
-    },
+    photo: { src: "/media/img/need-family.jpg", alt: "People sitting together at an outdoor table" },
     recognise: {
       title: "Where people usually start",
       intro:
@@ -442,10 +430,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Wealth & legacy",
     lede:
       "Growing what you have built is one job. Passing it on the way you intended is a different one, and it is the one more often left unfinished.",
-    photo: {
-      src: "/media/img/need-legacy-malaysia.jpg",
-      alt: "A Malaysian family sharing memories in a heritage home",
-    },
+    photo: { src: "/media/img/need-legacy-malaysia.jpg", alt: "A family looking through documents and photographs together" },
     recognise: {
       title: "The questions behind this one",
       intro:
