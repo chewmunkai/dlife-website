@@ -5,7 +5,7 @@ import { Hero, Band, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
-import { ARTICLES, TEMPLATE_ARTICLE } from "../../content/articles";
+import { ROUTABLE_ARTICLES } from "../../content/articles";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.resources);
@@ -81,68 +81,35 @@ export default function Page() {
         photo={{ src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress" }}
       />
 
-      {/* The article library. Empty today, so the page shows the template a
-          published article will use rather than inventing three of them.
-          Adding records to content/articles.ts switches this to the real grid
-          with no markup change. */}
+      {/* Driven by content/articles.ts. While it is empty this renders the
+          template article as a real, clickable card so the layout and the
+          reading page can both be reviewed; publishing a record replaces it
+          and un-routes the template. */}
       <Band label="Articles" title="Reading, when there is something worth writing">
-        {ARTICLES.length ? (
-          <div className="arts">
-            {ARTICLES.map((a) => (
-              <a className="art" href={link(a.href)} key={a.href}>
-                <div className="ph">
-                  {a.photo ? (
-                    <img src={asset(a.photo.src)} alt={a.photo.alt} />
-                  ) : (
-                    <div className="slot-empty">
-                      Lead image
-                      <em>To be supplied</em>
-                    </div>
-                  )}
+        <div className="arts">
+          {ROUTABLE_ARTICLES.map((a) => (
+            <a className="art" href={link(`/articles/${a.slug}`)} key={a.slug}>
+              <div className="ph">
+                {a.photo ? (
+                  <img src={asset(a.photo.src)} alt={a.photo.alt} />
+                ) : (
+                  <div className="slot-empty">
+                    Lead image
+                    <em>{a.template ? "Template" : "To be supplied"}</em>
+                  </div>
+                )}
+              </div>
+              <div className="body">
+                <div className="meta">
+                  <span>{a.template ? "Template" : a.category}</span>
+                  <em>{a.read}</em>
                 </div>
-                <div className="body">
-                  <div className="meta">
-                    <span>{a.category}</span>
-                    <em>{a.read}</em>
-                  </div>
-                  <h3>{a.title}</h3>
-                  <p>{a.blurb}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <>
-            <div className="dl-notice" role="note">
-              <strong>No articles published yet.</strong>
-              <p>
-                The card below is the template a published article will use, with placeholder copy. It is shown so the
-                layout can be signed off before anything is written. Add records to <code>content/articles.ts</code> and
-                this section becomes the real library.
-              </p>
-            </div>
-            <div className="arts" style={{ marginTop: "clamp(24px,3.4vh,38px)" }} aria-hidden="true">
-              {[0, 1, 2].map((i) => (
-                <article className="art" key={i}>
-                  <div className="ph">
-                    <div className="slot-empty">
-                      Lead image
-                      <em>Template</em>
-                    </div>
-                  </div>
-                  <div className="body">
-                    <div className="meta">
-                      <span>{TEMPLATE_ARTICLE.category}</span>
-                      <em>{TEMPLATE_ARTICLE.read}</em>
-                    </div>
-                    <h3>{TEMPLATE_ARTICLE.title}</h3>
-                    <p>{TEMPLATE_ARTICLE.blurb}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </>
-        )}
+                <h3>{a.title}</h3>
+                <p>{a.blurb}</p>
+              </div>
+            </a>
+          ))}
+        </div>
       </Band>
 
       <Band label="Events" title="What runs across the year">
