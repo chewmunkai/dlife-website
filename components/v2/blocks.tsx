@@ -147,6 +147,139 @@ export function Open({ lead, children }: { lead: ReactNode; children: ReactNode 
   );
 }
 
+/* ---- August 2026 amendment blocks. Styles in styles/amendments.css. ---- */
+
+/**
+ * The opening rebuilt as the page's typographic moment: first sentence at
+ * display scale, the remainder as a Lora subline on a copper rule, prose
+ * offset right. Splitting at the first full stop is what turns a written
+ * lead into a composed one, and a one-sentence lead simply skips the subline.
+ */
+export function OpenStatement({ kick, lead, children }: { kick: string; lead: string; children: ReactNode }) {
+  const cut = lead.indexOf(". ");
+  const head = cut === -1 ? lead : lead.slice(0, cut + 1);
+  const rest = cut === -1 ? null : lead.slice(cut + 2);
+  return (
+    <div className={`dl-open2${rest ? "" : " one"}`}>
+      <div className="head">
+        <span className="kick">{kick}</span>
+        <h2 className="say">{head}</h2>
+      </div>
+      {rest && <p className="say-rest">{rest}</p>}
+      <div className="side dl-prose">{children}</div>
+    </div>
+  );
+}
+
+/** The prompting situations as the content itself: numbered statement rows
+ *  on hairlines, no photograph carrying them. */
+export function Moments({ title, items, tone = "ink" }: { title: ReactNode; items: ReadonlyArray<ReactNode>; tone?: Tone }) {
+  return (
+    <section className={`band moments ${mode(tone)}`}>
+      <h2>{title}</h2>
+      <div className="rows">
+        {items.map((item, i) => (
+          <div className="row" key={i}>
+            <b>{String(i + 1).padStart(2, "0")}</b>
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** Definitions as a windowpane: 2×2 with internal hairlines only. */
+export function Ideas({
+  label,
+  title,
+  lede,
+  items,
+}: {
+  label?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  items: ReadonlyArray<{ term: string; copy: ReactNode }>;
+}) {
+  return (
+    <section className="band light ideas">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      {lede && <p className="dl-lede">{lede}</p>}
+      <div className="pane">
+        {items.map((d, i) => (
+          <div className="cell" key={d.term}>
+            <span className="no">{String(i + 1).padStart(2, "0")}</span>
+            <h3>{d.term}</h3>
+            <p>{d.copy}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** The steps carried on a contained ink panel — the band's dark room. */
+export function StepsPanel({
+  label,
+  title,
+  lede,
+  steps,
+}: {
+  label?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  steps: ReadonlyArray<{ title: string; copy: ReactNode }>;
+}) {
+  return (
+    <section className="band sand">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      {lede && <p className="dl-lede">{lede}</p>}
+      <div className="steps-panel">
+        {steps.map((s, i) => (
+          <div key={s.title}>
+            <b>{String(i + 1).padStart(2, "0")}</b>
+            <h3>{s.title}</h3>
+            <p>{s.copy}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** The next step as a single premium object: rounded ink card, copper
+ *  hairline, the brand's ring motif — and no photograph competing. */
+export function ClosingCard({
+  label = "Next step",
+  title,
+  lede,
+  actions,
+  note = "Most conversations with us don’t end in a decision, and that’s completely fine.",
+}: {
+  label?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  actions: ReactNode;
+  note?: string;
+}) {
+  return (
+    <section className="band light close-host">
+      {/* `dark` flips the section tokens so the ghost pill's outline and the
+          selection colours resolve against ink; the card's own background
+          then wins over the mode's. */}
+      <div className="close-card dark">
+        <p className="lbl">{label}</p>
+        <h2>{title}</h2>
+        {lede && <p className="dl-lede">{lede}</p>}
+        <div className="dl-actions">{actions}</div>
+        {note && <p className="note">{note}</p>}
+      </div>
+    </section>
+  );
+}
+
 /** Offset photograph pair. One photo renders the wide `--one` variant. */
 export function Duo({ a, b }: { a: Photo & { caption?: string }; b?: Photo & { caption?: string } }) {
   return (

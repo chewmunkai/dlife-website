@@ -1,0 +1,251 @@
+/* ============================================================
+   Design amendments — August 2026 client round.
+
+   Evolution ON TOP of the vendored export (styles/ds/**), which stays
+   verbatim so it can be re-synced by overwrite. overrides.css fixes the
+   export's defects; this file changes its design, per the client's
+   amendments: the non-sticky bar, the reworked solution-page sections
+   (.dl-open2, .moments, .ideas, .steps-panel, .close-card) and the new
+   footer (.ft2). Every value is a token from styles/ds/tokens.
+   ============================================================ */
+
+/* ---- The intent bar no longer follows the visitor down the page. ---- */
+.bar { position: static; }
+
+/* ============================================================
+   1 · Opening statement (.dl-open2)
+   The editorial opening rebuilt as the page's typographic moment: the first
+   sentence at display scale, the rest of the lead as a Lora subline on a
+   copper rule, prose offset right in a narrow measure. Photography follows
+   inside the same band via the existing .duo.
+   ============================================================ */
+.dl-open2 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--dl-grid-gap); }
+.dl-open2 .head { grid-column: 1 / 11; }
+.dl-open2 .head .kick {
+  display: block; font: var(--dl-w-bold) 12px/1 var(--dl-sans);
+  letter-spacing: .18em; text-transform: uppercase; color: var(--s-label);
+  margin-bottom: clamp(18px, 2.6vh, 30px);
+}
+.dl-open2 h2.say {
+  font-family: var(--dl-disp); font-weight: var(--dl-w-semibold);
+  font-size: clamp(34px, 4.6vw, 68px); line-height: 1.04;
+  letter-spacing: -.015em; color: var(--s-heading); max-width: 24ch;
+  text-wrap: balance; margin: 0;
+}
+.dl-open2 .say-rest {
+  grid-column: 3 / 11; margin-top: clamp(20px, 3vh, 34px);
+  padding-top: clamp(18px, 2.4vh, 26px); border-top: 2px solid var(--s-rule);
+  font: 500 clamp(19px, 1.9vw, 27px)/1.42 var(--dl-disp);
+  color: var(--s-muted); max-width: 30ch; text-wrap: pretty;
+}
+.dl-open2 .side {
+  grid-column: 8 / 13; margin-top: clamp(26px, 4vh, 46px);
+  max-width: 46ch; justify-self: end;
+}
+.dl-open2 .side p { color: var(--s-body); }
+.dl-open2 .side p + p { margin-top: 14px; }
+/* When the lead is a single sentence there is no subline; prose still
+   offsets right so the composition holds. */
+.dl-open2.one .side { margin-top: clamp(30px, 4.6vh, 54px); }
+@media (max-width: 900px) {
+  .dl-open2 { display: block; }
+  .dl-open2 .say-rest { margin-top: 18px; max-width: none; }
+  .dl-open2 .side { margin-top: 24px; max-width: none; }
+}
+/* The wide plate below the opening breathes more in this composition. */
+.band .dl-open2 + .duo { margin-top: clamp(40px, 6vh, 72px); }
+
+/* ============================================================
+   2 · Moments (.moments)
+   "What prompts this" rebuilt without the photograph: the five situations as
+   the content itself, at reading scale on the ink ground, each on a hairline
+   with its ordinal as a margin figure. The row is the design.
+   ============================================================ */
+.moments h2 { max-width: 22ch; }
+.moments .rows { margin-top: var(--dl-head-gap); }
+.moments .row {
+  display: grid; grid-template-columns: clamp(64px, 8vw, 120px) minmax(0, 1fr);
+  align-items: baseline; gap: 18px;
+  padding: clamp(20px, 3vh, 32px) 0;
+  border-top: 1px solid var(--s-line);
+  transition: transform var(--dl-t-base) var(--dl-ease);
+}
+.moments .row:last-child { border-bottom: 1px solid var(--s-line); }
+.moments .row b {
+  font: var(--dl-w-semibold) clamp(22px, 2.6vw, 40px)/1 var(--dl-disp);
+  color: var(--s-label); opacity: .55; letter-spacing: -.02em;
+}
+.moments .row span {
+  font: 500 clamp(18px, 1.8vw, 26px)/1.4 var(--dl-disp);
+  color: var(--s-strong); max-width: 34ch; text-wrap: pretty;
+}
+@media (hover: hover) {
+  .moments .row:hover { transform: translateX(10px); }
+  .moments .row:hover b { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .moments .row { transition: none; } }
+@media (max-width: 620px) {
+  .moments .row { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; }
+}
+
+/* ============================================================
+   3 · Ideas (.ideas)
+   The definitions rebuilt as a windowpane: a 2×2 grid whose internal
+   hairlines are the only structure. Ordinal kicker, term in Lora, one
+   plain-language definition. Odd counts leave the last cell open air.
+   ============================================================ */
+.ideas .pane {
+  margin-top: var(--dl-head-gap);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--s-line);
+}
+.ideas .cell {
+  padding: clamp(26px, 3.6vh, 44px) clamp(22px, 2.6vw, 44px) clamp(28px, 4vh, 48px) 0;
+  border-bottom: 1px solid var(--s-line);
+}
+.ideas .cell:nth-child(2n) { padding-left: clamp(22px, 2.6vw, 44px); border-left: 1px solid var(--s-line); padding-right: 0; }
+.ideas .cell .no {
+  display: block; font: var(--dl-w-bold) 12px/1 var(--dl-sans);
+  letter-spacing: .16em; color: var(--s-label); margin-bottom: 14px;
+}
+.ideas .cell h3 {
+  font-size: clamp(21px, 1.9vw, 28px); margin: 0 0 10px;
+}
+.ideas .cell p { color: var(--s-muted); max-width: 46ch; margin: 0; }
+@media (max-width: 760px) {
+  .ideas .pane { grid-template-columns: minmax(0, 1fr); }
+  .ideas .cell, .ideas .cell:nth-child(2n) { padding-left: 0; padding-right: 0; border-left: 0; }
+}
+
+/* ============================================================
+   4 · Steps panel (.steps-panel)
+   "How the conversation goes" kept as written, carried on a contained ink
+   panel so the band finally has the contrast it deserved. Sand ordinals,
+   ivory titles, one panel — the section's own dark room.
+   ============================================================ */
+.steps-panel {
+  margin-top: var(--dl-head-gap);
+  background: var(--dl-ink); border-radius: var(--dl-r-panel);
+  padding: clamp(30px, 4.6vh, 56px) clamp(24px, 3.2vw, 56px);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 44px);
+  box-shadow: var(--dl-shadow-panel);
+}
+.steps-panel > div { min-width: 0; }
+.steps-panel b {
+  display: block; font: var(--dl-w-semibold) clamp(26px, 2.4vw, 38px)/1 var(--dl-disp);
+  color: var(--dl-sand); letter-spacing: -.02em; margin-bottom: 14px;
+}
+.steps-panel h3 { color: var(--dl-ivory); font-size: clamp(17px, 1.35vw, 21px); margin: 0 0 8px; }
+.steps-panel p { color: rgba(246, 241, 232, .74); font-size: var(--dl-body-sm); line-height: 1.65; margin: 0; }
+@media (max-width: 1000px) { .steps-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .steps-panel { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============================================================
+   5 · Closing card (.close-card)
+   The next step as a single premium object: rounded ink card, copper
+   hairline along the top, the brand's concentric rings ghosted in the
+   corner (they are on the cover of D'Life's own brand documents), no
+   photograph competing with the words.
+   ============================================================ */
+.close-host { padding-bottom: clamp(64px, 10vh, 120px); }
+.close-card {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(120% 160% at 88% -20%, rgba(23, 74, 69, .55) 0%, transparent 55%),
+    var(--dl-ink);
+  color: var(--dl-ivory);
+  border-radius: 20px;
+  border-top: 2px solid var(--dl-copper-d);
+  padding: clamp(44px, 7.5vh, 96px) clamp(28px, 5vw, 88px);
+  box-shadow: var(--dl-shadow-panel);
+}
+.close-card::before {
+  /* Concentric hairline rings, from the brand deck's cover motif. */
+  content: ""; position: absolute; top: -220px; right: -160px;
+  width: 560px; height: 560px; border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at center,
+    transparent 0 55px,
+    rgba(246, 241, 232, .07) 55px 56px
+  );
+  pointer-events: none;
+}
+.close-card .lbl { color: var(--dl-sand); }
+.close-card h2 {
+  color: var(--dl-ivory);
+  font-size: clamp(30px, 3.4vw, 52px); line-height: 1.06;
+  max-width: 20ch; text-wrap: balance; margin-top: 12px;
+}
+.close-card .dl-lede { color: rgba(246, 241, 232, .78); max-width: 52ch; }
+.close-card .note { font-size: var(--dl-caption); color: rgba(246, 241, 232, .55); margin-top: 22px; }
+.close-card .dl-actions { position: relative; }
+
+/* ============================================================
+   6 · Footer (.ft2)
+   Rebuilt around one statement and one ghost wordmark. The link columns
+   stay for wayfinding but stop being the design.
+   ============================================================ */
+.ft2 { position: relative; overflow: hidden; padding: clamp(64px, 10vh, 120px) var(--m) 0; }
+.ft2 .lb { color: var(--s-label); }
+.ft2-head { display: grid; gap: clamp(20px, 3vh, 30px); max-width: var(--dl-container); margin: 0 auto; }
+.ft2-head h2 {
+  font-size: clamp(32px, 4.8vw, 68px); line-height: 1.02; letter-spacing: -.015em;
+  color: var(--s-heading); max-width: 16ch; text-wrap: balance; margin: 0;
+}
+.ft2-cta { display: flex; flex-wrap: wrap; gap: 10px 44px; margin-top: 6px; }
+.ft2-cta a {
+  display: inline-flex; align-items: baseline; gap: 12px;
+  font: var(--dl-w-semibold) clamp(17px, 1.5vw, 22px)/1.3 var(--dl-sans);
+  color: var(--dl-ivory); padding-bottom: 8px;
+  border-bottom: 1px solid var(--s-rule);
+  transition: gap var(--dl-t-base) var(--dl-ease), border-color var(--dl-t-base) var(--dl-ease);
+}
+.ft2-cta a em { font-style: normal; color: var(--s-label); }
+.ft2-cta a:hover { gap: 20px; border-color: var(--s-accent); color: var(--dl-ivory); }
+.ft2-cta .sub { flex-basis: 100%; font-size: 13px; color: var(--s-quiet); }
+
+.ft2-grid {
+  max-width: var(--dl-container); margin: clamp(44px, 7vh, 80px) auto 0;
+  padding-top: clamp(28px, 4vh, 44px); border-top: 1px solid var(--s-line);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 56px);
+}
+.ft2-grid .k {
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans); letter-spacing: .18em;
+  text-transform: uppercase; color: var(--s-label); margin: 0 0 16px;
+}
+.ft2-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ft2-grid a { color: rgba(246, 241, 232, .78); font-size: 15px; }
+.ft2-grid a:hover { color: var(--dl-ivory); opacity: 1; }
+.ft2-grid address { font-style: normal; color: rgba(246, 241, 232, .78); font-size: 15px; }
+.ft2-grid .hint { font-size: 13px; color: var(--s-quiet); margin-top: 6px; }
+@media (max-width: 900px) { .ft2-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .ft2-grid { grid-template-columns: minmax(0, 1fr); } }
+
+.ft2-fine {
+  max-width: var(--dl-container); margin: clamp(36px, 5vh, 56px) auto 0;
+  font-size: 12.5px; line-height: 1.7; color: var(--s-quiet); max-width: 78ch;
+}
+.ft2-base {
+  max-width: var(--dl-container); margin: 26px auto 0;
+  padding: 18px 0 clamp(24px, 4vh, 40px);
+  border-top: 1px solid var(--s-line-soft);
+  display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center;
+  font-size: 12.5px; color: var(--s-quiet);
+}
+.ft2-base .lx { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-right: auto; }
+.ft2-base a { color: var(--s-quiet); }
+.ft2-base a:hover { color: var(--dl-ivory); opacity: 1; }
+.ft2-base .top { color: rgba(246, 241, 232, .78); }
+
+.ft2-wm {
+  display: block; text-align: center;
+  font: var(--dl-w-semibold) clamp(110px, 21vw, 330px)/0.68 var(--dl-disp);
+  letter-spacing: -.03em; color: var(--dl-ivory); opacity: .07;
+  white-space: nowrap; pointer-events: none; user-select: none;
+  /* Sunk into the footer's bottom edge so the wordmark reads as a crop, not
+     a printed line — .ft2's overflow:hidden does the cutting. */
+  margin-top: clamp(10px, 2vh, 26px);
+  transform: translateY(34%);
+}

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Shell from "./Shell";
 import Ask from "./Ask";
 import JsonLd from "../site/JsonLd";
-import { Hero, Bar, Band, Open, Duo, SplitShot, Checks, Rail, Said, Closing, Defs } from "./blocks";
+import { Hero, Bar, Band, Duo, Said, OpenStatement, Moments, Ideas, StepsPanel, ClosingCard } from "./blocks";
 import { SOLUTIONS } from "../../content/solutions";
 import { SOLUTIONS_E2 } from "../../content/solutions-e2";
 import { ROUTES, type RouteKey } from "../../lib/routes";
@@ -11,28 +11,25 @@ import { waHref } from "../../lib/contact";
 import { breadcrumbLd, faqLd, serviceLd } from "../../lib/seo";
 
 /* ============================================================
-   One template, six pages — the new design.
+   One template, six pages — August 2026 amendments round.
 
-   The same six beats as components/pages/SolutionPage.tsx, rebuilt on the
-   unprefixed block library and the new shell. Copy still lives in two files
-   and none of it lives here: content/solutions.ts holds the beats,
-   content/solutions-e2.ts holds what this design adds.
+   The four beats are unchanged; four sections were rebuilt at the client's
+   direction (see styles/amendments.css for each design's rationale):
 
-   Two deliberate differences from the previous template:
+   · The opening is now a typographic statement (OpenStatement), not a
+     side-by-side block.
+   · RECOGNISE lost its photograph and its label: the five situations ARE the
+     content, as numbered statement rows (Moments).
+   · EXPLAIN is a hairline windowpane (Ideas).
+   · The steps ride a contained ink panel (StepsPanel) for contrast.
+   · The closing is a premium rounded card with the brand's ring motif and no
+     background photograph (ClosingCard).
+   · The intent bar no longer sticks.
 
-   · The WhatsApp CTAs resolve server-side through waHref() rather than
-     shipping `data-wa` with `href="#"`. That attribute was hydrated by
-     lib/dlife.ts, which belongs to the old motion engine and is not loaded by
-     this shell — the links would be dead.
-   · No RelatedContent block. The design ends these pages on the closing
-     panel, which carries two onward actions of its own, so the page does not
-     dead-end. The legal pages do get a related block, because the design puts
-     one there.
+   Copy still lives in content/solutions.ts + content/solutions-e2.ts and
+   none of it lives here.
    ============================================================ */
 
-/** The design links this exact phrase to the policy-support page in the
- *  opening prose of three of the six pages. Linkifying by phrase keeps the
- *  copy files plain strings rather than markup. */
 const POLICY_PHRASE = "Existing Policy Support";
 
 function withPolicyLink(text: string): ReactNode {
@@ -55,10 +52,6 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
 
   return (
     <Shell>
-      {/* The hero photograph comes from content/solutions.ts, not from the E2
-          layer. The design bundle ships one generic hero across all six pages;
-          this repo replaced those with Malaysian photography in an earlier
-          client round, and matching the bundle would undo that decision. */}
       <Hero
         route={route}
         label={c.label}
@@ -83,32 +76,24 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
       />
 
       <Band>
-        <Open lead={e.open.lead}>
+        <OpenStatement kick={c.label} lead={e.open.lead}>
           {e.open.prose.map((p) => (
             <p key={p}>{withPolicyLink(p)}</p>
           ))}
-        </Open>
+        </OpenStatement>
         <Duo a={e.duo} />
       </Band>
 
-      {/* RECOGNISE — the visitor's own question, in their words, before any
-          explanation of ours. */}
-      <SplitShot photo={e.split.photo} flip={e.split.flip} tone="dark" label={e.split.label} title={e.split.title}>
-        <Checks items={c.recognise.questions} columns={1} />
-      </SplitShot>
+      {/* RECOGNISE — the visitor's own situations, at reading scale. */}
+      <Moments title={e.split.title} items={c.recognise.questions} />
 
-      {/* EXPLAIN — enough clarity, without becoming a product catalogue. */}
-      <Band label={e.explain.label} title={e.explain.title} lede={e.explain.lede}>
-        <Defs items={c.explain.terms} />
-      </Band>
+      {/* EXPLAIN — the windowpane. */}
+      <Ideas label={e.explain.label} title={e.explain.title} lede={e.explain.lede} items={c.explain.terms} />
 
-      <Band tone="sand" label={e.steps.label} title={e.steps.title} lede={e.steps.lede}>
-        <Rail steps={c.steps.items} />
-      </Band>
+      {/* The steps, on their dark room. */}
+      <StepsPanel label={e.steps.label} title={e.steps.title} lede={e.steps.lede} steps={c.steps.items} />
 
-      {/* PROVE — a human note rather than a statistic. Every figure on this
-          site is pending client verification, and an unverified number is
-          worse proof than an honest sentence. */}
+      {/* PROVE — a human note rather than a statistic. */}
       <Said photo={e.said.photo} quote={<>“{c.prove.quote}”</>} cite={c.prove.cite} />
 
       <section className="ask-host light">
@@ -126,15 +111,13 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
         </div>
       </section>
 
-      {/* ACT — one specific, low-pressure next step, carrying this page's own
-          WhatsApp prefill so the team can see which subject produced it. */}
-      <Closing
-        photo={e.closing.photo}
+      {/* ACT — one premium card, no photograph competing with the words. */}
+      <ClosingCard
         title={e.closing.title}
         lede={e.closing.lede}
         actions={
           <>
-            <a className="pill sand" href={wa}>
+            <a className="pill" href={wa}>
               <span>{e.action}</span>
             </a>
             <a className="pill ghost" href={link(ROUTES.solutions.path)}>
