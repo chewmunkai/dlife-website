@@ -1,98 +1,145 @@
 /* ============================================================
-   Design amendments — August 2026 client round.
+   Design amendments — August 2026 client rounds.
 
    Evolution ON TOP of the vendored export (styles/ds/**), which stays
    verbatim so it can be re-synced by overwrite. overrides.css fixes the
-   export's defects; this file changes its design, per the client's
-   amendments: the non-sticky bar, the reworked solution-page sections
-   (.dl-open2, .moments, .ideas, .steps-panel, .close-card) and the new
-   footer (.ft2). Every value is a token from styles/ds/tokens.
+   export's defects; this file changes its design.
+
+   Round 2 changes the page's colour logic. The export alternated ivory /
+   sand / dark band by band, so no ground meant anything. Now: ONE ground
+   (ivory) carries the page, the hero keeps its dark opening, and a highlight
+   is a *contained* object on that ground — an ink panel, a photo card — not
+   another full-width band. Section colour became information again.
+
+   Every value is a token from styles/ds/tokens.
    ============================================================ */
 
-/* ---- The intent bar no longer follows the visitor down the page. ---- */
-.bar { position: static; }
+/* ============================================================
+   0 · One ground
+   Sand stops being a band ground and stays available for contained
+   elements (panels, chips, pills). Bands that were sand now sit on the page
+   ground; the pages themselves no longer ask for it, and this rule catches
+   anything that still does.
+   ============================================================ */
+.wrap :is(.band, .two, .ask-host, .spread, .trip, .stmt, .split-shot, .closing).sand:not(.keep-sand) {
+  --s-bg: var(--dl-ivory);
+  --s-heading: var(--dl-teal);
+  --s-strong: var(--dl-ink);
+  --s-body: rgba(47, 53, 50, .88);
+  --s-muted: rgba(47, 53, 50, .74);
+  --s-quiet: rgba(47, 53, 50, .55);
+  --s-label: var(--dl-copper-x);
+  --s-accent: var(--dl-copper-d);
+  --s-line: rgba(47, 53, 50, .18);
+  --s-rule: rgba(156, 90, 55, .45);
+  --s-plate: var(--dl-cream);
+  background: var(--dl-ivory);
+}
+
+/* The intent bar: a thin utility strip, not a section. Cream keeps it inside
+   the beige family while still reading as a distinct rail. Non-sticky. */
+.bar {
+  position: static;
+  background: var(--dl-cream);
+  border-top: 1px solid rgba(47, 53, 50, .10);
+  border-bottom: 1px solid rgba(47, 53, 50, .10);
+}
+
+/* Consecutive same-ground bands doubled their vertical padding, which is half
+   of "too much space, hard to scroll": on one ground the seam is invisible,
+   so one band's worth of rhythm is enough. Both sides must be light — across
+   a colour boundary the padding is what keeps content off the edge, so the
+   selector deliberately fails when either side is dark. */
+.wrap .band:not(.dark) + .band:not(.dark) { padding-top: 0; }
 
 /* ============================================================
    1 · Opening statement (.dl-open2)
-   The editorial opening rebuilt as the page's typographic moment: the first
-   sentence at display scale, the rest of the lead as a Lora subline on a
-   copper rule, prose offset right in a narrow measure. Photography follows
-   inside the same band via the existing .duo.
+   Round 2: was five stacked blocks running most of a screen. Now one
+   editorial row — statement left, the rest of the thought right, sharing a
+   top rule. Roughly half the height, and the eye lands on the sentence
+   instead of scrolling to find it.
    ============================================================ */
-.dl-open2 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--dl-grid-gap); }
-.dl-open2 .head { grid-column: 1 / 11; }
-.dl-open2 .head .kick {
-  display: block; font: var(--dl-w-bold) 12px/1 var(--dl-sans);
+.dl-open2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  gap: clamp(26px, 4.5vw, 84px);
+  align-items: start;
+  padding-top: clamp(8px, 1.6vh, 18px);
+  border-top: 2px solid var(--s-rule);
+}
+.dl-open2 .kick {
+  display: block;
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
   letter-spacing: .18em; text-transform: uppercase; color: var(--s-label);
-  margin-bottom: clamp(18px, 2.6vh, 30px);
+  margin-bottom: clamp(14px, 2vh, 22px);
 }
 .dl-open2 h2.say {
   font-family: var(--dl-disp); font-weight: var(--dl-w-semibold);
-  font-size: clamp(34px, 4.6vw, 68px); line-height: 1.04;
-  letter-spacing: -.015em; color: var(--s-heading); max-width: 24ch;
-  text-wrap: balance; margin: 0;
+  font-size: clamp(29px, 3.5vw, 50px); line-height: 1.06;
+  letter-spacing: -.015em; color: var(--s-heading);
+  max-width: 20ch; text-wrap: balance; margin: 0;
 }
+.dl-open2 .side { padding-top: clamp(4px, 1.2vh, 12px); max-width: 48ch; }
+/* The lead's remaining sentence, carried as a Lora subline above the prose. */
 .dl-open2 .say-rest {
-  grid-column: 3 / 11; margin-top: clamp(20px, 3vh, 34px);
-  padding-top: clamp(18px, 2.4vh, 26px); border-top: 2px solid var(--s-rule);
-  font: 500 clamp(19px, 1.9vw, 27px)/1.42 var(--dl-disp);
-  color: var(--s-muted); max-width: 30ch; text-wrap: pretty;
-}
-.dl-open2 .side {
-  grid-column: 8 / 13; margin-top: clamp(26px, 4vh, 46px);
-  max-width: 46ch; justify-self: end;
+  font: 500 clamp(17px, 1.45vw, 22px)/1.5 var(--dl-disp);
+  color: var(--s-strong); margin: 0 0 16px; text-wrap: pretty;
 }
 .dl-open2 .side p { color: var(--s-body); }
-.dl-open2 .side p + p { margin-top: 14px; }
-/* When the lead is a single sentence there is no subline; prose still
-   offsets right so the composition holds. */
-.dl-open2.one .side { margin-top: clamp(30px, 4.6vh, 54px); }
-@media (max-width: 900px) {
-  .dl-open2 { display: block; }
-  .dl-open2 .say-rest { margin-top: 18px; max-width: none; }
-  .dl-open2 .side { margin-top: 24px; max-width: none; }
+.dl-open2 .side p + p { margin-top: 13px; }
+@media (max-width: 860px) {
+  .dl-open2 { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .dl-open2 .side { max-width: none; padding-top: 0; }
 }
-/* The wide plate below the opening breathes more in this composition. */
-.band .dl-open2 + .duo { margin-top: clamp(40px, 6vh, 72px); }
+/* The wide plate under the opening was 606px of scroll for a single image,
+   which is most of what made this band feel long. Letterboxed to a
+   cinematic strip: the photograph still sets the warmth, at a third of the
+   height. */
+.band .dl-open2 + .duo { margin-top: clamp(28px, 4vh, 50px); }
+.band .duo--one .a { aspect-ratio: 24 / 7; max-height: 330px; height: auto; }
+/* A 24:7 letterbox is 95px tall on a phone, which is a sliver rather than a
+   photograph. Narrow screens get a portrait-friendly crop instead. */
+@media (max-width: 700px) {
+  .band .duo--one .a { aspect-ratio: 3 / 2; max-height: none; }
+}
 
 /* ============================================================
    2 · Moments (.moments)
-   "What prompts this" rebuilt without the photograph: the five situations as
-   the content itself, at reading scale on the ink ground, each on a hairline
-   with its ordinal as a margin figure. The row is the design.
+   Round 2: the five situations as a clean kanban of cream cards on the page
+   ground. Simple and premium: a copper hairline capping each card, the
+   ordinal small and quiet, the statement in Lora doing the work. Reflows
+   5 → 4 → 3 → 2 → 1 on its own.
    ============================================================ */
-.moments h2 { max-width: 22ch; }
-.moments .rows { margin-top: var(--dl-head-gap); }
-.moments .row {
-  display: grid; grid-template-columns: clamp(64px, 8vw, 120px) minmax(0, 1fr);
-  align-items: baseline; gap: 18px;
-  padding: clamp(20px, 3vh, 32px) 0;
-  border-top: 1px solid var(--s-line);
-  transition: transform var(--dl-t-base) var(--dl-ease);
+.moments h2 { max-width: 24ch; }
+.moments .rows {
+  margin-top: var(--dl-head-gap);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(206px, 1fr));
+  gap: clamp(12px, 1.4vw, 20px);
 }
-.moments .row:last-child { border-bottom: 1px solid var(--s-line); }
-.moments .row b {
-  font: var(--dl-w-semibold) clamp(22px, 2.6vw, 40px)/1 var(--dl-disp);
-  color: var(--s-label); opacity: .55; letter-spacing: -.02em;
+.moments .card {
+  background: var(--dl-cream);
+  border-radius: 10px;
+  border-top: 2px solid var(--dl-copper-d);
+  padding: clamp(20px, 2.4vw, 28px) clamp(18px, 2vw, 24px) clamp(24px, 3vh, 32px);
+  display: flex; flex-direction: column; gap: 12px;
+  transition: transform var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
 }
-.moments .row span {
-  font: 500 clamp(18px, 1.8vw, 26px)/1.4 var(--dl-disp);
-  color: var(--s-strong); max-width: 34ch; text-wrap: pretty;
+.moments .card b {
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
+  letter-spacing: .16em; color: var(--s-label);
+}
+.moments .card span {
+  font: 500 clamp(16px, 1.15vw, 19px)/1.45 var(--dl-disp);
+  color: var(--s-strong); text-wrap: pretty;
 }
 @media (hover: hover) {
-  .moments .row:hover { transform: translateX(10px); }
-  .moments .row:hover b { opacity: 1; }
+  .moments .card:hover { transform: translateY(var(--dl-lift-card)); box-shadow: var(--dl-shadow-float); }
 }
-@media (prefers-reduced-motion: reduce) { .moments .row { transition: none; } }
-@media (max-width: 620px) {
-  .moments .row { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; }
-}
+@media (prefers-reduced-motion: reduce) { .moments .card { transition: none; } }
 
 /* ============================================================
-   3 · Ideas (.ideas)
-   The definitions rebuilt as a windowpane: a 2×2 grid whose internal
-   hairlines are the only structure. Ordinal kicker, term in Lora, one
-   plain-language definition. Odd counts leave the last cell open air.
+   3 · Ideas (.ideas) — the hairline windowpane. Unchanged in round 2.
    ============================================================ */
 .ideas .pane {
   margin-top: var(--dl-head-gap);
@@ -100,41 +147,43 @@
   border-top: 1px solid var(--s-line);
 }
 .ideas .cell {
-  padding: clamp(26px, 3.6vh, 44px) clamp(22px, 2.6vw, 44px) clamp(28px, 4vh, 48px) 0;
+  padding: clamp(24px, 3.2vh, 40px) clamp(22px, 2.6vw, 44px) clamp(26px, 3.6vh, 44px) 0;
   border-bottom: 1px solid var(--s-line);
 }
-.ideas .cell:nth-child(2n) { padding-left: clamp(22px, 2.6vw, 44px); border-left: 1px solid var(--s-line); padding-right: 0; }
+.ideas .cell:nth-child(2n) {
+  padding-left: clamp(22px, 2.6vw, 44px); padding-right: 0;
+  border-left: 1px solid var(--s-line);
+}
 .ideas .cell .no {
-  display: block; font: var(--dl-w-bold) 12px/1 var(--dl-sans);
-  letter-spacing: .16em; color: var(--s-label); margin-bottom: 14px;
+  display: block; font: var(--dl-w-bold) 11px/1 var(--dl-sans);
+  letter-spacing: .16em; color: var(--s-label); margin-bottom: 13px;
 }
-.ideas .cell h3 {
-  font-size: clamp(21px, 1.9vw, 28px); margin: 0 0 10px;
-}
+.ideas .cell h3 { font-size: clamp(20px, 1.8vw, 26px); margin: 0 0 9px; }
 .ideas .cell p { color: var(--s-muted); max-width: 46ch; margin: 0; }
 @media (max-width: 760px) {
   .ideas .pane { grid-template-columns: minmax(0, 1fr); }
-  .ideas .cell, .ideas .cell:nth-child(2n) { padding-left: 0; padding-right: 0; border-left: 0; }
+  .ideas .cell, .ideas .cell:nth-child(2n) {
+    padding-left: 0; padding-right: 0; border-left: 0;
+  }
 }
 
 /* ============================================================
    4 · Steps panel (.steps-panel)
-   "How the conversation goes" kept as written, carried on a contained ink
-   panel so the band finally has the contrast it deserved. Sand ordinals,
-   ivory titles, one panel — the section's own dark room.
+   Highlight #1: the page's one ink panel, now contained on the ivory ground
+   rather than layered on a sand band.
    ============================================================ */
 .steps-panel {
   margin-top: var(--dl-head-gap);
   background: var(--dl-ink); border-radius: var(--dl-r-panel);
-  padding: clamp(30px, 4.6vh, 56px) clamp(24px, 3.2vw, 56px);
+  padding: clamp(28px, 4.2vh, 52px) clamp(24px, 3.2vw, 54px);
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(24px, 3vw, 44px);
+  gap: clamp(22px, 2.8vw, 42px);
   box-shadow: var(--dl-shadow-panel);
 }
 .steps-panel > div { min-width: 0; }
 .steps-panel b {
-  display: block; font: var(--dl-w-semibold) clamp(26px, 2.4vw, 38px)/1 var(--dl-disp);
-  color: var(--dl-sand); letter-spacing: -.02em; margin-bottom: 14px;
+  display: block; font: var(--dl-w-semibold) clamp(24px, 2.2vw, 36px)/1 var(--dl-disp);
+  color: var(--dl-sand); letter-spacing: -.02em; margin-bottom: 13px;
 }
 .steps-panel h3 { color: var(--dl-ivory); font-size: clamp(17px, 1.35vw, 21px); margin: 0 0 8px; }
 .steps-panel p { color: rgba(246, 241, 232, .74); font-size: var(--dl-body-sm); line-height: 1.65; margin: 0; }
@@ -143,109 +192,111 @@
 
 /* ============================================================
    5 · Closing card (.close-card)
-   The next step as a single premium object: rounded ink card, copper
-   hairline along the top, the brand's concentric rings ghosted in the
-   corner (they are on the cover of D'Life's own brand documents), no
-   photograph competing with the words.
+   Highlight #2, round 2: the photograph is back, but inside the card as its
+   ground rather than behind the section. A layered scrim — one linear wash
+   for legibility, one teal radial for brand warmth — lets the image show
+   through at the right while holding contrast under the type. The ring motif
+   is gone; the photograph is the texture now.
    ============================================================ */
-.close-host { padding-bottom: clamp(64px, 10vh, 120px); }
+.close-host { padding-bottom: clamp(56px, 9vh, 104px); }
 .close-card {
-  position: relative; overflow: hidden;
-  background:
-    radial-gradient(120% 160% at 88% -20%, rgba(23, 74, 69, .55) 0%, transparent 55%),
-    var(--dl-ink);
+  position: relative; isolation: isolate; overflow: hidden;
+  border-radius: 22px;
+  background: var(--dl-ink);
   color: var(--dl-ivory);
-  border-radius: 20px;
-  border-top: 2px solid var(--dl-copper-d);
-  padding: clamp(44px, 7.5vh, 96px) clamp(28px, 5vw, 88px);
-  box-shadow: var(--dl-shadow-panel);
+  padding: clamp(40px, 7vh, 92px) clamp(26px, 4.6vw, 80px);
+  box-shadow: 0 24px 60px rgba(11, 33, 29, .28);
 }
+.close-card > img {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%; object-fit: cover;
+}
+.close-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(100deg, rgba(11, 33, 29, .95) 0%, rgba(11, 33, 29, .86) 42%, rgba(11, 33, 29, .52) 78%, rgba(11, 33, 29, .40) 100%),
+    radial-gradient(90% 130% at 8% 110%, rgba(23, 74, 69, .55) 0%, transparent 60%);
+}
+/* A hairline inside the radius keeps the object crisp against the ivory. */
 .close-card::before {
-  /* Concentric hairline rings, from the brand deck's cover motif. */
-  content: ""; position: absolute; top: -220px; right: -160px;
-  width: 560px; height: 560px; border-radius: 50%;
-  background: repeating-radial-gradient(
-    circle at center,
-    transparent 0 55px,
-    rgba(246, 241, 232, .07) 55px 56px
-  );
-  pointer-events: none;
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .14), inset 0 2px 0 0 var(--dl-copper-d);
 }
+.close-card > *:not(img) { position: relative; z-index: 3; }
 .close-card .lbl { color: var(--dl-sand); }
 .close-card h2 {
   color: var(--dl-ivory);
-  font-size: clamp(30px, 3.4vw, 52px); line-height: 1.06;
+  font-size: clamp(29px, 3.2vw, 48px); line-height: 1.07;
   max-width: 20ch; text-wrap: balance; margin-top: 12px;
 }
-.close-card .dl-lede { color: rgba(246, 241, 232, .78); max-width: 52ch; }
-.close-card .note { font-size: var(--dl-caption); color: rgba(246, 241, 232, .55); margin-top: 22px; }
-.close-card .dl-actions { position: relative; }
+.close-card .dl-lede { color: rgba(246, 241, 232, .82); max-width: 50ch; }
+.close-card .note { font-size: var(--dl-caption); color: rgba(246, 241, 232, .58); margin-top: 20px; }
 
 /* ============================================================
    6 · Footer (.ft2)
-   Rebuilt around one statement and one ghost wordmark. The link columns
-   stay for wayfinding but stop being the design.
+   Round 2: roughly half the height. The statement and the two contact
+   routes share one row instead of stacking, the directory is tighter, and
+   the giant ghost wordmark is gone.
    ============================================================ */
-.ft2 { position: relative; overflow: hidden; padding: clamp(64px, 10vh, 120px) var(--m) 0; }
+.ft2 { padding: clamp(40px, 5.5vh, 64px) var(--m) clamp(16px, 2.4vh, 26px); }
 .ft2 .lb { color: var(--s-label); }
-.ft2-head { display: grid; gap: clamp(20px, 3vh, 30px); max-width: var(--dl-container); margin: 0 auto; }
-.ft2-head h2 {
-  font-size: clamp(32px, 4.8vw, 68px); line-height: 1.02; letter-spacing: -.015em;
-  color: var(--s-heading); max-width: 16ch; text-wrap: balance; margin: 0;
+/* The statement and the directory share one row: stacked, they made the
+   footer taller than the closing section above it. */
+.ft2-top {
+  max-width: var(--dl-container); margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.15fr);
+  gap: clamp(28px, 5vw, 90px); align-items: start;
 }
-.ft2-cta { display: flex; flex-wrap: wrap; gap: 10px 44px; margin-top: 6px; }
+.ft2-head { display: grid; gap: 0; }
+.ft2-head h2 {
+  font-size: clamp(23px, 2.7vw, 36px); line-height: 1.07; letter-spacing: -.015em;
+  color: var(--s-heading); max-width: 20ch; text-wrap: balance; margin: 8px 0 0;
+}
+.ft2-cta { display: grid; gap: 8px; justify-items: start; margin-top: clamp(18px, 2.6vh, 28px); }
 .ft2-cta a {
   display: inline-flex; align-items: baseline; gap: 12px;
-  font: var(--dl-w-semibold) clamp(17px, 1.5vw, 22px)/1.3 var(--dl-sans);
-  color: var(--dl-ivory); padding-bottom: 8px;
+  font: var(--dl-w-semibold) clamp(15px, 1.2vw, 18px)/1.3 var(--dl-sans);
+  color: var(--dl-ivory); padding-bottom: 6px;
   border-bottom: 1px solid var(--s-rule);
   transition: gap var(--dl-t-base) var(--dl-ease), border-color var(--dl-t-base) var(--dl-ease);
 }
 .ft2-cta a em { font-style: normal; color: var(--s-label); }
-.ft2-cta a:hover { gap: 20px; border-color: var(--s-accent); color: var(--dl-ivory); }
-.ft2-cta .sub { flex-basis: 100%; font-size: 13px; color: var(--s-quiet); }
+.ft2-cta a:hover { gap: 18px; border-color: var(--s-accent); color: var(--dl-ivory); }
+.ft2-cta .sub { font-size: 12.5px; color: var(--s-quiet); max-width: 34ch; }
+@media (max-width: 880px) {
+  .ft2-top { grid-template-columns: minmax(0, 1fr); gap: clamp(26px, 4vh, 40px); }
+}
 
 .ft2-grid {
-  max-width: var(--dl-container); margin: clamp(44px, 7vh, 80px) auto 0;
-  padding-top: clamp(28px, 4vh, 44px); border-top: 1px solid var(--s-line);
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(28px, 4vw, 56px);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 32px);
 }
 .ft2-grid .k {
-  font: var(--dl-w-bold) 11px/1 var(--dl-sans); letter-spacing: .18em;
-  text-transform: uppercase; color: var(--s-label); margin: 0 0 16px;
+  font: var(--dl-w-bold) 10.5px/1 var(--dl-sans); letter-spacing: .18em;
+  text-transform: uppercase; color: var(--s-label); margin: 0 0 12px;
 }
-.ft2-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.ft2-grid a { color: rgba(246, 241, 232, .78); font-size: 15px; }
+.ft2-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.ft2-grid a { color: rgba(246, 241, 232, .76); font-size: 14px; }
 .ft2-grid a:hover { color: var(--dl-ivory); opacity: 1; }
-.ft2-grid address { font-style: normal; color: rgba(246, 241, 232, .78); font-size: 15px; }
-.ft2-grid .hint { font-size: 13px; color: var(--s-quiet); margin-top: 6px; }
-@media (max-width: 900px) { .ft2-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 480px) { .ft2-grid { grid-template-columns: minmax(0, 1fr); } }
+.ft2-grid address { font-style: normal; color: rgba(246, 241, 232, .76); font-size: 14px; }
+.ft2-grid .hint { font-size: 12px; color: var(--s-quiet); margin-top: 5px; }
+/* Three narrow columns wrap every link label on a phone, and one column
+   made the footer over 1200px tall. Two is the readable middle. */
+@media (max-width: 880px) { .ft2-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 340px) { .ft2-grid { grid-template-columns: minmax(0, 1fr); } }
 
 .ft2-fine {
-  max-width: var(--dl-container); margin: clamp(36px, 5vh, 56px) auto 0;
-  font-size: 12.5px; line-height: 1.7; color: var(--s-quiet); max-width: 78ch;
+  max-width: min(var(--dl-container), 92ch); margin: clamp(20px, 3vh, 30px) auto 0;
+  font-size: 11.5px; line-height: 1.6; color: var(--s-quiet);
 }
 .ft2-base {
-  max-width: var(--dl-container); margin: 26px auto 0;
-  padding: 18px 0 clamp(24px, 4vh, 40px);
-  border-top: 1px solid var(--s-line-soft);
-  display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center;
-  font-size: 12.5px; color: var(--s-quiet);
+  max-width: var(--dl-container); margin: 18px auto 0;
+  padding-top: 16px; border-top: 1px solid var(--s-line-soft);
+  display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center;
+  font-size: 12px; color: var(--s-quiet);
 }
-.ft2-base .lx { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-right: auto; }
+.ft2-base .lx { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-right: auto; }
 .ft2-base a { color: var(--s-quiet); }
 .ft2-base a:hover { color: var(--dl-ivory); opacity: 1; }
 .ft2-base .top { color: rgba(246, 241, 232, .78); }
-
-.ft2-wm {
-  display: block; text-align: center;
-  font: var(--dl-w-semibold) clamp(110px, 21vw, 330px)/0.68 var(--dl-disp);
-  letter-spacing: -.03em; color: var(--dl-ivory); opacity: .07;
-  white-space: nowrap; pointer-events: none; user-select: none;
-  /* Sunk into the footer's bottom edge so the wordmark reads as a crop, not
-     a printed line — .ft2's overflow:hidden does the cutting. */
-  margin-top: clamp(10px, 2vh, 26px);
-  transform: translateY(34%);
-}

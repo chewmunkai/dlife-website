@@ -152,26 +152,30 @@ export default function Shell({ children }: { children: ReactNode }) {
 
       <main id="main">{children}</main>
 
-      {/* August 2026 amendment: the footer rebuilt around one statement and a
-          ghost wordmark (styles/amendments.css §6). The `dark charcoal`
-          classes keep it on the approved footer ground and give every child
-          the dark section tokens. */}
+      {/* August 2026 amendment (styles/amendments.css §6): one row carrying
+          the statement and the directory side by side, then the required fine
+          print and legal line. The `dark charcoal` classes keep it on the
+          approved footer ground and give every child the dark section
+          tokens. */}
       <footer className="ft2 dark charcoal">
-        <div className="ft2-head">
-          <p className="lb">D’Life · Financial advisory · Est. 1999, Malaysia</p>
-          <h2>Real support, beyond the policy.</h2>
-          <div className="ft2-cta">
-            <a href={waHref(WA.footer)}>
-              WhatsApp {CONTACT.phone} <em aria-hidden="true">→</em>
-            </a>
-            <a href={`mailto:${CONTACT.email}`}>
-              {CONTACT.email} <em aria-hidden="true">→</em>
-            </a>
-            <span className="sub">Monday to Friday, 9am–6pm. Most messages get a reply the same day.</span>
+        <div className="ft2-top">
+          <div className="ft2-head">
+            <p className="lb">D’Life · Financial advisory · Est. 1999, Malaysia</p>
+            <h2>Real support, beyond the policy.</h2>
+            <div className="ft2-cta">
+              <a href={waHref(WA.footer)}>
+                WhatsApp {CONTACT.phone} <em aria-hidden="true">→</em>
+              </a>
+              <a href={`mailto:${CONTACT.email}`}>
+                {CONTACT.email} <em aria-hidden="true">→</em>
+              </a>
+              <span className="sub">
+                Monday to Friday, 9am–6pm. {CONTACT.city}, visits by appointment.
+              </span>
+            </div>
           </div>
-        </div>
 
-        <nav className="ft2-grid" aria-label="Site directory">
+          <nav className="ft2-grid" aria-label="Site directory">
           {FOOTER_DIRS.map((group) => (
             <div key={group.heading}>
               <h3 className="k">{group.heading}</h3>
@@ -181,31 +185,11 @@ export default function Shell({ children }: { children: ReactNode }) {
                     <a href={link(l.href)}>{l.label}</a>
                   </li>
                 ))}
-              </ul>
-            </div>
-          ))}
-          <div>
-            <h3 className="k">Office</h3>
-            <address>{CONTACT.city}</address>
-            <p className="hint">Visits by appointment.</p>
-            {/* TODO(launch): no project document lists D’Life's social
-                profiles. These stay inert rather than guessing a handle. */}
-            <h3 className="k" style={{ marginTop: 26 }}>
-              Elsewhere
-            </h3>
-            <ul>
-              <li>
-                <a href="#">Instagram</a>
-              </li>
-              <li>
-                <a href="#">Facebook</a>
-              </li>
-              <li>
-                <a href="#">YouTube</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </div>
 
         <p className="ft2-fine">
           D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read here
@@ -221,15 +205,16 @@ export default function Shell({ children }: { children: ReactNode }) {
                 {l.label}
               </a>
             ))}
+            {/* TODO(launch): no project document lists D’Life's social
+                profiles. These stay inert rather than guessing a handle. */}
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">YouTube</a>
           </div>
           <a className="top" href="#top">
             Back to top <em aria-hidden="true">↑</em>
           </a>
         </div>
-
-        <span className="ft2-wm" aria-hidden="true">
-          D’Life
-        </span>
       </footer>
 
       <a className="dl-wafloat" href={waHref(WA.float)} aria-label="Message D’Life on WhatsApp">

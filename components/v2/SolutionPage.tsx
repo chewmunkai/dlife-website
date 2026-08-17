@@ -111,8 +111,9 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
         </div>
       </section>
 
-      {/* ACT — one premium card, no photograph competing with the words. */}
+      {/* ACT — one premium card; the photograph is the card's own ground. */}
       <ClosingCard
+        photo={e.closing.photo}
         title={e.closing.title}
         lede={e.closing.lede}
         actions={

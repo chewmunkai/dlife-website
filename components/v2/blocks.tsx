@@ -165,21 +165,26 @@ export function OpenStatement({ kick, lead, children }: { kick: string; lead: st
         <span className="kick">{kick}</span>
         <h2 className="say">{head}</h2>
       </div>
-      {rest && <p className="say-rest">{rest}</p>}
-      <div className="side dl-prose">{children}</div>
+      {/* The subline lives inside the right column, not beside it: as a third
+          grid child it wrapped onto a second row and dragged the prose back
+          under the statement. */}
+      <div className="side dl-prose">
+        {rest && <p className="say-rest">{rest}</p>}
+        {children}
+      </div>
     </div>
   );
 }
 
-/** The prompting situations as the content itself: numbered statement rows
- *  on hairlines, no photograph carrying them. */
-export function Moments({ title, items, tone = "ink" }: { title: ReactNode; items: ReadonlyArray<ReactNode>; tone?: Tone }) {
+/** The prompting situations as a kanban of cream cards on the page ground:
+ *  copper hairline, quiet ordinal, the statement in Lora. */
+export function Moments({ title, items, tone = "light" }: { title: ReactNode; items: ReadonlyArray<ReactNode>; tone?: Tone }) {
   return (
     <section className={`band moments ${mode(tone)}`}>
       <h2>{title}</h2>
       <div className="rows">
         {items.map((item, i) => (
-          <div className="row" key={i}>
+          <div className="card" key={i}>
             <b>{String(i + 1).padStart(2, "0")}</b>
             <span>{item}</span>
           </div>
@@ -249,19 +254,24 @@ export function StepsPanel({
   );
 }
 
-/** The next step as a single premium object: rounded ink card, copper
- *  hairline, the brand's ring motif — and no photograph competing. */
+/**
+ * The next step as a single premium object: the photograph is the card's own
+ * ground, held under a layered scrim so the image reads at the right while
+ * the type keeps its contrast at the left.
+ */
 export function ClosingCard({
   label = "Next step",
   title,
   lede,
   actions,
+  photo,
   note = "Most conversations with us don’t end in a decision, and that’s completely fine.",
 }: {
   label?: string;
   title: ReactNode;
   lede?: ReactNode;
   actions: ReactNode;
+  photo?: Photo;
   note?: string;
 }) {
   return (
@@ -270,6 +280,7 @@ export function ClosingCard({
           selection colours resolve against ink; the card's own background
           then wins over the mode's. */}
       <div className="close-card dark">
+        {photo && <Img photo={photo} />}
         <p className="lbl">{label}</p>
         <h2>{title}</h2>
         {lede && <p className="dl-lede">{lede}</p>}
