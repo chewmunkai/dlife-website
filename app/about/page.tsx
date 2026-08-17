@@ -133,10 +133,6 @@ export default function Page() {
             <p>A practice that leaves the profession in better standing than it found it.</p>
           </div>
         </div>
-        <p className="dl-lede" style={{ maxWidth: "48ch", marginTop: "clamp(30px,4vh,46px)" }}>
-          In practice it comes down to something simpler: we help you protect what matters, plan for what is ahead, and
-          we are still here afterwards.
-        </p>
       </Band>
 
       <Band tone="sand" label="What we are working towards" title="Mission and vision">
@@ -169,7 +165,8 @@ export default function Page() {
         <p>
           Over 27 years she has advised a great many Malaysian families and mentored a generation of financial
           consultants. She also founded <a href={link(ROUTES.dva.path)}>Drive Value Associates</a>, the leadership
-          circle that grew out of that mentoring work.
+          circle that grew out of that mentoring work. Her mentoring today centres on four things: mindset,
+          personality, wealth and quality of life.
         </p>
         <p>
           She is unusually firm on one point: financial success should not come at the cost of family, health or
@@ -264,6 +261,7 @@ export default function Page() {
             </a>
           </>
         }
+        note=""
       />
 
       <JsonLd data={breadcrumbLd(route)} />

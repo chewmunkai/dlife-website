@@ -23,8 +23,9 @@ export type SolutionE2 = {
   bar: { facts: string[]; statement: string };
   /** Editorial opening — one large line, prose beside it. */
   open: { lead: string; prose: string[] };
-  /** The single wide plate under the opening. */
-  duo: Photo & { caption: string };
+  /** The single wide plate under the opening. No caption where the line would
+   *  duplicate copy elsewhere on the same page — three pages had exactly that. */
+  duo: Photo & { caption?: string };
   /** Half-page photograph beside the "what prompts this" ledger. */
   split: { photo: Photo; label: string; title: string; flip: boolean };
   explain: { label: string; title: string; lede: string };
@@ -39,7 +40,7 @@ export type SolutionE2 = {
 
 export const SOLUTIONS_E2: Record<string, SolutionE2> = {
   "protecting-your-family": {
-    bar: { facts: ["No products in the first meeting", "No cost", "Under an hour"], statement: "Start with your household, not a policy." },
+    bar: { facts: ["A conversation, not a pitch", "Costs you nothing", "About an hour of your time"], statement: "Start with your household, not a policy." },
     open: {
       lead: "Nobody wakes up wanting to buy insurance. Something changes, and a question that was easy to postpone stops being easy to postpone.",
       prose: [
@@ -47,7 +48,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
         "If you would rather understand a policy you already have, Existing Policy Support is the better place to start.",
       ],
     },
-    duo: { src: "/media/img/close-conversation.jpg", alt: "An advisor mid-conversation with two people", caption: "A conversation before it is anything else." },
+    duo: { src: "/media/img/close-conversation.jpg", alt: "An advisor mid-conversation with two people" },
     split: { photo: { src: "/media/img/path-future.jpg", alt: "A desk with photographs and keepsakes" }, label: "What usually prompts this", title: "The moment it stops being easy to postpone", flip: false },
     explain: { label: "What it actually means", title: "Four ideas cover most of it", lede: "None of them are complicated once the words are explained, and you do not need all four." },
     steps: { label: "How the conversation goes", title: "It is a conversation before it is anything else" },
@@ -57,9 +58,9 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about protecting my family",
   },
   "protecting-your-income": {
-    bar: { facts: ["Bring your fixed monthly costs", "No cost", "Under an hour"], statement: "One number does most of the work in this conversation." },
+    bar: { facts: ["Bring your fixed monthly costs", "Nothing to pay", "About an hour"], statement: "One number does most of the work in this conversation." },
     open: {
-      lead: "If your income stopped for six months, what would change in your household — and in what order?",
+      lead: "If your income stopped for six months, what would change in your household, and in what order?",
       prose: [
         "Most people can answer that in about a minute, and the answer is usually clarifying. This page covers what income protection actually does, the four terms that decide whether a policy works, and how we approach it with you.",
         "If you would rather understand a policy you already have, Existing Policy Support is the better place to start.",
@@ -75,15 +76,15 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about protecting my income",
   },
   "medical-health-preparation": {
-    bar: { facts: ["Bring your schedule of benefits", "No cost", "No obligation to change anything"], statement: "Most medical questions are answered by a document you already own." },
+    bar: { facts: ["Bring your schedule of benefits", "Costs you nothing", "Nothing has to change"], statement: "Most medical questions are answered by a document you already own." },
     open: {
       lead: "Medical cover is the product most Malaysians already hold and least often understand.",
       prose: [
         "These are the questions that come up in almost every conversation, and five terms that make most plans straightforward to compare once they are clear.",
-        "If the plan you want explained was bought elsewhere, that is fine — Existing Policy Support covers exactly that, with no obligation to change anything.",
+        "If the plan you want explained was bought elsewhere, that is fine: Existing Policy Support covers exactly that, with no obligation to change anything.",
       ],
     },
-    duo: { src: "/media/img/policy-review.jpg", alt: "", caption: "Reading the schedule of benefits together is most of the job." },
+    duo: { src: "/media/img/policy-review.jpg", alt: "" },
     split: { photo: { src: "/media/img/path-review.jpg", alt: "" }, label: "What people usually want to know", title: "The questions that come up every time", flip: false },
     explain: { label: "What it actually means", title: "The parts of a plan that decide everything", lede: "Five terms. Once these are clear, most medical plans become straightforward to compare." },
     steps: { label: "How the conversation goes", title: "How a medical review works", lede: "Most people who come to us on this subject already have cover. The work is usually understanding it, not replacing it." },
@@ -93,7 +94,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about medical cover",
   },
   "planning-for-your-future": {
-    bar: { facts: ["No commitment to have the conversation", "No cost", "Under an hour"], statement: "Start from the life, not the figure." },
+    bar: { facts: ["A conversation, nothing more", "Costs you nothing", "About an hour"], statement: "Start from the life, not the figure." },
     open: {
       lead: "Almost nobody arrives with a plan. They arrive with a feeling that they should have one.",
       prose: [
@@ -111,7 +112,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about planning ahead",
   },
   "wealth-legacy": {
-    bar: { facts: ["Start with your existing nominations", "No cost", "We coordinate with your lawyer"], statement: "Passing it on the way you intended is a separate job." },
+    bar: { facts: ["Start with your existing nominations", "Costs you nothing", "We coordinate with your lawyer"], statement: "Passing it on the way you intended is a separate job." },
     open: {
       lead: "Legacy conversations are rarely about money for long. They tend to arrive at something more particular.",
       prose: [
@@ -129,7 +130,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about wealth and legacy",
   },
   "corporate": {
-    bar: { facts: ["Headcount is enough to begin", "Written proposal", "Annual review"], statement: "Sized to the team you actually have." },
+    bar: { facts: ["Headcount is enough to begin", "A proposal in writing", "Reviewed every year"], statement: "Sized to the team you actually have." },
     open: {
       lead: "Businesses come to us with one of a small number of situations, usually at the point the company has grown past what it started with.",
       prose: [
@@ -137,7 +138,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
         "You would be dealing with a named advisor, and the same one at renewal. Continuity is the part of this that most companies say has been missing.",
       ],
     },
-    duo: { src: "/media/img/dva-workshop.jpg", alt: "", caption: "Half the value of a scheme is in the briefing." },
+    duo: { src: "/media/img/dva-workshop.jpg", alt: "" },
     split: { photo: { src: "/media/img/dva-team.jpg", alt: "" }, label: "What businesses come to us with", title: "The point at which the question arrives", flip: false },
     explain: { label: "What it actually means", title: "What we help with", lede: "Three areas. Most companies need the first, and should at least have considered the other two." },
     steps: { label: "How the conversation goes", title: "How an engagement works" },

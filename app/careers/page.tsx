@@ -99,7 +99,7 @@ const FAQS = [
   },
   {
     q: "How is the income structured?",
-    a: "Advisor income is commission-based, which means it varies and it starts slowly. We will talk through the specifics honestly with you, including what a realistic first two years looks like. We do not publish income figures, because any figure we published would be someone else’s and not yours.",
+    a: "Commission-based, which means it varies and starts slowly. We will talk through what a realistic first two years looks like, honestly, rather than publish a figure that would be someone else’s.",
   },
   {
     q: "Is this a full-time commitment?",
@@ -135,7 +135,7 @@ export default function Page() {
       />
 
       <Bar
-        facts={["No income figures", "No lifestyle promises", "Not an interview"]}
+        facts={["A conversation, not an interview", "Honest about the hard parts", "No dream-lifestyle pitch"]}
         statement="An honest conversation about what the work involves."
         action={
           <a className="pill" href={career}>
@@ -251,11 +251,14 @@ export default function Page() {
             <a className="pill sand" href={career}>
               <span>Explore a career conversation</span>
             </a>
-            <a className="pill ghost" href={link(ROUTES.about.path)}>
-              <span>Read about D’Life</span>
+            {/* The guide routes the career journey through advisor stories —
+                the films are the evidence this page argues from. */}
+            <a className="pill ghost" href={link(ROUTES.stories.path)}>
+              <span>Watch advisor stories</span>
             </a>
           </>
         }
+        note=""
       />
 
       <JsonLd data={breadcrumbLd(route)} />

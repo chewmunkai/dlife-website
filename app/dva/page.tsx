@@ -316,9 +316,6 @@ export default function Page() {
             </div>
           ))}
         </div>
-        <p className="micro" style={{ marginTop: "clamp(26px,3.4vh,40px)" }}>
-          Membership by invitation · every member personally interviewed by Sharon
-        </p>
       </section>
 
       <section className="ask-host light">
@@ -360,7 +357,6 @@ export default function Page() {
               <span>Read about D’Life</span>
             </a>
           </div>
-          <p className="note">Most conversations with us don’t end in a decision, and that’s completely fine.</p>
         </div>
       </section>
 
