@@ -1,14 +1,15 @@
-# D'Life website — content decisions for your confirmation
+# D'Life website — content decisions
 
 August 2026 · Prepared by Edge Point Solutions
+**Status: all four questions answered by D'Life, 2026-08-17. Decisions recorded below and applied to the site.**
 
 The site's copy was audited page by page against your three documents (the
 Brand & Website Direction Guide rev 4, the Visual System reference, and the
 About the Founders document). The structure follows the guide everywhere; the
 edits below removed repetition so that every section earns its place. Most are
-internal housekeeping. **The items in section 1 adjust wording that came from
-your documents, so they need your yes or no.** Everything else is listed for
-transparency.
+internal housekeeping. The items in section 1 adjusted wording that came from
+your documents, so they needed your yes or no; all four are now answered.
+Everything else is listed for transparency.
 
 ---
 
@@ -23,19 +24,19 @@ same text, so the page said everything twice. The three-pillar section keeps
 every subtopic; the fourth pillar (community and impact) now appears as a
 line in the events section: *"Alongside the sessions, members mentor,
 volunteer and work with universities together."*
-→ **Keep merged / restore the second section?**
+→ **Answered: keep merged.** No further change.
 
 **Q2. "Who can join" lists six kinds of member instead of seven.**
 Item seven ("Anyone with a positive mindset and a willingness to learn")
 repeated the sentence directly above the list ("welcomes anyone young and
 genuinely willing to grow"). The other six are your wording, unchanged.
-→ **OK to keep six?**
+→ **Answered: yes, six stays.**
 
 **Q3. "What members gain" lists six outcomes instead of ten.**
 Your ten takeaways are all still present, merged in pairs so the list reads
 as written rather than transcribed (for example "Career clarity, direction
 and a working network" carries three of them).
-→ **OK as merged?**
+→ **Answered: OK as merged.**
 
 ### About D'Life
 
@@ -44,7 +45,15 @@ and a working network" carries three of them).
 Achievers". Reasoning: your guide asks the site to avoid luxury signals, and
 income claims would sit one click away from a careers page that promises not
 to publish income figures. Both can be added if you prefer.
-→ **Keep them off / add them?**
+→ **Answered: include them, subtly.** Applied as follows, on the About page
+only (the careers page stays free of income figures):
+- The 45 countries ride the existing convention credential rather than
+  standing as a row of their own: *"Multiple overseas convention qualifier,
+  across more than 45 countries."*
+- Advisor incomes appear as a closing clause in the development band's
+  introduction: *"…a number of them arriving from corporate careers in other
+  industries, several going on to six-figure incomes."*
+- Both join the verify-before-publish list (section 3, item 2).
 
 ---
 
@@ -77,7 +86,8 @@ Unchanged from the guide's own verification list:
 
 1. Founder photography for Sharon and Rachel (marked placeholders today)
 2. Verification of every figure and award (27 years, GAMA, MDRT, MDA, MDD,
-   3 agency managers, 40+ unit managers)
+   3 agency managers, 40+ unit managers, the 45 countries, the six-figure
+   incomes)
 3. Written consent for the advisor quote on the careers page
 4. Real contact details: WhatsApp number, email, office address
 5. The [TO BE CONFIRMED] items on all four legal pages
