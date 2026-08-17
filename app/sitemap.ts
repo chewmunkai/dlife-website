@@ -14,7 +14,7 @@ import { abs } from "../lib/seo";
 const LASTMOD = "2026-08-14";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ALL_ROUTES.filter((r) => !r.utility).map((r) => ({
+  return ALL_ROUTES.filter((r) => !r.utility && !r.hidden).map((r) => ({
     url: abs(r.path),
     lastModified: LASTMOD,
     changeFrequency: "monthly" as const,

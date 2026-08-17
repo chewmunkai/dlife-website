@@ -44,7 +44,7 @@ export default function Page() {
   /* Every page this build ships, less this index — the figure quoted in the
      lede. Derived from the route map rather than typed, so it stays true when
      a route is added. */
-  const pageCount = ALL_ROUTES.filter((r) => r.path !== route.path).length;
+  const pageCount = ALL_ROUTES.filter((r) => r.path !== route.path && !r.hidden).length;
 
   const solutions: SiteMapRow[] = [
     { route: ROUTES.solutions, title: "Protection & Planning — hub" },

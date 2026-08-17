@@ -11,7 +11,7 @@ const EXPECT = {
      page the design deliberately keeps darker than the rest. */
   "dva.html": [
     "section.crest dark ink", "section.band light", "section.band light", "section.band light",
-    "section.band light", "section.band light", "section.band dark ink", "section.ask-host light",
+    "section.band light", "section.spread light", "section.band dark ink", "section.ask-host light",
     "section.band light close-host",
   ],
   /* August 2026 amendments: open statement, moments, ideas pane, steps
@@ -25,8 +25,10 @@ const EXPECT = {
   "terms.html": ["section.hero hero--noart dark", "section.band light band--read", "section.band sand"],
   "disclosures.html": ["section.hero hero--noart dark", "section.band light band--read", "section.band sand"],
   "complaints.html": ["section.hero hero--noart dark", "section.band light band--read", "section.band sand"],
+  /* Round 8: the "Corporate solutions" statement band went with the page it
+     linked to, which the client asked to hide. */
   "solutions.html": [
-    "section.hero dark", "div.bar", "section.band light", "section.band sand", "section.stmt light",
+    "section.hero dark", "div.bar", "section.band light", "section.band sand",
     "section.ask-host sand", "section.band light close-host",
   ],
   /* Round 7: the four commitments and mission/vision stopped being full-width
@@ -45,10 +47,10 @@ const EXPECT = {
     "section.hero dark", "div.bar", "section.band light", "section.band light ideas", "section.band light", "section.band light", "section.spread sand", "section.ask-host light", "section.band light close-host",
   
   ],
-  "contact.html": [
-    "section.hero dark", "section.band light", "section.band sand", "section.band light band--read",
-    "section.ask-host light", "section.band light close-host",
-  ],
+  /* Round 8: rebuilt as one simple page at the client's direction — company
+     info and location beside a form. No FAQ, and no next-step card, which on
+     the get-in-touch page was circular. */
+  "contact.html": ["section.hero dark", "section.band light"],
   "stories.html": [
     "section.hero dark", "section.band light", "section.band light", "section.band light close-host",
   ],

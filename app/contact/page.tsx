@@ -1,86 +1,34 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
-import Ask from "../../components/v2/Ask";
+import Lead from "../../components/v2/Lead";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, ClosingCard, Cards } from "../../components/v2/blocks";
+import { Hero } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { link } from "../../lib/asset";
-import { CONTACT, WA, waHref } from "../../lib/contact";
-import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
+import { CONTACT, WA, WA_NUMBER, waHref } from "../../lib/contact";
+import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.contact);
 
 /* ============================================================
    Contact.
 
-   There is no form on this page, deliberately: every route opens WhatsApp or
-   an email client with a first message already written. Direction guide §11
-   asks that each CTA name itself in its own prefill so the team can read the
-   first line of an incoming message and know which page and which intent
-   produced it, with no analytics and no automation.
+   Round 8 (2026-08, client): rebuilt as one simple page. It was six intent
+   cards, three contact cards, a paragraph and a four-question FAQ, all of
+   which asked the visitor to choose a lane before they had said anything. Now
+   there are two things on it — where D'Life is, and a form — and the page ends
+   there. No FAQ, and no next-step card either: a "get in touch" card at the
+   foot of the get-in-touch page is circular.
 
-   Every prefill below comes from lib/contact.ts rather than being written
-   here, so the routing table stays in one file and two CTAs cannot quietly
-   drift into saying the same thing.
+   ⚠️ The form is not wired to anything. See components/v2/Lead.tsx: a static
+   export has no endpoint to post to, so it acknowledges honestly rather than
+   pretending. Connecting it is a client decision (form service + PDPA consent
+   wording).
 
-   ⚠️ The number, address and email are still placeholders pending client
-   confirmation — see the TODOs in lib/contact.ts.
+   ⚠️ Every detail below is a placeholder pending client confirmation — the
+   number, the email and the address. See the TODOs in lib/contact.ts. The
+   street address is marked on the page rather than invented, and there is no
+   map because there is no address to centre one on.
    ============================================================ */
-
-const ROUTES_IN = [
-  {
-    title: "I’d like to speak with an advisor",
-    copy: "Protection, planning, or just working out where to start. A first conversation is usually under an hour and involves no products.",
-    href: waHref(WA.advisor),
-    cta: "Start a conversation",
-  },
-  {
-    title: "I have a policy I’d like explained",
-    copy: "Wherever you bought it. We will read it before we speak, and there is no obligation to change anything.",
-    href: waHref(WA.policyClarity),
-    cta: "Ask about my coverage",
-  },
-  {
-    title: "I’d like to explore a career",
-    copy: "An honest conversation about what the work involves, what the first year looks like, and who it suits.",
-    href: waHref(WA.career),
-    cta: "Explore a career",
-  },
-  {
-    title: "I’m enquiring on behalf of a company",
-    copy: "Employee benefits, key person cover or business continuity. Headcount and what is already in place is enough to begin.",
-    href: waHref(WA.corporate),
-    cta: "Make a corporate enquiry",
-  },
-  {
-    title: "I’d like to know about DVA",
-    copy: "Membership of the leadership circle is by invitation, but questions about it are always welcome.",
-    href: waHref(WA.dva),
-    cta: "Ask about DVA",
-  },
-  {
-    title: "I’m interested in the Youth Community",
-    copy: "Events, workshops and resources for students, fresh graduates and young professionals.",
-    href: waHref(WA.youth),
-    cta: "Ask about Youth Community",
-  },
-];
-
-const FAQS = [
-  {
-    q: "How quickly will someone reply?",
-    a: "Most messages sent on a working day get a reply the same day. Monday to Friday, 9am–6pm.",
-  },
-  {
-    q: "Will I be added to a mailing list?",
-    a: "No. Getting in touch does not sign you up to anything, and nobody will chase you afterwards.",
-  },
-  {
-    q: "Can I ask a question without arranging a meeting?",
-    a: "Of course. Plenty of the messages we get are one question with a one-message answer, and that is a perfectly good use of this.",
-  },
-  { q: "Is there a cost to a first conversation?", a: "No." },
-];
 
 export default function Page() {
   const route = ROUTES.contact;
@@ -90,90 +38,75 @@ export default function Page() {
       <Hero
         route={route}
         label="Contact"
-        title="Talk to a person, not a form"
-        lede="Pick whichever line below is closest to your situation. It opens WhatsApp with a first message already written, so the right person picks it up."
+        title="Tell us what you need"
+        lede="A few lines is enough to start. We will read it, work out who should answer, and come back to you."
         photo={{ src: "/media/img/close-conversation.jpg", alt: "Two people talking across a table" }}
       />
 
-      <Band label="Get in touch" title="What brings you here?">
-        <Cards columns={2} items={ROUTES_IN} />
-      </Band>
+      <section className="band light">
+        <div className="reach">
+          <div className="reach__info">
+            <p className="lbl">Where to find us</p>
+            <h2>D’Life Revolution</h2>
+            <p className="dl-lede">
+              A Malaysian financial advisory and insurance agency, based in the Klang Valley and working with clients
+              across the country.
+            </p>
 
-      <Band tone="sand" label="Other ways" title="Email, phone and office">
-        <Cards
-          columns={3}
-          items={[
-            {
-              kicker: "Email",
-              title: CONTACT.email,
-              copy: "For anything that needs a longer answer, or a document attached.",
-              href: `mailto:${CONTACT.email}`,
-              cta: "Send an email",
-            },
-            {
-              kicker: "WhatsApp",
-              title: CONTACT.phone,
-              copy: "Monday to Friday, 9am–6pm. Most messages get a reply the same day.",
-              href: waHref(WA.question),
-              cta: "Message us",
-            },
-            {
-              kicker: "Office",
-              title: CONTACT.city,
-              copy: "Visits by appointment, so someone is there to meet you.",
-              href: waHref(WA.visit),
-              cta: "Arrange a time",
-            },
-          ]}
-        />
-      </Band>
+            <dl className="reach__list">
+              <div>
+                <dt>Office</dt>
+                <dd>
+                  <span className="tbc">Street address to be confirmed</span>
+                  <br />
+                  {CONTACT.city}
+                </dd>
+              </div>
+              <div>
+                <dt>WhatsApp</dt>
+                <dd>
+                  <a href={waHref(WA.conversation)}>{CONTACT.phone}</a>
+                  <em>The quickest route. Opens with a first message written.</em>
+                </dd>
+              </div>
+              <div>
+                <dt>Email</dt>
+                <dd>
+                  <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+                </dd>
+              </div>
+              <div>
+                <dt>Hours</dt>
+                <dd>
+                  Monday to Friday, 9am to 6pm
+                  <em>Messages sent on a working day usually get a reply the same day.</em>
+                </dd>
+              </div>
+            </dl>
+          </div>
 
-      <Band read>
-        <div className="dl-prose">
-          <p>
-            If you are not sure which of the above fits, send anything at all. Working out what someone actually needs
-            is the beginning of the job, not a prerequisite for starting it.
-          </p>
-          <p>
-            And if you are early in thinking about this and not ready to talk to anyone, the{" "}
-            <a href={link(ROUTES.solutions.path)}>protection and planning pages</a> explain most of it without involving
-            us.
-          </p>
-        </div>
-      </Band>
-
-      <section className="ask-host light">
-        <div className="ask-head">
-          <p className="lbl">Before you message</p>
-          <h2>Reasonable things to wonder</h2>
-        </div>
-        <div>
-          <Ask items={FAQS} />
-          <div className="dl-actions" style={{ marginTop: "clamp(28px,4vh,44px)" }}>
-            <a className="pill ghost" href={waHref(WA.question)}>
-              <span>Ask us something else</span>
-            </a>
+          <div className="reach__form">
+            <p className="lbl">Send an enquiry</p>
+            <h2>Or leave it here</h2>
+            <Lead />
           </div>
         </div>
       </section>
 
-      <ClosingCard
-        title="Still deciding where to start?"
-        lede="Send anything at all. Working out what you actually need is the beginning of the job, not a prerequisite for starting it."
-        actions={
-          <>
-            <a className="pill sand" href={waHref(WA.conversation)}>
-              <span>Message us on WhatsApp</span>
-            </a>
-            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
-              <span>Explore protection &amp; planning</span>
-            </a>
-          </>
-        }
-      />
-
       <JsonLd data={breadcrumbLd(route)} />
-      <JsonLd data={faqLd(FAQS)} />
+      {/* Marked as a placeholder in the same way the page is: no street
+          address, so no PostalAddress beyond the locality. */}
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FinancialService",
+          name: "D’Life Revolution",
+          email: CONTACT.email,
+          telephone: `+${WA_NUMBER}`,
+          address: { "@type": "PostalAddress", addressLocality: "Kuala Lumpur", addressCountry: "MY" },
+          openingHours: "Mo-Fr 09:00-18:00",
+        }}
+      />
     </Shell>
   );
 }

@@ -35,6 +35,8 @@ export type Route = {
   priority: number;
   /** Excluded from the sitemap and from nav — legal pages and utilities. */
   utility?: boolean;
+  /** Withheld from the sitemap and the site index while still on file. */
+  hidden?: boolean;
 };
 
 /* ---------- the five life needs ----------
@@ -49,7 +51,12 @@ export const SOLUTION_SLUGS = [
   "medical-health-preparation",
   "planning-for-your-future",
   "wealth-legacy",
-  "corporate",
+  /* "corporate" is withheld at the client's request (2026-08). Out of this
+     list it stops being a generated route, so /solutions/corporate does not
+     exist, it cannot be reached from navigation, the footer, the solutions hub
+     or a sibling page's onward link, and it is absent from the sitemap. The
+     route record and both content records are kept intact below and in
+     content/solutions*.ts — restoring it is putting this line back. */
 ] as const;
 
 export type SolutionSlug = (typeof SOLUTION_SLUGS)[number];
@@ -124,7 +131,10 @@ export const ROUTES = {
     parent: "/solutions",
     priority: 0.8,
   },
+  /* Withheld. See the note on SOLUTION_SLUGS: `hidden` keeps it out of the
+     sitemap and the site index while the record stays on file. */
   corporate: {
+    hidden: true,
     path: "/solutions/corporate",
     label: "Corporate Solutions",
     title: "Corporate Solutions",
@@ -272,11 +282,10 @@ const BY_PATH = new Map(ALL_ROUTES.map((r) => [r.path, r]));
 
 export const routeAt = (path: string): Route | undefined => BY_PATH.get(path);
 
-/** The five life needs, in page order. Corporate is deliberately excluded —
- *  the direction guide keeps it discoverable but out of the main branch. */
-export const LIFE_NEEDS = SOLUTION_SLUGS.filter((s) => s !== "corporate").map(
-  (s) => ROUTES[s as Exclude<SolutionSlug, "corporate">],
-);
+/** The five life needs, in page order. Identical to SOLUTION_SLUGS now that
+ *  corporate is withheld; kept as its own name because the pages read better
+ *  for it and because corporate returning should not silently rejoin this. */
+export const LIFE_NEEDS = SOLUTION_SLUGS.map((s) => ROUTES[s]);
 
 /**
  * Breadcrumb trail for a route, root first, the page itself last.
@@ -313,7 +322,6 @@ export const PRIMARY_NAV: NavItem[] = [
     href: ROUTES.solutions.path,
     children: [
       ...LIFE_NEEDS.map((r) => ({ label: r.label, href: r.path })),
-      { label: ROUTES.corporate.label, href: ROUTES.corporate.path },
     ],
   },
   { label: "Existing Policy Support", href: ROUTES.policy.path },
@@ -341,7 +349,6 @@ export const FOOTER_NAV: Array<{ heading: string; links: Array<{ label: string; 
     heading: "Protection & Planning",
     links: [
       ...LIFE_NEEDS.map((r) => ({ label: r.label, href: r.path })),
-      { label: ROUTES.corporate.label, href: ROUTES.corporate.path },
     ],
   },
   {

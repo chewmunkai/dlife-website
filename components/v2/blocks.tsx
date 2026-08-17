@@ -605,7 +605,10 @@ export function LoopCard({
 }) {
   return (
     <section className="band light" id={id}>
-      <div className="loop">
+      {/* `dark` flips the section tokens: the card is brown, so the field, its
+          label and the ghost outlines all need to resolve against a dark
+          ground rather than staying set for the ivory band behind it. */}
+      <div className="loop dark">
         <div className="say">
           <p className="lbl">{label}</p>
           <h2>{title}</h2>
@@ -648,11 +651,18 @@ export function YearMap({
       <h2>{title}</h2>
       {lede && <p className="dl-lede">{lede}</p>}
       <div className="yearmap">
-        {tiers.map((t) => (
-          <div className="tier" key={t.when}>
+        {tiers.map((t, i) => (
+          /* The first tier is the spine and carries the ink treatment: the
+             section's argument is that frequency is the signal, so the thing
+             that happens every month is the darkest object in it. */
+          <div className={`tier${i === 0 ? " tier--spine dark" : ""}`} key={t.when}>
             <div>
               <span className="when">{t.when}</span>
               <span className="note">{t.note}</span>
+              <span className="n">
+                <b>{String(t.items.length).padStart(2, "0")}</b>
+                {t.items.length === 1 ? "session" : "kinds of session"}
+              </span>
             </div>
             <div className="items" style={{ ["--n" as string]: t.items.length }}>
               {t.items.map((it) => (
@@ -670,10 +680,13 @@ export function YearMap({
 }
 
 /**
- * A selection process, drawn narrowing: each stage is inset further than the
- * last and only the final one carries the copper, because only the final one
- * is an outcome. The stage words are the display element, since "only then"
- * is the argument the section is making (styles/amendments.css §20).
+ * A selection process: the label and the framing sentence on a sticky rail,
+ * the three stages beside it on one copper line.
+ *
+ * Round 8 returned this to the earlier, simpler shape at the client's
+ * direction — the narrowing-stack version overstated it. The detail that
+ * carries the argument now is the last marker being filled while the first two
+ * are rings: only the invitation is an outcome (styles/amendments.css §20).
  */
 export function Gate({
   label,
@@ -687,20 +700,22 @@ export function Gate({
   stages: ReadonlyArray<{ k: string; title: string; copy: ReactNode }>;
 }) {
   return (
-    <section className="band light">
-      {label && <p className="lbl">{label}</p>}
-      <h2>{title}</h2>
-      {aside && <p className="dl-lede">{aside}</p>}
-      <div className="gate">
-        {stages.map((s) => (
-          <div className="st" key={s.k}>
-            <span className="k">{s.k}</span>
-            <div>
+    <section className="spread light">
+      <div className="spread__rail">
+        {label && <p className="lbl">{label}</p>}
+        <h2>{title}</h2>
+        {aside && <p className="aside">{aside}</p>}
+      </div>
+      <div className="spread__body">
+        <div className="seq2">
+          {stages.map((s) => (
+            <div key={s.k}>
+              <span className="k">{s.k}</span>
               <h3>{s.title}</h3>
               <p>{s.copy}</p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

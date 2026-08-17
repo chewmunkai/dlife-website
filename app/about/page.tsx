@@ -201,10 +201,8 @@ export default function Page() {
         </p>
       </Founder>
 
-      {/* Not dva-team.jpg: the record panel below now carries that photograph,
-          and the same image twice in adjacent sections reads as an error. */}
       <SplitShot
-        photo={{ src: "/media/img/dva-workshop.jpg", alt: "A D’Life workshop session in progress" }}
+        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team" }}
         tone="light"
         label="Recognition"
         title="Professional record"
@@ -223,7 +221,7 @@ export default function Page() {
         label="Advisor development"
         title="Advisors she has built"
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries, several going on to six-figure incomes. Every figure here is pending client verification."
-        photo={{ src: "/media/img/dva-team.jpg", alt: "Sharon Cheang with the D’Life advisory team", position: "50% 38%" }}
+        photo={{ src: "/media/img/dva-workshop.jpg", alt: "Sharon Cheang with advisors at a D’Life session", position: "50% 42%" }}
         figures={[
           { fig: "3", copy: "agency managers now running teams of their own" },
           { fig: "40+", copy: "young assistant and unit managers developed" },

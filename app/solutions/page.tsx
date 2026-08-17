@@ -26,9 +26,9 @@ export const metadata: Metadata = pageMeta(ROUTES.solutions);
    why the content file wins.
    ============================================================ */
 
-/** The five life needs. Corporate is excluded here deliberately — it gets its
- *  own statement band below rather than a sixth card. */
-const NEEDS = SOLUTION_SLUGS.filter((s) => s !== "corporate");
+/** The five life needs. Corporate is no longer in SOLUTION_SLUGS at all, so
+ *  this is now the whole list. */
+const NEEDS = SOLUTION_SLUGS;
 
 const FAQS = [
   {
@@ -126,23 +126,10 @@ export default function Page() {
         <Rail steps={COMMON} />
       </Band>
 
-      {/* Corporate is a smaller part of the practice, so it gets a different
-          shape rather than a sixth card at equal billing. */}
-      <section className="stmt light">
-        <div>
-          <p className="lbl">For businesses</p>
-          <h2>Corporate solutions</h2>
-        </div>
-        <div className="dl-prose">
-          <p>
-            Employee benefits, key person cover and business continuity arrangements for Malaysian companies. A smaller
-            part of what we do, handled by the same advisors and with the same approach.
-          </p>
-          <p>
-            <a href={link(ROUTES.corporate.path)}>See corporate solutions →</a>
-          </p>
-        </div>
-      </section>
+      {/* The "Corporate solutions" statement band was removed with the page it
+          linked to (2026-08, client): a section headed "Corporate solutions" on
+          the hub is the opposite of hiding it. The copy is recoverable from git
+          along with the route, see the note on SOLUTION_SLUGS. */}
 
       <section className="ask-host sand">
         <div className="ask-head">
