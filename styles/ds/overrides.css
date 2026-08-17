@@ -72,7 +72,7 @@ section.said { margin-top: 0; }
    label's full single line. On Youth Community, "Empowering youth. Building
    tomorrow." made the hero track 581px wide inside a 375px viewport, so the
    photograph, the label and the lede were all cut off mid-word. The page did
-   not scroll sideways only because rule 5 below clips it.
+   not scroll sideways only because rule 6 below clips it.
 
    `min-width: 0` on the grid items removes the automatic minimum, so the
    track resolves to the container and `.lbl`'s own `max-width: 100%` caps the
@@ -85,7 +85,18 @@ section.said { margin-top: 0; }
   min-width: 0;
 }
 
-/* ---- 5. Belt and braces on sideways scroll ----
+/* ---- 5. Long pill labels blow out their panel on a phone ----
+   The design's .pill is white-space:nowrap, so a label like "Explore a career
+   conversation" is 359px before padding — wider than a closing panel's content
+   box at 375px. The pill then drags the panel to 427px and the panel's copy is
+   cut off at the right edge (invisible except by measuring, because rule 6
+   clips the page). Below tablet width a pill may wrap instead; line-height
+   keeps a two-line pill readable and the radius stays a pill shape. */
+@media (max-width: 640px) {
+  .pill { white-space: normal; text-align: center; line-height: 1.35; }
+}
+
+/* ---- 6. Belt and braces on sideways scroll ----
    The bands are full-bleed and several use negative margins at the edges, so
    a single mis-measured child can reintroduce the scrollbar. The page never
    scrolls sideways by design. */

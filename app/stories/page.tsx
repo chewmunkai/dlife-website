@@ -122,6 +122,7 @@ export default function Page() {
             </a>
           </>
         }
+        note=""
       />
 
       <JsonLd data={breadcrumbLd(route)} />

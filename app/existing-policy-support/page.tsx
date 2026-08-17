@@ -46,10 +46,6 @@ const IS = [
     title: "A conversation you can end",
     copy: "At any point, with no follow-up sequence waiting behind it.",
   },
-  {
-    title: "No cost",
-    copy: "Understanding what you already hold is something we are happy to help with, whether or not anything follows from it.",
-  },
 ];
 
 const POINTS = [
@@ -129,7 +125,7 @@ export default function Page() {
       />
 
       <Bar
-        facts={["No cost", "No obligation to change anything", "Wherever you bought it"]}
+        facts={["Costs you nothing", "Nothing has to change", "Any policy, wherever you bought it"]}
         statement="A review, not a transfer."
         action={
           <a className="pill" href={waHref(WA.policy)}>
@@ -152,7 +148,7 @@ export default function Page() {
       </Band>
 
       <Band tone="sand" label="What a review is">
-        <h2 style={{ maxWidth: "26ch" }}>Six things that happen, and one that does not</h2>
+        <h2 style={{ maxWidth: "26ch" }}>Five things that happen, and one that does not</h2>
         <div className="stated">
           {IS.map((i) => (
             <div key={i.title}>
@@ -165,8 +161,7 @@ export default function Page() {
             form — do not soften it into a benefit. */}
         <p className="fnote">
           <b>What it is not.</b> Not a sales meeting with a review attached, and not an assessment of whoever advised
-          you before. Nothing here obliges you to move or change a policy, and most reviews end with the client keeping
-          exactly what they had.
+          you before. Nothing here obliges you to move or change a policy.
         </p>
       </Band>
 

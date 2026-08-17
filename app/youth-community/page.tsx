@@ -43,24 +43,10 @@ const PILLARS = [
   },
 ];
 
-const QUAD = [
-  {
-    title: "Health & well-being",
-    copy: "Physical wellness and healthy lifestyle habits · mental resilience and emotional well-being · stress management and balance.",
-  },
-  {
-    title: "Financial & career development",
-    copy: "Financial literacy and wealth management · career exploration and industry exposure · entrepreneurial thinking and business opportunity.",
-  },
-  {
-    title: "Leadership & personal growth",
-    copy: "Leadership development · communication and public speaking · personal branding · critical thinking and problem-solving.",
-  },
-  {
-    title: "Community & impact",
-    copy: "Mentorship and coaching · volunteer and community service · university engagement · networking and collaborative projects.",
-  },
-];
+/* The doc's "four development pillars" section is deliberately NOT a band of
+   its own: three of its four pillars repeat the trip's gloss text nearly
+   verbatim, so the two sections read as the same content twice. The fourth
+   (community & impact) lives as a line in the events intro. Client flag Y1. */
 
 const WHO = [
   "University students preparing for their future careers",
@@ -69,7 +55,8 @@ const WHO = [
   "Young entrepreneurs aspiring to build purpose-driven businesses",
   "Career explorers looking for clarity, direction and new opportunities",
   "Young adults who value holistic growth in health, wealth and leadership",
-  "Anyone with a positive mindset and a willingness to learn",
+  // "Anyone with a positive mindset and a willingness to learn" restated the
+  // band's lede, so the list stops at six. Client flag Y2.
 ];
 
 const EVENTS = [
@@ -111,17 +98,16 @@ const EVENTS = [
   },
 ];
 
+/* The doc's ten takeaways, merged to six without losing a noun — ten
+   one-liners read as a transcribed list rather than a written one. Client
+   flag Y3. */
 const TAKEAWAYS = [
-  "Greater confidence and self-awareness",
-  "Stronger leadership and communication skills",
-  "Better physical and mental well-being",
-  "Healthy lifestyle habits and resilience",
+  "Confidence and self-awareness",
+  "Leadership and communication, practised rather than taught",
+  "Physical and mental well-being, and the habits that keep them",
   "Financial literacy and wealth awareness",
-  "Career clarity and future direction",
-  "Professional networking opportunities",
-  "Hands-on practical experience",
-  "A habit of continuing to learn",
-  "Meaningful friendships and a supportive community",
+  "Career clarity, direction and a working network",
+  "Friendships and a community that outlast the sessions",
 ];
 
 const FAQS = [
@@ -138,10 +124,8 @@ const FAQS = [
     q: "Is this a recruitment pipeline for D’Life?",
     a: "No. It is a community initiative, and the great majority of members will never work with us. If someone does become interested in the profession we will have that conversation openly, but it is not what this is for.",
   },
-  {
-    q: "How do I hear about what’s coming up?",
-    a: "Sign up above, or message us on WhatsApp. Updates are occasional and easy to stop.",
-  },
+  // "How do I hear about what's coming up?" is answered by the sign-up band
+  // sitting directly above this ledger, so it is not asked again here.
 ];
 
 export default function Page() {
@@ -179,7 +163,10 @@ export default function Page() {
         </Open>
       </Band>
 
-      <section className="trip dark">
+      {/* id="resources": the homepage's "Educational Resources" card lands
+          here — the three pillars are the guides it promises. The anchor
+          used to sit on the cut development-pillars band. */}
+      <section className="trip dark" id="resources">
         <div className="head">
           <p className="lbl">The three pillars</p>
           <h2 style={{ fontSize: "clamp(28px,3.2vw,48px)", lineHeight: 1.04, maxWidth: "20ch", marginTop: 14 }}>
@@ -195,30 +182,12 @@ export default function Page() {
         ))}
       </section>
 
-      <section className="band light" id="resources">
-        <p className="lbl">Development pillars</p>
-        <h2>What the programme covers</h2>
-        <p className="dl-lede">
-          Practical learning experiences across four areas. Sessions move between them through the year rather than
-          running as separate tracks.
-        </p>
-        <div className="quad">
-          {QUAD.map((q, i) => (
-            <div key={q.title}>
-              <b>{String(i + 1).padStart(2, "0")}</b>
-              <h3>{q.title}</h3>
-              <p>{q.copy}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <Band tone="sand" label="Who it’s for" title="Who can join">
         <p className="dl-lede">
           The Youth Community welcomes anyone young and genuinely willing to grow, personally and professionally.
         </p>
         <div className="count">
-          <b>07</b>
+          <b>06</b>
           <span>kinds of member</span>
         </div>
         <Checks items={WHO} />
@@ -228,8 +197,9 @@ export default function Page() {
         <p className="lbl">Events &amp; workshops</p>
         <h2>The kinds of sessions that run</h2>
         <p className="dl-lede">
-          Sessions run through the year across the community and alongside D’Life’s wider programme. Dates and venues
-          go out to members ahead of time. The quickest way to hear about the next one is to sign up below.
+          Sessions run through the year across the community and alongside D’Life’s wider programme. Alongside them,
+          members mentor, volunteer and work with universities together. Dates and venues go out to members ahead of
+          time, and the quickest way to hear about the next one is to sign up below.
         </p>
         <div className="stagger">
           {EVENTS.map((e) => (
@@ -306,6 +276,7 @@ export default function Page() {
             </a>
           </>
         }
+        note=""
       />
 
       <JsonLd data={breadcrumbLd(route)} />

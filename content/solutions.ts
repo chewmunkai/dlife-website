@@ -69,7 +69,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       intro:
         "Nobody wakes up wanting to buy insurance. Something changes, and a question that was easy to postpone stops being easy to postpone.",
       questions: [
-        "A first child, or a second — and the household now depends on one or two incomes",
+        "A first child, or a second, and the household now depends on one or two incomes",
         "A mortgage signed, with twenty or thirty years still to run",
         "Ageing parents who may need support, at the same time as young children",
         "A friend or colleague’s family going through something difficult",
@@ -83,7 +83,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       terms: [
         {
           term: "Life cover",
-          copy: "A sum paid to the people you name if you die. Its job is to replace what your household would lose — the income, the mortgage payments, the school fees — for as long as they would have needed it.",
+          copy: "A sum paid to the people you name if you die. Its job is to replace what your household would lose (the income, the mortgage payments, the school fees) for as long as they would have needed it.",
         },
         {
           term: "Total and permanent disability",
@@ -129,7 +129,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     faqs: [
       {
         q: "How much cover is enough?",
-        a: "There is no universal number. A common starting point is what your household would need to stay steady for the years your dependants still rely on you — outstanding loans, living costs, education — less what is already in place. We work it through with you rather than quoting a rule of thumb.",
+        a: "There is no universal number. A common starting point is what your household would need to stay steady for the years your dependants still rely on you, covering outstanding loans, living costs and education, less what is already in place. We work it through with you rather than quoting a rule of thumb.",
       },
       {
         q: "I already have cover through my employer. Is that enough?",
@@ -137,7 +137,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       },
       {
         q: "Is it too late if I am older, or if I have a medical condition?",
-        a: "Not necessarily, though it does change what is available and what it costs. It is better to ask than to assume — and if the honest answer is that a policy no longer makes sense for you, we will say so.",
+        a: "Not necessarily, though it does change what is available and what it costs. It is better to ask than to assume, and if the honest answer is that a policy no longer makes sense for you, we will say so.",
       },
       {
         q: "What if I want to change things later?",
@@ -165,7 +165,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     recognise: {
       title: "One question worth sitting with",
       intro:
-        "If your income stopped for six months, what would change in your household — and in what order? Most people can answer that in about a minute, and the answer is usually clarifying.",
+        "If your income stopped for six months, what would change in your household, and in what order? Most people can answer that in about a minute, and the answer is usually clarifying.",
       questions: [
         "The loan repayments that continue regardless",
         "How long savings would realistically last",
@@ -189,7 +189,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         },
         {
           term: "The benefit period",
-          copy: "How long payments continue — a fixed number of years, or through to retirement age. This is where a policy either does its job for a long illness or quietly stops halfway.",
+          copy: "How long payments continue: a fixed number of years, or through to retirement age. This is where a policy either does its job for a long illness or quietly stops halfway.",
         },
         {
           term: "Own occupation vs any occupation",
@@ -278,7 +278,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         },
         {
           term: "Deductible and co-insurance",
-          copy: "The portion you pay yourself — a fixed amount before cover starts, or a share of each bill. Plans with a deductible cost less each month and more at the point of treatment.",
+          copy: "The portion you pay yourself: a fixed amount before cover starts, or a share of each bill. Plans with a deductible cost less each month and more at the point of treatment.",
         },
         {
           term: "Room and board rate",
@@ -304,7 +304,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         },
         {
           title: "We translate it",
-          copy: "Limits, deductible, room rate, exclusions — in plain words, with the parts that matter for your circumstances flagged.",
+          copy: "Limits, deductible, room rate, exclusions: in plain words, with the parts that matter for your circumstances flagged.",
         },
         {
           title: "We identify the real gaps",
@@ -324,7 +324,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     faqs: [
       {
         q: "I have medical cover through my employer. Do I need my own?",
-        a: "It depends on two things: whether the limits suit the care you would want, and what happens when you leave that job. Employer cover is real cover — it just stops being yours when the employment does. Worth knowing which of those applies to you before you decide.",
+        a: "It depends on two things: whether the limits suit the care you would want, and what happens when you leave that job. Employer cover is real cover. It just stops being yours when the employment does. Worth knowing which of those applies to you before you decide.",
       },
       {
         q: "Can I be covered if I already have a condition?",
@@ -372,7 +372,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       terms: [
         {
           term: "Your EPF and any pension",
-          copy: "The foundation for most people. Worth knowing what it is projected to provide monthly, rather than as a total — the monthly figure is the one that tells you something.",
+          copy: "The foundation for most people. Worth knowing what it is projected to provide monthly, rather than as a total. The monthly figure is the one that tells you something.",
         },
         {
           term: "Long-term savings and investment",
@@ -380,7 +380,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         },
         {
           term: "Retirement income products",
-          copy: "Arrangements designed to pay out over time rather than as a lump sum. Their value is predictability, and their cost is flexibility — which trade suits you depends on what else you hold.",
+          copy: "Arrangements designed to pay out over time rather than as a lump sum. Their value is predictability, and their cost is flexibility, and which trade suits you depends on what else you hold.",
         },
         {
           term: "Protection that continues",
@@ -516,7 +516,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       },
       {
         q: "Is this only relevant if I have significant assets?",
-        a: "No. A nomination that has not been updated causes the same difficulty for a modest estate as a large one — arguably more, because there is less margin for delay.",
+        a: "No. A nomination that has not been updated causes the same difficulty for a modest estate as a large one, arguably more, because there is less margin for delay.",
       },
       {
         q: "Where should I start?",
@@ -559,7 +559,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       terms: [
         {
           term: "Employee benefits",
-          copy: "Group medical, group life and related cover for your team. The design questions are usually about levels and eligibility rather than product — who is covered, to what standard, and what it costs per head.",
+          copy: "Group medical, group life and related cover for your team. The design questions are usually about levels and eligibility rather than product: who is covered, to what standard, and what it costs per head.",
         },
         {
           term: "Key person cover",
