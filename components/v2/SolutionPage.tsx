@@ -111,7 +111,10 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
 
       <section className="ask-host light">
         <div className="ask-head">
-          <p className="lbl">{e.qa.label}</p>
+          {/* The pre-headline is optional: on the client's direction the FAQ
+              heading is now just "Common questions", which the label used to
+              say, so a label above it would repeat the heading. */}
+          {e.qa.label && <p className="lbl">{e.qa.label}</p>}
           <h2>{e.qa.title}</h2>
         </div>
         <div>

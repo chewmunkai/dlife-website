@@ -79,7 +79,7 @@ export default function Page() {
       </section>
 
       <Band>
-        <Open lead="Nobody here is reading from a script. That is why these are short, specific, and a little unpolished.">
+        <Open lead="No script, and no polish. This is how the work actually goes.">
           <p>
             You are probably watching because you are wondering what the job is actually like, not because you want to
             hear how good we are at it. So that is what they talk about: an ordinary week, the parts that are hard, and

@@ -91,7 +91,7 @@ export default function Page() {
           template article as a real, clickable card so the layout and the
           reading page can both be reviewed; publishing a record replaces it
           and un-routes the template. */}
-      <Band label="Articles" title="When there is something worth writing">
+      <Band title="Articles">
         <div className="arts">
           {ROUTABLE_ARTICLES.map((a) => (
             <a className="art" href={link(`/articles/${a.slug}`)} key={a.slug}>

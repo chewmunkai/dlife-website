@@ -280,7 +280,7 @@ export default function Page() {
         stages={SELECTION}
       />
 
-      <Holds label="The standard" title="What every member is asked to hold" items={TRAITS} />
+      <Holds label="The standard" title="What members hold each other to" items={TRAITS} />
 
       <section className="ask-host light">
         <div className="ask-head">

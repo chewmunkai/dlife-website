@@ -151,8 +151,7 @@ export default function Page() {
       {/* Same treatment as a solution page's "What it actually means": the
           review's components as icon cards. */}
       <Ideas
-        label="What a review is"
-        title="5 things that happen, and 1 that does not"
+        title="What happens in a review"
         items={IS}
         icons={["doc", "gauge", "shield", "clock", "people"]}
       />
@@ -205,8 +204,7 @@ export default function Page() {
 
       <section className="ask-host light">
         <div className="ask-head">
-          <p className="lbl">Common questions</p>
-          <h2>What people ask us first</h2>
+          <h2>Common questions</h2>
         </div>
         <div>
           <Ask items={FAQS} />

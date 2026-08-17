@@ -1536,3 +1536,12 @@
    the right treatment for a heading that must wrap. The client's note was
    about titles breaking in two where the container had room for one line. */
 .wrap :is(.ask-host .ask-head, .spread__rail) h2 { text-wrap: balance; }
+
+/* ---- The FAQ heading column ----
+   Round 10 shortened this heading to "Common questions", which needs 367px on
+   one line while the column gave it 363. Four pixels, so it broke in two and
+   read as a mistake. The grid was 4fr / 8fr; 4.4fr / 7.6fr puts the column at
+   about 400px and costs the accordion beside it nothing it was using. */
+.wrap .ask-host { grid-template-columns: minmax(0, 4.4fr) minmax(0, 7.6fr); }
+/* 16ch was the old cap and is narrower than the column now. */
+.wrap .ask-host .ask-head h2 { max-width: none; }

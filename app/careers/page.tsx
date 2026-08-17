@@ -200,7 +200,7 @@ export default function Page() {
           is a preview of them rather than an unattributed pull-quote. */}
       <StoriesPreview
         label="Advisor stories"
-        title="Hear it from the advisors, not from us"
+        title="Hear it from our Team"
         lede="Three of them talking about the work: what an ordinary week contains, and what made them stay."
         items={VIDEOS.map((v) => ({
           poster: v.poster,
@@ -222,7 +222,7 @@ export default function Page() {
         </div>
         <div>
           <p className="lbl">Who tends to do well</p>
-          <h2>The people this suits</h2>
+          <h2>Is this you?</h2>
           <p className="dl-lede" style={{ maxWidth: "38ch" }}>
             No single background. This is what they had in common on day one.
           </p>
@@ -239,8 +239,7 @@ export default function Page() {
 
       <section className="ask-host light">
         <div className="ask-head">
-          <p className="lbl">Common questions</p>
-          <h2>The questions worth asking us</h2>
+          <h2>Common questions</h2>
         </div>
         <div>
           <Ask items={FAQS} />

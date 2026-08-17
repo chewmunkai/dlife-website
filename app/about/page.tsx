@@ -145,7 +145,7 @@ export default function Page() {
           page rather than four columns of text on a band. */}
       <Creed
         label="What the practice is for"
-        title="4 commitments, in order"
+        title="Our 4 commitments"
         items={COMMITMENTS}
         icons={["shield", "coins", "people", "building"]}
       />
@@ -232,8 +232,8 @@ export default function Page() {
       {/* New at the client's request. Roles are real; names and portraits are
           marked pending on the page. See content/team.ts. */}
       <Roster
-        label="The team"
-        title="The advisors you would deal with"
+        label="Who you would work with"
+        title="The Team"
         lede="Beyond the two founders, the practice runs on a team of advisors and managers at different stages of the same path."
         members={ROSTER}
       >
