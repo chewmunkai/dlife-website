@@ -473,15 +473,12 @@ export default function DLife() {
             Understand the protection you already have. Speak with our team to review your coverage with greater
             confidence, and see what next step, if any, makes sense.
           </p>
-          {/* One primary action, per the client's request that this section
-              route to a single place. The secondary is a text link, not a
-              second pill — the homepage teases, the page explains. */}
+          {/* One action only, per the client's 2026-08 amendments: the
+              "How a review works" text link is gone, so this section routes
+              to exactly one place. */}
           <div className="acts rv">
             <a className="pill" data-wa={WA.policy} href="#">
               <span>Get guidance on my policy</span>
-            </a>
-            <a className="tlink" href={link(ROUTES.policy.path)}>
-              How a review works <em aria-hidden="true">→</em>
             </a>
           </div>
         </div>
@@ -782,11 +779,9 @@ export default function DLife() {
           Now the shared <Faq> block —
           the same component serves every page on the site, so a change to the
           accordion is made once. Markup and styling are the approved ones. */}
-      <Faq
-        items={HOME_FAQS}
-        label="Helpful answers"
-        more={{ label: "See all common questions", href: ROUTES.contact.path }}
-      />
+      {/* No route-out link, per the client's 2026-08 amendments: the FAQ ends
+          on its last answer and the page moves to the closing frame. */}
+      <Faq items={HOME_FAQS} label="Helpful answers" more={null} />
 
       {/* Restored at the client's request: the photograph, its scrim stack and
           the "D'Life" label are back, so the page closes on a picture rather

@@ -15,8 +15,10 @@ import "../../styles/ds/css/actions.css";
 import "../../styles/ds/css/blocks.css";
 import "../../styles/ds/css/chrome.css";
 import "../../styles/ds/pages.css";
-/* Local fixes to the vendored sheets above. Always last. */
+/* Local fixes to the vendored sheets above. */
 import "../../styles/ds/overrides.css";
+/* Design evolution on top of the export — August 2026 client round. Last. */
+import "../../styles/amendments.css";
 
 import { useEffect, useState, type ReactNode } from "react";
 import Logo from "../site/Logo";
@@ -150,86 +152,69 @@ export default function Shell({ children }: { children: ReactNode }) {
 
       <main id="main">{children}</main>
 
-      <footer className="dl-footer dark charcoal">
-        <div className="mast">
-          <div>
-            <div className="wm">
-              <Logo reversed />
-            </div>
-            <p className="tag">Real support, beyond the policy.</p>
+      {/* August 2026 amendment: the footer rebuilt around one statement and a
+          ghost wordmark (styles/amendments.css §6). The `dark charcoal`
+          classes keep it on the approved footer ground and give every child
+          the dark section tokens. */}
+      <footer className="ft2 dark charcoal">
+        <div className="ft2-head">
+          <p className="lb">D’Life · Financial advisory · Est. 1999, Malaysia</p>
+          <h2>Real support, beyond the policy.</h2>
+          <div className="ft2-cta">
+            <a href={waHref(WA.footer)}>
+              WhatsApp {CONTACT.phone} <em aria-hidden="true">→</em>
+            </a>
+            <a href={`mailto:${CONTACT.email}`}>
+              {CONTACT.email} <em aria-hidden="true">→</em>
+            </a>
+            <span className="sub">Monday to Friday, 9am–6pm. Most messages get a reply the same day.</span>
           </div>
-          <span className="est">
-            Est. 1999
-            <br />
-            Malaysia
-          </span>
         </div>
 
-        <div className="mid">
-          <div className="reach">
-            <h2 className="lede">Talk to a person, not a form.</h2>
-            <ul className="chan">
+        <nav className="ft2-grid" aria-label="Site directory">
+          {FOOTER_DIRS.map((group) => (
+            <div key={group.heading}>
+              <h3 className="k">{group.heading}</h3>
+              <ul>
+                {group.links.map((l) => (
+                  <li key={l.href}>
+                    <a href={link(l.href)}>{l.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div>
+            <h3 className="k">Office</h3>
+            <address>{CONTACT.city}</address>
+            <p className="hint">Visits by appointment.</p>
+            {/* TODO(launch): no project document lists D’Life's social
+                profiles. These stay inert rather than guessing a handle. */}
+            <h3 className="k" style={{ marginTop: 26 }}>
+              Elsewhere
+            </h3>
+            <ul>
               <li>
-                <span className="k">WhatsApp</span>
-                <a className="go" href={waHref(WA.footer)}>
-                  <span>{CONTACT.phone}</span>
-                  <em aria-hidden="true">→</em>
-                </a>
-                <p className="hint">Monday to Friday, 9am–6pm. Most messages get a reply the same day.</p>
+                <a href="#">Instagram</a>
               </li>
               <li>
-                <span className="k">Email</span>
-                <a className="go" href={`mailto:${CONTACT.email}`}>
-                  <span>{CONTACT.email}</span>
-                  <em aria-hidden="true">→</em>
-                </a>
-                <p className="hint">For anything that needs a longer answer, or a document attached.</p>
+                <a href="#">Facebook</a>
               </li>
               <li>
-                <span className="k">Office</span>
-                <address>{CONTACT.city}</address>
-                <p className="hint">Visits by appointment.</p>
-              </li>
-              <li>
-                <span className="k">Elsewhere</span>
-                <div className="soc">
-                  {/* TODO(launch): no project document lists D’Life's social
-                      profiles. These stay inert rather than guessing a handle. */}
-                  <a href="#">Instagram</a>
-                  <a href="#">Facebook</a>
-                  <a href="#">YouTube</a>
-                </div>
+                <a href="#">YouTube</a>
               </li>
             </ul>
           </div>
+        </nav>
 
-          <nav className="dirs" aria-label="Site directory">
-            {FOOTER_DIRS.map((group) => (
-              <div key={group.heading}>
-                <h3 className="k">{group.heading}</h3>
-                <ul>
-                  {group.links.map((l) => (
-                    <li key={l.href}>
-                      <a href={link(l.href)}>{l.label}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </nav>
-        </div>
+        <p className="ft2-fine">
+          D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read here
+          is general information, not personal advice. It does not take your circumstances into account. A
+          recommendation only follows a conversation, a needs assessment and the relevant product disclosure documents.
+        </p>
 
-        <div className="fine">
-          <p className="note">
-            D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read here
-            is general information, not personal advice. It does not take your circumstances into account. A
-            recommendation only follows a conversation, a needs assessment and the relevant product disclosure
-            documents.
-          </p>
-        </div>
-
-        <div className="base">
-          <span>© {new Date().getFullYear()} D’Life Revolution. All rights reserved.</span>
+        <div className="ft2-base">
+          <span>© {new Date().getFullYear()} D’Life Revolution</span>
           <div className="lx">
             {LEGAL_LINKS.map((l) => (
               <a key={l.href} href={link(l.href)}>
@@ -241,6 +226,10 @@ export default function Shell({ children }: { children: ReactNode }) {
             Back to top <em aria-hidden="true">↑</em>
           </a>
         </div>
+
+        <span className="ft2-wm" aria-hidden="true">
+          D’Life
+        </span>
       </footer>
 
       <a className="dl-wafloat" href={waHref(WA.float)} aria-label="Message D’Life on WhatsApp">
