@@ -183,23 +183,29 @@
 @media (max-width: 560px) { .moments .rows { grid-template-columns: minmax(0, 1fr); } }
 
 /* ============================================================
-   3 · Ideas (.ideas)
+   3 · Icon cards (.icards)
    Round 3: rounded tinted cards — ordinal in mono, geometric icon, term,
    one sentence. Structure from the client's reference; the tints are brand
    washes (teal, copper, sand, green at low alpha) rather than the
    reference's purple / green / red, so a card set still reads as D'Life.
    The icon set is components/v2/icons.
+
+   Round 7: the grid moved off `.ideas .pane` onto its own `.icards` class so
+   Careers' "what an advisor actually does" can use the pattern the client has
+   already approved rather than a second card design that means the same thing.
+   Column count is a variant, not a rewrite.
    ============================================================ */
-.ideas .pane {
+.icards {
   margin-top: var(--dl-head-gap);
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: grid; grid-template-columns: repeat(var(--icols, 4), minmax(0, 1fr));
   gap: clamp(14px, 1.6vw, 22px);
 }
+.icards--3 { --icols: 3; }
 /* Round 4: four different washes read as four different intentions. One
    surface for the whole set — the brand's own card cream, square, with a
    copper rule capping each card. The ordinal and the icon carry the
    individuality; the colour no longer has to. */
-.ideas .icard {
+.icards .icard {
   position: relative; overflow: hidden;
   background: var(--dl-cream);
   border-radius: 0;
@@ -210,23 +216,27 @@
   box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .07);
   transition: transform var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
 }
-.ideas .icard .no {
+/* Wider cards need less height to look composed — a 3-up set at the 4-up
+   height opens a band of dead space under every sentence. */
+.icards--3 .icard { min-height: clamp(228px, 26vh, 276px); }
+.icards .icard .no {
   font: var(--dl-w-bold) 11px/1 var(--dl-sans);
   letter-spacing: .16em; color: var(--s-label);
 }
-.ideas .icard .dl-icon { margin-top: clamp(20px, 3vh, 30px); color: var(--dl-teal); }
-.ideas .icard .foot { margin-top: auto; padding-top: clamp(22px, 3vh, 32px); }
-.ideas .icard h3 { font-size: clamp(18px, 1.4vw, 22px); line-height: 1.22; margin: 0 0 8px; }
-.ideas .icard p { color: var(--s-muted); font-size: var(--dl-body-sm); line-height: 1.6; margin: 0; }
+.icards .icard .dl-icon { margin-top: clamp(20px, 3vh, 30px); color: var(--dl-teal); }
+.icards .icard .foot { margin-top: auto; padding-top: clamp(22px, 3vh, 32px); }
+.icards .icard h3 { font-size: clamp(18px, 1.4vw, 22px); line-height: 1.22; margin: 0 0 8px; }
+.icards .icard p { color: var(--s-muted); font-size: var(--dl-body-sm); line-height: 1.6; margin: 0; }
 @media (hover: hover) {
-  .ideas .icard:hover { transform: translateY(var(--dl-lift-card)); box-shadow: var(--dl-shadow-float); }
+  .icards .icard:hover { transform: translateY(var(--dl-lift-card)); box-shadow: var(--dl-shadow-float); }
 }
-@media (prefers-reduced-motion: reduce) { .ideas .icard { transition: none; } }
-/* Five-term pages (medical) wrap to a second row rather than squeezing. */
-@media (max-width: 1180px) { .ideas .pane { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: reduce) { .icards .icard { transition: none; } }
+/* Five-term pages (medical) wrap to a second row rather than squeezing.
+   Declared after the variants above so the breakpoint beats them. */
+@media (max-width: 1180px) { .icards { --icols: 2; } }
 @media (max-width: 560px) {
-  .ideas .pane { grid-template-columns: minmax(0, 1fr); }
-  .ideas .icard { min-height: 0; }
+  .icards { --icols: 1; }
+  .icards .icard, .icards--3 .icard { min-height: 0; }
 }
 
 /* ============================================================
@@ -586,3 +596,674 @@
   font: var(--dl-w-bold) 11px/1 var(--dl-sans); font-style: normal;
   letter-spacing: .14em; text-transform: uppercase; color: var(--s-label);
 }
+
+/* ============================================================
+   11 · The four commitments (.creed)
+   Round 7: was `.pillars` — four columns of hairlined text on a full-width
+   dark band. Two problems. It read as a table rather than as the practice's
+   creed, and after round 2 put the whole site on one ground a full-width dark
+   band is no longer how this design says "important".
+
+   So it becomes the page's one ink panel: a contained object on the ivory
+   ground, capped with copper, carrying an icon per commitment. Same highlight
+   grammar as the solution pages' steps panel, so the About page's strongest
+   moment is recognisably part of the same system.
+
+   Ordinals are honest here: the client's own heading says "in the order they
+   matter", so the numbering carries information rather than decorating.
+   ============================================================ */
+.creed {
+  margin-top: var(--dl-head-gap);
+  background: var(--dl-ink);
+  border-top: var(--dl-rule-w) solid var(--dl-copper-d);
+  padding: clamp(30px, 4.4vh, 54px) clamp(24px, 3.4vw, 56px) clamp(32px, 4.6vh, 58px);
+  box-shadow: var(--dl-shadow-panel);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.creed .cm {
+  min-width: 0;
+  padding: 0 clamp(16px, 2vw, 34px);
+  display: flex; flex-direction: column;
+}
+.creed .cm + .cm { border-left: 1px solid rgba(246, 241, 232, .15); }
+.creed .cm:first-child { padding-left: 0; }
+.creed .cm:last-child { padding-right: 0; }
+.creed .cm .no {
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
+  letter-spacing: .18em; color: var(--dl-sand);
+}
+.creed .cm .dl-icon { margin-top: clamp(20px, 3vh, 30px); color: var(--dl-sand); }
+/* Top-aligned, unlike the `.icard` set this borrows from. Those are separate
+   boxes with their own edges, so bottom-aligned text reads as deliberate;
+   these four share one panel divided by hairlines, and pushing the foot down
+   put every commitment name on a different baseline depending on how many
+   lines its sentence happened to wrap to. */
+.creed .cm .foot { padding-top: clamp(24px, 3.4vh, 38px); }
+.creed .cm h3 {
+  font-size: clamp(20px, 1.7vw, 27px); line-height: 1.14; letter-spacing: -.018em;
+  color: var(--dl-ivory); margin: 0 0 10px;
+}
+.creed .cm p {
+  font-size: var(--dl-body-sm); line-height: 1.6; margin: 0;
+  color: rgba(246, 241, 232, .74);
+}
+@media (max-width: 1000px) {
+  .creed { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(28px, 4vh, 40px); }
+  .creed .cm:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .creed .cm:nth-child(even) { padding-right: 0; }
+}
+@media (max-width: 560px) {
+  .creed { grid-template-columns: minmax(0, 1fr); }
+  .creed .cm { padding: 0; border-left: 0; }
+  .creed .cm + .cm { padding-top: clamp(24px, 3.4vh, 32px); border-top: 1px solid rgba(246, 241, 232, .15); }
+  .creed .cm .foot { padding-top: clamp(18px, 2.4vh, 24px); }
+}
+
+/* ============================================================
+   12 · Mission and vision (.mv2)
+   Round 7: was `.mv` — two bare text columns under a copper rule, on a band
+   whose sand ground round 2 removed, so it had nothing left holding it
+   together. Now one contained cream panel split by a single hairline: two
+   halves of one statement rather than two boxes.
+
+   The claim is set at display scale and the client's own wording sits beneath
+   it behind a copper rule, so the structure separates the promise from the
+   paragraph that qualifies it.
+   ============================================================ */
+.mv2 {
+  margin-top: var(--dl-head-gap);
+  background: var(--dl-cream);
+  border-top: var(--dl-rule-w) solid var(--dl-copper-d);
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .07);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mv2 > div {
+  min-width: 0;
+  padding: clamp(28px, 4vh, 50px) clamp(24px, 3.2vw, 50px);
+  display: flex; flex-direction: column;
+}
+.mv2 > div + div { border-left: 1px solid var(--s-line); }
+.mv2 .k {
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
+  letter-spacing: .22em; text-transform: uppercase; color: var(--s-label);
+}
+.mv2 h3 {
+  font-size: clamp(23px, 2.4vw, 35px); line-height: 1.14; letter-spacing: -.018em;
+  color: var(--s-heading); margin: clamp(14px, 2vh, 20px) 0 0;
+  max-width: 21ch; text-wrap: balance;
+}
+.mv2 p {
+  margin: clamp(20px, 2.8vh, 28px) 0 0; padding-top: clamp(18px, 2.4vh, 24px);
+  border-top: 1px solid var(--s-rule);
+  font: var(--dl-w-regular) clamp(15px, 1.15vw, 17.5px)/1.7 var(--dl-sans);
+  color: var(--s-muted); max-width: 44ch;
+}
+@media (max-width: 820px) {
+  .mv2 { grid-template-columns: minmax(0, 1fr); }
+  .mv2 > div + div { border-left: 0; border-top: 1px solid var(--s-line); }
+}
+
+/* ============================================================
+   13 · Advisor development (.record)
+   Round 7: was a loose stack — heading, lede, three big numerals, two route
+   cards, nothing composed. The numerals were the only design in it and they
+   were floating.
+
+   Now one contained panel on the sand tone: the sentence about what Sharon is
+   proudest of on the left, the record itself as three hairlined rows on the
+   right. Sand is the page's third register — ink for the creed, cream for
+   mission and vision, sand here — so three highlights read as three levels of
+   emphasis rather than three unrelated colours.
+
+   ⚠️ Every figure in this panel is pending client verification.
+   ============================================================ */
+.record {
+  margin-top: var(--dl-head-gap);
+  background: var(--dl-sand);
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .12);
+  display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
+}
+.record .say {
+  min-width: 0;
+  padding: clamp(28px, 4vh, 48px) clamp(24px, 3.2vw, 48px);
+  border-right: 1px solid rgba(47, 53, 50, .2);
+}
+/* Round 7: at the client's direction the framing sentence is a photograph of
+   Sharon with her team instead. It fills its half of the panel edge to edge —
+   no padding, because a plate inset inside a sand panel would read as a
+   picture pinned to a board. */
+.record .shot {
+  min-width: 0; position: relative; overflow: hidden;
+  align-self: stretch; min-height: clamp(240px, 32vh, 340px);
+}
+.record .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.record .say p {
+  margin: 0;
+  font: 500 clamp(17px, 1.5vw, 23px)/1.5 var(--dl-disp);
+  color: var(--dl-ink); max-width: 30ch; text-wrap: pretty;
+}
+.record .say .hint {
+  margin-top: clamp(16px, 2.2vh, 22px);
+  font: var(--dl-w-regular) var(--dl-caption)/1.6 var(--dl-sans);
+  color: rgba(47, 53, 50, .66); max-width: 34ch;
+}
+/* One grid for all three rows, not a grid per row: per-row grids sized their
+   numeral column to their own numeral, so "3", "40+" and "MDRT" each pushed
+   their description to a different indent. Cells are direct children so the
+   hairline runs unbroken across both columns, which is why the gap is padding
+   on the numeral rather than a column-gap. */
+.record .rows {
+  min-width: 0; padding: clamp(10px, 1.6vh, 18px) clamp(24px, 3.2vw, 48px);
+  display: grid; grid-template-columns: auto minmax(0, 1fr);
+}
+.record .rows > * {
+  display: flex; align-items: center;
+  padding-block: clamp(18px, 2.6vh, 28px);
+}
+.record .rows > *:nth-child(n + 3) { border-top: 1px solid rgba(47, 53, 50, .2); }
+.record .rows > b {
+  padding-right: clamp(18px, 2.4vw, 34px);
+  font: 500 clamp(34px, 3.6vw, 56px)/.92 var(--dl-disp);
+  letter-spacing: -.035em; color: var(--dl-teal);
+  font-variant-numeric: tabular-nums;
+}
+/* No max-width: the cell carries the hairline, so constraining it stopped the
+   rule short of the column edge and the table looked unfinished. The column
+   itself holds the measure to about 55 characters. */
+.record .rows > span {
+  font: var(--dl-w-regular) clamp(14.5px, 1.1vw, 16.5px)/1.55 var(--dl-sans);
+  color: rgba(47, 53, 50, .82);
+}
+@media (max-width: 860px) {
+  .record { grid-template-columns: minmax(0, 1fr); }
+  .record .say { border-right: 0; border-bottom: 1px solid rgba(47, 53, 50, .2); }
+  .record .say p, .record .say .hint { max-width: none; }
+  .record .shot { min-height: 0; aspect-ratio: 3 / 2; }
+}
+
+/* ============================================================
+   14 · The team (.roster)
+   Round 7, new section at the client's request. Portraits are marked slots,
+   not stock photography — the one substitution this design system refuses to
+   make is a stranger's face standing in for a named colleague.
+
+   Roles are real; the names are not supplied yet, and the notice above the
+   grid says so on the page. See content/team.ts for the seam.
+   ============================================================ */
+.roster {
+  margin-top: var(--dl-head-gap);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+}
+.roster .mb {
+  min-width: 0;
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px var(--s-line-soft);
+  display: flex; flex-direction: column;
+}
+.roster .mb .ph { position: relative; overflow: hidden; aspect-ratio: 4 / 5; background: var(--s-plate); }
+.roster .mb .ph img { width: 100%; height: 100%; object-fit: cover; }
+.roster .mb .ph .slot-empty { font-size: 14px; }
+.roster .mb .body {
+  padding: clamp(18px, 2vw, 24px) clamp(18px, 2vw, 24px) clamp(20px, 2.4vh, 26px);
+  display: flex; flex-direction: column; gap: 8px; flex: 1;
+}
+.roster .mb .rl {
+  font: var(--dl-w-bold) 10.5px/1 var(--dl-sans);
+  letter-spacing: .16em; text-transform: uppercase; color: var(--s-label);
+}
+.roster .mb h3 { font-size: clamp(19px, 1.5vw, 23px); line-height: 1.2; margin: 0; }
+/* The site's own to-be-confirmed chip, which is inline by design. Pushed to
+   the card's foot so the chips sit on one line across a row instead of
+   floating at whatever height each description happens to end at. */
+.roster .mb .tbc { align-self: start; margin-top: auto; }
+.roster .mb p { color: var(--s-muted); font-size: var(--dl-body-sm); line-height: 1.6; margin: 0; }
+@media (max-width: 900px) { .roster { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* On a phone the card turns on its side. Six 4:5 portraits stacked full-width
+   ran the section past 3500px, most of it photograph; as a row the plate is a
+   fixed strip beside the text and the section comes in around a third of that,
+   which is also how a list of people is normally read on a phone. */
+@media (max-width: 520px) {
+  .roster { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .roster .mb { flex-direction: row; }
+  .roster .mb .ph { flex: 0 0 128px; aspect-ratio: auto; }
+  .roster .mb .ph .slot-empty { font-size: 13px; padding: 10px; }
+  .roster .mb .ph .slot-empty em { letter-spacing: .1em; font-size: 10px; }
+  .roster .mb .body { padding: 16px 16px 18px; }
+}
+
+/* ============================================================
+   15 · The DVA hero (.crest)
+   Round 7: the hero opened with 333px of empty ground between the last word
+   of type and the left edge of the photograph, because the type column was
+   7fr of a 7:5 grid while the copy inside it is only about 400px wide. All
+   the slack pooled in the middle of the composition.
+
+   The column now sizes to its own content (`auto` + a shrink-to-fit .fg), so
+   the only space between type and photograph is the gap itself, and the
+   photograph takes everything left over. The plate also bleeds top and bottom
+   now: the section's vertical padding moved onto .fg, so "a full-height plate
+   carried off the right edge" is what it actually does rather than a plate
+   floating with 54px of band above and below it.
+   ============================================================ */
+@media (min-width: 901px) {
+  .crest {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: stretch;
+    padding: 0 0 0 var(--m);
+  }
+  /* fit-content, so the column tracks the widest line of type rather than a
+     share of the viewport. The children's own max-widths (14ch on the h1,
+     34ch on the lede) are what it fits to. */
+  .crest .fg {
+    width: fit-content; max-width: 100%;
+    align-self: center;
+    padding-block: clamp(40px, 6vh, 84px);
+  }
+  .crest .shot { align-self: stretch; }
+}
+
+/* ============================================================
+   16 · The three pillars (.trio)
+   Round 7: was `.trip dark`, a full-width dark band whose head took a whole
+   row and left two thirds of it empty, with the three pillars as columns of
+   running prose underneath.
+
+   Two changes. It becomes a contained ink panel on the one ground, the same
+   highlight grammar as the About page's creed and the solution pages' steps.
+   And each pillar's single long sentence splits into a claim plus the
+   specifics as a list: the copy was already a claim followed by four or five
+   comma-separated items, so the list was in the sentence, unscannable.
+   ============================================================ */
+.trio {
+  margin-top: var(--dl-head-gap);
+  background: var(--dl-ink);
+  border-top: var(--dl-rule-w) solid var(--dl-copper-d);
+  box-shadow: var(--dl-shadow-panel);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.trio .pl {
+  min-width: 0;
+  padding: clamp(28px, 4vh, 46px) clamp(22px, 2.6vw, 40px) clamp(30px, 4.4vh, 50px);
+  display: flex; flex-direction: column;
+}
+.trio .pl + .pl { border-left: 1px solid rgba(246, 241, 232, .15); }
+.trio .pl .top { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.trio .pl .no {
+  font: 500 clamp(28px, 2.8vw, 44px)/1 var(--dl-disp);
+  letter-spacing: -.03em; color: rgba(208, 191, 169, .55);
+}
+.trio .pl .dl-icon { color: var(--dl-sand); flex: none; }
+.trio .pl h3 {
+  font-size: clamp(23px, 2.1vw, 32px); line-height: 1.1; letter-spacing: -.02em;
+  color: var(--dl-ivory); margin: clamp(22px, 3vh, 32px) 0 0;
+}
+/* Two lines' worth reserved whether the claim needs them or not: one claim
+   wraps to two lines and the others do not, which put each column's list rule
+   at a different height and read as a misalignment rather than as ragged copy. */
+.trio .pl .claim {
+  font: 500 clamp(15.5px, 1.2vw, 18px)/1.5 var(--dl-disp);
+  color: var(--dl-sand); margin: 12px 0 0; text-wrap: pretty;
+  min-height: 3em;
+}
+@media (max-width: 900px) { .trio .pl .claim { min-height: 0; } }
+/* The specifics, which used to be commas inside the claim. */
+.trio .pl ul {
+  list-style: none; margin: clamp(20px, 2.8vh, 28px) 0 0; padding: 0;
+  border-top: 1px solid rgba(246, 241, 232, .15);
+}
+.trio .pl li {
+  padding: 10px 0 10px 18px; position: relative;
+  font: var(--dl-w-regular) 14.5px/1.5 var(--dl-sans);
+  color: rgba(246, 241, 232, .76);
+}
+.trio .pl li + li { border-top: 1px solid rgba(246, 241, 232, .09); }
+.trio .pl li::before {
+  content: ""; position: absolute; left: 0; top: 1.05em;
+  width: 8px; height: 1px; background: var(--dl-copper);
+}
+@media (max-width: 900px) {
+  .trio { grid-template-columns: minmax(0, 1fr); }
+  .trio .pl + .pl { border-left: 0; border-top: 1px solid rgba(246, 241, 232, .15); }
+}
+
+/* ============================================================
+   17 · Who can join (.whogrid)
+   Round 7: was a `.checks` ledger of six long sentences. Each one was really
+   a category plus a reason, so it is set as that: one contained sand panel
+   divided into six cells, category at display scale, reason beneath.
+
+   Sand rather than another cream card set — the page needs a third register
+   between the ink pillars above and the outlined card below.
+   ============================================================ */
+.whogrid {
+  margin-top: var(--dl-head-gap);
+  background: var(--dl-sand);
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .12);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.whogrid .w {
+  min-width: 0;
+  padding: clamp(22px, 3vh, 34px) clamp(20px, 2.4vw, 34px) clamp(24px, 3.2vh, 38px);
+  border-top: 1px solid rgba(47, 53, 50, .2);
+  border-left: 1px solid rgba(47, 53, 50, .2);
+}
+/* The panel's own edges are the outer hairline, so the cells only draw the
+   interior grid. */
+.whogrid .w:nth-child(-n + 3) { border-top: 0; }
+.whogrid .w:nth-child(3n + 1) { border-left: 0; }
+.whogrid .w .no {
+  font: var(--dl-w-bold) 10.5px/1 var(--dl-sans);
+  letter-spacing: .18em; color: var(--dl-copper-d);
+}
+.whogrid .w h3 {
+  font-size: clamp(19px, 1.6vw, 25px); line-height: 1.14; letter-spacing: -.016em;
+  color: var(--dl-teal); margin: clamp(14px, 2vh, 18px) 0 0;
+}
+.whogrid .w p {
+  font: var(--dl-w-regular) 14.5px/1.6 var(--dl-sans);
+  color: rgba(47, 53, 50, .78); margin: 8px 0 0;
+}
+@media (max-width: 900px) {
+  .whogrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .whogrid .w:nth-child(-n + 3) { border-top: 1px solid rgba(47, 53, 50, .2); }
+  .whogrid .w:nth-child(3n + 1) { border-left: 1px solid rgba(47, 53, 50, .2); }
+  .whogrid .w:nth-child(-n + 2) { border-top: 0; }
+  .whogrid .w:nth-child(odd) { border-left: 0; }
+}
+@media (max-width: 560px) {
+  .whogrid { grid-template-columns: minmax(0, 1fr); }
+  .whogrid .w { border-left: 0; border-top: 1px solid rgba(47, 53, 50, .2); }
+  .whogrid .w:first-child { border-top: 0; }
+}
+
+/* ============================================================
+   18 · Stay in the loop (.loop)
+   Round 7: was `.lift`, a filled cream panel pulled up over the section above
+   it on a 90px negative margin. At the client's direction it is now a card
+   with no background: a copper keyline and a hairline outline holding open
+   space, so the form is the only filled thing in it.
+
+   Two columns, because the words and the field do not need to be stacked —
+   the invitation reads on the left while the field sits ready on the right.
+   ============================================================ */
+.loop {
+  margin-top: var(--dl-head-gap);
+  background: none;
+  border-top: var(--dl-rule-w) solid var(--dl-copper-d);
+  box-shadow: inset 0 0 0 1px var(--s-line);
+  padding: clamp(28px, 4.2vh, 52px) clamp(24px, 3.4vw, 56px) clamp(30px, 4.6vh, 56px);
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px); align-items: center;
+}
+.loop .say { min-width: 0; }
+.loop .lbl { color: var(--s-label); }
+.loop h2 {
+  font-size: clamp(24px, 2.5vw, 36px); line-height: 1.08; letter-spacing: -.018em;
+  color: var(--s-heading); margin: 12px 0 0; max-width: 20ch; text-wrap: balance;
+}
+.loop .say .dl-lede { max-width: 44ch; }
+/* The field caps itself at 380px, which left a third of the card's right half
+   empty. In a two-column card the field is the column. */
+.loop .form { min-width: 0; }
+.loop .form .dl-loop__form { flex-wrap: wrap; }
+.loop .form .dl-loop__field { max-width: none; flex: 1 1 100%; }
+@media (max-width: 820px) {
+  .loop { grid-template-columns: minmax(0, 1fr); gap: clamp(22px, 3vh, 32px); align-items: start; }
+  .loop h2, .loop .say .dl-lede { max-width: none; }
+}
+
+/* ============================================================
+   19 · The shape of a year (.yearmap)
+   Round 7: was `.cadence`, three columns of hairlined text. The columns held
+   one, three and four items, so the first column ran a 300px hole under a
+   single entry and the section read as an unfinished table.
+
+   Tiers become rows, and each row's item count sets its own column count. The
+   monthly session gets the full width to itself, the quarterly three share a
+   row, the yearly four share a row — so the layout states the thing the copy
+   is claiming, that frequency is what tells you about the commitment.
+   ============================================================ */
+.yearmap { margin-top: var(--dl-head-gap); display: grid; gap: clamp(20px, 3vh, 34px); }
+.yearmap .tier {
+  display: grid; grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 46px); align-items: start;
+  padding-top: clamp(18px, 2.4vh, 26px);
+  border-top: 1px solid var(--s-line);
+}
+.yearmap .tier:first-child { border-top-color: var(--s-rule); border-top-width: var(--dl-rule-w); }
+.yearmap .when {
+  font: 500 clamp(21px, 2vw, 30px)/1.12 var(--dl-disp);
+  letter-spacing: -.018em; color: var(--s-heading); display: block;
+}
+.yearmap .note {
+  display: block; margin-top: 8px;
+  font: var(--dl-w-bold) 10.5px/1.4 var(--dl-sans);
+  letter-spacing: .16em; text-transform: uppercase; color: var(--s-label);
+}
+.yearmap .items {
+  display: grid; grid-template-columns: repeat(var(--n, 1), minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 18px);
+}
+.yearmap .it {
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px var(--s-line-soft);
+  padding: clamp(16px, 1.8vw, 22px);
+  display: grid; gap: 7px; align-content: start;
+}
+/* The monthly session is the spine, so its single card carries the accent. */
+.yearmap .tier:first-child .it { box-shadow: inset 0 0 0 1px rgba(156, 90, 55, .32); }
+.yearmap .it b {
+  font: 500 clamp(16.5px, 1.25vw, 19px)/1.28 var(--dl-disp);
+  letter-spacing: -.012em; color: var(--s-heading);
+}
+.yearmap .it span {
+  font: var(--dl-w-regular) 14.5px/1.55 var(--dl-sans); color: var(--s-muted);
+}
+@media (max-width: 900px) {
+  .yearmap .tier { grid-template-columns: minmax(0, 1fr); gap: clamp(14px, 2vh, 20px); }
+  .yearmap .items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) { .yearmap .items { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============================================================
+   20 · Selection (.gate)
+   Round 7: was a sticky rail beside three beats on a vertical line, which is
+   the same hairline-and-small-caps grammar as four other sections.
+
+   Selection narrows, so the design narrows: three stacked cards, each one
+   inset further than the last, the third carrying the copper because it is
+   the only one that is an outcome. The stage words are the display element
+   rather than a small tracked label, since "Only then" is the argument.
+   ============================================================ */
+.gate { margin-top: var(--dl-head-gap); display: grid; gap: clamp(14px, 2vh, 20px); }
+.gate .st {
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px var(--s-line-soft);
+  padding: clamp(22px, 3vh, 32px) clamp(22px, 2.6vw, 38px);
+  display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
+  gap: clamp(18px, 2.6vw, 40px); align-items: baseline;
+}
+/* The inset. Percentages of the container, so it holds at any width. */
+.gate .st:nth-child(2) { margin-left: 6%; }
+.gate .st:nth-child(3) { margin-left: 12%; }
+.gate .st:last-child {
+  background: var(--dl-ivory);
+  box-shadow: inset 0 0 0 1px rgba(156, 90, 55, .38);
+  border-left: 3px solid var(--dl-copper-d);
+}
+.gate .st .k {
+  font: 500 clamp(19px, 1.8vw, 27px)/1.1 var(--dl-disp);
+  letter-spacing: -.018em; color: var(--s-accent);
+}
+.gate .st h3 { font-size: clamp(18px, 1.5vw, 23px); line-height: 1.2; margin: 0 0 8px; }
+.gate .st p {
+  font: var(--dl-w-regular) clamp(15px, 1.1vw, 16.5px)/1.65 var(--dl-sans);
+  color: var(--s-muted); margin: 0; max-width: 56ch;
+}
+@media (max-width: 760px) {
+  .gate .st { grid-template-columns: minmax(0, 1fr); gap: 10px; align-items: start; }
+  .gate .st:nth-child(2) { margin-left: 3%; }
+  .gate .st:nth-child(3) { margin-left: 6%; }
+}
+
+/* ============================================================
+   21 · The standard (.holds)
+   Round 7: was `.traits`, a hairlined numbered list sitting directly above
+   the FAQ ledger, which is also a hairlined numbered list. Two adjacent
+   sections in the same grammar is most of why this page read as cheap.
+
+   Four short statements, so they are set as statements: a 2 x 2 of display
+   type with the ordinal as a quiet numeral above each. No rules at all, which
+   is what separates it from everything around it.
+   ============================================================ */
+.holds {
+  margin-top: clamp(30px, 4.6vh, 56px);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 4vh, 52px) clamp(30px, 5vw, 88px);
+}
+.holds .hd { min-width: 0; }
+.holds .hd b {
+  display: block;
+  font: 500 clamp(26px, 2.6vw, 40px)/1 var(--dl-disp);
+  letter-spacing: -.03em; color: rgba(208, 191, 169, .45);
+}
+.holds .hd p {
+  margin: clamp(12px, 1.8vh, 18px) 0 0;
+  font: 500 clamp(18px, 1.7vw, 26px)/1.32 var(--dl-disp);
+  letter-spacing: -.014em; color: var(--dl-ivory);
+  max-width: 26ch; text-wrap: pretty;
+}
+@media (max-width: 700px) { .holds { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============================================================
+   22 · One type scale
+   Round 7, at the client's direction: "the body font is inconsistent in size,
+   some small some big."
+
+   They were right, and it was my doing. Panel and card body copy had drifted
+   to six different settings across the amendment blocks — 16px, 15px, 14.5px,
+   and three different clamps — so a card set on one page read a step smaller
+   than the identical card set on another. The three pillars were the smallest
+   at 14.5px, sitting next to 16px copy, which is what got noticed.
+
+   From here there are three body sizes on the whole site and nothing else:
+
+     section subheadline   .dl-lede, §3b            clamp(16.5px … 19px)
+     panel / card body     --dl-body-sm             16px / 1.6
+     small print           --dl-caption             13px
+
+   Tracked uppercase labels are 11px everywhere; they had drifted between
+   10.5px and 11px, which is invisible alone and obvious in a column.
+
+   This block is the single place that sets them, deliberately overriding the
+   per-component declarations above rather than editing twenty of them, so the
+   next component cannot quietly introduce a seventh size.
+   ============================================================ */
+.wrap
+  :is(.icards .icard, .creed .cm, .roster .mb, .arts .art, .trio .pl, .whogrid .w, .yearmap .it, .gate .st, .mv2, .record .rows, .steps-panel)
+  :is(p, li, span:not(.no):not(.k):not(.rl):not(.lbl):not(.tbc):not(.when):not(.note)) {
+  font-size: var(--dl-body-sm);
+  line-height: 1.6;
+}
+/* Genuine small print keeps its own size: it is subordinate on purpose. One
+   size for it too — the closing card's note was landing half a pixel off the
+   caption token, which is invisible alone and exactly the kind of drift that
+   adds up to "some small some big". */
+.wrap :is(.record .say .hint, .close-card .note) { font-size: var(--dl-caption); line-height: 1.6; }
+/* Lora statement text is display type, not body. Only the pillars' claim sits
+   inside a normalised container and so needs restating; the rest are outside
+   the selector above and keep their own scale where they are declared. */
+.wrap .trio .pl .claim { font: 500 clamp(16px, 1.2vw, 18px)/1.5 var(--dl-disp); }
+
+/* Tracked labels, one size. Only the small uppercase kind belongs here — the
+   large Lora ordinals (`.trio .pl .no`, `.holds .hd b`, `.record .rows > b`,
+   `.steps-panel b`) are display numerals and keep their own scale. */
+.wrap
+  :is(.lbl, .arts .art .meta, .roster .mb .rl, .whogrid .w .no, .creed .cm .no, .icards .icard .no,
+      .moments .mcard b, .yearmap .note, .spreview .tile .cat, .ft2-grid .k, .mv2 .k) {
+  font-size: 11px;
+}
+
+/* ---- Section headlines: one measure, and one line ----
+   Round 7: "a lot of headlines are intentionally placed with 2 sentences …
+   I want it to change to 1 sentence, consistent across the whole board."
+
+   The wrapping was not the copy, it was the measure. Seven different rules
+   capped section headings between 15ch and 22ch, so a 28-character title like
+   "Health · Wealth · Leadership" broke onto a second line with most of the
+   container still empty beside it. One measure replaces all seven.
+
+   40ch is chosen against the heading's own clamped size: at every viewport it
+   resolves to roughly 40 characters and stays inside the container, so any
+   title of about 40 characters or fewer sits on one line. The four titles that
+   ran past that were shortened in the pages themselves rather than being
+   allowed to wrap. `text-wrap: balance` is dropped with it — balancing is for
+   headings that wrap, and these no longer do. */
+.wrap :is(.band, .split-shot, .stmt, .two, .moments, .ideas, .spread__rail) h2,
+.wrap .ask-host .ask-head h2,
+.wrap .close-card h2,
+.wrap .loop h2 {
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+/* Exception, and the only one: `.dl-open2 .say` is a sentence set at display
+   scale, not a section title. A sentence has to wrap, and balancing it is
+   right. The client's note is about titles breaking in two when the container
+   had room for one line, which is a different thing.
+
+   The hero h1 and the article h1 keep their own measure too: a page title
+   carries a longer line than a section title and is allowed two. */
+
+/* ============================================================
+   23 · Events with a photograph (.dl-event--shot)
+   Round 7, at the client's direction, following the homepage's Youth
+   Community cards: a 4:3 plate on top, the text underneath.
+
+   The event card was text only — meta, title, copy, link — which made a row of
+   six of them a wall of type. The plate is what makes a session look like
+   something that happens in a room.
+
+   ⚠️ These are library photographs standing in for event photography D'Life
+   has not supplied. They are of real D'Life sessions, not stock, but they are
+   reused across cards; swap each one as real photographs of each session
+   arrive.
+   ============================================================ */
+.stagger .dl-event--shot {
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px var(--s-line-soft);
+  padding: 0;
+  display: flex; flex-direction: column;
+  transition: transform var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
+}
+.dl-event--shot .shot {
+  position: relative; overflow: hidden;
+  aspect-ratio: 4 / 3; background: var(--s-plate);
+}
+.dl-event--shot .shot img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(.42);
+  transition: filter var(--dl-t-plate) var(--dl-ease), transform var(--dl-t-plate) var(--dl-ease);
+}
+.dl-event--shot .tx {
+  padding: clamp(18px, 2vw, 24px) clamp(18px, 2vw, 24px) clamp(20px, 2.4vh, 26px);
+  display: flex; flex-direction: column; flex: 1;
+}
+/* Inside a card the two meta labels sit on one line again: the stacked variant
+   exists for the narrow text-only column, and here there is a card width. */
+.dl-event--shot .dl-event__meta { flex-direction: row; gap: 12px; margin-bottom: 10px; }
+.dl-event--shot .tlink { margin-top: auto; padding-top: clamp(14px, 2vh, 18px); }
+@media (hover: hover) {
+  .stagger .dl-event--shot:hover { transform: translateY(var(--dl-lift-card)); box-shadow: var(--dl-shadow-float); }
+  .stagger .dl-event--shot:hover .shot img { filter: saturate(1); transform: scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stagger .dl-event--shot, .dl-event--shot .shot img { transition: none; }
+  .dl-event--shot .shot img { filter: saturate(1); }
+}
+/* With a plate on every card the staggered offset fights the image grid: the
+   rhythm was there to break up a wall of text, and the plates now do that.
+   Equal heights too, so every card's action sits on one line across the row —
+   `.stagger` aligns to the start, which is right for the text-only variant. */
+.stagger:has(.dl-event--shot) { align-items: stretch; }
+.stagger:has(.dl-event--shot) > *:nth-child(n) { margin-top: 0; }

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { asset, link } from "../../lib/asset";
 import { trail, type Route } from "../../lib/routes";
 import { Icon, type IconKey } from "./icons";
@@ -119,6 +119,8 @@ export function Band({
   title,
   lede,
   read = false,
+  id,
+  className,
   children,
 }: {
   tone?: Tone;
@@ -126,10 +128,16 @@ export function Band({
   title?: ReactNode;
   lede?: ReactNode;
   read?: boolean;
+  /** In-page anchor target, e.g. the homepage cards' deep links. */
+  id?: string;
+  className?: string;
   children: ReactNode;
 }) {
   return (
-    <section className={`band ${mode(tone)}${read ? " band--read" : ""}`}>
+    <section
+      id={id}
+      className={`band ${mode(tone)}${read ? " band--read" : ""}${className ? ` ${className}` : ""}`}
+    >
       {label && <p className="lbl">{label}</p>}
       {title && <h2>{title}</h2>}
       {lede && <p className="dl-lede">{lede}</p>}
@@ -223,6 +231,35 @@ export function Moments({
 }
 
 /**
+ * The card grid on its own, for sections that need the pattern without the
+ * `.ideas` section head around it. Careers uses it directly.
+ */
+export function IdeaCards({
+  items,
+  icons,
+  columns = 4,
+}: {
+  items: ReadonlyArray<{ term: string; copy: ReactNode }>;
+  icons?: ReadonlyArray<IconKey>;
+  columns?: 3 | 4;
+}) {
+  return (
+    <div className={`icards${columns === 3 ? " icards--3" : ""}`}>
+      {items.map((d, i) => (
+        <article className="icard" key={d.term}>
+          <span className="no">{String(i + 1).padStart(2, "0")}</span>
+          {icons?.[i] && <Icon name={icons[i]} />}
+          <div className="foot">
+            <h3>{d.term}</h3>
+            <p>{d.copy}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+/**
  * The definitions as rounded tinted cards: ordinal, geometric icon, term,
  * one plain-language sentence. Structure follows the reference the client
  * supplied; the tints are brand washes rather than the reference's purple /
@@ -246,16 +283,447 @@ export function Ideas({
       {label && <p className="lbl">{label}</p>}
       <h2>{title}</h2>
       {lede && <p className="dl-lede">{lede}</p>}
-      <div className="pane">
-        {items.map((d, i) => (
-          <article className="icard" key={d.term}>
+      <IdeaCards items={items} icons={icons} />
+    </section>
+  );
+}
+
+/**
+ * The practice's four commitments on the page's one ink panel.
+ *
+ * Was `.pillars`, four hairlined text columns on a full-width dark band. A
+ * full-width dark band stopped meaning "important" once round 2 put the whole
+ * site on one ground, so the creed becomes a contained object instead — same
+ * highlight grammar as the solution pages' steps panel (styles/amendments.css
+ * §11).
+ *
+ * The ordinals are information, not decoration: the client's heading says
+ * these are in the order they matter.
+ */
+export function Creed({
+  label,
+  title,
+  lede,
+  items,
+  icons,
+}: {
+  label?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  items: ReadonlyArray<{ term: string; copy: ReactNode }>;
+  icons?: ReadonlyArray<IconKey>;
+}) {
+  return (
+    <section className="band light">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      {lede && <p className="dl-lede">{lede}</p>}
+      {/* `dark` flips the section tokens so anything token-driven inside the
+          panel resolves against ink rather than the ivory band. */}
+      <div className="creed dark">
+        {items.map((c, i) => (
+          <div className="cm" key={c.term}>
             <span className="no">{String(i + 1).padStart(2, "0")}</span>
-            {icons?.[i] && <Icon name={icons[i]} />}
+            {icons?.[i] && <Icon name={icons[i]} size={34} />}
             <div className="foot">
-              <h3>{d.term}</h3>
-              <p>{d.copy}</p>
+              <h3>{c.term}</h3>
+              <p>{c.copy}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Mission and vision as one contained panel split by a hairline, rather than
+ * two bare text columns. The claim is set at display scale; the client's own
+ * wording sits under a copper rule beneath it, so the structure separates the
+ * promise from the paragraph qualifying it (styles/amendments.css §12).
+ */
+export function MissionVision({
+  label,
+  title,
+  items,
+}: {
+  label?: string;
+  title?: ReactNode;
+  items: ReadonlyArray<{ kind: string; claim: string; copy: ReactNode }>;
+}) {
+  return (
+    <section className="band light">
+      {label && <p className="lbl">{label}</p>}
+      {title && <h2>{title}</h2>}
+      <div className="mv2">
+        {items.map((m) => (
+          <div key={m.kind}>
+            <span className="k">{m.kind}</span>
+            <h3>{m.claim}</h3>
+            <p>{m.copy}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * A record of figures held on a contained sand panel: the sentence that frames
+ * them on the left, the figures as hairlined rows on the right.
+ *
+ * Sand is the page's third register — ink for the creed, cream for mission and
+ * vision, sand here — so the three highlights read as three levels of emphasis
+ * rather than three unrelated colours (styles/amendments.css §13).
+ */
+export function Record({
+  label,
+  title,
+  lede,
+  say,
+  hint,
+  photo,
+  figures,
+}: {
+  label?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  /** The framing sentence. Ignored when `photo` is given. */
+  say?: ReactNode;
+  /** Small print under the framing sentence, e.g. a verification note. */
+  hint?: ReactNode;
+  /** Fills the left half instead of the framing sentence. */
+  photo?: Photo;
+  figures: ReadonlyArray<{ fig: string; copy: ReactNode }>;
+}) {
+  return (
+    <section className="band light">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      {lede && <p className="dl-lede">{lede}</p>}
+      <div className="record">
+        {photo ? (
+          <div className="shot ph">
+            <Img photo={photo} />
+          </div>
+        ) : (
+          <div className="say">
+            {say && <p>{say}</p>}
+            {hint && <p className="hint">{hint}</p>}
+          </div>
+        )}
+        {/* Cells, not rows: see styles/amendments.css §13 on why the numeral
+            and its description are siblings in one grid. */}
+        <div className="rows">
+          {figures.map((f) => (
+            <Fragment key={f.fig}>
+              <b>{f.fig}</b>
+              <span>{f.copy}</span>
+            </Fragment>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * The team as portrait cards.
+ *
+ * A member without a `photo` renders a marked slot, not stock photography: a
+ * stranger's face standing in for a named colleague is the one substitution
+ * this design system refuses to make. A member without a `name` renders the
+ * field as marked too, so an unfilled roster reads as unfilled rather than as
+ * people nobody can identify (styles/amendments.css §14).
+ */
+export function Roster({
+  label,
+  title,
+  lede,
+  notice,
+  members,
+  children,
+}: {
+  label?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  notice?: ReactNode;
+  members: ReadonlyArray<{ name?: string; role: string; copy?: ReactNode; photo?: Photo }>;
+  /** Rendered under the grid, for onward routes that belong with the team. */
+  children?: ReactNode;
+}) {
+  return (
+    <section className="band light">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      {lede && <p className="dl-lede">{lede}</p>}
+      {notice && (
+        <div className="dl-notice" role="note" style={{ marginTop: "clamp(20px,2.8vh,30px)" }}>
+          {notice}
+        </div>
+      )}
+      <div className="roster">
+        {members.map((m, i) => (
+          <article className="mb" key={m.name ?? `${m.role}-${i}`}>
+            <div className="ph">
+              {m.photo ? (
+                <Img photo={m.photo} />
+              ) : (
+                <div className="slot-empty">
+                  {m.name ?? "Portrait"}
+                  <em>To follow</em>
+                </div>
+              )}
+            </div>
+            {/* Whichever of the two is known leads the card. With a name, the
+                role is the small label above it; without one, the role IS the
+                card's identity and the missing name is marked in the site's
+                own `.tbc` register — printing the role in both places said
+                the same thing twice. */}
+            <div className="body">
+              {m.name ? (
+                <>
+                  <span className="rl">{m.role}</span>
+                  <h3>{m.name}</h3>
+                </>
+              ) : (
+                <h3>{m.role}</h3>
+              )}
+              {m.copy && <p>{m.copy}</p>}
+              {!m.name && <span className="tbc">Name to follow</span>}
             </div>
           </article>
+        ))}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/**
+ * Three pillars on a contained ink panel: ordinal and icon on one line, the
+ * domain at display scale, its claim, then the specifics as a list.
+ *
+ * The list is the point of the redesign. Each pillar's copy arrived as a claim
+ * followed by four or five comma-separated specifics inside one sentence, so
+ * the list already existed; it just could not be scanned
+ * (styles/amendments.css §16).
+ */
+export function Trio({
+  id,
+  label,
+  title,
+  items,
+  icons,
+}: {
+  id?: string;
+  label?: string;
+  title: ReactNode;
+  items: ReadonlyArray<{ title: string; claim: string; items: ReadonlyArray<string> }>;
+  icons?: ReadonlyArray<IconKey>;
+}) {
+  return (
+    <section className="band light" id={id}>
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      <div className="trio dark">
+        {items.map((p, i) => (
+          <div className="pl" key={p.title}>
+            <div className="top">
+              <span className="no">{String(i + 1).padStart(2, "0")}</span>
+              {icons?.[i] && <Icon name={icons[i]} size={32} />}
+            </div>
+            <h3>{p.title}</h3>
+            <p className="claim">{p.claim}</p>
+            <ul>
+              {p.items.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Audience categories as a subdivided sand panel: category at display scale,
+ * the reason beneath it. Replaces a ledger of six long sentences, each of
+ * which was a category and a reason run together (styles/amendments.css §17).
+ */
+export function WhoGrid({
+  label,
+  title,
+  lede,
+  items,
+  children,
+}: {
+  label?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  items: ReadonlyArray<{ who: string; why: string }>;
+  /** Anything between the lede and the panel, e.g. the count. */
+  children?: ReactNode;
+}) {
+  return (
+    <section className="band light">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      {lede && <p className="dl-lede">{lede}</p>}
+      {children}
+      <div className="whogrid">
+        {items.map((w, i) => (
+          <div className="w" key={w.who}>
+            <span className="no">{String(i + 1).padStart(2, "0")}</span>
+            <h3>{w.who}</h3>
+            <p>{w.why}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * A card with no fill: a copper keyline and a hairline outline holding open
+ * space, at the client's direction. Words left, the form right — nothing here
+ * needed to be stacked (styles/amendments.css §18).
+ */
+export function LoopCard({
+  id,
+  label,
+  title,
+  lede,
+  children,
+}: {
+  id?: string;
+  label: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <section className="band light" id={id}>
+      <div className="loop">
+        <div className="say">
+          <p className="lbl">{label}</p>
+          <h2>{title}</h2>
+          {lede && <p className="dl-lede">{lede}</p>}
+        </div>
+        <div className="form">{children}</div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Sessions grouped by how often they come round, one tier per row, each row's
+ * column count set by its own item count.
+ *
+ * That is the whole idea: the copy claims frequency is what tells you about
+ * the commitment, so the monthly session gets a row to itself and the twelve
+ * -times-a-year items share one. As three equal columns the tiers held one,
+ * three and four items and the first ran a hole under a single entry
+ * (styles/amendments.css §19).
+ */
+export function YearMap({
+  label,
+  title,
+  lede,
+  tiers,
+}: {
+  label?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  tiers: ReadonlyArray<{
+    when: string;
+    note: string;
+    items: ReadonlyArray<{ name: string; copy: ReactNode }>;
+  }>;
+}) {
+  return (
+    <section className="band light">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      {lede && <p className="dl-lede">{lede}</p>}
+      <div className="yearmap">
+        {tiers.map((t) => (
+          <div className="tier" key={t.when}>
+            <div>
+              <span className="when">{t.when}</span>
+              <span className="note">{t.note}</span>
+            </div>
+            <div className="items" style={{ ["--n" as string]: t.items.length }}>
+              {t.items.map((it) => (
+                <div className="it" key={it.name}>
+                  <b>{it.name}</b>
+                  <span>{it.copy}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * A selection process, drawn narrowing: each stage is inset further than the
+ * last and only the final one carries the copper, because only the final one
+ * is an outcome. The stage words are the display element, since "only then"
+ * is the argument the section is making (styles/amendments.css §20).
+ */
+export function Gate({
+  label,
+  title,
+  aside,
+  stages,
+}: {
+  label?: string;
+  title: ReactNode;
+  aside?: ReactNode;
+  stages: ReadonlyArray<{ k: string; title: string; copy: ReactNode }>;
+}) {
+  return (
+    <section className="band light">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      {aside && <p className="dl-lede">{aside}</p>}
+      <div className="gate">
+        {stages.map((s) => (
+          <div className="st" key={s.k}>
+            <span className="k">{s.k}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.copy}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Short commitments set as statements in a 2 x 2, with no rules at all.
+ *
+ * They were a hairlined numbered ledger sitting directly above the FAQ, which
+ * is also a hairlined numbered ledger. Removing every rule is what separates
+ * this section from the one under it (styles/amendments.css §21).
+ */
+export function Holds({ label, title, items }: { label?: string; title: ReactNode; items: ReadonlyArray<string> }) {
+  return (
+    <section className="band dark ink">
+      {label && <p className="lbl">{label}</p>}
+      <h2>{title}</h2>
+      <div className="holds">
+        {items.map((t, i) => (
+          <div className="hd" key={t}>
+            <b>{String(i + 1).padStart(2, "0")}</b>
+            <p>{t}</p>
+          </div>
         ))}
       </div>
     </section>
@@ -548,6 +1016,48 @@ export function Closing({
         {note && <p className="note">{note}</p>}
       </div>
     </section>
+  );
+}
+
+/**
+ * An event as a card with a photograph on top, following the homepage's Youth
+ * Community cards at the client's direction. Without a `photo` it renders the
+ * original text-only card, so a session with no photography yet still works
+ * (styles/amendments.css §23).
+ */
+export function Events({
+  items,
+  href,
+  cta = "Ask about dates",
+}: {
+  items: ReadonlyArray<{ when: string; where: string; title: string; copy: ReactNode; photo?: Photo }>;
+  /** Where every card's action goes. No calendar exists, so this asks a person. */
+  href: string;
+  cta?: string;
+}) {
+  return (
+    <div className="stagger">
+      {items.map((e) => (
+        <article className={`dl-event${e.photo ? " dl-event--shot" : ""}`} key={e.title}>
+          {e.photo && (
+            <div className="shot">
+              <Img photo={e.photo} />
+            </div>
+          )}
+          <div className={e.photo ? "tx" : undefined}>
+            <div className="dl-event__meta">
+              <span className="dl-event__when">{e.when}</span>
+              <span className="dl-event__where">{e.where}</span>
+            </div>
+            <h3>{e.title}</h3>
+            <p>{e.copy}</p>
+            <a className="tlink" href={href}>
+              {cta} <em aria-hidden="true">→</em>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
   );
 }
 

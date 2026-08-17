@@ -4,9 +4,15 @@ import { readFileSync } from "node:fs";
    Design project's own HTML while porting. `main`'s direct children, in order,
    by tag + class. */
 const EXPECT = {
+  /* Round 7: the lone "not a networking group" statement became an opening
+     statement answering "What is DVA"; the purpose pillars, the year map and
+     the selection sequence are all contained objects on the one ground now, so
+     the sand and spread bands are gone. The standard stays dark — DVA is the
+     page the design deliberately keeps darker than the rest. */
   "dva.html": [
-    "section.crest dark ink", "section.bleed light", "section.band sand", "section.band light", "section.band sand", "section.spread light", "section.band dark ink", "section.ask-host light", "section.band light close-host",
-  
+    "section.crest dark ink", "section.band light", "section.band light", "section.band light",
+    "section.band light", "section.band light", "section.band dark ink", "section.ask-host light",
+    "section.band light close-host",
   ],
   /* August 2026 amendments: open statement, moments, ideas pane, steps
      panel, closing card. */
@@ -23,10 +29,13 @@ const EXPECT = {
     "section.hero dark", "div.bar", "section.band light", "section.band sand", "section.stmt light",
     "section.ask-host sand", "section.band light close-host",
   ],
+  /* Round 7: the four commitments and mission/vision stopped being full-width
+     dark and sand bands and became contained panels on the one ground, so both
+     read `band light` now; the team section is new before the closing card. */
   "about.html": [
-    "section.hero dark", "section.band light", "section.band dark", "section.band sand",
+    "section.hero dark", "section.band light", "section.band light", "section.band light",
     "section.band light", "section.band sand", "section.split-shot light", "section.band light",
-    "section.band light close-host",
+    "section.band light", "section.band light close-host",
   ],
   "careers.html": [
     "section.hero dark", "div.bar", "section.band light", "section.band light", "section.band sand", "section.band light spreview", "section.two two--flip sand", "section.ask-host light", "section.band light close-host",
@@ -43,9 +52,13 @@ const EXPECT = {
   "stories.html": [
     "section.hero dark", "section.band light", "section.band light", "section.band light close-host",
   ],
+  /* Round 7: the three pillars became a contained ink panel, "who can join" a
+     contained sand panel, and the filled `.lift` panel that overlapped the
+     section above it became an unfilled keyline card — so its host band no
+     longer needs the extra bottom padding either. */
   "youth-community.html": [
-    "section.hero sand", "section.band light", "section.trip dark",
-    "section.band sand", "section.band light", "section.split-shot light lift-host", "section.lift",
+    "section.hero sand", "section.band light", "section.band light",
+    "section.band light", "section.band light", "section.split-shot light", "section.band light",
     "section.ask-host light", "section.band light close-host",
   ],
   "resources.html": [

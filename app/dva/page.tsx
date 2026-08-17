@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask, { type Question } from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { ClosingCard } from "../../components/v2/blocks";
+import { Band, ClosingCard, Creed, Gate, Holds, OpenStatement, YearMap } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
@@ -120,6 +120,34 @@ const CADENCE = [
   },
 ];
 
+/* The four principles the circle is organised around, previously `.pillars`. */
+const ORGANISED = [
+  { term: "Learning", copy: "Progress is discussed openly, including the parts that are not working." },
+  { term: "Leadership", copy: "Advisors developed into people others choose to follow." },
+  { term: "Real value", copy: "Advice measured by what it does for the client, not by what it produces." },
+  { term: "Impact", copy: "A profession left in better standing than the circle found it." },
+];
+
+/* Selection, lifted out of the markup so the stage words can be the design
+   element rather than a label buried in JSX. */
+const SELECTION = [
+  {
+    k: "First",
+    title: "A conversation",
+    copy: "Usually because a member has suggested it, or because you asked. Nothing is decided at this stage.",
+  },
+  {
+    k: "Then",
+    title: "A personal interview with Sharon",
+    copy: "Every member is interviewed and selected by Sharon herself, to make sure the alignment is genuine rather than assumed.",
+  },
+  {
+    k: "Only then",
+    title: "An invitation",
+    copy: "Extended when the standard is clearly shared. Some conversations end here, and that is a reasonable outcome for both sides.",
+  },
+];
+
 const TRAITS = [
   "Values that hold up when nobody is checking",
   "Ethics before opportunity, in every recommendation",
@@ -171,45 +199,49 @@ export default function Page() {
         </div>
       </section>
 
-      {/* The page's single loud moment: one statement at display scale, alone. */}
-      <section className="bleed light">
-        <div className="r" />
-        <p className="lead">It is not a networking group.</p>
-        <p className="foot">
-          Networking groups meet to exchange referrals. This one meets for long-term development, working relationships
-          and collaborative success. The difference shows up in what members are asked to give rather than in what they
-          are offered.
-        </p>
-      </section>
+      {/* Round 7: was a lone display-scale line, "It is not a networking
+          group." The client asked the section to answer "What is DVA" instead
+          of opening on what it is not, and to follow the solution pages' own
+          opening — so it is the same `OpenStatement`: kick, statement at
+          display scale, the rest of the thought on a copper rule beside it.
+          The networking distinction survives as the second beat, which is
+          where a contrast belongs once the thing itself has been named. */}
+      <Band>
+        {/* The statement is kept to about forty characters, the same length as
+            the solution pages' openings, so it sets on two lines like they do.
+            At eighty-five it ran to four and swamped the section. */}
+        <OpenStatement
+          kick="What is DVA"
+          lead="A selective circle of financial advisors. They meet for long-term development rather than to trade referrals, and they stay in their own practices."
+        >
+          <p>
+            Networking groups meet to exchange referrals. This one meets for long-term development, working
+            relationships and collaborative success, and the difference shows up in what members are asked to give
+            rather than in what they are offered.
+          </p>
+          <p>
+            What members share is the aim, not an employer. It is also why the circle stays small, and why a place in it
+            is offered rather than applied for.
+          </p>
+        </OpenStatement>
+      </Band>
 
-      <section className="band sand">
-        <p className="lbl">Purpose</p>
-        <h2 style={{ maxWidth: "28ch" }}>
-          To build a community of exceptional financial advisors who lead with integrity and grow with purpose
-        </h2>
-        <p className="dl-lede" style={{ maxWidth: "54ch" }}>
-          Members arrive from a range of professional backgrounds and stay in their own practices. What they share is
-          the aim, not an employer. These are the four things the circle is organised around.
-        </p>
-        <div className="pillars">
-          <div>
-            <b>Learning</b>
-            <p>Progress is discussed openly, including the parts that are not working.</p>
-          </div>
-          <div>
-            <b>Leadership</b>
-            <p>Advisors developed into people others choose to follow.</p>
-          </div>
-          <div>
-            <b>Real value</b>
-            <p>Advice measured by what it does for the client, not by what it produces.</p>
-          </div>
-          <div>
-            <b>Impact</b>
-            <p>A profession left in better standing than the circle found it.</p>
-          </div>
-        </div>
-      </section>
+      {/* The four organising principles, on the same contained ink panel the
+          About page uses for the practice's commitments. They were `.pillars`,
+          the hairlined text grid the client called cheap on the sections
+          below; leaving the one copy of it here while its neighbours were
+          rebuilt would have made it the odd section out. */}
+      {/* The client's purpose statement is 100 characters, so it cannot be a
+          one-line heading and should not be cut — it is their own wording. It
+          moves to the lede, where a sentence wrapping is normal, and the
+          section takes a real title. */}
+      <Creed
+        label="Purpose"
+        title="Why the circle exists"
+        lede="To build a community of exceptional financial advisors who lead with integrity and grow with purpose. These are the four things it is organised around."
+        items={ORGANISED}
+        icons={["growth", "people", "gauge", "building"]}
+      />
 
 
       <section className="band light">
@@ -228,81 +260,27 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="band sand">
-        <p className="lbl">Across the year</p>
-        <h2 style={{ maxWidth: "22ch" }}>The shape of a year in the circle</h2>
-        <p className="dl-lede" style={{ maxWidth: "54ch" }}>
-          Eight kinds of session. What tells you most about the commitment is how often each one comes round.
-        </p>
-        <div className="cadence">
-          {CADENCE.map((group) => (
-            <div key={group.when}>
-              <span className="when">{group.when}</span>
-              <span className="note">{group.note}</span>
-              <ul>
-                {group.items.map((item) => (
-                  <li key={item.name}>
-                    <b>{item.name}</b>
-                    <span>{item.copy}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* One tier per row, each row's column count set by its own item count,
+          so the layout states what the copy claims: the monthly session is the
+          spine and gets a row to itself. As three equal columns the tiers held
+          one, three and four items, and the first ran a 300px hole under a
+          single entry. */}
+      <YearMap
+        label="Across the year"
+        title="The shape of a year in the circle"
+        lede="Eight kinds of session. What tells you most about the commitment is how often each one comes round."
+        tiers={CADENCE}
+      />
 
-      {/* Selection, as a process on one copper line. Sticky rail beside it so
-          the label stays put while the three beats scroll. */}
-      <section className="spread light">
-        <div className="spread__rail">
-          <p className="lbl">Selection</p>
-          <h2>Slow, on purpose</h2>
-          <p className="aside">
-            There is no application form, and there is no cohort. A place opens when the fit is right and not before.
-          </p>
-        </div>
-        <div className="spread__body">
-          <div className="seq">
-            <div>
-              <span className="k">First</span>
-              <h3>A conversation</h3>
-              <p>
-                Usually because a member has suggested it, or because you asked. Nothing is decided at this stage.
-              </p>
-            </div>
-            <div>
-              <span className="k">Then</span>
-              <h3>A personal interview with Sharon</h3>
-              <p>
-                Every member is interviewed and selected by Sharon herself, to make sure the alignment is genuine rather
-                than assumed.
-              </p>
-            </div>
-            <div>
-              <span className="k">Only then</span>
-              <h3>An invitation</h3>
-              <p>
-                Extended when the standard is clearly shared. Some conversations end here, and that is a reasonable
-                outcome for both sides.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Selection narrows, so the design narrows. */}
+      <Gate
+        label="Selection"
+        title="Slow, on purpose"
+        aside="There is no application form, and there is no cohort. A place opens when the fit is right and not before."
+        stages={SELECTION}
+      />
 
-      <section className="band dark ink">
-        <p className="lbl">The standard</p>
-        <h2 style={{ maxWidth: "22ch" }}>Four things every member is asked to hold</h2>
-        <div className="traits">
-          {TRAITS.map((trait, i) => (
-            <div key={trait}>
-              <b>{String(i + 1).padStart(2, "0")}</b>
-              <span>{trait}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      <Holds label="The standard" title="What every member is asked to hold" items={TRAITS} />
 
       <section className="ask-host light">
         <div className="ask-head">

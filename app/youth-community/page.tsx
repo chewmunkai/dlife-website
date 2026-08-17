@@ -3,7 +3,7 @@ import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import Signup from "../../components/v2/Signup";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, Open, SplitShot, Checks, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Band, Open, SplitShot, Checks, ClosingCard, Trio, WhoGrid, LoopCard, Events } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -28,18 +28,40 @@ export const metadata: Metadata = pageMeta(ROUTES.youth);
    dates" links go to WhatsApp rather than to a schedule that does not exist.
    ============================================================ */
 
+/* Round 7: each pillar's copy arrived as a claim followed by four or five
+   comma-separated specifics inside a single sentence. The list was already
+   there; splitting it out is a content fix as much as a design one. Nothing
+   is added and nothing is dropped. */
 const PILLARS = [
   {
     title: "Health",
-    copy: "Build a healthy body and a resilient mind: physical wellness, mental resilience, stress management and some balance while you are young enough for it to become a habit.",
+    claim: "Build a healthy body and a resilient mind.",
+    items: [
+      "Physical wellness",
+      "Mental resilience",
+      "Stress management",
+      "Balance, while it is still easy to make it a habit",
+    ],
   },
   {
     title: "Wealth",
-    copy: "Build financial confidence and career opportunity: financial literacy, wealth management, career exploration, industry exposure and entrepreneurial thinking.",
+    claim: "Build financial confidence and career opportunity.",
+    items: [
+      "Financial literacy",
+      "Wealth management",
+      "Career exploration and industry exposure",
+      "Entrepreneurial thinking",
+    ],
   },
   {
     title: "Leadership",
-    copy: "Build character, influence and purpose: leadership development, communication and public speaking, personal branding, critical thinking and problem-solving.",
+    claim: "Build character, influence and purpose.",
+    items: [
+      "Leadership development",
+      "Communication and public speaking",
+      "Personal branding",
+      "Critical thinking and problem-solving",
+    ],
   },
 ];
 
@@ -48,15 +70,18 @@ const PILLARS = [
    verbatim, so the two sections read as the same content twice. The fourth
    (community & impact) lives as a line in the events intro. Client flag Y1. */
 
+/* The client's six categories, each split into the category and the reason it
+   is on the list. They arrived as six sentences that each did both jobs at
+   once, which is why they could not be scanned. Client flag Y2 covers the
+   seventh, "anyone with a positive mindset and a willingness to learn", which
+   restated the band's own lede. */
 const WHO = [
-  "University students preparing for their future careers",
-  "Fresh graduates exploring meaningful career opportunities",
-  "Young professionals seeking personal and leadership growth",
-  "Young entrepreneurs aspiring to build purpose-driven businesses",
-  "Career explorers looking for clarity, direction and new opportunities",
-  "Young adults who value holistic growth in health, wealth and leadership",
-  // "Anyone with a positive mindset and a willingness to learn" restated the
-  // band's lede, so the list stops at six. Client flag Y2.
+  { who: "University students", why: "Preparing for a career that has not started yet." },
+  { who: "Fresh graduates", why: "Exploring work that will actually mean something." },
+  { who: "Young professionals", why: "After personal and leadership growth, not just the next title." },
+  { who: "Young entrepreneurs", why: "Building something with a purpose behind it." },
+  { who: "Career explorers", why: "Wanting clarity, direction and options worth considering." },
+  { who: "Young adults", why: "Who take health, money and leadership seriously, and together." },
 ];
 
 const EVENTS = [
@@ -64,36 +89,42 @@ const EVENTS = [
     when: "Runs through the year",
     where: "Klang Valley",
     title: "Youth leadership programmes",
+    photo: { src: "/media/img/youth-workshop.jpg", alt: "A youth leadership session in progress" },
     copy: "Structured leadership development for students and young professionals, built around practice rather than theory.",
   },
   {
     when: "Regular",
     where: "Campus & community venues",
     title: "Financial literacy sessions",
+    photo: { src: "/media/img/youth-resources.jpg", alt: "A financial literacy session" },
     copy: "How money actually works: saving, protection, and the decisions worth making early. No products, no selling.",
   },
   {
     when: "Regular",
     where: "Klang Valley",
     title: "Career development sessions",
+    photo: { src: "/media/img/dva-workshop.jpg", alt: "A career development session" },
     copy: "Industry exposure, interview practice and honest conversations with people doing the jobs you are considering.",
   },
   {
     when: "Regular",
     where: "Klang Valley",
     title: "Personal growth workshops",
+    photo: { src: "/media/img/path-future.jpg", alt: "A member working through a personal development exercise" },
     copy: "Communication, public speaking, personal branding and the confidence to use them.",
   },
   {
     when: "Several a year",
     where: "Various",
     title: "Community & volunteer projects",
+    photo: { src: "/media/img/community-gathering.jpg", alt: "Members on a community project" },
     copy: "Service projects that build compassion and responsibility, and give leadership somewhere real to practise.",
   },
   {
     when: "Several a year",
     where: "Various",
     title: "Outdoor & team activities",
+    photo: { src: "/media/img/youth-stories.jpg", alt: "Members at a team activity" },
     copy: "Adventure-based activities that build teamwork, resilience and friendships that outlast the session.",
   },
 ];
@@ -166,32 +197,25 @@ export default function Page() {
       {/* id="resources": the homepage's "Educational Resources" card lands
           here — the three pillars are the guides it promises. The anchor
           used to sit on the cut development-pillars band. */}
-      <section className="trip dark" id="resources">
-        <div className="head">
-          <p className="lbl">The three pillars</p>
-          <h2 style={{ fontSize: "clamp(28px,3.2vw,48px)", lineHeight: 1.04, maxWidth: "20ch", marginTop: 14 }}>
-            Health · Wealth · Leadership
-          </h2>
-        </div>
-        {PILLARS.map((p, i) => (
-          <div key={p.title}>
-            <b>{String(i + 1).padStart(2, "0")}</b>
-            <h3>{p.title}</h3>
-            <p>{p.copy}</p>
-          </div>
-        ))}
-      </section>
+      <Trio
+        id="resources"
+        label="The three pillars"
+        title="Health · Wealth · Leadership"
+        items={PILLARS}
+        icons={["pulse", "coins", "people"]}
+      />
 
-      <Band tone="sand" label="Who it’s for" title="Who can join">
-        <p className="dl-lede">
-          The Youth Community welcomes anyone young and genuinely willing to grow, personally and professionally.
-        </p>
+      <WhoGrid
+        label="Who it’s for"
+        title="Who can join"
+        lede="The Youth Community welcomes anyone young and genuinely willing to grow, personally and professionally."
+        items={WHO}
+      >
         <div className="count">
           <b>06</b>
           <span>kinds of member</span>
         </div>
-        <Checks items={WHO} />
-      </Band>
+      </WhoGrid>
 
       <section className="band light" id="events">
         <p className="lbl">Events &amp; workshops</p>
@@ -201,23 +225,7 @@ export default function Page() {
           members mentor, volunteer and work with universities together. Dates and venues go out to members ahead of
           time, and the quickest way to hear about the next one is to sign up below.
         </p>
-        <div className="stagger">
-          {EVENTS.map((e) => (
-            <article className="dl-event" key={e.title}>
-              <div className="dl-event__meta">
-                <span className="dl-event__when">{e.when}</span>
-                <span className="dl-event__where">{e.where}</span>
-              </div>
-              <h3>{e.title}</h3>
-              <p>{e.copy}</p>
-              {/* No calendar exists yet, so this asks a person rather than
-                  linking to a schedule that is not there. */}
-              <a className="tlink" href={waHref(WA.event)}>
-                Ask about dates <em aria-hidden="true">→</em>
-              </a>
-            </article>
-          ))}
-        </div>
+        <Events items={EVENTS} href={waHref(WA.event)} />
       </section>
 
       <SplitShot
@@ -226,7 +234,6 @@ export default function Page() {
         label="What members take away"
         title="What people leave with"
         id="stories"
-        className="lift-host"
       >
         <p className="dl-lede">
           More than knowledge: practical skills, real relationships and a bit more confidence than they arrived with.
@@ -234,17 +241,17 @@ export default function Page() {
         <Checks items={TAKEAWAYS} />
       </SplitShot>
 
-      <section className="lift" id="loop">
-        <p className="lbl">Stay in the loop</p>
-        <h2 style={{ fontSize: "clamp(24px,2.6vw,38px)", lineHeight: 1.06, maxWidth: "22ch", marginTop: 12 }}>
-          Hear about the next session
-        </h2>
-        <p className="dl-lede" style={{ maxWidth: "52ch" }}>
-          Occasional updates on events, workshops and resources. Nothing is sold to you, and you can stop them at any
-          time.
-        </p>
+      {/* At the client's direction this is now a card with no background: a
+          keyline holding open space, rather than the filled `.lift` panel that
+          used to be pulled up over the section above it. */}
+      <LoopCard
+        id="loop"
+        label="Stay in the loop"
+        title="Hear about the next session"
+        lede="Occasional updates on events, workshops and resources. Nothing is sold to you, and you can stop them at any time."
+      >
         <Signup />
-      </section>
+      </LoopCard>
 
       <section className="ask-host light">
         <div className="ask-head">

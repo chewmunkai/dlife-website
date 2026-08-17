@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Band, ClosingCard, Events } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -33,36 +33,42 @@ const EVENTS = [
     when: "Monthly",
     where: "Klang Valley",
     title: "Growth Circle",
+    photo: { src: "/media/img/dva-workshop.jpg", alt: "Members in a Growth Circle session" },
     copy: "One of D’Life’s signature development platforms. A regular gathering where members reflect on progress, share experience, discuss what is not working and learn from each other.",
   },
   {
     when: "Through the year",
     where: "Klang Valley",
     title: "Leadership development workshops",
+    photo: { src: "/media/img/dva-team.jpg", alt: "A leadership development workshop" },
     copy: "Interactive sessions on strategic thinking, decision-making, emotional intelligence, coaching and applying leadership in practice.",
   },
   {
     when: "Regular",
     where: "Klang Valley",
     title: "Financial planning seminars",
+    photo: { src: "/media/img/youth-workshop.jpg", alt: "An open session on planning fundamentals" },
     copy: "Open sessions on protection and planning fundamentals, run as education rather than as a sales presentation.",
   },
   {
     when: "Regular",
     where: "Klang Valley",
     title: "Learning forums",
+    photo: { src: "/media/img/youth-resources.jpg", alt: "A learning forum with invited practitioners" },
     copy: "Knowledge sharing with industry experts and experienced professionals, covering advisory practice, business and personal development.",
   },
   {
     when: "Through the year",
     where: "Campus & community venues",
     title: "Youth leadership programmes",
+    photo: { src: "/media/img/youth-stories.jpg", alt: "A youth leadership session" },
     copy: "Sessions for students, fresh graduates and young professionals across health, wealth and leadership.",
   },
   {
     when: "Several a year",
     where: "Various",
     title: "Charity & community projects",
+    photo: { src: "/media/img/community-gathering.jpg", alt: "Members at a community project" },
     copy: "Service initiatives that members contribute to across the year, run through DVA and the Youth Community.",
   },
 ];
@@ -85,7 +91,7 @@ export default function Page() {
           template article as a real, clickable card so the layout and the
           reading page can both be reviewed; publishing a record replaces it
           and un-routes the template. */}
-      <Band label="Articles" title="Reading, when there is something worth writing">
+      <Band label="Articles" title="When there is something worth writing">
         <div className="arts">
           {ROUTABLE_ARTICLES.map((a) => (
             <a className="art" href={link(`/articles/${a.slug}`)} key={a.slug}>
@@ -120,21 +126,7 @@ export default function Page() {
             to members ahead of time. Ask us and we will let you know what is next.
           </p>
         </div>
-        <div className="stagger">
-          {EVENTS.map((e) => (
-            <article className="dl-event" key={e.title}>
-              <div className="dl-event__meta">
-                <span className="dl-event__when">{e.when}</span>
-                <span className="dl-event__where">{e.where}</span>
-              </div>
-              <h3>{e.title}</h3>
-              <p>{e.copy}</p>
-              <a className="tlink" href={events}>
-                Ask about attending <em aria-hidden="true">→</em>
-              </a>
-            </article>
-          ))}
-        </div>
+        <Events items={EVENTS} href={events} />
       </Band>
 
       <ClosingCard

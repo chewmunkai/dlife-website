@@ -101,3 +101,13 @@ section.said { margin-top: 0; }
    a single mis-measured child can reintroduce the scrollbar. The page never
    scrolls sideways by design. */
 .wrap { overflow-x: clip; }
+
+/* ---- 7. An empty plate's two lines drift apart as the plate gets taller ----
+   `.slot-empty` is `display:grid; place-items:center` with two children, the
+   caption and its `<em>`. Two auto rows plus the default stretching
+   `align-content` share the whole height between them, and `place-items`
+   centres each item inside its own stretched row — so in a 4:5 founder plate
+   the caption sits a third of the way down and the `<em>` two thirds down,
+   reading as two unrelated labels rather than one marked slot. Centre the row
+   group, not just each item in its row. */
+.slot-empty { align-content: center; gap: 0; }

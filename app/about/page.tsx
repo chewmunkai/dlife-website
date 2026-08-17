@@ -2,7 +2,20 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, Open, SplitShot, Checks, ClosingCard, Cards } from "../../components/v2/blocks";
+import {
+  Hero,
+  Band,
+  Open,
+  SplitShot,
+  Checks,
+  ClosingCard,
+  Cards,
+  Creed,
+  MissionVision,
+  Record,
+  Roster,
+} from "../../components/v2/blocks";
+import { ROSTER } from "../../content/team";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -37,6 +50,15 @@ export const metadata: Metadata = pageMeta(ROUTES.about);
    as a subordinate clause in the development band's lede: the client asked
    for both (2026-08 decisions doc, Q4) included subtly, and a trophy row is
    the opposite of subtle. Both join the verify-before-publish set. */
+/* The practice's four-part line, in the client's own order. See the header
+   note: presented as the practice's commitments, not as a quotation. */
+const COMMITMENTS = [
+  { term: "Protect Lives", copy: "Cover built around the people who actually depend on you." },
+  { term: "Build Wealth", copy: "Decisions you could explain, in your own words, to your own family." },
+  { term: "Transform People", copy: "Advisors developed into professionals, and professionals into leaders." },
+  { term: "Create Impact", copy: "A practice that leaves the profession in better standing than it found it." },
+];
+
 const RECOGNITION = [
   "27 years in the financial services industry",
   "GAMA Premium Recruitment Award",
@@ -118,48 +140,32 @@ export default function Page() {
         </Open>
       </Band>
 
-      <Band tone="dark" label="What the practice is for">
-        <h2 style={{ maxWidth: "22ch" }}>Four commitments, in the order they matter</h2>
-        <div className="pillars">
-          <div>
-            <b>Protect Lives</b>
-            <p>Cover built around the people who actually depend on you.</p>
-          </div>
-          <div>
-            <b>Build Wealth</b>
-            <p>Decisions you could explain, in your own words, to your own family.</p>
-          </div>
-          <div>
-            <b>Transform People</b>
-            <p>Advisors developed into professionals, and professionals into leaders.</p>
-          </div>
-          <div>
-            <b>Create Impact</b>
-            <p>A practice that leaves the profession in better standing than it found it.</p>
-          </div>
-        </div>
-      </Band>
+      {/* The page's one ink panel. The four commitments are the practice's own
+          statement of what it is for, so they get the strongest object on the
+          page rather than four columns of text on a band. */}
+      <Creed
+        label="What the practice is for"
+        title="Four commitments, in order"
+        items={COMMITMENTS}
+        icons={["shield", "coins", "people", "building"]}
+      />
 
-      <Band tone="sand" label="What we are working towards" title="Mission and vision">
-        <div className="mv">
-          <div>
-            <span className="k">Mission</span>
-            <h3>Financial confidence, and leaders worth trusting</h3>
-            <p>
-              To empower individuals and families with financial confidence, create lasting value through professional
-              financial advice, and nurture future leaders who serve with integrity and purpose.
-            </p>
-          </div>
-          <div>
-            <span className="k">Vision</span>
-            <h3>The most trusted advisory practice we can be</h3>
-            <p>
-              To become the most trusted financial advisory company, transforming lives through meaningful financial
-              planning, while helping financial advisors become respected professionals and capable leaders.
-            </p>
-          </div>
-        </div>
-      </Band>
+      <MissionVision
+        label="What we are working towards"
+        title="Mission and vision"
+        items={[
+          {
+            kind: "Mission",
+            claim: "Financial confidence, and leaders worth trusting",
+            copy: "To empower individuals and families with financial confidence, create lasting value through professional financial advice, and nurture future leaders who serve with integrity and purpose.",
+          },
+          {
+            kind: "Vision",
+            claim: "The most trusted advisory practice we can be",
+            copy: "To become the most trusted financial advisory company, transforming lives through meaningful financial planning, while helping financial advisors become respected professionals and capable leaders.",
+          },
+        ]}
+      />
 
       <Founder name="Sharon Cheang" role="Founder">
         <p>
@@ -195,8 +201,10 @@ export default function Page() {
         </p>
       </Founder>
 
+      {/* Not dva-team.jpg: the record panel below now carries that photograph,
+          and the same image twice in adjacent sections reads as an error. */}
       <SplitShot
-        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team" }}
+        photo={{ src: "/media/img/dva-workshop.jpg", alt: "A D’Life workshop session in progress" }}
         tone="light"
         label="Recognition"
         title="Professional record"
@@ -208,27 +216,29 @@ export default function Page() {
         <Checks items={RECOGNITION} />
       </SplitShot>
 
-      <Band label="Advisor development">
-        <h2 style={{ maxWidth: "none" }}>Advisors she has built</h2>
-        <p className="dl-lede">
-          The part of the work Sharon is proudest of is not her own production. It is the advisors and leaders who came
-          through the practice and went on to run teams of their own, a number of them arriving from corporate careers
-          in other industries, several going on to six-figure incomes.
-        </p>
-        <div className="figs">
-          <div>
-            <b>3</b>
-            <span>agency managers now running teams of their own</span>
-          </div>
-          <div>
-            <b>40+</b>
-            <span>young assistant and unit managers developed</span>
-          </div>
-          <div>
-            <b>MDRT</b>
-            <span>consultants, several of them multiple-year qualifiers</span>
-          </div>
-        </div>
+      {/* The figures were a loose stack under a lede. Held on a contained sand
+          panel they read as one record: the sentence that frames them beside
+          the figures themselves. */}
+      <Record
+        label="Advisor development"
+        title="Advisors she has built"
+        lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries, several going on to six-figure incomes. Every figure here is pending client verification."
+        photo={{ src: "/media/img/dva-team.jpg", alt: "Sharon Cheang with the D’Life advisory team", position: "50% 38%" }}
+        figures={[
+          { fig: "3", copy: "agency managers now running teams of their own" },
+          { fig: "40+", copy: "young assistant and unit managers developed" },
+          { fig: "MDRT", copy: "consultants, several of them multiple-year qualifiers" },
+        ]}
+      />
+
+      {/* New at the client's request. Roles are real; names and portraits are
+          marked pending on the page. See content/team.ts. */}
+      <Roster
+        label="The team"
+        title="The advisors you would deal with"
+        lede="Beyond the two founders, the practice runs on a team of advisors and managers at different stages of the same path."
+        members={ROSTER}
+      >
         <Cards
           columns={2}
           items={[
@@ -246,7 +256,7 @@ export default function Page() {
             },
           ]}
         />
-      </Band>
+      </Roster>
 
       <ClosingCard
         title="Meet the people, not the brochure"

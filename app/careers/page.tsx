@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Open, StoriesPreview, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Open, IdeaCards, StoriesPreview, ClosingCard } from "../../components/v2/blocks";
+import type { IconKey } from "../../components/v2/icons";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -56,6 +57,11 @@ const WORK = [
     copy: "Knowing when the right recommendation is to recommend nothing, and saying so.",
   },
 ];
+
+/* One icon per item, in WORK's order. Chosen for what the item is about:
+   a licence is a document, the claim call is the protection promise, and
+   judgement is a measurement rather than a rule. */
+const WORK_ICONS: IconKey[] = ["doc", "people", "growth", "shield", "swap", "gauge"];
 
 const GROWTH = [
   {
@@ -156,16 +162,17 @@ export default function Page() {
       </Band>
 
       <Band label="The work itself">
-        <h2 style={{ maxWidth: "24ch" }}>What an advisor actually does</h2>
+        <h2>What an advisor actually does</h2>
         <p className="dl-lede">Six things that make up the job, before anyone mentions a product or a target.</p>
-        <div className="stated">
-          {WORK.map((w) => (
-            <div key={w.title}>
-              <b>{w.title}</b>
-              <p>{w.copy}</p>
-            </div>
-          ))}
-        </div>
+        {/* Round 7: was `.stated`, a hairlined text grid. Now the same card the
+            solution pages use for their four ideas, three to a row — the
+            pattern the client has already signed off, rather than a second
+            card design that means the same thing. */}
+        <IdeaCards
+          columns={3}
+          items={WORK.map((w) => ({ term: w.title, copy: w.copy }))}
+          icons={WORK_ICONS}
+        />
         {/* The one honest exclusion, as a sentence rather than a column of
             crosses. Note: no figure, by design. */}
         <p className="fnote">
