@@ -29,7 +29,7 @@ export const metadata: Metadata = pageMeta(ROUTES.policy);
 const IS = [
   {
     term: "Your cover, in plain language",
-    copy: "What you actually hold, without the policy wording. You keep a written summary you can read again in two years.",
+    copy: "What you actually hold, without the policy wording. You keep a written summary you can read again in 2 years.",
   },
   {
     term: "A check on the details",
@@ -75,7 +75,7 @@ const STEPS = [
   {
     k: "Step four",
     title: "You keep a plain summary",
-    copy: "What you hold, in words you can read again in two years. Whether anything changes is entirely up to you.",
+    copy: "What you hold, in words you can read again in 2 years. Whether anything changes is entirely up to you.",
   },
 ];
 
@@ -152,7 +152,7 @@ export default function Page() {
           review's components as icon cards. */}
       <Ideas
         label="What a review is"
-        title="Five things that happen, and one that does not"
+        title="5 things that happen, and 1 that does not"
         items={IS}
         icons={["doc", "gauge", "shield", "clock", "people"]}
       />
@@ -169,7 +169,7 @@ export default function Page() {
 
       <section className="band light">
         <p className="lbl">What we look at</p>
-        <h2>The eight points that answer most of it</h2>
+        <h2>The 8 points that answer most of it</h2>
         {/* 2 x 4 numbered timeline, adapted from the client's reference. */}
         <div className="points">
           {POINTS.map((p, i) => (

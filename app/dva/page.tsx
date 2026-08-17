@@ -238,7 +238,7 @@ export default function Page() {
       <Creed
         label="Purpose"
         title="Why the circle exists"
-        lede="To build a community of exceptional financial advisors who lead with integrity and grow with purpose. These are the four things it is organised around."
+        lede="To build a community of exceptional financial advisors who lead with integrity and grow with purpose. These are the 4 things it is organised around."
         items={ORGANISED}
         icons={["growth", "people", "gauge", "building"]}
       />
@@ -268,7 +268,7 @@ export default function Page() {
       <YearMap
         label="Across the year"
         title="The shape of a year in the circle"
-        lede="Eight kinds of session. What tells you most about the commitment is how often each one comes round."
+        lede="8 kinds of session. What tells you most about the commitment is how often each one comes round."
         tiers={CADENCE}
       />
 

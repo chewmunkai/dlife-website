@@ -344,7 +344,7 @@
 .ft2-head { display: grid; gap: 0; }
 .ft2-head h2 {
   font-size: clamp(23px, 2.7vw, 36px); line-height: 1.07; letter-spacing: -.015em;
-  color: var(--s-heading); max-width: 20ch; text-wrap: balance; margin: 8px 0 0;
+  color: var(--s-heading); max-width: 24ch; text-wrap: pretty; margin: 0;
 }
 .ft2-cta { display: grid; gap: 8px; justify-items: start; margin-top: clamp(18px, 2.6vh, 28px); }
 .ft2-cta a {
@@ -379,15 +379,38 @@
 @media (max-width: 880px) { .ft2-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 340px) { .ft2-grid { grid-template-columns: minmax(0, 1fr); } }
 
-.ft2-fine {
-  max-width: min(var(--dl-container), 92ch); margin: clamp(20px, 3vh, 30px) auto 0;
-  font-size: 11.5px; line-height: 1.6; color: var(--s-quiet);
+/* Round 9: the disclosure as its own tier, label left and text right on the
+   same two-column rhythm as the row above it, separated by a rule. It used to
+   be an unattached paragraph between the directory and the legal line. */
+.ft2-note {
+  max-width: var(--dl-container); margin: clamp(24px, 3.4vh, 36px) auto 0;
+  padding-top: clamp(18px, 2.4vh, 24px);
+  border-top: 1px solid var(--s-line-soft);
+  display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.15fr);
+  gap: clamp(14px, 5vw, 90px); align-items: start;
+}
+.ft2-note .k {
+  margin: 0;
+  font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
+  letter-spacing: .18em; text-transform: uppercase; color: var(--s-label);
+}
+.ft2-note p:not(.k) {
+  margin: 0; max-width: 78ch;
+  font-size: 12px; line-height: 1.65; color: var(--s-quiet);
+}
+@media (max-width: 880px) {
+  .ft2-note { grid-template-columns: minmax(0, 1fr); gap: 10px; }
 }
 .ft2-base {
   max-width: var(--dl-container); margin: 18px auto 0;
   padding-top: 16px; border-top: 1px solid var(--s-line-soft);
   display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center;
   font-size: 12px; color: var(--s-quiet);
+}
+.ft2-base > span { display: grid; gap: 3px; }
+/* The identity line, moved down out of the eyebrow slot above the statement. */
+.ft2-base > span em {
+  font-style: normal; font-size: 11.5px; color: var(--s-quiet);
 }
 .ft2-base .lx { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-right: auto; }
 .ft2-base a { color: var(--s-quiet); }
@@ -1045,9 +1068,9 @@
   box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .09);
 }
 .yearmap .tier {
-  display: grid; grid-template-columns: minmax(0, 232px) minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 46px); align-items: start;
-  padding: clamp(22px, 3.2vh, 34px) clamp(22px, 3vw, 42px);
+  display: grid; grid-template-columns: minmax(0, 226px) minmax(0, 1fr);
+  gap: clamp(22px, 3.4vw, 56px); align-items: start;
+  padding: clamp(26px, 3.6vh, 40px) clamp(24px, 3.2vw, 44px);
 }
 .yearmap .tier + .tier { border-top: 1px solid rgba(47, 53, 50, .16); }
 .yearmap .when {
@@ -1072,16 +1095,21 @@
   display: grid; grid-template-columns: repeat(var(--n, 1), minmax(0, 1fr));
   gap: clamp(12px, 1.4vw, 18px);
 }
+/* Round 9: the cards were ivory on cream with a .12 hairline, which is barely
+   two steps of tone — they read as gaps in the panel rather than as objects on
+   it. Now each one is capped in copper like every other card in the system,
+   the hairline is strong enough to close the shape, and the padding is a card's
+   worth rather than a cell's. */
 .yearmap .it {
   background: var(--dl-ivory);
-  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .12);
-  border-top: 2px solid transparent;
-  padding: clamp(16px, 1.8vw, 22px);
-  display: grid; gap: 7px; align-content: start;
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .18);
+  border-top: 2px solid var(--dl-copper-d);
+  padding: clamp(18px, 2vw, 26px) clamp(18px, 2vw, 24px) clamp(20px, 2.4vh, 26px);
+  display: grid; gap: 9px; align-content: start;
 }
 .yearmap .it b {
-  font: 500 clamp(16.5px, 1.25vw, 19px)/1.28 var(--dl-disp);
-  letter-spacing: -.012em; color: var(--s-heading);
+  font: 500 clamp(17px, 1.35vw, 20.5px)/1.24 var(--dl-disp);
+  letter-spacing: -.014em; color: var(--s-heading);
 }
 .yearmap .it span { color: var(--s-muted); }
 
@@ -1094,9 +1122,11 @@
 .yearmap .tier--spine .note { color: var(--dl-sand); }
 .yearmap .tier--spine .n { color: rgba(246, 241, 232, .6); border-top-color: rgba(246, 241, 232, .22); }
 .yearmap .tier--spine .n b { color: var(--dl-sand); }
+/* On ink the wash has to be a shade stronger to separate from the ground, and
+   the cap goes to the lighter copper so it still reads against the dark. */
 .yearmap .tier--spine .it {
-  background: rgba(246, 241, 232, .07);
-  box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .18);
+  background: rgba(246, 241, 232, .09);
+  box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .22);
   border-top-color: var(--dl-copper);
 }
 .yearmap .tier--spine .it b { color: var(--dl-ivory); }
@@ -1462,3 +1492,47 @@
   .wrap .lead__row { grid-template-columns: minmax(0, 1fr); }
   .wrap .reach__list > div { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 }
+
+/* ============================================================
+   26 · Finishing the type scale
+   Round 9, from the client's audit request. Three sizes were still drifting
+   after §22, all of them invisible on their own and obvious in a column.
+
+   1. Section titles ran at two sizes on the same page. `.band`, `.split-shot`
+      and `.ask-host` were 3.2vw while `.two`, `.stmt` and `.spread__rail` were
+      2.9vw, so "The people this suits" sat 4px smaller than the section title
+      above it for no reason anyone could name. One size for all of them.
+
+   2. Headings inside a contained card were 32px and 33.28px in two places.
+      Same role, so one size.
+
+   3. Small print was at 11.5px, 12px, 12.5px and 12px in the footer, and event
+      meta labels at 12px against the 11px every other tracked label uses.
+
+   Roles that are deliberately their own size are left alone: the display
+   statement (`.dl-open2 .say`), the closing card's heading, the article page's
+   subheads, and the pill's own label.
+   ============================================================ */
+.wrap :is(.band, .split-shot, .stmt, .two, .moments, .ideas) h2,
+.wrap .spread__rail h2,
+.wrap .ask-host .ask-head h2 {
+  font-size: clamp(28px, 3.2vw, 48px);
+  line-height: 1.04;
+}
+/* Headings on a contained card, one step down from a section title. */
+.wrap :is(.loop, .reach) h2 { font-size: clamp(24px, 2.5vw, 36px); line-height: 1.08; }
+
+/* Event meta joins the 11px label tier. */
+.wrap :is(.dl-event__when, .dl-event__where) { font-size: 11px; }
+
+/* One small-print size in the footer. */
+.ft2 :is(.ft2-cta .sub, .ft2-note p:not(.k), .ft2-base, .ft2-base a, .ft2-base > span em) {
+  font-size: 12px;
+}
+
+/* A heading in a 363px side column cannot hold one line at the section-title
+   size: these need 452–592px. Shrinking them would reintroduce the two sizes
+   §26 just removed, so they keep the size and get balanced instead, which is
+   the right treatment for a heading that must wrap. The client's note was
+   about titles breaking in two where the container had room for one line. */
+.wrap :is(.ask-host .ask-head, .spread__rail) h2 { text-wrap: balance; }

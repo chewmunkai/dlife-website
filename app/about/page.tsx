@@ -145,7 +145,7 @@ export default function Page() {
           page rather than four columns of text on a band. */}
       <Creed
         label="What the practice is for"
-        title="Four commitments, in order"
+        title="4 commitments, in order"
         items={COMMITMENTS}
         icons={["shield", "coins", "people", "building"]}
       />
@@ -176,7 +176,7 @@ export default function Page() {
         <p>
           Over 27 years she has advised a great many Malaysian families and mentored a generation of financial
           consultants. She also founded <a href={link(ROUTES.dva.path)}>Drive Value Associates</a>, the leadership
-          circle that grew out of that mentoring work. Her mentoring today centres on four things: mindset,
+          circle that grew out of that mentoring work. Her mentoring today centres on 4 things: mindset,
           personality, wealth and quality of life.
         </p>
         <p>

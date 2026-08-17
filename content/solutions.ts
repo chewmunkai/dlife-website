@@ -69,8 +69,8 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       intro:
         "Nobody wakes up wanting to buy insurance. Something changes, and a question that was easy to postpone stops being easy to postpone.",
       questions: [
-        "A first child, or a second, and the household now depends on one or two incomes",
-        "A mortgage signed, with twenty or thirty years still to run",
+        "A first child, or a second, and the household now depends on 1 or 2 incomes",
+        "A mortgage signed, with 20 or 30 years still to run",
         "Ageing parents who may need support, at the same time as young children",
         "A friend or colleague’s family going through something difficult",
         "A policy bought years ago that nobody has looked at since",
@@ -113,7 +113,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         },
         {
           title: "We show you the options in plain language",
-          copy: "What each one does, what it costs, and what it does not do. If two options are close, we will say so rather than steer you.",
+          copy: "What each one does, what it costs, and what it does not do. If 2 options are close, we will say so rather than steer you.",
         },
         {
           title: "You decide in your own time",
@@ -133,7 +133,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       },
       {
         q: "I already have cover through my employer. Is that enough?",
-        a: "It may be, and we will tell you if it is. Employer cover is worth understanding on two points: how much it actually pays, and whether it continues if you change jobs or stop working. Those two answers usually settle the question.",
+        a: "It may be, and we will tell you if it is. Employer cover is worth understanding on 2 points: how much it actually pays, and whether it continues if you change jobs or stop working. Those 2 answers usually settle the question.",
       },
       {
         q: "Is it too late if I am older, or if I have a medical condition?",
@@ -165,7 +165,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     recognise: {
       title: "One question worth sitting with",
       intro:
-        "If your income stopped for six months, what would change in your household, and in what order? Most people can answer that in about a minute, and the answer is usually clarifying.",
+        "If your income stopped for 6 months, what would change in your household, and in what order? Most people can answer that in about a minute, and the answer is usually clarifying.",
       questions: [
         "The loan repayments that continue regardless",
         "How long savings would realistically last",
@@ -210,11 +210,11 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         },
         {
           title: "We look at the wording, not just the price",
-          copy: "The waiting period, the benefit period and the definition of disability decide whether a policy works. Two policies at the same price can behave completely differently.",
+          copy: "The waiting period, the benefit period and the definition of disability decide whether a policy works. 2 policies at the same price can behave completely differently.",
         },
         {
           title: "We review it when your income changes",
-          copy: "A policy set against a salary from five years ago is protecting a household that no longer exists.",
+          copy: "A policy set against a salary from 5 years ago is protecting a household that no longer exists.",
         },
       ],
     },
@@ -324,7 +324,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     faqs: [
       {
         q: "I have medical cover through my employer. Do I need my own?",
-        a: "It depends on two things: whether the limits suit the care you would want, and what happens when you leave that job. Employer cover is real cover. It just stops being yours when the employment does. Worth knowing which of those applies to you before you decide.",
+        a: "It depends on 2 things: whether the limits suit the care you would want, and what happens when you leave that job. Employer cover is real cover. It just stops being yours when the employment does. Worth knowing which of those applies to you before you decide.",
       },
       {
         q: "Can I be covered if I already have a condition?",
@@ -360,7 +360,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       questions: [
         "Whether EPF alone will be enough, and what “enough” even means",
         "How to think about the years between stopping work and needing care",
-        "What inflation does to a fixed sum over twenty years",
+        "What inflation does to a fixed sum over 20 years",
         "How to balance saving for retirement against children’s education",
         "Whether it is too late to start, or too early to bother",
       ],
@@ -411,7 +411,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     },
     prove: {
       quote:
-        "The best plans we see are not the most sophisticated ones. They are the ones the client can still explain, five years later, without looking anything up.",
+        "The best plans we see are not the most sophisticated ones. They are the ones the client can still explain, 5 years later, without looking anything up.",
       cite: "D’Life advisory team",
     },
     faqs: [

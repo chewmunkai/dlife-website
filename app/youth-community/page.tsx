@@ -199,7 +199,7 @@ export default function Page() {
           used to sit on the cut development-pillars band. */}
       <Trio
         id="resources"
-        label="The three pillars"
+        label="The 3 pillars"
         title="Health · Wealth · Leadership"
         items={PILLARS}
         icons={["pulse", "coins", "people"]}

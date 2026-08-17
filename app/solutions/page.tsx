@@ -14,7 +14,7 @@ export const metadata: Metadata = pageMeta(ROUTES.solutions);
 /* ============================================================
    Solutions hub.
 
-   The five life needs as a media card grid, then the shape every
+   The 5 life needs as a media card grid, then the shape every
    conversation has in common, then corporate as a statement rather than a
    sixth card — it is a smaller part of the practice and the design says so by
    giving it a different shape instead of equal billing.
@@ -60,7 +60,7 @@ const COMMON = [
   },
   {
     title: "We explain the options in plain language",
-    copy: "What each does, what it costs and what it does not do. Where two options are genuinely close, we will tell you that rather than steer you.",
+    copy: "What each does, what it costs and what it does not do. Where 2 options are genuinely close, we will tell you that rather than steer you.",
   },
   {
     title: "You decide, in your own time",
@@ -78,7 +78,7 @@ export default function Page() {
         route={route}
         label="Protection & planning"
         title="Start wherever you are"
-        lede="Five areas most households eventually need to think about. None of them require a decision today, and you will not be asked to make one."
+        lede="5 areas most households eventually need to think about. None of them require a decision today, and you will not be asked to make one."
         photo={{ src: "/media/img/path-family.jpg", alt: "A family at home together" }}
         actions={
           <a className="pill" href={advisor}>

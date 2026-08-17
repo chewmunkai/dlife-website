@@ -30,7 +30,7 @@ import type { RouteKey } from "../lib/routes";
    ============================================================ */
 
 /** Renders an unmissable gap in the copy. Deliberately loud. */
-const tbc = (what: string) => `[TO BE CONFIRMED — ${what}]`;
+const tbc = (what: string) => `[TO BE CONFIRMED: ${what}]`;
 
 export type LegalSection = { heading: string; paras: string[] };
 
@@ -75,7 +75,7 @@ export const LEGAL: Record<string, LegalContent> = {
       {
         heading: "Who we share it with",
         paras: [
-          `Where you ask us to arrange cover, the information you provide is shared with the relevant insurer in order to do that. ${tbc("the principal insurer relationship, and any other processor — CRM, email delivery, hosting — that handles personal data on our behalf")}`,
+          `Where you ask us to arrange cover, the information you provide is shared with the relevant insurer in order to do that. ${tbc("the principal insurer relationship, and any other processor (CRM, email delivery, hosting) that handles personal data on our behalf")}`,
           "We may also disclose information where we are required to by law or by a regulator.",
         ],
       },
@@ -145,7 +145,7 @@ export const LEGAL: Record<string, LegalContent> = {
         heading: "Liability",
         paras: [
           tbc(
-            "limitation of liability wording. This clause needs drafting by a lawyer against Malaysian law — a generic exclusion copied from another site may be unenforceable and is not worth the risk",
+            "limitation of liability wording. This clause needs drafting by a lawyer against Malaysian law; a generic exclusion copied from another site may be unenforceable and is not worth the risk",
           ),
         ],
       },
@@ -167,7 +167,7 @@ export const LEGAL: Record<string, LegalContent> = {
         heading: "Who we are and what we are licensed to do",
         paras: [
           tbc(
-            "the central open question. D’Life’s status — a licensed agency in its own right, or a team operating under the licence of a larger insurer — determines the wording of this entire page, including the correct use of ‘we’, the regulator named here, and the licence details published. It must be answered before this page goes live",
+            "the central open question. D’Life’s status, whether a licensed agency in its own right or a team operating under the licence of a larger insurer, determines the wording of this entire page, including the correct use of ‘we’, the regulator named here, and the licence details published. It must be answered before this page goes live",
           ),
           tbc("regulator, licence or registration number, and the principal insurer relationship"),
         ],
@@ -185,7 +185,7 @@ export const LEGAL: Record<string, LegalContent> = {
         heading: "The advice we give",
         paras: [
           "Advice is given after a needs assessment, and it comes with the product disclosure documents relevant to what is recommended. You are entitled to ask why something has been recommended, what alternatives were considered, and what it will cost you over its life. Those are reasonable questions and you should expect a clear answer to all three.",
-          "Where a recommendation would not be in your interest, our advisors are expected to say so — including where that means recommending nothing at all.",
+          "Where a recommendation would not be in your interest, our advisors are expected to say so, including where that means recommending nothing at all.",
         ],
       },
       {
@@ -223,7 +223,7 @@ export const LEGAL: Record<string, LegalContent> = {
         heading: "What we will do",
         paras: [
           tbc(
-            "your complaints procedure — acknowledgement timeframe, who investigates, the target for a substantive response, and how the outcome is communicated. Regulators generally expect specific timeframes published here rather than a general undertaking",
+            "your complaints procedure: acknowledgement timeframe, who investigates, the target for a substantive response, and how the outcome is communicated. Regulators generally expect specific timeframes published here rather than a general undertaking",
           ),
           "We will tell you what we have found and what, if anything, we intend to do about it. If we think we got it right, we will explain why rather than simply disagreeing with you.",
         ],
@@ -232,7 +232,7 @@ export const LEGAL: Record<string, LegalContent> = {
         heading: "If you are not satisfied with our response",
         paras: [
           tbc(
-            "the correct external escalation route for D’Life’s licensing arrangement — the relevant insurer’s own complaints unit, the Ombudsman for Financial Services, and Bank Negara Malaysia’s consumer channel, in the order and with the contact details that actually apply. Publishing the wrong route is worse than publishing none",
+            "the correct external escalation route for D’Life’s licensing arrangement: the relevant insurer’s own complaints unit, the Ombudsman for Financial Services, and Bank Negara Malaysia’s consumer channel, in the order and with the contact details that actually apply. Publishing the wrong route is worse than publishing none",
           ),
         ],
       },

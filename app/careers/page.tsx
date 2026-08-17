@@ -106,7 +106,7 @@ const FAQS = [
   },
   {
     q: "How is the income structured?",
-    a: "Commission-based, which means it varies and starts slowly. We will talk through what a realistic first two years looks like, honestly, rather than publish a figure that would be someone else’s.",
+    a: "Commission-based, which means it varies and starts slowly. We will talk through what a realistic first 2 years looks like, honestly, rather than publish a figure that would be someone else’s.",
   },
   {
     q: "Is this a full-time commitment?",
@@ -163,7 +163,7 @@ export default function Page() {
 
       <Band label="The work itself">
         <h2>What an advisor actually does</h2>
-        <p className="dl-lede">Six things that make up the job, before anyone mentions a product or a target.</p>
+        <p className="dl-lede">6 things that make up the job, before anyone mentions a product or a target.</p>
         {/* Round 7: was `.stated`, a hairlined text grid. Now the same card the
             solution pages use for their four ideas, three to a row — the
             pattern the client has already signed off, rather than a second
@@ -176,7 +176,7 @@ export default function Page() {
         {/* The one honest exclusion, as a sentence rather than a column of
             crosses. Note: no figure, by design. */}
         <p className="fnote">
-          <b>Two things it is not.</b> It does not work as a side project, and nobody here earns from signing other
+          <b>2 things it is not.</b> It does not work as a side project, and nobody here earns from signing other
           people up. Advisor income is commission-based, which means it varies and starts slowly. We would rather talk
           that through with you properly than publish a figure that belongs to somebody else.
         </p>

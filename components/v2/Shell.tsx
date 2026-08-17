@@ -160,7 +160,11 @@ export default function Shell({ children }: { children: ReactNode }) {
       <footer className="ft2 dark charcoal">
         <div className="ft2-top">
           <div className="ft2-head">
-            <p className="lb">D’Life · Financial advisory · Est. 1999, Malaysia</p>
+            {/* Round 9: the identity line used to sit above this as a tracked
+                eyebrow, which read as a kicker introducing the statement rather
+                than as the agency's own name. It moved to the base row beside
+                the copyright, where an identity line belongs, and the statement
+                leads the footer on its own. */}
             <h2>Real support, beyond the policy.</h2>
             <div className="ft2-cta">
               <a href={waHref(WA.footer)}>
@@ -170,7 +174,7 @@ export default function Shell({ children }: { children: ReactNode }) {
                 {CONTACT.email} <em aria-hidden="true">→</em>
               </a>
               <span className="sub">
-                Monday to Friday, 9am–6pm. {CONTACT.city}, visits by appointment.
+                Monday to Friday, 9am to 6pm. {CONTACT.city}, visits by appointment.
               </span>
             </div>
           </div>
@@ -191,14 +195,25 @@ export default function Shell({ children }: { children: ReactNode }) {
           </nav>
         </div>
 
-        <p className="ft2-fine">
-          D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read here
-          is general information, not personal advice. It does not take your circumstances into account. A
-          recommendation only follows a conversation, a needs assessment and the relevant product disclosure documents.
-        </p>
+        {/* Round 9: this was a 92-character slab floating between the directory
+            and the legal row with nothing attaching it to either. It is now its
+            own labelled tier, on the same two-column rhythm as the row above, so
+            it reads as the disclosure it is rather than as an orphan. */}
+        <div className="ft2-note">
+          <p className="k">General information</p>
+          <p>
+            D’Life Revolution is a financial advisory and insurance agency operating in Malaysia. Anything you read
+            here is general information, not personal advice. It does not take your circumstances into account. A
+            recommendation only follows a conversation, a needs assessment and the relevant product disclosure
+            documents.
+          </p>
+        </div>
 
         <div className="ft2-base">
-          <span>© {new Date().getFullYear()} D’Life Revolution</span>
+          <span>
+            © {new Date().getFullYear()} D’Life Revolution
+            <em>Financial advisory · Est. 1999, Malaysia</em>
+          </span>
           <div className="lx">
             {LEGAL_LINKS.map((l) => (
               <a key={l.href} href={link(l.href)}>

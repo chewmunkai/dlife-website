@@ -54,7 +54,7 @@ export const TEMPLATE_ARTICLE: Article = {
   slug: "template",
   title: "Article title sits here, at about this length",
   blurb:
-    "One sentence under the title saying what the reader gets out of this. Two lines at most.",
+    "One sentence under the title saying what the reader gets out of this. 2 lines at most.",
   category: "Client guidance",
   date: "2026-01-01",
   read: "4 min read",
@@ -73,7 +73,7 @@ export const TEMPLATE_ARTICLE: Article = {
     {
       list: [
         "A list earns its place when the items are genuinely parallel",
-        "Three to six items, each one a complete thought",
+        "3 to 6 items, each one a complete thought",
         "No item so long that it should have been a paragraph",
       ],
     },
