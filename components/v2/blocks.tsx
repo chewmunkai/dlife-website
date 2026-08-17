@@ -447,6 +447,62 @@ export function Rail({ steps }: { steps: ReadonlyArray<{ title: string; copy: Re
   );
 }
 
+/**
+ * A preview of the Stories page: real film posters with their runtimes,
+ * routing on to the full page. Used where a page needs advisor evidence
+ * rather than a pull-quote — the guide runs the career journey through the
+ * films, and a poster someone can recognise carries more than a sentence in
+ * quotation marks with no name attached to it.
+ *
+ * Posters only, no players: this is a teaser, and the films themselves are
+ * one click away where they play with sound.
+ */
+export function StoriesPreview({
+  label,
+  title,
+  lede,
+  items,
+  href,
+  cta = "Watch the stories",
+}: {
+  label: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  items: ReadonlyArray<{ poster: string; focus?: string; title: string; runtime: string; category: string }>;
+  href: string;
+  cta?: string;
+}) {
+  return (
+    <section className="band light spreview">
+      <p className="lbl">{label}</p>
+      <h2>{title}</h2>
+      {lede && <p className="dl-lede">{lede}</p>}
+      <div className="reel">
+        {items.map((v) => (
+          <a className="tile" href={link(href)} key={v.title}>
+            <div className="ph">
+              <img src={v.poster} alt="" style={v.focus ? { objectPosition: v.focus } : undefined} />
+              <span className="play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                  <path d="M8 5.5v13l11-6.5z" />
+                </svg>
+              </span>
+              <span className="run">{v.runtime}</span>
+            </div>
+            <span className="cat">{v.category}</span>
+            <span className="ttl">{v.title}</span>
+          </a>
+        ))}
+      </div>
+      <div className="dl-actions">
+        <a className="pill ghost" href={link(href)}>
+          <span>{cta}</span>
+        </a>
+      </div>
+    </section>
+  );
+}
+
 /** Quotation carried on a photograph. Without one, the plain variant. */
 export function Said({ photo, quote, cite }: { photo?: Photo; quote: ReactNode; cite: string }) {
   return (

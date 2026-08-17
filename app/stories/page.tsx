@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Film from "../../components/v2/Film";
 import JsonLd from "../../components/site/JsonLd";
-import { Band, Open, ClosingCard, Crumbs } from "../../components/v2/blocks";
+import { Hero, Band, Open, ClosingCard } from "../../components/v2/blocks";
 import { VIDEOS } from "../../content/videos";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
@@ -29,46 +29,27 @@ export const metadata: Metadata = pageMeta(ROUTES.stories);
    why the cards are 4:5 and why no caption track is attached.
    ============================================================ */
 
-/** The hero carries one film. The second record is the one the bundle leads
- *  with, and it is the most general of the three. */
-const HERO_FILM = VIDEOS[1];
 
 export default function Page() {
   const route = ROUTES.stories;
 
   return (
     <Shell>
-      <section className="hero dark">
-        <Film
-          id="film"
-          src={HERO_FILM.src}
-          poster={HERO_FILM.poster}
-          focus={HERO_FILM.focus}
-          title={HERO_FILM.title}
-          runtime={HERO_FILM.runtime}
-          runtimeLabel={`Film · ${HERO_FILM.runtime}`}
-        />
-        <div className="card light">
-          <Crumbs route={route} />
-          <p className="lbl">Advisor stories</p>
-          <h1>Meet the people behind D’Life</h1>
-          <p className="dl-lede">
-            Real advisors, in their own words. What the work actually looks like, who it is for, and what keeps them
-            doing it.
-          </p>
-          <div className="dl-actions">
-            <a className="pill" href="#film">
-              <span>Play the film</span>
-            </a>
-            <a className="tlink" href="#films" style={{ alignSelf: "center" }}>
-              All three films <em>→</em>
-            </a>
-          </div>
-          <p className="micro" style={{ marginTop: 26 }}>
-            Film · “{HERO_FILM.title}” · {HERO_FILM.runtime}
-          </p>
-        </div>
-      </section>
+      {/* A still hero at the client's direction: the films all play in the reel
+          below, and opening on a player asked the visitor to commit before the
+          page had told them what they were committing to. */}
+      <Hero
+        route={route}
+        label="Advisor stories"
+        title="Meet the people behind D’Life"
+        lede="Real advisors, in their own words. What the work actually looks like, who it is for, and what keeps them doing it."
+        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team", position: "50% 34%" }}
+        actions={
+          <a className="pill" href="#films">
+            <span>Watch the films</span>
+          </a>
+        }
+      />
 
       <section className="band light" id="films">
         <p className="lbl">Watch</p>
@@ -97,13 +78,17 @@ export default function Page() {
         </div>
       </section>
 
-      <Band tone="sand">
-        <Open lead="These are advisors talking about their work, not testimonials about ours.">
-          <p>We have deliberately not scripted them, which is why they are short and specific rather than polished.</p>
+      <Band>
+        <Open lead="Nobody here is reading from a script. That is why these are short, specific, and a little unpolished.">
           <p>
-            If what you are really weighing up is whether this is a career you would want, the{" "}
-            <a href={link(ROUTES.careers.path)}>Grow With D’Life</a> page is the more useful read. It covers the parts
-            of the job these films do not, including the difficult first year.
+            You are probably watching because you are wondering what the job is actually like, not because you want to
+            hear how good we are at it. So that is what they talk about: an ordinary week, the parts that are hard, and
+            the reason they stayed.
+          </p>
+          <p>
+            And if what you are really weighing up is whether you would want this career yourself,{" "}
+            <a href={link(ROUTES.careers.path)}>Grow With D’Life</a> is the more useful read. It covers what the films
+            leave out, including how slow the first year is.
           </p>
         </Open>
       </Band>

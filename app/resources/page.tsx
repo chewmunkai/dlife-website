@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, ClosingCard, Cards } from "../../components/v2/blocks";
-import { ROUTES, SOLUTION_SLUGS } from "../../lib/routes";
-import { link } from "../../lib/asset";
+import { Hero, Band, ClosingCard } from "../../components/v2/blocks";
+import { ROUTES } from "../../lib/routes";
+import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
+import { ARTICLES, TEMPLATE_ARTICLE } from "../../content/articles";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.resources);
@@ -12,22 +13,20 @@ export const metadata: Metadata = pageMeta(ROUTES.resources);
 /* ============================================================
    Articles & Events.
 
-   ⚠️ No article library exists yet. This page is an index of the guidance
-   that is already on the site plus the sessions that run, and it says so
-   outright rather than shipping an empty blog. When articles are published
-   they land in the guidance grid here, not in a separate /blog.
+   Simplified at the client's direction: two sections, articles then events.
+   The old "Guidance" card grid duplicated the Solutions hub, the sign-up band
+   duplicated the Youth page's, and "Also on this site" was a list of links
+   the footer already carries.
 
-   Note the difference from the Youth page: that one carries a working
-   (unwired) sign-up form, this one deliberately does not. The design replaces
-   the form here with a notice explaining why, because on a page whose whole
-   job is "hear when something is on", a form that discards the address would
-   be the most misleading place on the site to put one.
+   ⚠️ No article library exists yet, and this page must not pretend otherwise.
+   While content/articles.ts is empty the section shows a labelled template
+   with placeholder copy so the layout can be approved before anything is
+   written. Publishing a record removes the template automatically.
 
-   Event dates are vague because no calendar has been supplied. Every "ask
-   about attending" opens WhatsApp with the events prefill.
+   Event dates stay vague because no calendar has been supplied; every "ask
+   about attending" opens WhatsApp rather than linking to a schedule that is
+   not there.
    ============================================================ */
-
-const NEEDS = SOLUTION_SLUGS.filter((s) => s !== "corporate");
 
 const EVENTS = [
   {
@@ -77,36 +76,76 @@ export default function Page() {
       <Hero
         route={route}
         label="Articles & events"
-        title="Guidance, and what’s coming up"
-        lede="Practical explanations of the things people most often ask us about, the films our advisors have recorded, and the sessions that run across the D’Life community."
+        title="Reading, and what’s coming up"
+        lede="Writing worth your time, and the sessions that run across the D’Life community through the year."
         photo={{ src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress" }}
       />
 
-      <Band
-        label="Guidance"
-        title="Explained in plain language"
-        lede="Each of these walks through one area: what it covers, the terms worth understanding, and how a conversation about it actually goes. They are written to be useful whether or not you ever speak to us."
-      >
-        <Cards
-          columns={3}
-          items={[
-            ...NEEDS.map((slug) => ({
-              title: ROUTES[slug].label,
-              copy: ROUTES[slug].teaser,
-              href: ROUTES[slug].path,
-              cta: "Read the guide",
-            })),
-            {
-              title: ROUTES.policy.label,
-              copy: "What a coverage review involves, and what it does not.",
-              href: ROUTES.policy.path,
-              cta: "Read the guide",
-            },
-          ]}
-        />
+      {/* The article library. Empty today, so the page shows the template a
+          published article will use rather than inventing three of them.
+          Adding records to content/articles.ts switches this to the real grid
+          with no markup change. */}
+      <Band label="Articles" title="Reading, when there is something worth writing">
+        {ARTICLES.length ? (
+          <div className="arts">
+            {ARTICLES.map((a) => (
+              <a className="art" href={link(a.href)} key={a.href}>
+                <div className="ph">
+                  {a.photo ? (
+                    <img src={asset(a.photo.src)} alt={a.photo.alt} />
+                  ) : (
+                    <div className="slot-empty">
+                      Lead image
+                      <em>To be supplied</em>
+                    </div>
+                  )}
+                </div>
+                <div className="body">
+                  <div className="meta">
+                    <span>{a.category}</span>
+                    <em>{a.read}</em>
+                  </div>
+                  <h3>{a.title}</h3>
+                  <p>{a.blurb}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <>
+            <div className="dl-notice" role="note">
+              <strong>No articles published yet.</strong>
+              <p>
+                The card below is the template a published article will use, with placeholder copy. It is shown so the
+                layout can be signed off before anything is written. Add records to <code>content/articles.ts</code> and
+                this section becomes the real library.
+              </p>
+            </div>
+            <div className="arts" style={{ marginTop: "clamp(24px,3.4vh,38px)" }} aria-hidden="true">
+              {[0, 1, 2].map((i) => (
+                <article className="art" key={i}>
+                  <div className="ph">
+                    <div className="slot-empty">
+                      Lead image
+                      <em>Template</em>
+                    </div>
+                  </div>
+                  <div className="body">
+                    <div className="meta">
+                      <span>{TEMPLATE_ARTICLE.category}</span>
+                      <em>{TEMPLATE_ARTICLE.read}</em>
+                    </div>
+                    <h3>{TEMPLATE_ARTICLE.title}</h3>
+                    <p>{TEMPLATE_ARTICLE.blurb}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </>
+        )}
       </Band>
 
-      <Band tone="sand" label="Events" title="What runs across the year">
+      <Band label="Events" title="What runs across the year">
         <div className="dl-prose" style={{ marginTop: 20 }}>
           <p>
             D’Life and <a href={link(ROUTES.dva.path)}>DVA</a> run a programme of workshops, forums and community
@@ -128,40 +167,6 @@ export default function Page() {
               </a>
             </article>
           ))}
-        </div>
-      </Band>
-
-      <Band read label="Stay in the loop" title="Hear when something is on">
-        <p className="dl-lede">
-          Occasional updates on events, sessions and new guidance. No selling, and easy to stop.
-        </p>
-        {/* Deliberately a notice rather than a form. See the header note. */}
-        <div className="dl-notice" style={{ marginTop: "clamp(22px,3vh,32px)" }}>
-          <p>
-            <strong>Sign-up not connected.</strong> No form endpoint, consent wording or data-handling decision exists
-            yet, and a form that silently discarded an enquiry would be worse than none. Until compliance signs the
-            consent wording off, WhatsApp and email are the routes that reach a person.
-          </p>
-        </div>
-        <div className="dl-actions" style={{ marginTop: 26 }}>
-          <a className="pill" href={events}>
-            <span>Ask what’s coming up</span>
-          </a>
-        </div>
-      </Band>
-
-      <Band tone="sand" read label="Also on this site" title="Where the rest of the guidance lives">
-        <div className="dl-prose" style={{ marginTop: 20 }}>
-          <p>
-            The films our advisors recorded are on <a href={link(ROUTES.stories.path)}>Advisor Stories</a>. What a
-            career here involves is on <a href={link(ROUTES.careers.path)}>Grow With D’Life</a>. The two community
-            programmes are <a href={link(ROUTES.youth.path)}>Youth Community</a> and{" "}
-            <a href={link(ROUTES.dva.path)}>Drive Value Associates</a>.
-          </p>
-          <p>
-            No article library has been published yet. When it is, it lands here alongside the guidance above rather
-            than in a separate blog.
-          </p>
         </div>
       </Band>
 
