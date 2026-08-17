@@ -32,6 +32,11 @@ export const metadata: Metadata = pageMeta(ROUTES.about);
    design system refuses to make.
    ============================================================ */
 
+/* The last entry carries the client's 45-countries credential inside the
+   convention row rather than as a row of its own, and advisor incomes appear
+   as a subordinate clause in the development band's lede: the client asked
+   for both (2026-08 decisions doc, Q4) included subtly, and a trophy row is
+   the opposite of subtle. Both join the verify-before-publish set. */
 const RECOGNITION = [
   "27 years in the financial services industry",
   "GAMA Premium Recruitment Award",
@@ -40,7 +45,7 @@ const RECOGNITION = [
   "Million Dollar Agency (MDA) Qualifier",
   "Million Dollar District (MDD) Achiever",
   "Multiple-year MDRT Qualifier",
-  "Multiple overseas convention qualifier",
+  "Multiple overseas convention qualifier, across more than 45 countries",
 ];
 
 function Founder({
@@ -208,7 +213,7 @@ export default function Page() {
         <p className="dl-lede">
           The part of the work Sharon is proudest of is not her own production. It is the advisors and leaders who came
           through the practice and went on to run teams of their own, a number of them arriving from corporate careers
-          in other industries.
+          in other industries, several going on to six-figure incomes.
         </p>
         <div className="figs">
           <div>
