@@ -975,7 +975,7 @@
    Two columns, because the words and the field do not need to be stacked —
    the invitation reads on the left while the field sits ready on the right.
    ============================================================ */
-.loop {
+.wrap .loop {
   margin-top: var(--dl-head-gap);
   /* Round 8: filled with the brand's brown at the client's direction, to stand
      out from the ivory ground. `dark` on the element flips the section tokens
@@ -990,35 +990,35 @@
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(24px, 4vw, 64px); align-items: center;
 }
-.loop .say { min-width: 0; }
-.loop .lbl { color: var(--dl-sand); }
-.loop h2 {
+.wrap .loop .say { min-width: 0; }
+.wrap .loop .lbl { color: var(--dl-sand); }
+.wrap .loop h2 {
   font-size: clamp(24px, 2.5vw, 36px); line-height: 1.08; letter-spacing: -.018em;
   color: var(--dl-ivory); margin: 12px 0 0; max-width: 20ch;
 }
-.loop .say .dl-lede { color: rgba(246, 241, 232, .86); max-width: 44ch; }
+.wrap .loop .say .dl-lede { color: rgba(246, 241, 232, .86); max-width: 44ch; }
 /* The field caps itself at 380px, which left a third of the card's right half
    empty. In a two-column card the field is the column. */
-.loop .form { min-width: 0; }
-.loop .form .dl-loop__form { flex-wrap: wrap; }
-.loop .form .dl-loop__field { max-width: none; flex: 1 1 100%; }
-.loop .form .dl-loop__field span { color: var(--dl-sand); }
+.wrap .loop .form { min-width: 0; }
+.wrap .loop .form .dl-loop__form { flex-wrap: wrap; }
+.wrap .loop .form .dl-loop__field { max-width: none; flex: 1 1 100%; }
+.wrap .loop .form .dl-loop__field span { color: var(--dl-sand); }
 /* An ivory field on brown, so the one thing you type into is the one bright
    object in the card. */
-.loop .form .dl-loop__field input {
+.wrap .loop .form .dl-loop__field input {
   background: var(--dl-ivory); color: var(--dl-ink);
   border-color: transparent;
 }
-.loop .form .dl-loop__field input::placeholder { color: rgba(47, 53, 50, .55); }
-.loop .form .dl-loop__field input:focus-visible { border-color: var(--dl-sand); outline-color: var(--dl-sand); }
+.wrap .loop .form .dl-loop__field input::placeholder { color: rgba(47, 53, 50, .55); }
+.wrap .loop .form .dl-loop__field input:focus-visible { border-color: var(--dl-sand); outline-color: var(--dl-sand); }
 /* The action has to leave the brown to read as an action. */
-.loop .form .pill { background: var(--dl-ink); color: var(--dl-ivory); }
-.loop .form .pill:hover { background: var(--dl-teal); }
-.loop .signup-said { color: var(--dl-ivory); }
-.loop .signup-said a { color: var(--dl-sand); }
+.wrap .loop .form .pill { background: var(--dl-ink); color: var(--dl-ivory); }
+.wrap .loop .form .pill:hover { background: var(--dl-teal); }
+.wrap .loop .signup-said { color: var(--dl-ivory); }
+.wrap .loop .signup-said a { color: var(--dl-sand); }
 @media (max-width: 820px) {
-  .loop { grid-template-columns: minmax(0, 1fr); gap: clamp(22px, 3vh, 32px); align-items: start; }
-  .loop h2, .loop .say .dl-lede { max-width: none; }
+  .wrap .loop { grid-template-columns: minmax(0, 1fr); gap: clamp(22px, 3vh, 32px); align-items: start; }
+  .wrap .loop h2, .wrap .loop .say .dl-lede { max-width: none; }
 }
 
 /* ============================================================
@@ -1363,58 +1363,58 @@
    form panel is contained cream on the ivory ground; the details sit on the
    ground itself, because a page with two panels has no focus.
    ============================================================ */
-.reach {
+.wrap .reach {
   display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
   gap: clamp(30px, 5vw, 88px); align-items: start;
 }
-.reach__info, .reach__form { min-width: 0; }
-.reach h2 { font-size: clamp(26px, 2.6vw, 38px); line-height: 1.08; margin-top: 12px; }
-.reach__info .dl-lede { max-width: 40ch; }
+.wrap .reach__info, .wrap .reach__form { min-width: 0; }
+.wrap .reach h2 { font-size: clamp(26px, 2.6vw, 38px); line-height: 1.08; margin-top: 12px; }
+.wrap .reach__info .dl-lede { max-width: 40ch; }
 
-.reach__list { margin: clamp(26px, 4vh, 42px) 0 0; display: grid; gap: 0; }
-.reach__list > div {
+.wrap .reach__list { margin: clamp(26px, 4vh, 42px) 0 0; display: grid; gap: 0; }
+.wrap .reach__list > div {
   display: grid; grid-template-columns: minmax(0, 96px) minmax(0, 1fr);
   gap: clamp(14px, 2vw, 26px); align-items: baseline;
   padding: clamp(15px, 2.2vh, 20px) 0;
   border-top: 1px solid var(--s-line);
 }
-.reach__list > div:first-child { border-top: var(--dl-rule-w) solid var(--s-rule); }
-.reach__list > div:last-child { border-bottom: 1px solid var(--s-line); }
-.reach__list dt {
+.wrap .reach__list > div:first-child { border-top: var(--dl-rule-w) solid var(--s-rule); }
+.wrap .reach__list > div:last-child { border-bottom: 1px solid var(--s-line); }
+.wrap .reach__list dt {
   font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
   letter-spacing: .16em; text-transform: uppercase; color: var(--s-label);
 }
-.reach__list dd {
+.wrap .reach__list dd {
   margin: 0;
   font: var(--dl-w-regular) var(--dl-body-sm)/1.6 var(--dl-sans); color: var(--s-strong);
 }
-.reach__list dd a { color: var(--s-heading); border-bottom: 1px solid var(--s-rule); }
-.reach__list dd a:hover { color: var(--s-accent); border-color: var(--s-accent); opacity: 1; }
+.wrap .reach__list dd a { color: var(--s-heading); border-bottom: 1px solid var(--s-rule); }
+.wrap .reach__list dd a:hover { color: var(--s-accent); border-color: var(--s-accent); opacity: 1; }
 /* The qualifier under a detail, e.g. what WhatsApp does. */
-.reach__list dd em {
+.wrap .reach__list dd em {
   display: block; font-style: normal; margin-top: 5px;
   font-size: var(--dl-caption); line-height: 1.55; color: var(--s-quiet);
 }
 
 /* ---- The form ---- */
-.reach__form .lead, .reach__form .lead-said {
+.wrap .reach__form .lead, .wrap .reach__form .lead-said {
   margin-top: clamp(22px, 3.2vh, 32px);
   background: var(--dl-cream);
   border-top: var(--dl-rule-w) solid var(--dl-copper-d);
   box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .09);
   padding: clamp(24px, 3.4vh, 40px) clamp(22px, 3vw, 40px) clamp(26px, 3.6vh, 42px);
 }
-.lead { display: grid; gap: clamp(16px, 2.2vh, 22px); }
-.lead__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 1.8vw, 20px); }
-.lead__f { display: grid; gap: 8px; min-width: 0; }
-.lead__f > span {
+.wrap .lead { display: grid; gap: clamp(16px, 2.2vh, 22px); }
+.wrap .lead__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 1.8vw, 20px); }
+.wrap .lead__f { display: grid; gap: 8px; min-width: 0; }
+.wrap .lead__f > span {
   font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
   letter-spacing: .14em; text-transform: uppercase; color: var(--s-label);
 }
-.lead__f > span em {
+.wrap .lead__f > span em {
   font-style: normal; letter-spacing: .1em; color: var(--s-quiet); margin-left: 6px;
 }
-.lead__f :is(input, select, textarea) {
+.wrap .lead__f :is(input, .wrap select, .wrap textarea) {
   width: 100%; min-width: 0;
   font: var(--dl-w-regular) var(--dl-body-sm)/1.5 var(--dl-sans);
   color: var(--dl-ink); background: var(--dl-ivory);
@@ -1422,43 +1422,43 @@
   padding: 12px 14px;
   transition: border-color var(--dl-t-base) var(--dl-ease);
 }
-.lead__f textarea { resize: vertical; }
-.lead__f :is(input, textarea)::placeholder { color: var(--s-quiet); }
-.lead__f :is(input, select, textarea):focus-visible {
+.wrap .lead__f textarea { resize: vertical; }
+.wrap .lead__f :is(input, .wrap textarea)::placeholder { color: var(--s-quiet); }
+.wrap .lead__f :is(input, .wrap select, .wrap textarea):focus-visible {
   outline: none; border-color: var(--dl-copper-d);
   box-shadow: inset 0 0 0 1px var(--dl-copper-d);
 }
 /* The native arrow is the one thing that should say "this is a select". */
-.lead__f select { appearance: none; padding-right: 40px;
+.wrap .lead__f select { appearance: none; padding-right: 40px;
   background-image: linear-gradient(45deg, transparent 50%, var(--dl-copper-d) 50%),
                     linear-gradient(135deg, var(--dl-copper-d) 50%, transparent 50%);
   background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - 14px) calc(50% + 2px);
   background-size: 6px 6px, 6px 6px; background-repeat: no-repeat;
 }
-.lead__foot {
+.wrap .lead__foot {
   margin-top: clamp(4px, 1vh, 8px);
   display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center;
 }
-.lead__fine {
+.wrap .lead__fine {
   margin: 0; flex: 1 1 22ch;
   font-size: var(--dl-caption); line-height: 1.55; color: var(--s-quiet);
 }
 
 /* The acknowledgement that replaces the form. It has to be unmistakable that
    nothing was sent, so it is stated first and in the heading register. */
-.lead-said { display: grid; gap: 12px; }
-.lead-said strong {
+.wrap .lead-said { display: grid; gap: 12px; }
+.wrap .lead-said strong {
   font: 500 clamp(19px, 1.7vw, 24px)/1.25 var(--dl-disp);
   letter-spacing: -.014em; color: var(--s-heading);
 }
-.lead-said p { margin: 0; color: var(--s-body); max-width: 48ch; }
-.lead-said .dl-actions { margin-top: 6px; }
+.wrap .lead-said p { margin: 0; color: var(--s-body); max-width: 48ch; }
+.wrap .lead-said .dl-actions { margin-top: 6px; }
 
 @media (max-width: 900px) {
-  .reach { grid-template-columns: minmax(0, 1fr); gap: clamp(30px, 4.5vh, 46px); }
-  .reach__info .dl-lede { max-width: none; }
+  .wrap .reach { grid-template-columns: minmax(0, 1fr); gap: clamp(30px, 4.5vh, 46px); }
+  .wrap .reach__info .dl-lede { max-width: none; }
 }
 @media (max-width: 560px) {
-  .lead__row { grid-template-columns: minmax(0, 1fr); }
-  .reach__list > div { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .wrap .lead__row { grid-template-columns: minmax(0, 1fr); }
+  .wrap .reach__list > div { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 }
