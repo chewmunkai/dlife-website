@@ -3,7 +3,7 @@ import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import Signup from "../../components/v2/Signup";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, Open, SplitShot, Checks, Closing } from "../../components/v2/blocks";
+import { Hero, Band, Open, SplitShot, Checks, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -222,7 +222,7 @@ export default function Page() {
 
       <SplitShot
         photo={{ src: "/media/img/community-gathering.jpg", alt: "People seated around a table at a community gathering" }}
-        tone="dark"
+        tone="light"
         label="What members take away"
         title="What people leave with"
         id="stories"
@@ -261,8 +261,7 @@ export default function Page() {
         </div>
       </section>
 
-      <Closing
-        photo={{ src: "/media/img/youth-workshop.jpg", alt: "Attendees seated at a workshop session", position: "50% 34%" }}
+      <ClosingCard
         label="Get involved"
         title="Come to one and see"
         lede="The easiest way to find out whether this is for you is to turn up to a session. Message us and we will tell you what is next."

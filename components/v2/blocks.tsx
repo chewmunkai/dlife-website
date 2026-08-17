@@ -214,9 +214,6 @@ export function Moments({
                 <b>{String(i + 1).padStart(2, "0")}</b>
                 <span>{item}</span>
               </div>
-              <svg className="arw" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-                <path d="M5 12h13M12.5 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </article>
           );
         })}
@@ -251,10 +248,8 @@ export function Ideas({
       {lede && <p className="dl-lede">{lede}</p>}
       <div className="pane">
         {items.map((d, i) => (
-          /* Four brand tints, cycled — the wash says "these are a set of
-             peers", which a single flat surface would not. */
-          <article className={`icard t${(i % 4) + 1}`} key={d.term}>
-            <span className="no">( {String(i + 1).padStart(3, "0")} )</span>
+          <article className="icard" key={d.term}>
+            <span className="no">{String(i + 1).padStart(2, "0")}</span>
             {icons?.[i] && <Icon name={icons[i]} />}
             <div className="foot">
               <h3>{d.term}</h3>
@@ -302,12 +297,22 @@ export function StepsPanel({
  * ground, held under a layered scrim so the image reads at the right while
  * the type keeps its contrast at the left.
  */
+export const CLOSING_PHOTO: Photo = {
+  /* One photograph on every next-step card site-wide, at the client's
+     direction: a family at a table, warm, no single subject to date it. The
+     card is a repeated moment in the journey, so a repeated image makes it
+     recognisable rather than repetitive. */
+  src: "/media/img/hero.jpg",
+  alt: "A family sharing a meal at home",
+  position: "50% 42%",
+};
+
 export function ClosingCard({
   label = "Next step",
   title,
   lede,
   actions,
-  photo,
+  photo = CLOSING_PHOTO,
   note = "Most conversations with us don’t end in a decision, and that’s completely fine.",
 }: {
   label?: string;

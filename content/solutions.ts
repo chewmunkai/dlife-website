@@ -83,19 +83,19 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       terms: [
         {
           term: "Life cover",
-          copy: "A sum paid to the people you name if you die. Its job is to replace what your household would lose (the income, the mortgage payments, the school fees) for as long as they would have needed it.",
+          copy: "A sum paid to the people you name if you die. It replaces what your household would lose, the income and the mortgage, for as long as they would have needed it.",
         },
         {
-          term: "Total and permanent disability",
-          copy: "Pays out if an illness or injury means you can no longer work at all. Families often find this matters more than they expected, because the household keeps its costs and loses its earner at the same time.",
+          term: "Disability cover",
+          copy: "Pays out if illness or injury means you can no longer work at all. It often matters more than people expect: the household keeps its costs and loses its earner.",
         },
         {
           term: "Critical illness",
-          copy: "A lump sum on diagnosis of a defined serious condition. It is not the same as medical cover: this money is yours to use for anything, including the months you cannot work.",
+          copy: "A lump sum on diagnosis of a defined serious condition. Not the same as medical cover: this money is yours for anything, including the months you cannot work.",
         },
         {
-          term: "Beneficiary nomination",
-          copy: "Who receives the money, and how quickly they can access it. This is the part most often left incomplete, and it is the part that decides whether a payout helps in the first month or the first year.",
+          term: "Beneficiaries",
+          copy: "Who receives the money, and how quickly. The part most often left incomplete, and the part that decides whether a payout helps in the first month or the first year.",
         },
       ],
     },
@@ -181,19 +181,19 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       terms: [
         {
           term: "Income replacement",
-          copy: "A regular payment while you are unable to work because of illness or injury. It is designed to cover a portion of what you earned, not all of it, and it stops when you return to work.",
+          copy: "A regular payment while illness or injury stops you working. It covers a portion of what you earned, not all of it, and it ends when you return to work.",
         },
         {
-          term: "The waiting period",
-          copy: "How long you must be unable to work before payments begin. A longer wait costs less; a shorter wait matters more if your savings are thin. This is usually the most consequential choice on the whole policy.",
+          term: "Waiting period",
+          copy: "How long before payments begin. A longer wait costs less, a shorter one matters more if savings are thin. Usually the most consequential choice on the policy.",
         },
         {
-          term: "The benefit period",
-          copy: "How long payments continue: a fixed number of years, or through to retirement age. This is where a policy either does its job for a long illness or quietly stops halfway.",
+          term: "Benefit period",
+          copy: "How long payments continue: a fixed number of years, or through to retirement. Where a policy either does its job for a long illness or quietly stops halfway.",
         },
         {
-          term: "Own occupation vs any occupation",
-          copy: "Whether you are covered when you cannot do your own job, or only when you cannot do any job at all. The wording matters a great deal for skilled and specialised work.",
+          term: "Occupation wording",
+          copy: "Whether you are covered when you cannot do your own job, or only any job at all. This wording matters a great deal for skilled and specialised work.",
         },
       ],
     },
@@ -273,24 +273,24 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         "Five terms. Once these are clear, most medical plans become straightforward to compare.",
       terms: [
         {
-          term: "Annual and lifetime limits",
-          copy: "The ceiling on what the plan will pay in one year, and across the life of the policy. A high annual limit with a low lifetime limit can run out during a long illness.",
+          term: "Payment limits",
+          copy: "The ceiling on what the plan pays in one year, and across the whole policy. A high annual limit with a low lifetime limit can run out during a long illness.",
         },
         {
-          term: "Deductible and co-insurance",
-          copy: "The portion you pay yourself: a fixed amount before cover starts, or a share of each bill. Plans with a deductible cost less each month and more at the point of treatment.",
+          term: "Your share",
+          copy: "What you pay yourself: a fixed amount before cover starts, or a share of each bill. A deductible costs less each month and more at the point of treatment.",
         },
         {
           term: "Room and board rate",
-          copy: "The daily ward rate your plan is set at. This one quietly governs the rest: exceed it and some plans reduce every other benefit on the bill proportionally.",
+          copy: "The daily ward rate your plan is set at. This one quietly governs the rest: exceed it and some plans reduce every other benefit proportionally.",
         },
         {
-          term: "Pre-existing conditions and waiting periods",
-          copy: "What is excluded because you already had it, and how long you wait before specific conditions are covered. Disclosure at application is what keeps a claim clean later.",
+          term: "Pre-existing conditions",
+          copy: "What is excluded because you already had it, and how long you wait before it is covered. Disclosure at application keeps a claim clean later.",
         },
         {
           term: "Portability",
-          copy: "Whether cover follows you when you leave an employer. Company medical cover usually stops when the job does, which is why it is worth knowing before you need it.",
+          copy: "Whether cover follows you when you leave an employer. Company cover usually stops when the job does, which is worth knowing before you need it.",
         },
       ],
     },
@@ -371,20 +371,20 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         "Four components, and most Malaysian households already have at least two of them.",
       terms: [
         {
-          term: "Your EPF and any pension",
-          copy: "The foundation for most people. Worth knowing what it is projected to provide monthly, rather than as a total. The monthly figure is the one that tells you something.",
+          term: "EPF and pensions",
+          copy: "The foundation for most people. Worth knowing what it is projected to provide monthly rather than as a total. The monthly figure is the one that tells you something.",
         },
         {
-          term: "Long-term savings and investment",
-          copy: "What you are setting aside beyond EPF, and how it is invested. Time horizon matters more than product selection at almost every stage.",
+          term: "Savings and investment",
+          copy: "What you set aside beyond EPF, and how it is invested. Time horizon matters more than product selection at almost every stage of this.",
         },
         {
-          term: "Retirement income products",
-          copy: "Arrangements designed to pay out over time rather than as a lump sum. Their value is predictability, and their cost is flexibility, and which trade suits you depends on what else you hold.",
+          term: "Retirement income",
+          copy: "Arrangements that pay out over time rather than as a lump sum. Their value is predictability, their cost is flexibility, and the trade depends on what else you hold.",
         },
         {
-          term: "Protection that continues",
-          copy: "Medical cover in later life, and cover that protects a plan if you cannot work through to the end of it. A retirement plan that assumes uninterrupted earnings is a plan with one large assumption in it.",
+          term: "Cover that continues",
+          copy: "Medical cover in later life, and cover that protects the plan if you cannot work to the end of it. A plan assuming uninterrupted earnings carries one large assumption.",
         },
       ],
     },
@@ -464,20 +464,20 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         "Some of this is financial planning and some of it is administration. Both matter, and the administrative half is usually the neglected one.",
       terms: [
         {
-          term: "Wealth accumulation",
-          copy: "How assets are grown and held over the long term, and how much risk that is worth taking at your stage. This is where most people start and, for many, where it should stay.",
+          term: "Growing assets",
+          copy: "How assets are grown and held long term, and how much risk is worth taking at your stage. Where most people start and, for many, where it should stay.",
         },
         {
           term: "Estate distribution",
-          copy: "Who receives what, and through which instrument. In Malaysia this interacts with the law that applies to you, and it is worth getting specific advice rather than assuming.",
+          copy: "Who receives what, and through which instrument. In Malaysia this interacts with the law that applies to you, so it is worth specific advice rather than assuming.",
         },
         {
-          term: "Liquidity at the wrong moment",
-          copy: "Estates are often asset-rich and cash-poor exactly when a family needs cash. Life cover is frequently used to solve this specific problem rather than to create wealth.",
+          term: "Cash when needed",
+          copy: "Estates are often asset-rich and cash-poor exactly when a family needs cash. Life cover is often used to solve that specific problem rather than to build wealth.",
         },
         {
-          term: "Nomination and documentation",
-          copy: "Nominations kept current, documents findable, and someone who knows where they are. This costs nothing and resolves more difficulty than any other item on this page.",
+          term: "Nominations and papers",
+          copy: "Nominations kept current, documents findable, and someone who knows where they are. Costs nothing and resolves more difficulty than anything else on this page.",
         },
       ],
     },
@@ -559,15 +559,15 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
       terms: [
         {
           term: "Employee benefits",
-          copy: "Group medical, group life and related cover for your team. The design questions are usually about levels and eligibility rather than product: who is covered, to what standard, and what it costs per head.",
+          copy: "Group medical, group life and related cover for your team. The questions are about levels and eligibility: who is covered, to what standard, and at what cost per head.",
         },
         {
           term: "Key person cover",
-          copy: "Protection for the business against the loss of someone it genuinely depends on. Small companies often carry more of this risk in one or two people than they have ever put a number against.",
+          copy: "Protection for the business against losing someone it genuinely depends on. Small companies often carry more of this risk in one or two people than they realise.",
         },
         {
-          term: "Business continuity and succession",
-          copy: "Arrangements for what happens to ownership if a shareholder dies or becomes unable to work. This is where cover and a legal agreement have to be designed together.",
+          term: "Continuity and succession",
+          copy: "What happens to ownership if a shareholder dies or becomes unable to work. This is where cover and a legal agreement have to be designed together.",
         },
       ],
     },

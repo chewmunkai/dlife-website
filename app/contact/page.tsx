@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, Closing, Cards } from "../../components/v2/blocks";
+import { Hero, Band, ClosingCard, Cards } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { CONTACT, WA, waHref } from "../../lib/contact";
@@ -157,8 +157,7 @@ export default function Page() {
         </div>
       </section>
 
-      <Closing
-        photo={{ src: "/media/img/community-gathering.jpg", alt: "", position: "50% 30%" }}
+      <ClosingCard
         title="Still deciding where to start?"
         lede="Send anything at all. Working out what you actually need is the beginning of the job, not a prerequisite for starting it."
         actions={

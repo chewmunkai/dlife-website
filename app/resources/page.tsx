@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, Closing, Cards } from "../../components/v2/blocks";
+import { Hero, Band, ClosingCard, Cards } from "../../components/v2/blocks";
 import { ROUTES, SOLUTION_SLUGS } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -165,8 +165,7 @@ export default function Page() {
         </div>
       </Band>
 
-      <Closing
-        photo={{ src: "/media/img/youth-workshop.jpg", alt: "", position: "50% 40%" }}
+      <ClosingCard
         title="Would rather just ask someone?"
         lede="Reading is a fine place to start, but most questions are quicker to answer in a conversation."
         actions={

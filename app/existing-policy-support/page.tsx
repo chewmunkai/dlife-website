@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Open, Checks, Closing } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Open, Checks, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -232,8 +232,7 @@ export default function Page() {
         </div>
       </section>
 
-      <Closing
-        photo={{ src: "/media/img/path-review.jpg", alt: "", position: "50% 40%" }}
+      <ClosingCard
         title="Get guidance on your existing policy"
         lede="Send the policy schedule, or just the number. We will read it before we speak, and see what next step, if any, makes sense."
         actions={
