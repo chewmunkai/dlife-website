@@ -140,11 +140,34 @@ export default function Page() {
         <Prose>
           <ul>
             <li>The WhatsApp number, email address and office address are the prototype’s placeholders.</li>
-            <li>Founder portraits ship as marked empty slots; no brand shoot has landed.</li>
             <li>
-              Every award, figure and year on <a href={link(ROUTES.about.path)}>About</a> is verify-before-publish.
+              The founders’ portraits have landed and are in place. Both are studio shots in AIA MDRT blazers with the
+              branding legible, and nothing else on this site names an insurer — so whether they run as supplied is a
+              client decision, not a design one.
             </li>
-            <li>No form endpoint anywhere — WhatsApp and email are the only routes that reach a person.</li>
+            <li>
+              Every award, figure and year on <a href={link(ROUTES.about.path)}>About</a> is verify-before-publish, and
+              the same figure is given three different ways across the site: 4 senior managers and 34+ leaders on the
+              homepage, 3 and 40+ on About, “more than 40” on{" "}
+              <a href={link(ROUTES.careers.path)}>Careers</a>. One of them is right.
+            </li>
+            <li>
+              Whether the claims figure is “exceeding RM22 million” or simply RM22 million is unconfirmed. The
+              supporting screenshot shows RM22M, not an amount above it.
+            </li>
+            <li>
+              The career programme’s terms — the 18 months, the basic bonus allowance, any eligibility conditions — are
+              published as the client wrote them and are otherwise unverified.
+            </li>
+            <li>
+              No form endpoint is configured, so the enquiry form says outright that nothing was sent. WhatsApp and
+              email are the only routes that reach a person. Setting <code>NEXT_PUBLIC_FORM_ENDPOINT</code> is all the
+              form itself needs.
+            </li>
+            <li>
+              The article library is empty, so <a href={link(ROUTES.resources.path)}>Articles &amp; Events</a> lists no
+              articles at all. That is accurate rather than broken; the template is kept unrouted in source.
+            </li>
             <li>
               Whether D’Life is licensed in its own right or operates under a larger insurer is unresolved, and it
               changes the wording on all four legal pages, starting with{" "}
@@ -152,8 +175,10 @@ export default function Page() {
             </li>
           </ul>
           <p>
-            Thirteen open items in all, each one marked <code>TODO(launch)</code> or ⚠️ at its call site. The full
-            table, with what each one blocks, is in <code>docs/elementor-handoff.md</code> §9.
+            Each one is marked <code>TODO(launch)</code> or ⚠️ at its call site. The amendment-by-amendment table is in{" "}
+            <code>docs/dlife-amendment-status.md</code>; the photography decisions are in{" "}
+            <code>docs/dlife-asset-map.md</code>; the older handoff table is{" "}
+            <code>docs/elementor-handoff.md</code> §9.
           </p>
         </Prose>
       </Band>
