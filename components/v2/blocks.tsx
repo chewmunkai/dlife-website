@@ -163,10 +163,30 @@ export function Band({
       id={id}
       className={`band ${mode(tone)}${read ? " band--read" : ""}${className ? ` ${className}` : ""}`}
     >
-      {label && <p className="lbl">{label}</p>}
-      {title && <h2>{title}</h2>}
-      {lede && <p className="dl-lede">{lede}</p>}
-      {children}
+      {/* `read` is the page-opening band, and it is two columns: the heading
+          pair on the left, everything that describes it on the right. The two
+          halves are wrapped rather than left as five loose children because a
+          grid over loose children needs explicit row/column placement for each
+          one, which breaks the moment a band has no label or no lede. */}
+      {read ? (
+        <>
+          <div className="band__head">
+            {label && <p className="lbl">{label}</p>}
+            {title && <h2>{title}</h2>}
+          </div>
+          <div className="band__body">
+            {lede && <p className="dl-lede">{lede}</p>}
+            {children}
+          </div>
+        </>
+      ) : (
+        <>
+          {label && <p className="lbl">{label}</p>}
+          {title && <h2>{title}</h2>}
+          {lede && <p className="dl-lede">{lede}</p>}
+          {children}
+        </>
+      )}
     </section>
   );
 }

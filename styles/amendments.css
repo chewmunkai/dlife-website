@@ -2596,12 +2596,47 @@
    not read their policy since the day they signed it." at 48px in 20 characters
    is five lines of very large type. These headings are sentences, so they run
    at the statement scale `Open` used, on a measure that lets them breathe. */
-.wrap .band--read > h2 {
+/* ⚠️ Round 20, client: "it should be left and right not top and bottom —
+   change that across the whole website, all sections."
+   
+   So the opening band is two columns: the heading pair on the left, the
+   description on the right. Round 19 had stacked them, which put a
+   sentence-long heading directly on top of its own description and made the
+   section read as one long ragged column.
+   
+   5:7 rather than an even split — the heading is a sentence at display scale
+   and wants the narrower measure; the description is body copy and wants the
+   wider one. `align-items: start` so the two columns hang from the same top
+   line rather than centring against each other. */
+.wrap .band--read {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: clamp(26px, 4vw, 72px);
+  align-items: start;
+}
+.wrap .band--read > .band__head { min-width: 0; }
+.wrap .band--read > .band__body { min-width: 0; }
+.wrap .band--read .band__head > h2 {
   font-size: clamp(23px, 2.5vw, 37px);
   line-height: 1.16;
-  max-width: 30ch;
+  max-width: 22ch;
   text-wrap: pretty;
 }
-/* The prose follows the heading rather than opening the band, so the gap
-   above it belongs to the heading pair, not to the section. */
-.wrap .band--read > h2 + .dl-prose { margin-top: clamp(20px, 2.8vh, 30px); }
+/* The lede opens the right column, so it takes no top margin — its top line
+   sits level with the heading's. */
+.wrap .band--read .band__body > .dl-lede {
+  margin-top: 0;
+  max-width: 54ch;
+}
+.wrap .band--read .band__body > .dl-prose { max-width: 54ch; }
+/* ⚠️ The lede and the prose are within a point of each other in size, so with
+   no rule between them they ran together as one block — visible on Existing
+   Policy Support, where "That is normal…" and "This is an offer…" read as a
+   single paragraph with an odd line break. */
+.wrap .band--read .band__body > .dl-lede + .dl-prose { margin-top: clamp(16px, 2.2vh, 22px); }
+@media (max-width: 880px) {
+  .wrap .band--read { grid-template-columns: minmax(0, 1fr); row-gap: clamp(18px, 2.6vh, 26px); }
+  .wrap .band--read .band__head > h2 { max-width: none; }
+  .wrap .band--read .band__body > .dl-lede,
+  .wrap .band--read .band__body > .dl-prose { max-width: none; }
+}
