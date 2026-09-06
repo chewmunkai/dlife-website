@@ -547,3 +547,11 @@
   .dlife #menu .big a { width: auto; }
   .dlife #menu .big a i { margin-left: 10px; }
 }
+
+/* ---- L09: the hero photograph's crop ----
+   The frame is near-square on a desktop (712x751) and portrait on a phone
+   (375x463), and the source is landscape — so the sides are cropped either
+   way and the vertical anchor is the decision. 42% keeps the standing back
+   row's heads clear of the top edge and the seated front row clear of the
+   bottom at both sizes. Checked against both frames before it was set. */
+.dlife #hero .bg img { object-position: 50% 42%; }

@@ -23,7 +23,7 @@ enquiry submissions out of scope, so this is local only.
 | L06 | **Done** | `components/v2/blocks.tsx`, `app/existing-policy-support/page.tsx`, `styles/amendments.css` | Measured at 1280: 5 cards, 273px each, **4 in view**, 293px of scroll, previous disabled at the start, track focusable and labelled "review cards — scrollable". The 3+2 centred arrangement is untouched on Medical's five terms and the five-question sections. |
 | L07 | **Done** | `components/v2/StoryReel.tsx` (new), `app/stories/page.tsx`, `styles/amendments.css` | Screenshot in a real browser: centre film playing, neighbours held as posters, previous / pause / dots / next, and **"MUTED. TAP FOR SOUND" in the film's top-left corner**, separate from play/pause. Controls 48px and 44px. Renders whatever `content/videos.ts` holds; past six films the dots become an `03 / 12` readout. One `<video>` mounted at a time. |
 | L08 | **Done** | `app/resources/page.tsx` | "Advisors, in their own words" renders in the main column with 3 tiles into `/stories` and a "Watch all the stories" action. |
-| L09 | **Prepared · awaiting approval** | `components/DLife.tsx`, `public/media/img/hero-team.jpg` | Candidate exported and a five-way comparison rendered at the real hero crop. Switch is one line: `HERO_PHOTO = PHOTOS.teamHero`. Also fixed: the live alt text read "An Asian family…", which infers ethnicity — corrected regardless of the image decision. |
+| L09 | **Done** | `components/DLife.tsx`, `public/media/img/hero-team.jpg` | Switched to the client's own team photograph after a five-way comparison rendered at the real hero crop. Measured: 712×751 desktop and 375×463 mobile at `50% 42%`, every face whole, no upscaling (0.4× and 0.21×). `PHOTOS.hero` keeps the stock family so reverting is one word. Also fixed: the live alt text read "An Asian family…", which infers ethnicity. |
 | L10 | **Done** | `app/dva/page.tsx` | Built output reads `<span>Built for leaders</span><span>by invitation.</span>`. The line break is real, so the comma was decorative. It is the only decorative heading comma on the site; grammatical commas in prose are untouched. |
 | L12 | **Done (links removed)** | `lib/contact.ts`, `components/v2/Shell.tsx`, `components/site/SiteFooter.tsx` | No Instagram / Facebook / YouTube string appears anywhere in the built output. Nothing in the repository or the supplied materials gives the URLs. `SOCIALS` in `lib/contact.ts` brings both footers back at once. **Missing: the three profile URLs.** |
 | L13 | **Done** | `styles/ds/overrides.css` §8, `styles/pages.css` | Reproduced and worse than described: `.big` sized to its widest label's max-content, so at 320px it was **352px wide inside a 320px window — 56px of clipping**, 1px at 375px, fine at 390px. Both overlays fixed. Measured after: 320 → 272px wide, 375 → 327, 390 → 342, everything 24px inside the right edge. |
@@ -103,7 +103,7 @@ window: the four Careers rows opening, and the reel.
    verification note comes off.
 3. **Contact ownership** (L02 follow-up) — WhatsApp, landline, email, office.
 4. **Form endpoint and an authorised delivery test** (L04 follow-up).
-5. **Hero, crops and slogan approval** (L09 / L11 / L15 follow-up).
+5. ~~Hero, crops and slogan approval~~ — **decided 6 Sep**: hero is the team photograph, slogan keeps "Let it begin with you." Revision 2 of the brief is still missing if it ever said otherwise.
 6. **Three social profile URLs** (L12).
 7. **New testimonial, extra videos, optional FAQs** — none fabricated; none of
    them blocked the Stories reel or the Resources preview.

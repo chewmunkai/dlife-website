@@ -48,19 +48,18 @@ const PHOTOS = {
      are — and on an agency page it read as a statement about who the service
      is for. The scene is the point; the description is the scene.
 
-     ⚠️ AWAITING CLIENT APPROVAL — the replacement hero.
-     The live hero is licensed stock: a family at a kitchen table. The client
-     asked for a candidate from their own Group photos, and hero-team.jpg is
-     it. The two say different things, which is why this is their decision and
-     not a design one: the family is about the visitor, the team is about the
-     agency, and the headline beside it ("Real Support. Beyond the Policy.")
-     was written against the first.
+     L09, decided 6 Sep 2026: the hero is D'Life's own people now, not stock.
+     `hero.jpg` was a licensed photograph of a family at a kitchen table and
+     stays below as the record of what it replaced — the pathway cards and the
+     life-needs plates still carry that register, so the page has not lost the
+     client-facing note, it has stopped opening on it.
 
-     TO SWITCH: change HERO_PHOTO below to `teamHero`. The band's fade to
-     ivory (styles/dlife.css, #hero .bg::after) is unchanged and works for
-     either — it grades from the picture into the page rather than sitting on
-     top of it, so nothing about the copy's contrast depends on which one runs.
-     Both crops were checked at 712x751 desktop and 375x463 mobile. */
+     Nothing about the copy's contrast depends on the choice: the band grades
+     the picture into the ivory page (styles/dlife.css, #hero .bg::after)
+     rather than putting type over it, and the headline sits beside the frame
+     rather than on it. Both crops were checked at 712x751 desktop and
+     375x463 mobile — every face survives at 50% 42%, which is why that is the
+     object-position set in styles/pages.css. */
   hero: {
     src: asset("/media/img/hero.jpg"),
     alt: "A family sharing a meal around their kitchen table",
@@ -103,10 +102,9 @@ const PHOTOS = {
   y3: { src: asset("/media/img/youth-resources.jpg"), alt: "Hands raised during a workshop session" },
 } satisfies Record<string, Photo>;
 
-/** L09: the one place the homepage hero photograph is chosen. Swap to
- *  `PHOTOS.teamHero` once the client approves the replacement — see the note
- *  on PHOTOS.hero for what the choice actually changes. */
-const HERO_PHOTO = PHOTOS.hero;
+/** L09: the one place the homepage hero photograph is chosen. `PHOTOS.hero`
+ *  is the stock family it replaced, kept so reverting is one word. */
+const HERO_PHOTO = PHOTOS.teamHero;
 
 /**
  * Contents of a `.ph` plate. `parallax` wraps the image in the over-scanned
@@ -928,7 +926,7 @@ export default function DLife() {
           <h2 className="rv">
             A clearer future can begin with <i>one conversation.</i>
           </h2>
-          {/* L11 ⚠️ AWAITING CLIENT DECISION. The meeting transcript asks for
+          {/* L11, settled 6 Sep 2026: this line stands. The transcript asks for
               "Let it begins with you", which is ungrammatical — the imperative
               takes no -s. Revision 2 of the brief was not supplied with this
               round, and revision 1's own decision table says to keep the line
@@ -936,10 +934,10 @@ export default function DLife() {
               request is recorded rather than quietly treated as satisfied
               because the current phrasing happens to be correct.
 
-              Three ways out, for whoever asks them: keep this; accept the
-              transcript's wording as deliberate brand voice; or the third
-              reading, that the intended line was "Let it begin with you" all
-              along and the transcript is a typo. */}
+              A slogan is the one piece of copy on a site that cannot afford a
+              grammatical error, so this reading treats the transcript as a
+              typo rather than as brand voice. Do not change it back without
+              the client saying so in writing. */}
           <div className="sub rv">Let it begin with you.</div>
           <div className="acts rv">
             <a className="pill" data-wa={WA.conversation} href="#">
