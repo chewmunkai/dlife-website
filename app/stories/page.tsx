@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Film from "../../components/v2/Film";
+import Carousel from "../../components/v2/Carousel";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero, Band, Open, ClosingCard } from "../../components/v2/blocks";
 import { VIDEOS } from "../../content/videos";
@@ -55,7 +56,14 @@ export default function Page() {
         <p className="lbl">Watch</p>
         <h2>In their own words</h2>
         <p className="dl-lede">Each film plays here, with sound. You will not be sent anywhere else to finish one.</p>
-        <div className="dl-videos__grid" style={{ marginTop: "clamp(30px,4vh,52px)" }}>
+        {/* A11: the same rail the card sets use, at three across. At desktop
+            the three films fill the row exactly, so nothing overflows and the
+            carousel renders no controls — it looks and behaves like the grid
+            it replaced. Below 1180px, where the grid used to stack into a
+            column a visitor had to scroll past, it becomes a rail with
+            arrows. One pattern, and it only appears where it earns its
+            place. */}
+        <Carousel label="films" className="dl-videos__grid crsl--3">
           {VIDEOS.map((v) => (
             <article className="dl-video" key={v.src}>
               <Film
@@ -67,7 +75,6 @@ export default function Page() {
                 runtime={v.runtime}
                 playSize={20}
               />
-              <span className="dl-video__cat">{v.category}</span>
               <h3>{v.title}</h3>
               <p>{v.blurb}</p>
               <a className="tlink" href={link(ROUTES[v.next].path)}>
@@ -75,7 +82,7 @@ export default function Page() {
               </a>
             </article>
           ))}
-        </div>
+        </Carousel>
       </section>
 
       <Band>

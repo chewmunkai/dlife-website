@@ -3,6 +3,8 @@
 import React, { useEffect, useRef, useState, type ReactNode } from "react";
 import { asset, link } from "../lib/asset";
 import { ROUTES } from "../lib/routes";
+import Growth from "./v2/Growth";
+import { GROWTH } from "../content/growth";
 import { WA } from "../lib/contact";
 import { VIDEOS } from "../content/videos";
 import Faq from "./blocks/Faq";
@@ -270,13 +272,6 @@ const PILLARS: Array<[string, string, string]> = [
   ["03", "Stay", "An advisor still picking up the phone years after the signature."],
 ];
 
-/** Careers ladder: [number, heading, copy] */
-const CAREER_ROWS: Array<[string, string, string]> = [
-  ["01", "Mentorship", "You learn the craft beside someone senior before you ever learn a pitch."],
-  ["02", "Professionalism", "Licensing, product knowledge and disclosure done properly."],
-  ["03", "Leadership", "A route from advisor to team leader, with training at each step."],
-  ["04", "Culture", "People who measure a good year by the clients who stayed."],
-];
 
 
 const PlayIcon = () => (
@@ -303,6 +298,21 @@ export default function DLife() {
   const stories = useRef<HTMLElement>(null);
   const player = useRef<HTMLVideoElement>(null);
 
+  /* A11: film that starts on its own is motion, and a visitor who has asked
+     their system for less of it did not ask for this either. Under the query
+     the card stays a poster with its play control, and the visitor decides.
+     Read once on mount and then on change, because a setting can be flipped
+     while the page is open. */
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const q = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (!q) return;
+    setReduced(q.matches);
+    const on = () => setReduced(q.matches);
+    q.addEventListener("change", on);
+    return () => q.removeEventListener("change", on);
+  }, []);
+
   /* A rect check rather than IntersectionObserver. The section is taller than
      most viewports, so a fractional threshold can sit unsatisfied even while
      the cards fill the screen — which is exactly what happened: the observer
@@ -311,7 +321,7 @@ export default function DLife() {
      mount so a deep link or a short page does not have to wait for a scroll. */
   useEffect(() => {
     const el = stories.current;
-    if (!el || armed) return;
+    if (!el || armed || reduced) return;
     const check = () => {
       const r = el.getBoundingClientRect();
       if (r.top < window.innerHeight * 0.75 && r.bottom > 0) {
@@ -324,7 +334,36 @@ export default function DLife() {
     const onScroll = () => check() && window.removeEventListener("scroll", onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [armed]);
+  }, [armed, reduced]);
+
+  /* A11: the controls follow the player, not the other way round. `paused`
+     and `muted` used to be set only where a button was clicked, so anything
+     the browser did on its own — refusing autoplay, pausing on a hidden tab,
+     the OS taking the audio session — left the button showing the opposite of
+     what was true. These listen to the element's own events, which is the one
+     source that cannot be wrong. Also pauses anything else on the page when
+     this starts, so the reel and a film on another card never talk over each
+     other. */
+  useEffect(() => {
+    const v = player.current;
+    if (!v) return;
+    const onPlay = () => {
+      setPaused(false);
+      document.querySelectorAll("video").forEach((other) => {
+        if (other !== v && !other.paused) other.pause();
+      });
+    };
+    const onPause = () => setPaused(true);
+    const onVolume = () => setMuted(v.muted);
+    v.addEventListener("play", onPlay);
+    v.addEventListener("pause", onPause);
+    v.addEventListener("volumechange", onVolume);
+    return () => {
+      v.removeEventListener("play", onPlay);
+      v.removeEventListener("pause", onPause);
+      v.removeEventListener("volumechange", onVolume);
+    };
+  }, [active, armed]);
 
   /* Autoplay can still be refused. If it is, the poster and its play control
      stay put rather than the card sitting on a frozen first frame. */
@@ -338,6 +377,10 @@ export default function DLife() {
   /* Rotation clears an explicit pause: the next card entering the centre is
      meant to start playing, per the report's rotation rules. */
   const go = (i: number) => {
+    /* Stop the outgoing film before it is unmounted. React would remove the
+       element anyway, but pausing first means the audio never overlaps the
+       incoming card even by a frame. */
+    player.current?.pause();
     setActive((i + VIDEOS.length) % VIDEOS.length);
     setPaused(false);
   };
@@ -568,23 +611,29 @@ export default function DLife() {
                         controls={!muted}
                         onEnded={() => go(active + 1)}
                       />
-                      {/* The muted state is stated, not implied, and its
-                          control is the loudest thing on the card. */}
-                      {muted ? (
-                        <button type="button" className="unmute" onClick={() => setMuted(false)}>
-                          <span className="dot" aria-hidden="true" />
-                          Muted. Tap to unmute
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          className="unmute quiet"
-                          onClick={() => setMuted(true)}
-                          aria-label="Mute video"
-                        >
-                          Mute
-                        </button>
-                      )}
+                      {/* A11: the sound control sits in the film's top corner
+                          now, away from the play/pause control under the reel
+                          — the two were the only controls on the card and
+                          they read as one cluster. The muted state is still
+                          stated rather than implied, because autoplay is only
+                          ever permitted silent and a visitor arrives at a
+                          silent film by definition. */}
+                      <button
+                        type="button"
+                        className={muted ? "sound" : "sound quiet"}
+                        aria-pressed={!muted}
+                        aria-label={muted ? `Unmute: ${v.title}` : `Mute: ${v.title}`}
+                        onClick={() => {
+                          const el = player.current;
+                          /* Set it on the element and let `volumechange` tell
+                             React. One direction of truth. */
+                          if (el) el.muted = !muted;
+                          else setMuted((m) => !m);
+                        }}
+                      >
+                        {muted && <span className="dot" aria-hidden="true" />}
+                        <span>{muted ? "Muted. Tap for sound" : "Sound on"}</span>
+                      </button>
                     </>
                   ) : (
                     <button
@@ -610,7 +659,16 @@ export default function DLife() {
           <button type="button" onClick={() => rotate(-1)} aria-label="Previous story">
             ←
           </button>
-          <button type="button" className="pp" onClick={togglePlay} aria-label={paused ? "Play video" : "Pause video"}>
+          {/* A11: the glyph already accounted for a reel that had not started;
+              the label did not, so before the first film armed the control
+              showed ▶ and announced itself as "Pause video". One expression
+              now drives both. */}
+          <button
+            type="button"
+            className="pp"
+            onClick={togglePlay}
+            aria-label={paused || !armed ? "Play video" : "Pause video"}
+          >
             {paused || !armed ? "▶" : "❚❚"}
           </button>
           <div className="dots">
@@ -661,17 +719,18 @@ export default function DLife() {
             <span>Explore a career conversation</span>
           </a>
         </div>
-        <div className="rows">
-          {CAREER_ROWS.map(([no, title, copy]) => (
-            <a className="rv" href={link(ROUTES.careers.path)} key={no}>
-              <i>{no}</i>
-              <div>
-                <b>{title}</b>
-                <p>{copy}</p>
-              </div>
-              <em>→</em>
+        {/* A09: these were four whole-row links to /careers, so the only way
+            to read one more sentence about mentorship was to leave the page.
+            They open where they stand now. The route out is still here —
+            below, as one link, which is where a navigation choice belongs
+            rather than hidden inside four content rows. */}
+        <div className="rv">
+          <Growth items={GROWTH} idBase="home-grow" />
+          <p className="grow__more">
+            <a href={link(ROUTES.careers.path)}>
+              See the full career page <em aria-hidden="true">→</em>
             </a>
-          ))}
+          </p>
         </div>
       </section>
 

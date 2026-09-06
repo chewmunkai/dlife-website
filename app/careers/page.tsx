@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
+import Growth from "../../components/v2/Growth";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero, Bar, Band, Open, IdeaCards, StoriesPreview, ClosingCard } from "../../components/v2/blocks";
@@ -8,6 +9,7 @@ import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { VIDEOS } from "../../content/videos";
+import { GROWTH } from "../../content/growth";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.careers);
@@ -71,25 +73,6 @@ const WORK = [
    a licence is a document, the claim call is the protection promise, and
    judgement is a measurement rather than a rule. */
 const WORK_ICONS: IconKey[] = ["doc", "people", "growth", "shield", "swap", "gauge"];
-
-const GROWTH = [
-  {
-    title: "Mentorship before independence",
-    copy: "You learn the craft beside someone senior before you ever learn a pitch. You sit in on real client conversations, and are observed in your own.",
-  },
-  {
-    title: "Licensing and professional standards",
-    copy: "Licensing, product knowledge and proper disclosure. Doing this correctly is not the boring part of the job. It is the job.",
-  },
-  {
-    title: "A route into leadership",
-    copy: "For those who want it, a path from advisor to team leader with training at each step. More than 40 young managers have come through it here.",
-  },
-  {
-    title: "A culture that measures the right thing",
-    copy: "People here judge a good year by the clients who stayed, and the families who were properly looked after when something happened.",
-  },
-];
 
 /* A10 (client copy C05, 31 Aug 2026). Supplied as six named qualities with a
    line each, replacing the six unnamed pointers this section used to carry.
@@ -217,18 +200,12 @@ export default function Page() {
         </p>
       </Band>
 
+      {/* A09: four static rows, title and paragraph, with nothing to open.
+          The same four now open where they stand, off the same records the
+          homepage reads — content/growth.ts. This page keeps its own longer
+          headings (`long`), so its voice is unchanged. */}
       <Band tone="sand" label="How you would grow" title="What we actually provide">
-        <div className="index">
-          {GROWTH.map((g, i) => (
-            <div key={g.title}>
-              <b>{String(i + 1).padStart(2, "0")}</b>
-              <div className="with">
-                <h3>{g.title}</h3>
-                <p>{g.copy}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Growth items={GROWTH} long idBase="careers-grow" />
       </Band>
 
       {/* The guide runs the career journey through the advisor films, so this
@@ -242,7 +219,6 @@ export default function Page() {
           focus: v.focus,
           title: v.title,
           runtime: v.runtime,
-          category: v.category,
         }))}
         href={ROUTES.stories.path}
       />

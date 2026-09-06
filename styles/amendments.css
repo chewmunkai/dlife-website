@@ -1584,10 +1584,20 @@
   outline: 2px solid var(--dl-copper-d);
   outline-offset: 4px;
 }
+/* Three across, for the film rail: at desktop the three films fill the row
+   exactly, so the rail renders as the grid it replaced and shows no arrows. */
+.crsl--3 { --crsl-per: 3; }
+
 /* Two, then one-and-a-bit cards in view — the same steps the grid took. The
    phone deliberately leaves an edge of the next card showing, which is what
    tells a thumb the rail scrolls before it has been touched. */
-@media (max-width: 1180px) { .crsl { --crsl-per: 2; } }
+/* Both selectors, because `--crsl-per` has to be set on whichever element
+   carries it: the wrapper by default, and the track when a page passes a
+   modifier through Carousel's `className` (which lands on the track). A
+   custom property set on the track shadows the one it would inherit, so the
+   wrapper-only rule would leave a `.crsl--3` rail at three across on a
+   phone. */
+@media (max-width: 1180px) { .crsl, .crsl--3 { --crsl-per: 2; } }
 @media (max-width: 560px) {
   .crsl__track { grid-auto-columns: 86%; }
 }

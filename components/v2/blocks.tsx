@@ -981,7 +981,8 @@ export function StoriesPreview({
   label: string;
   title: ReactNode;
   lede?: ReactNode;
-  items: ReadonlyArray<{ poster: string; focus?: string; title: string; runtime: string; category: string }>;
+  /* A11: no `category` — the films are one grouping, not three. */
+  items: ReadonlyArray<{ poster: string; focus?: string; title: string; runtime: string }>;
   href: string;
   cta?: string;
 }) {
@@ -1002,7 +1003,6 @@ export function StoriesPreview({
               </span>
               <span className="run">{v.runtime}</span>
             </div>
-            <span className="cat">{v.category}</span>
             <span className="ttl">{v.title}</span>
           </a>
         ))}

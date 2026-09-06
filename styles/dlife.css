@@ -1264,16 +1264,25 @@ body:has(.dlife) {
 
 /* Muted state and its control. Autoplay is only permitted muted, so a visitor
    arrives at a silent video by definition — this has to announce itself and
-   be trivially reversible, not sit behind a small speaker glyph. */
-.dlife .story .unmute {
+   be trivially reversible, not sit behind a small speaker glyph.
+
+   A11 (client): it now sits in the film's TOP-LEFT corner rather than the
+   bottom, which is the corner the native controls do not use — a bottom-left
+   pill sat directly over the scrubber the moment the film was unmuted and
+   `controls` appeared, so the two overlapped. The play/pause control is under
+   the reel, so the two are also separated by the height of the card.
+
+   44px minimum height, because this is the control a thumb reaches for. */
+.dlife .story .sound {
   position: absolute;
   left: 14px;
-  bottom: 14px;
+  top: 14px;
   z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  padding: 11px 18px;
+  min-height: 44px;
+  padding: 12px 20px;
   border-radius: 99px;
   border: 1px solid rgba(246, 241, 232, .5);
   background: rgba(11, 33, 29, .82);
@@ -1284,9 +1293,12 @@ body:has(.dlife) {
   cursor: pointer;
   transition: background .3s;
 }
-.dlife .story .unmute:hover { background: var(--dl-copper-d); }
-.dlife .story .unmute.quiet { opacity: .78; }
-.dlife .story .unmute .dot {
+.dlife .story .sound:hover { background: var(--dl-copper-d); }
+.dlife .story .sound:focus-visible { outline: 2px solid var(--dl-ivory); outline-offset: 2px; }
+/* Once the sound is on, the control has said what it needed to say. */
+.dlife .story .sound.quiet { opacity: .72; }
+.dlife .story .sound.quiet:hover { opacity: 1; }
+.dlife .story .sound .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -1316,10 +1328,12 @@ body:has(.dlife) {
 .dlife #stories .reelctl button:hover { background: var(--dl-copper-d); border-color: var(--dl-copper-d); color: #fff; }
 .dlife #stories .pp { font-size: 14px; letter-spacing: .05em; }
 /* Dots: the carousel cue the report asks for, and a direct way to any card. */
-.dlife #stories .dots { display: flex; align-items: center; gap: 10px; }
+.dlife #stories .dots { display: flex; align-items: center; gap: 0; }
+/* A11: the dot was a 25px target — under the 44px the same amendment asks
+   for on touch. The visible dot is unchanged; the button around it grew. */
 .dlife #stories .dots button {
-  width: 25px;              /* 25px target, per the accessibility note */
-  height: 25px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: none;
   border-radius: 50%;
@@ -1341,6 +1355,8 @@ body:has(.dlife) {
 }
 .dlife #stories .dots button.on::after { background: var(--dl-sand); width: 26px; border-radius: 99px; }
 .dlife #stories .dots button:hover::after { background: var(--dl-sand); }
+.dlife #stories .dots button:focus-visible,
+.dlife #stories .reelctl button:focus-visible { outline: 2px solid var(--dl-sand); outline-offset: 2px; }
 .dlife #stories .count {
   font: 700 12px/1 var(--dl-sans);
   letter-spacing: .18em;
@@ -1354,7 +1370,7 @@ body:has(.dlife) {
 }
 @media (prefers-reduced-motion: reduce) {
   .dlife .story { transition: none; }
-  .dlife .story .unmute .dot { animation: none; }
+  .dlife .story .sound .dot { animation: none; }
 }
 
 /* ---------- inline story playback ----------

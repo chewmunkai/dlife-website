@@ -3,6 +3,10 @@
 import "../../styles/dlife.css";
 import "../../styles/blocks.css";
 import "../../styles/pages.css";
+/* A09. The only unscoped sheet this shell loads. Everything in it is
+   namespaced under `.grow`, which nothing else on the site uses, so it cannot
+   reach the `.dlife` layer around it. See styles/growth.css. */
+import "../../styles/growth.css";
 import { useEffect, useRef, type ReactNode } from "react";
 import { SiteHeader, SiteMenu } from "./SiteHeader";
 import SiteFooter from "./SiteFooter";

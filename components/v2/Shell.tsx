@@ -19,6 +19,9 @@ import "../../styles/ds/pages.css";
 import "../../styles/ds/overrides.css";
 /* Design evolution on top of the export — August 2026 client round. Last. */
 import "../../styles/amendments.css";
+/* A09. Unscoped on purpose and namespaced under `.grow`; the homepage shell
+   loads the same file so one ledger serves both design layers. */
+import "../../styles/growth.css";
 
 import { useEffect, useState, type ReactNode } from "react";
 import Logo from "../site/Logo";

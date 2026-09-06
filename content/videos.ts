@@ -13,10 +13,14 @@ import type { RouteKey } from "../lib/routes";
  * Sources are vertical 9:16 with burned-in bilingual subtitles; each poster is
  * a 4:5 crop that matches the card and keeps the speaker's face.
  *
- * ⚠️ The client's own note: most current video content is general, with a
- * focus on transformation and the stories behind D'Life. Clearer categories
- * may follow — this array is the seam where they would land, and the
- * `category` field is already editable per record.
+ * ⚠️ A11 (client, 31 Aug 2026): the films are ONE general grouping. "Client
+ * guidance" and "Leadership" were printed on the cards as though the library
+ * were filtered into sections, which it is not — three films do not make
+ * three categories, and the labels made the set look like the visible part of
+ * something larger. Nothing renders `category` any more. The field stays
+ * because the client's own note says clearer categories may follow and this
+ * is the seam they would land in; the titles, which are meaningful, are
+ * untouched.
  */
 export type Video = {
   src: string;
@@ -25,6 +29,11 @@ export type Video = {
   focus: string;
   title: string;
   runtime: string;
+  /**
+   * ⚠️ NOT RENDERED (A11). Kept as the seam for a real taxonomy. Before
+   * putting this back on a card, check with the client that the library is
+   * actually grouped — see the note above.
+   */
   category: string;
   /** Contextual next action, per the connected-content rule. */
   next: RouteKey;

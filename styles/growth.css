@@ -1,0 +1,135 @@
+/* ============================================================
+   .grow — the four career benefits as a disclosure ledger (A09)
+
+   Loaded by BOTH shells, which is why every selector here is namespaced under
+   `.grow` and nothing else. The site runs two CSS layers — the homepage's
+   `.dlife`-scoped sheets and the new unscoped design — and this is the one
+   block that has to look identical on a page from each. Writing it twice, in
+   each layer's own scope, would have been two copies to keep in step; one
+   sheet with a namespace nothing else uses cannot collide with either.
+
+   Both layers define the same custom properties (--dl-copper-d, --dl-sans,
+   --dl-disp, --dl-ease and the rest), so the ledger takes each page's own
+   ground and type without knowing which page it is on.
+   ============================================================ */
+
+.grow {
+  margin-top: clamp(24px, 3.2vh, 38px);
+  border-top: 1px solid rgba(47, 53, 50, .14);
+}
+.grow__row {
+  border-bottom: 1px solid rgba(47, 53, 50, .14);
+}
+
+/* The whole row is the control. A title alone is a 20px-tall target on a
+   phone; the row is 72px and holds the ordinal, the name and the summary. */
+.grow__q {
+  width: 100%;
+  display: grid;
+  grid-template-columns: clamp(38px, 4vw, 60px) minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: clamp(12px, 2vw, 28px);
+  padding: clamp(18px, 2.4vh, 26px) 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  transition: padding-left .5s var(--dl-ease, ease);
+}
+@media (hover: hover) {
+  .grow__q:hover { padding-left: clamp(5px, .7vw, 12px); }
+}
+.grow__q:focus-visible {
+  outline: 2px solid var(--dl-copper-d, #8a4b23);
+  outline-offset: 3px;
+}
+
+.grow__q > i {
+  font: 500 clamp(15px, 1.3vw, 19px)/1 var(--dl-disp, serif);
+  font-style: normal;
+  letter-spacing: .02em;
+  color: var(--dl-copper-d, #8a4b23);
+}
+.grow__txt { display: block; min-width: 0; }
+.grow__txt b {
+  display: block;
+  font: 500 clamp(18px, 1.55vw, 24px)/1.28 var(--dl-disp, serif);
+  letter-spacing: -.014em;
+  text-wrap: pretty;
+}
+.grow__sum {
+  display: block;
+  margin-top: 7px;
+  font: 400 clamp(14.5px, 1.05vw, 16.5px)/1.6 var(--dl-sans, system-ui);
+  opacity: .74;
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+/* The plus turns into a minus on open — the state is in the control as well
+   as in aria-expanded, so it is legible without a screen reader. */
+.grow__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border: 1px solid rgba(47, 53, 50, .22);
+  color: inherit;
+  transition: transform .42s var(--dl-ease, ease), border-color .3s var(--dl-ease, ease);
+}
+.grow__row.is-open .grow__mark { transform: rotate(45deg); border-color: var(--dl-copper-d, #8a4b23); }
+@media (hover: hover) {
+  .grow__q:hover .grow__mark { border-color: var(--dl-copper-d, #8a4b23); }
+}
+
+.grow__panel { height: 0; overflow: hidden; }
+.grow__panel > div { padding: 0 0 clamp(20px, 2.6vh, 28px); }
+.grow__panel p {
+  margin: 0;
+  /* Aligned under the summary, not under the ordinal. */
+  margin-left: calc(clamp(38px, 4vw, 60px) + clamp(12px, 2vw, 28px));
+  max-width: 56ch;
+  font: 400 clamp(15px, 1.1vw, 17px)/1.65 var(--dl-sans, system-ui);
+  opacity: .82;
+  text-wrap: pretty;
+}
+
+/* A dark ground inverts the hairlines rather than keeping ink rules on ink. */
+.dark .grow,
+.dark .grow__row { border-color: rgba(255, 255, 255, .18); }
+.dark .grow__mark { border-color: rgba(255, 255, 255, .28); }
+
+@media (max-width: 560px) {
+  .grow__q { grid-template-columns: clamp(30px, 8vw, 38px) minmax(0, 1fr) auto; gap: 12px; }
+  .grow__panel p { margin-left: 0; }
+  .grow__mark { width: 30px; height: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grow__q, .grow__mark { transition: none; }
+  /* The height animation is inline on the element, so it is unset here. */
+  .grow__panel { transition: none !important; }
+}
+
+/* The route out of the section, once the rows stopped being links themselves.
+   One navigation choice under the ledger reads as a choice; the same link
+   repeated four times inside the content did not. */
+.grow__more { margin: clamp(20px, 2.6vh, 28px) 0 0; }
+.grow__more a {
+  display: inline-flex; align-items: center; gap: 10px;
+  font: 500 clamp(15px, 1.1vw, 17px)/1 var(--dl-sans, system-ui);
+  color: inherit;
+  text-decoration: none;
+  padding-bottom: 4px;
+  box-shadow: inset 0 -1px 0 currentColor;
+  transition: gap .35s var(--dl-ease, ease), color .3s var(--dl-ease, ease);
+}
+.grow__more a em { font-style: normal; }
+@media (hover: hover) {
+  .grow__more a:hover { gap: 15px; color: var(--dl-copper-d, #8a4b23); }
+}
+.grow__more a:focus-visible { outline: 2px solid var(--dl-copper-d, #8a4b23); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .grow__more a { transition: none; } }
