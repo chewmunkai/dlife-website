@@ -2691,3 +2691,26 @@
 
    Recorded here because the number will flag again on the next sweep. The
    percentage triages; only the mask decides. */
+
+/* ---- 39c · the hero card stops overlapping the photograph ----
+   ⚠️ Client: "the last image you blocked someone."
+
+   `.hero .card` carries `margin: 0 clamp(-120px, -7vw, -40px) 0 var(--m)` — a
+   negative RIGHT margin, so the cream card breaks 101px into the photograph's
+   column at 1440 and sits over it at z-index 3. On a phone the same device
+   turns vertical: a negative TOP margin pulls the card up over the foot of the
+   picture.
+
+   As a device it is fine. On these photographs it is not: measured across the
+   site it covers 11-16% of the picture, and what sits in that band is people —
+   the whole left edge of the team photograph, and the near figures in the
+   solution-page heroes. A person under an opaque card is as gone as a person
+   outside the frame, which is the thing the client's standing rule is about.
+
+   So the card sits in its own column and its own row. The composition keeps
+   the offset feeling from the card's shadow and the plate's radius; what it
+   loses is the part that was deleting people. */
+.wrap .hero .card { margin-right: 0; }
+@media (max-width: 880px) {
+  .wrap .hero .card { margin-top: clamp(18px, 2.6vh, 26px); }
+}

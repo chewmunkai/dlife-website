@@ -74,6 +74,19 @@ export type SolutionE2 = {
    photograph, and the 4:3 group shots would lose 39% rather than 30%.
 
    Change it in one place and all six pages follow. */
+/* ⚠️ `position` on the moments photographs is load-bearing, not decoration.
+   The card frame is 1.6 landscape and nine of these stills are 0.75-0.865
+   PORTRAITS, so the frame keeps a middle band and discards 46-53% of the
+   height. At the default 50% 50% that band landed on ceilings, plants and
+   shoulders and cut the faces off — which is what the client saw.
+
+   Each value below is the vertical point that keeps the subject, read off the
+   picture rather than guessed: `need-legacy` needs 72% because its people are
+   at the bottom under a chandelier, `need-health` needs 20% because the man's
+   face is near the top. Do not normalise these to one number.
+
+   The real fix is landscape stills for a landscape card. Until those exist,
+   this is what keeps the faces in frame. */
 export const SOLUTIONS_E2: Record<string, SolutionE2> = {
   "protecting-your-family": {
     bar: { facts: ["27 years of guidance", "People-first advice", "Support beyond the policy"], statement: "Start with your household, not a policy." },
@@ -90,8 +103,8 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
       { src: "/media/img/hero.jpg", alt: "A family sharing a meal at home" },
       { src: "/media/img/fam-newhome.jpg", alt: "A couple carrying boxes into a new home" },
       { src: "/media/img/need-legacy-malaysia.jpg", alt: "A family looking through documents and photographs together" },
-      { src: "/media/img/policy-review.jpg", alt: "One person explaining something to another" },
-      { src: "/media/img/path-review.jpg", alt: "A man reading through paperwork at a desk" },
+      { src: "/media/img/policy-review.jpg", alt: "One person explaining something to another", position: "50% 42%" },
+      { src: "/media/img/path-review.jpg", alt: "A man reading through paperwork at a desk", position: "50% 58%" },
     ],
     ideaIcons: ["shield", "people", "pulse", "doc"],
     explain: { label: "What it actually means", title: "The 4 terms worth knowing", lede: "Each one explained in a sentence you will not need translated. Most families use 2 or 3 of them, not all 4." },
@@ -117,7 +130,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
       { src: "/media/img/inc-savings.jpg", alt: "Coins in a glass jar" },
       { src: "/media/img/inc-askhelp.jpg", alt: "A family talking over a meal at home" },
       { src: "/media/img/inc-priorities.jpg", alt: "A hand writing a list in a notebook" },
-      { src: "/media/img/need-income.jpg", alt: "Someone working through figures alone at a laptop" },
+      { src: "/media/img/need-income.jpg", alt: "Someone working through figures alone at a laptop", position: "50% 25%" },
     ],
     ideaIcons: ["coins", "clock", "gauge", "people"],
     explain: { label: "What it actually means", title: "What income protection covers", lede: "This area gets confused with medical cover more often than any other. They do different jobs, and most households need to understand both." },
@@ -139,11 +152,11 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     duo: { src: "/media/img/policy-review.jpg", alt: "" },
     split: { photo: { src: "/media/img/path-review.jpg", alt: "" }, label: "What people usually want to know", title: "The questions that come up every time", flip: false },
     moments: [
-      { src: "/media/img/path-future.jpg", alt: "Someone writing in a notebook at a desk" },
-      { src: "/media/img/need-income.jpg", alt: "Someone working through figures alone at a laptop" },
-      { src: "/media/img/need-legacy.jpg", alt: "The reception area of a building" },
-      { src: "/media/img/path-career.jpg", alt: "A woman outdoors, thinking something over" },
-      { src: "/media/img/need-health.jpg", alt: "A man drinking water after exercise" },
+      { src: "/media/img/path-future.jpg", alt: "Someone writing in a notebook at a desk", position: "50% 55%" },
+      { src: "/media/img/need-income.jpg", alt: "Someone working through figures alone at a laptop", position: "50% 25%" },
+      { src: "/media/img/need-legacy.jpg", alt: "The reception area of a building", position: "50% 72%" },
+      { src: "/media/img/path-career.jpg", alt: "A woman outdoors, thinking something over", position: "50% 45%" },
+      { src: "/media/img/need-health.jpg", alt: "A man drinking water after exercise", position: "50% 20%" },
     ],
     ideaIcons: ["gauge", "coins", "building", "pulse", "swap"],
     explain: { label: "What it actually means", title: "The 5 terms that decide a plan", lede: "5 terms. Once these are clear, most medical plans become straightforward to compare." },
@@ -167,9 +180,9 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     moments: [
       { src: "/media/img/fut-epf.jpg", alt: "A woman working through documents at a desk" },
       { src: "/media/img/need-family-malaysia.jpg", alt: "Three generations of a family sharing a meal" },
-      { src: "/media/img/need-planning.jpg", alt: "A woman in the kitchen of a home" },
+      { src: "/media/img/need-planning.jpg", alt: "A woman in the kitchen of a home", position: "50% 32%" },
       { src: "/media/img/fut-education.jpg", alt: "A student studying in a library" },
-      { src: "/media/img/path-career.jpg", alt: "A woman outdoors, thinking something over" },
+      { src: "/media/img/path-career.jpg", alt: "A woman outdoors, thinking something over", position: "50% 45%" },
     ],
     ideaIcons: ["coins", "growth", "clock", "shield"],
     explain: { label: "What it actually means", title: "The pieces of a retirement picture", lede: "4 components, and most Malaysian households already have at least two of them." },
@@ -193,9 +206,9 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     moments: [
       { src: "/media/img/need-health-malaysia.jpg", alt: "Two family members in consultation with an advisor" },
       { src: "/media/img/hero.jpg", alt: "A family sharing a meal at home" },
-      { src: "/media/img/need-legacy.jpg", alt: "The reception area of a building" },
-      { src: "/media/img/need-planning.jpg", alt: "A woman in the kitchen of a home" },
-      { src: "/media/img/path-review.jpg", alt: "A man reading through paperwork at a desk" },
+      { src: "/media/img/need-legacy.jpg", alt: "The reception area of a building", position: "50% 72%" },
+      { src: "/media/img/need-planning.jpg", alt: "A woman in the kitchen of a home", position: "50% 32%" },
+      { src: "/media/img/path-review.jpg", alt: "A man reading through paperwork at a desk", position: "50% 58%" },
     ],
     ideaIcons: ["growth", "doc", "coins", "people"],
     explain: { label: "What it actually means", title: "What this covers", lede: "Some of this is financial planning and some of it is administration. Both matter, and the administrative half is usually the neglected one." },
@@ -218,10 +231,10 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     split: { photo: { src: "/media/img/dva-team.jpg", alt: "" }, label: "What businesses come to us with", title: "The point at which the question arrives", flip: false },
     moments: [
       { src: "/media/img/dva-team.jpg", alt: "A company team together" },
-      { src: "/media/img/dva-workshop.jpg", alt: "A staff briefing in progress" },
+      { src: "/media/img/dva-workshop.jpg", alt: "A staff briefing in progress", position: "50% 22%" },
       { src: "/media/img/close-conversation.jpg", alt: "Two colleagues talking" },
-      { src: "/media/img/policy-review.jpg", alt: "Scheme documents being reviewed" },
-      { src: "/media/img/path-review.jpg", alt: "Costs per head being worked through" },
+      { src: "/media/img/policy-review.jpg", alt: "Scheme documents being reviewed", position: "50% 42%" },
+      { src: "/media/img/path-review.jpg", alt: "Costs per head being worked through", position: "50% 58%" },
     ],
     ideaIcons: ["people", "building", "shield", "doc"],
     explain: { label: "What it actually means", title: "What we help with", lede: "Three areas. Most companies need the first, and should at least have considered the other two." },
