@@ -170,6 +170,49 @@ picture on a phone.
 
 All of them are 0% now. The client named three; the sweep found seven more.
 
+**A correction, from the re-audit of 6 September 2026.** The line above was
+written from a sweep of the placements that had been named, not of every
+image on every page, and "all of them" was doing work it had not earned. A
+full sweep at 375, 1280 and 1440 found more, and — more usefully — showed that
+the percentage is the wrong test on its own. It measures how far the frame is
+from the picture's shape; the client's rule is about whether anyone is lost.
+Those come apart constantly. So the check now has two steps, and the second
+one is the one that decides:
+
+```
+# 2. mask what the frame throws away and LOOK at it
+python3 - <<'EOF'
+from PIL import Image, ImageDraw
+im = Image.open("public/media/img/NAME.jpg").convert("RGB"); w, h = im.size
+fw, fh = FRAME_W, FRAME_H          # from the sweep above
+fr, nr = fw / fh, w / h
+if nr > fr: keep = int(h * fr); off = (w - keep) // 2; bands = [(0,0,off,h), (w-off,0,w,h)]
+else:       keep = int(w / fr); off = (h - keep) // 2; bands = [(0,0,w,off), (0,h-off,w,h)]
+d = ImageDraw.Draw(im, "RGBA")
+for b in bands: d.rectangle(b, fill=(220, 40, 40, 130))
+im.save("/tmp/crop.png")
+EOF
+```
+
+What that turned up, and what each one turned out to be:
+
+| Page | Photograph | Lost | Verdict |
+|---|---|---|---|
+| Homepage, ≤860px | `dva-team.jpg` in the DVA panel | **64%** | **Twelve of nineteen people gone**, whole figures cut at both edges. Fixed: the panel is a stacked card on mobile now, picture above copy, 0%. |
+| Youth | `dva-workshop.jpg` in a 4:3 event card | **40%** | Cut the seated participants off the bottom. Replaced with `team-office.jpg`. |
+| Youth | `path-future.jpg` in a 4:3 event card | **35%** | Cut through the writing hand and the notebook. Replaced with `team-award.jpg`. |
+| Youth | `community-gathering.jpg` in a 4:3 event card | 11% | **Left alone.** The bands are kitchen counter and bare wall; nobody is in them. |
+| About · homepage | `advisor-*.jpg` reel posters at 0.563 | 30% | **Left alone.** Single portraits, centred; only backdrop is lost. |
+| Every inner page | `hero.jpg` in the header band | 40–64% | **Flagged, not changed.** It cuts two of the three people on mobile — but it is licensed stock, not a D'Life photograph, so the client's rule does not reach it. It is also the header band on every page, which makes it a design decision rather than a defect to fix at go-live. |
+| Various | `policy-review.jpg`, `need-*-malaysia.jpg` | 13–35% | **Left alone.** Stock, and the subject stays in frame; the bands are foliage, worktop and window. |
+
+The one placement still cropping a person is `dva-workshop.jpg` as the third
+story-reel poster: a 0.8 group shot in a 0.563 card loses a standing
+participant at the left edge. The card is a *video* frame and the film itself
+is 0.8, so a poster swap alone would not fix it — it needs either a 9:16 cut
+of that film or a reel card shaped to the footage. Client decision, recorded
+here rather than guessed at.
+
 **When the picture cannot fit the frame, the picture changes.** The Youth
 event cards are a 4:3 grid, and a portrait staircase photograph cannot become
 4:3 without losing the people at the top and bottom of it — so that card

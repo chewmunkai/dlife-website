@@ -1566,23 +1566,50 @@ body:has(.dlife) {
   max-width: 44ch;
 }
 .dlife #dva .pill { margin-top: 28px; }
+/* ⚠️ On a phone this panel was a 0.64 window onto a 1.78 group photograph. It
+   kept 36% of the width: seven of the nineteen people, with whole individuals
+   cut off at both edges. The previous pass here deepened the gradient to keep
+   the copy legible "where the panel crops into the middle of the group" —
+   which treated the crop as a lighting problem and made the team harder to see
+   rather than putting them back.
+
+   The client's rule is that a D'Life photograph never loses anyone: adjust it
+   to include everyone, or do not use it. There is a third answer when the
+   frame is the thing that is wrong, and it is the one taken here — the panel
+   stops being a plate with copy laid over it and becomes a card. The
+   photograph sits on top at its own ratio, so all nineteen are in frame, and
+   the copy sits underneath on the ink it was already designed against.
+
+   Desktop is untouched: at 880px wide the panel is close enough to the
+   picture's ratio that nobody is lost, and the copy over the photograph is the
+   design the client asked for. */
 @media (max-width: 860px) {
-  .dlife #dva .panel { padding: clamp(44px, 7vh, 72px) clamp(22px, 6vw, 44px); min-height: clamp(320px, 62vw, 420px); }
-  /* A narrow panel crops into the middle of the group, which is the brightest
-     part of the frame — white shirts and lit faces — and the copy runs to three
-     lines across it. The pool deepens and widens to match; the corners stay
-     open, so the card is still photographic at its edges. */
-  .dlife #dva .panel .bg::after {
-    background:
-      radial-gradient(94% 88% at 50% 50%,
-        rgba(11, 33, 29, .80) 0%,
-        rgba(11, 33, 29, .74) 50%,
-        rgba(11, 33, 29, .52) 84%,
-        rgba(11, 33, 29, .34) 100%),
-      linear-gradient(to bottom,
-        rgba(11, 33, 29, .24) 0%,
-        rgba(11, 33, 29, .14) 45%,
-        rgba(11, 33, 29, .30) 100%);
+  .dlife #dva .panel {
+    grid-template-rows: auto auto;
+    place-items: stretch;
+    padding: 0;
+    min-height: 0;
+  }
+  /* Sized by the picture, 1800x1012, rather than by the copy above it. */
+  .dlife #dva .panel .bg {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 1800 / 1012;
+  }
+  /* The 12% over-scan exists to give an absolutely-positioned plate somewhere
+     to travel behind fixed copy. In a band sized by the picture it would put
+     the crop straight back, so the scan and the scroll offset both stop here.
+     GSAP writes that offset as an inline transform, which is what the
+     !important is for — it is not fighting another rule in this file. */
+  .dlife #dva .panel .bg .prlx { inset: 0; transform: none !important; }
+  .dlife #dva .panel .bg img { object-position: 50% 50%; }
+  /* Nothing is set over the photograph any more, so the wash would only be
+     dimming the team for no reason. */
+  .dlife #dva .panel .bg::after { display: none; }
+  .dlife #dva .fg {
+    padding: clamp(30px, 5vh, 44px) clamp(22px, 6vw, 40px) clamp(34px, 5vh, 48px);
+    /* The halo was for type on a photograph. On the ink it is just blur. */
+    text-shadow: none;
   }
 }
 

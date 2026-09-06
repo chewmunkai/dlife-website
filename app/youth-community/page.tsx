@@ -103,20 +103,33 @@ const EVENTS = [
     when: "Regular",
     where: "Klang Valley",
     title: "Career development sessions",
-    photo: { src: "/media/img/dva-workshop.jpg", alt: "A career development session" },
+    /* Was dva-workshop.jpg — a 0.80 portrait in this 4:3 grid, which kept the
+       middle 60% and cut the seated participants out along the bottom edge.
+       Checked by masking the discarded bands rather than by trusting the
+       percentage. team-office.jpg is 4:3 exactly, and a card about talking to
+       people doing the job is the one place adults in frame is the point. */
+    photo: { src: "/media/img/team-office.jpg", alt: "A career development session" },
     copy: "Industry exposure, interview practice and honest conversations with people doing the jobs you are considering.",
   },
   {
     when: "Regular",
     where: "Klang Valley",
     title: "Personal growth workshops",
-    photo: { src: "/media/img/path-future.jpg", alt: "A member working through a personal development exercise" },
+    /* Was path-future.jpg — 0.865, and the frame cut through the writing hand
+       and the notebook that were the whole subject. team-award.jpg is 4:3 and
+       is a room listening to someone speak, which is what this card is about.
+       It also appears on About and the homepage DVA panel: the honest fix is
+       photography of these actual sessions, per the note in amendments §23. */
+    photo: { src: "/media/img/team-award.jpg", alt: "A member working through a personal development exercise" },
     copy: "Communication, public speaking, personal branding and the confidence to use them.",
   },
   {
     when: "Several a year",
     where: "Various",
     title: "Community & volunteer projects",
+    /* 1.50 in a 4:3 frame, so 5.6% comes off each side — but the discarded
+       bands are kitchen counter and bare wall, nobody is in them, and the rule
+       is about cutting people out. Verified by masking, and left alone. */
     photo: { src: "/media/img/community-gathering.jpg", alt: "Members on a community project" },
     copy: "Service projects that build compassion and responsibility, and give leadership somewhere real to practise.",
   },
