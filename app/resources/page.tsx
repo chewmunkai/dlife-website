@@ -91,24 +91,16 @@ export default function Page() {
            a page hero. This photograph is landscape, it is an actual D'Life
            gathering rather than a workshop seen over people's heads, and it was
            the one image in the library used nowhere else on the site. */
-        /* ⏳ INTERIM. The client asked for a new photograph here, sourced from a
-           new Drive folder. The Drive connector cannot reach it: it returns
-           only files shared DIRECTLY with the account, not the contents of a
-           shared folder, and no folder newer than "Website (Group Photo)"
-           (6 Sep) is visible at all. Nothing has been guessed at — this is the
-           most event-like photograph already in the library, and it should be
-           replaced the moment the real file arrives.
-
-           Why this one of what exists: the page is "Reading and what's coming
-           up", so the hero wants a session with an audience in it. This is the
-           agency's recognition event — rows of seated people, certificates at
-           the front — which is the only picture in the set that reads as an
-           event rather than as a meal or a workshop seen over people's heads.
-           It is 4:3 and the plate takes its ratio, so nobody is cropped. */
+        /* Round 22, and no longer interim. The client pointed out the Drive folder
+           opens as a public link in a browser even though the connector cannot list
+           it, which is how this arrived. A page called "Reading and what's coming
+           up" wants an actual event, and this is the agency's award night — the
+           only photograph in the folder that is unmistakably one. 1.77, so the
+           plate takes its ratio and nobody is cropped. */
         photo={{
-          src: "/media/img/team-award.jpg",
-          alt: "D’Life advisors and managers at an agency recognition event",
-          ratio: "1800 / 1350",
+          src: "/media/img/dva-award-night.jpg",
+          alt: "D’Life advisors together at the agency award night",
+          ratio: "2048 / 1160",
         }}
       />
 

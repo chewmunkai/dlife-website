@@ -246,3 +246,33 @@ widths matter: the worst finding of the sweep was invisible at desktop.
 - `need-family.jpg` in the Solutions grid, 42% — the crop keeps the umbrella
   and the garden and loses the family at the table, so the picture no longer
   shows what it was chosen for.
+
+## The Drive folder, and how to reach it (round 22)
+
+⚠️ **The Drive connector cannot read this folder.** `Website (Group Photo)`
+(`1pj3yQxKUfIT…`) is shared with the account, but the connector returns only
+files shared *directly* — never the children of a shared folder — so
+`parentId = '…'`, `owner = 'dvlgroup23@gmail.com'` and `sharedWithMe = true`
+all come back empty. It looks exactly like an empty folder.
+
+**It opens fine as a public link in a browser**, which is the client's own
+suggestion and how these were sourced: navigate to the folder, scroll the
+virtualised list, read `[data-id]` off the rows, then fetch
+`https://drive.google.com/thumbnail?id=<ID>&sz=w900` to review and
+`https://drive.google.com/uc?export=download&id=<ID>` for the full file.
+
+**43 photographs. 12 are already in this repository under other names,
+byte-identical** — `team-gathering`, `community-group`, `team-award`,
+`youth-session`, `team-office` and others all came from here originally.
+Check any new candidate against the library before importing it; a 16×16
+average-hash comparison at a Hamming distance of ≤24 catches them.
+
+⚠️ **One photograph in the folder carries AIA branding** — a regional award
+backdrop. It must not be used: the site names no insurer anywhere, at the
+client's instruction.
+
+| Imported | Source ratio | Used at |
+|---|---|---|
+| `team-welcome.jpg` | 1024×768, 1.33 | Solutions hero — replaced `path-family.jpg`, a dark video still |
+| `team-table.jpg` | 1080×842, 1.28 | Contact hero — the page's fourth photograph |
+| `dva-award-night.jpg` | 2048×1160, 1.77 | Articles & Events hero — the folder's only unmistakable event |

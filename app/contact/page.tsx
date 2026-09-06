@@ -45,17 +45,16 @@ export default function Page() {
         label="Contact"
         title="Tell us what you need"
         lede="A few lines is enough to start. We will read it, work out who should answer, and come back to you."
-        /* Round 22. This is the second photograph on this page: it was
-           close-conversation.jpg (a stock still of one man talking), then
-           team-office.jpg, which the client also turned down. The page asks the
-           reader to get in touch, so the picture wants to be warm and to have
-           the whole practice in it rather than a tidy row on a sofa. This is
-           the agency together in its own office lounge. 1800x1158, plate takes
-           the ratio, 0%. */
+        /* Round 22, and the fourth photograph this page has carried: a stock still
+           of one man, then team-office.jpg, then team-gathering.jpg, all turned
+           down. This one is new — sourced from the client's public Drive folder in
+           the browser, since the Drive connector cannot read inside a shared
+           folder. A small group around a table, which is what asking someone for
+           advice actually looks like, rather than a lineup of the whole practice. */
         photo={{
-          src: "/media/img/team-gathering.jpg",
-          alt: "The D’Life team together at the agency office",
-          ratio: "1800 / 1158",
+          src: "/media/img/team-table.jpg",
+          alt: "D’Life advisors talking around a table",
+          ratio: "1080 / 842",
         }}
       />
 

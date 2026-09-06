@@ -79,16 +79,19 @@ export default function Page() {
         label="Protection & planning"
         title="Start wherever you are"
         lede="5 areas most households eventually need to think about. None of them require a decision today, and you will not be asked to make one."
-        /* Round 22, client: "get a completely new photo… need better ones."
-           It was path-family.jpg, a dark, low-resolution video still of a room of
-           people holding phones up — the worst photograph on the site and the first
-           thing a visitor to the solutions hub saw. This is D'Life's own people,
-           properly lit and properly shot. `ratio` keeps the plate at 4:3 so nobody
-           is cropped, and it appears nowhere else on this page. */
+        /* Round 22. Sourced from the client's own Drive folder, which the Drive
+           connector could not enumerate — it returns only files shared directly,
+           never the contents of a shared folder — but which opens fine in a browser
+           as a public link, at the client's suggestion.
+        
+           Worth knowing: 12 of the folder's 43 photographs are already in this
+           repository under other names, byte-identical. This one is genuinely new.
+           It replaces path-family.jpg, a dark low-resolution video still that was
+           the first thing a visitor to the hub saw. */
         photo={{
-          src: "/media/img/community-group.jpg",
-          alt: "D’Life advisors together at an agency session",
-          ratio: "1800 / 1350",
+          src: "/media/img/team-welcome.jpg",
+          alt: "D’Life advisors together at an agency celebration",
+          ratio: "1024 / 768",
         }}
         actions={
           <a className="pill" href={advisor}>
