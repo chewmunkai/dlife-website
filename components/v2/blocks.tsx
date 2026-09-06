@@ -90,6 +90,7 @@ export function Hero({
   title,
   lede,
   photo,
+  companionPhoto,
   actions,
   tone = "dark",
   panel = "light",
@@ -99,6 +100,7 @@ export function Hero({
   title: ReactNode;
   lede?: ReactNode;
   photo?: Photo;
+  companionPhoto?: Photo;
   actions?: ReactNode;
   tone?: Tone;
   panel?: "light" | "green";
@@ -107,7 +109,15 @@ export function Hero({
     <section className={`hero ${photo ? "" : "hero--noart "}${mode(tone)}`}>
       {photo && (
         <div className="art ph" style={frameOf(photo)}>
-          <Img photo={photo} />
+          {companionPhoto ? (
+            <div style={{ display: "flex", width: "100%", height: "100%" }}>
+              {[photo, companionPhoto].map((portrait) => (
+                <div key={portrait.src} style={{ width: "50%", height: "100%" }}>
+                  <Img photo={portrait} />
+                </div>
+              ))}
+            </div>
+          ) : <Img photo={photo} />}
         </div>
       )}
       <div className={`card ${panel === "green" ? "card--green dark" : "light"}`}>

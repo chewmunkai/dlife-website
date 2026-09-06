@@ -6,11 +6,8 @@ const drive = (name: string, alt: string): Photo => ({
   src: `/media/img/services/${name}.jpg`, alt, fit: "contain",
 });
 const meal = drive("shared-meal", "Nine people gathered around a dining table");
-const generations = drive("generations", "A group of adults and a young child together at home");
-const review = drive("review-at-table", "A woman seated at a table with a tablet and laptop");
-const conversation = drive("conversation", "A woman talking and gesturing across a café table");
 const generated = (name: string, alt: string): Photo => ({
-  src: `/media/img/services/generated/${name}.png`, alt, fit: "contain",
+  src: `/media/img/services/generated/${name}.png`, alt, position: "50% 0%",
 });
 const policyReview = generated("policy-review", "A woman and advisor comparing policy documents at a desk");
 
@@ -19,7 +16,11 @@ const policyReview = generated("policy-review", "A woman and advisor comparing p
 const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo> }> = {
   "protecting-your-family": {
     hero: { ...meal, ratio: "1080 / 842" },
-    moments: { 3: generations, 4: conversation, 5: policyReview },
+    moments: {
+      3: generated("family-generations", "Grandparents, parents and children spending time together at home"),
+      4: generated("family-support", "A friend offering reassurance during a quiet conversation at home"),
+      5: policyReview,
+    },
   },
   "protecting-your-income": {
     moments: {
@@ -39,14 +40,14 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
     hero: { ...meal, ratio: "1080 / 842" },
     moments: {
       3: { src: "/media/img/inc-savings.jpg", alt: "Coins saved in a glass jar" },
-      5: review,
+      5: generated("starting-a-plan", "An older woman and her adult son starting a financial plan together"),
     },
   },
   "wealth-legacy": {
     moments: {
-      3: generated("business-planning", "Business owners reviewing a property plan and documents with an advisor"),
-      4: generated("dependent-support", "An adult wheelchair user and her parents planning together at home"),
-      5: generated("family-records", "A daughter and her father organising family documents together"),
+      3: generated("legacy-business-v2", "A mother and son discussing their family business with an advisor"),
+      4: generated("legacy-support-v2", "An adult wheelchair user planning long-term support with a parent and advisor"),
+      5: generated("legacy-records-v2", "Parents showing their adult daughter where important family records are stored"),
     },
   },
 };

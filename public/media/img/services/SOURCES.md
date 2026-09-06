@@ -1,5 +1,13 @@
 # Service page photo selections — 7 September 2026
 
+## Latest sizing revision
+
+This revision supersedes the earlier slot choices below. Family 03 and 04 and Future 05 now use purpose-made landscape scenes instead of portrait Drive images. Wealth 03–05 use the improved `legacy-*-v2.png` scenes. Prompts: [PROMPTS-v2.md](generated/PROMPTS-v2.md). All service moment cards use the existing 16:10 frame with edge-to-edge cover fitting; generated subjects remain visible. Drive originals are no longer used in these card positions. Full-photo fitting remains on the family/future hero images.
+
+The About/Our Founders hero now uses the verified `founder-sharon.jpg` and `founder-rachel.jpg` portraits side by side, without changing their pixels. The DVA page is unchanged. No font stylesheet or text style was modified.
+
+## Earlier selection history
+
 Only `components/v2/SolutionPage.tsx` consumes these overrides. Homepage, Solutions hub and other content records remain unchanged. Original bytes are preserved; CSS contains the entire image, with neutral side space for portraits. No people are removed or retouched.
 
 All 44 originals in the client Group Drive folder were reviewed. These are contextual selections: the folder has no literal hospital, medical-bill, estate-paperwork or lifelong-care imagery. A person shown beside a question is not being identified as a patient, dependent, policyholder or relative. The user subsequently authorised generating matching photography where Drive has no suitable source. Eight generated scenes now fill those gaps; prompts and generation provenance are in [generated/PROMPTS.md](generated/PROMPTS.md).

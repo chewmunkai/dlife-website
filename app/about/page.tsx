@@ -142,17 +142,19 @@ export default function Page() {
         label="About D’Life"
         title="Founded by sisters and built with purpose"
         lede="D’Life was started by two sisters who believed that success is not simply about making money. It is about building a life that means something."
-        /* Round 22, client: change the main image on the founders' page.
-           It was policy-review.jpg — a stock still of two strangers at a
-           table, on the one page that is explicitly about who D'Life is. The
-           agency's own studio portrait is both the truer picture and the best
-           one they have. `ratio` keeps the plate at 1800/1012 so it is not
-           cropped; it also appears on the homepage DVA panel, which is a
-           different page. */
+        /* The verified portraits replace the team image repeated on DVA.
+           Both originals remain intact, side by side in one landscape frame.
+           Identities come from the client filenames, not visual inference. */
         photo={{
-          src: "/media/img/dva-team.jpg",
-          alt: "The D’Life advisory team",
-          ratio: "1800 / 1012",
+          src: "/media/img/founder-sharon.jpg",
+          alt: "Sharon Cheang, co-founder of D’Life",
+          ratio: "8 / 5",
+          fit: "contain",
+        }}
+        companionPhoto={{
+          src: "/media/img/founder-rachel.jpg",
+          alt: "Rachel Cheang, co-founder of D’Life",
+          fit: "contain",
         }}
         actions={
           <a className="pill" href={advisor}>
