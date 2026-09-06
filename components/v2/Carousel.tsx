@@ -22,9 +22,9 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
      · silent when it is not needed. If every card already fits, the arrows
        are not rendered at all and this is a plain row.
 
-   Reduced motion is respected in the one place it actually applies: the
-   arrows jump instead of gliding. The track never moves on its own — nothing
-   here auto-advances, so there is no motion to pause.
+   Reduced motion is respected twice over: the arrows jump instead of gliding,
+   and a rail set to auto-rotate does not rotate at all. See the note on
+   `autoRotate` for the three ways a visitor can stop one that does.
    ============================================================ */
 
 const Arrow = ({ back = false }: { back?: boolean }) => (
@@ -36,12 +36,25 @@ const Arrow = ({ back = false }: { back?: boolean }) => (
 export default function Carousel({
   label,
   className = "",
+  autoRotate = false,
   children,
 }: {
   /** Names the region and both arrows, so a screen reader says which rail. */
   label: string;
   /** Sits on the track, e.g. `icards` — the grid class keeps its card sizing. */
   className?: string;
+  /**
+   * Advance on its own, one card every 6 seconds.
+   *
+   * WCAG 2.2.2 wants a way to stop anything that moves by itself for longer
+   * than five seconds, so this comes with three of them: an explicit
+   * pause/play control, a pause while the pointer is over the rail or focus
+   * is inside it, and a permanent stop the moment anyone touches an arrow or
+   * scrolls the track by hand. It never starts at all under
+   * prefers-reduced-motion, and it stops when the tab is hidden so a rail
+   * nobody can see is not quietly running to its end.
+   */
+  autoRotate?: boolean;
   children: ReactNode;
 }) {
   const track = useRef<HTMLDivElement>(null);
@@ -49,6 +62,11 @@ export default function Carousel({
    *  a rail that turns out to fit never flashes a pair of dead arrows. */
   const [overflows, setOverflows] = useState<boolean | null>(null);
   const [at, setAt] = useState<{ start: boolean; end: boolean }>({ start: true, end: false });
+  /** Paused by the visitor, and it stays paused. */
+  const [paused, setPaused] = useState(false);
+  /** Paused by hovering, focusing or hiding the tab. Transient. */
+  const [held, setHeld] = useState(false);
+  const [reduced, setReduced] = useState(false);
 
   const measure = useCallback(() => {
     const el = track.current;
@@ -81,6 +99,22 @@ export default function Carousel({
     };
   }, [measure]);
 
+  useEffect(() => {
+    const q = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (!q) return;
+    setReduced(q.matches);
+    const on = () => setReduced(q.matches);
+    q.addEventListener("change", on);
+    return () => q.removeEventListener("change", on);
+  }, []);
+
+  /* A hidden tab should not be running a rail to its end unwatched. */
+  useEffect(() => {
+    const on = () => setHeld(document.hidden);
+    document.addEventListener("visibilitychange", on);
+    return () => document.removeEventListener("visibilitychange", on);
+  }, []);
+
   const page = (dir: 1 | -1) => {
     const el = track.current;
     if (!el) return;
@@ -100,8 +134,35 @@ export default function Carousel({
     el.scrollBy({ left: dir * step, behavior: reduced ? "auto" : "smooth" });
   };
 
+  /* Advance, and wrap back to the start when there is nowhere further to go —
+     a rail that stops on its own after one pass looks broken rather than
+     finished. */
+  useEffect(() => {
+    if (!autoRotate || !overflows || paused || held || reduced) return;
+    const id = window.setInterval(() => {
+      const el = track.current;
+      if (!el) return;
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 2) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        page(1);
+      }
+    }, 6000);
+    return () => window.clearInterval(id);
+    // `page` is stable enough for this: it only reads refs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoRotate, overflows, paused, held, reduced]);
+
+  const rotating = autoRotate && overflows && !reduced;
+
   return (
-    <div className={`crsl${overflows ? " is-scrollable" : ""}`}>
+    <div
+      className={`crsl${overflows ? " is-scrollable" : ""}`}
+      onMouseEnter={rotating ? () => setHeld(true) : undefined}
+      onMouseLeave={rotating ? () => setHeld(false) : undefined}
+      onFocusCapture={rotating ? () => setHeld(true) : undefined}
+      onBlurCapture={rotating ? () => setHeld(false) : undefined}
+    >
       <div
         ref={track}
         className={`crsl__track ${className}`.trim()}
@@ -121,16 +182,44 @@ export default function Carousel({
             className="crsl__btn"
             aria-label={`Previous ${label.toLowerCase()}`}
             disabled={at.start}
-            onClick={() => page(-1)}
+            onClick={() => {
+              setPaused(true);
+              page(-1);
+            }}
           >
             <Arrow back />
           </button>
+
+          {/* The explicit stop. Only rendered when something is actually
+              moving, because a pause button on a static rail is a lie. */}
+          {rotating && (
+            <button
+              type="button"
+              className="crsl__btn crsl__btn--play"
+              aria-pressed={paused}
+              aria-label={paused ? `Resume ${label.toLowerCase()}` : `Pause ${label.toLowerCase()}`}
+              onClick={() => setPaused((v) => !v)}
+            >
+              {paused ? (
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5.5v13l11-6.5z" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                  <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                </svg>
+              )}
+            </button>
+          )}
           <button
             type="button"
             className="crsl__btn"
             aria-label={`Next ${label.toLowerCase()}`}
             disabled={at.end}
-            onClick={() => page(1)}
+            onClick={() => {
+              setPaused(true);
+              page(1);
+            }}
           >
             <Arrow />
           </button>

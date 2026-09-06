@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Shell from "../v2/Shell";
-import JsonLd from "../site/JsonLd";
-import { Band, ClosingCard } from "../v2/blocks";
-import { PREVIEW_ARTICLES, type Article } from "../../content/articles";
-import { ROUTES } from "../../lib/routes";
-import { asset, link } from "../../lib/asset";
-import { WA, waHref } from "../../lib/contact";
-import { SITE } from "../../lib/site";
+import Shell from "../../../components/v2/Shell";
+import JsonLd from "../../../components/site/JsonLd";
+import { Band, ClosingCard } from "../../../components/v2/blocks";
+import { PREVIEW_ARTICLES, type Article } from "../../../content/articles";
+import { ROUTES } from "../../../lib/routes";
+import { asset, link } from "../../../lib/asset";
+import { WA, waHref } from "../../../lib/contact";
+import { SITE } from "../../../lib/site";
 
 /* ============================================================
    Article page.
@@ -15,34 +15,28 @@ import { SITE } from "../../lib/site";
    content/articles.ts rather than markup here, so publishing is a content
    edit and the reading measure stays the same on every piece.
 
-   ⚠️ A12 (client, 31 Aug 2026): placeholder copy must not reach a visitor.
-   While content/articles.ts is empty this file is NOT a route — it lives here
-   with the other kept-but-unrouted templates rather than under app/, so the
-   static export writes no /articles/template.html at all. Next also refuses a
-   dynamic segment whose generateStaticParams() comes back empty under
-   `output: export`, which is the same problem said in the compiler's words.
+   Restored as a route on 6 Sep 2026 at the client's request: "add back the
+   article and do a template mock up article, design the template nicely."
 
-   TO PUBLISH — after adding the first record to ARTICLES, restore the route by
-   creating app/articles/[slug]/page.tsx containing exactly:
+   It lived in components/pages/ while it was unrouted. It is back here
+   because the indirection did not survive `next dev`: a route that
+   re-exports `generateStaticParams` from another module builds fine and then
+   404s in development, reporting the function as missing. The page belongs in
+   the route that serves it.
 
-     export {
-       default,
-       generateStaticParams,
-       generateMetadata,
-       dynamicParams,
-     } from "../../../components/pages/ArticlePage";
-
-   Nothing in this file changes. The Articles band on /resources un-hides
-   itself off the same ARTICLES array, so the grid and the route come back
-   together.
+   While content/articles.ts holds no real article this renders TEMPLATE_
+   ARTICLE, whose body is the editorial brief for a D'Life guide rather than
+   filler. Every surface says "Article template" and it stays `noindex`.
+   Adding a real record to ARTICLES replaces it automatically.
    ============================================================ */
 
 const bySlug = (slug: string) => PREVIEW_ARTICLES.find((a) => a.slug === slug);
 
-/** No published article means no generated page. `dynamicParams = false` keeps
- *  the static export honest about that rather than leaving the segment open. */
-export const dynamicParams = false;
-
+/* ⚠️ No `dynamicParams = false` here, deliberately. With it set, `next dev`
+   refuses this route — "missing exported function generateStaticParams()",
+   even though the function is declared directly below and the production
+   build generates the page correctly. It costs nothing: the export is
+   static, so only the slugs returned below are ever written. */
 export function generateStaticParams() {
   return PREVIEW_ARTICLES.map((a) => ({ slug: a.slug }));
 }

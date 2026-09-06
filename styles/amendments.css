@@ -737,20 +737,20 @@
   margin-top: var(--dl-head-gap);
   background: var(--dl-sand);
   box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .12);
-  display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
+  /* One column now, not two. The panel reads top to bottom: the practice,
+     then what it adds up to. */
+  display: grid; grid-template-columns: minmax(0, 1fr);
 }
 .record .say {
   min-width: 0;
   padding: clamp(28px, 4vh, 48px) clamp(24px, 3.2vw, 48px);
-  border-right: 1px solid rgba(47, 53, 50, .2);
+  border-bottom: 1px solid rgba(47, 53, 50, .2);
 }
-/* Round 7: at the client's direction the framing sentence is a photograph of
-   Sharon with her team instead. It fills its half of the panel edge to edge —
-   no padding, because a plate inset inside a sand panel would read as a
-   picture pinned to a board. */
+/* The photograph runs the full width of the panel and keeps its own shape —
+   the standing rule on D'Life photography (see docs/dlife-asset-map.md). */
 .record .shot {
   min-width: 0; position: relative; overflow: hidden;
-  align-self: stretch; min-height: clamp(240px, 32vh, 340px);
+  border-bottom: 1px solid rgba(47, 53, 50, .2);
 }
 .record .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .record .say p {
@@ -763,38 +763,41 @@
   font: var(--dl-w-regular) var(--dl-caption)/1.6 var(--dl-sans);
   color: rgba(47, 53, 50, .66); max-width: 34ch;
 }
-/* One grid for all three rows, not a grid per row: per-row grids sized their
-   numeral column to their own numeral, so "3", "40+" and "MDRT" each pushed
-   their description to a different indent. Cells are direct children so the
-   hairline runs unbroken across both columns, which is why the gap is padding
-   on the numeral rather than a column-gap. */
+
+/* Three figures across, each one a cell with the numeral over its
+   description. The old shape put the numeral and the sentence side by side in
+   one row, so the largest type on the page had a third of the panel to live
+   in and every description started at a different indent. */
 .record .rows {
-  min-width: 0; padding: clamp(10px, 1.6vh, 18px) clamp(24px, 3.2vw, 48px);
-  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  min-width: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-.record .rows > * {
-  display: flex; align-items: center;
-  padding-block: clamp(18px, 2.6vh, 28px);
+.record .rows > div {
+  padding: clamp(26px, 3.6vh, 44px) clamp(20px, 2.4vw, 36px);
+  display: flex; flex-direction: column; gap: clamp(10px, 1.4vh, 16px);
 }
-.record .rows > *:nth-child(n + 3) { border-top: 1px solid rgba(47, 53, 50, .2); }
-.record .rows > b {
-  padding-right: clamp(18px, 2.4vw, 34px);
-  font: 500 clamp(34px, 3.6vw, 56px)/.92 var(--dl-disp);
+.record .rows > div + div { border-left: 1px solid rgba(47, 53, 50, .2); }
+.record .rows b {
+  font: 500 clamp(38px, 4.4vw, 68px)/.9 var(--dl-disp);
   letter-spacing: -.035em; color: var(--dl-teal);
   font-variant-numeric: tabular-nums;
 }
-/* No max-width: the cell carries the hairline, so constraining it stopped the
-   rule short of the column edge and the table looked unfinished. The column
-   itself holds the measure to about 55 characters. */
-.record .rows > span {
+.record .rows span {
   font: var(--dl-w-regular) clamp(14.5px, 1.1vw, 16.5px)/1.55 var(--dl-sans);
-  color: rgba(47, 53, 50, .82);
+  color: rgba(47, 53, 50, .82); max-width: 26ch; text-wrap: pretty;
+}
+/* Where the numbers come from, said on the page rather than left implied. */
+.record__src {
+  margin: 0;
+  padding: clamp(14px, 1.8vh, 20px) clamp(24px, 3.2vw, 48px);
+  border-top: 1px solid rgba(47, 53, 50, .2);
+  font: var(--dl-w-regular) 13px/1.6 var(--dl-sans);
+  color: rgba(47, 53, 50, .66);
 }
 @media (max-width: 860px) {
-  .record { grid-template-columns: minmax(0, 1fr); }
-  .record .say { border-right: 0; border-bottom: 1px solid rgba(47, 53, 50, .2); }
+  .record .rows { grid-template-columns: minmax(0, 1fr); }
+  .record .rows > div + div { border-left: 0; border-top: 1px solid rgba(47, 53, 50, .2); }
   .record .say p, .record .say .hint { max-width: none; }
-  .record .shot { min-height: 0; aspect-ratio: 3 / 2; }
 }
 
 /* ============================================================
@@ -2081,4 +2084,211 @@
      under a heading is just a hole. */
   .icards { grid-auto-rows: auto; }
   .steps-panel h3 { min-height: 0; }
+}
+
+/* ============================================================
+   32 · The page owns its ground (client: "remove the green divider")
+   ------------------------------------------------------------
+   There was no divider. `body` is the dark ink the footer sits on, `.wrap`
+   and `#main` are transparent, and every band paints its own colour — so any
+   gap between two bands is a window onto the footer's ground. Measured on
+   About: a 38px strip of #0F332C between the advisor-development panel and
+   the two cards below it, reading exactly like a deliberate green rule.
+
+   The page paints its own ground now, so a gap between bands is page-coloured
+   and invisible instead. This is the fix for the whole class of it, not just
+   the one the client saw — the footer keeps the dark body behind it because
+   it sits outside `#main`. */
+.wrap #main { background: var(--dl-ivory); }
+
+/* ---- The two onward cards, at full strength (client, 6 Sep) ----
+   "Make both box below more contrast and visible." They were transparent on
+   the page ground with a 2px rule at 45% opacity — the same faded hairline
+   the text actions had. A real surface, a full-strength copper cap, and a
+   lift on hover, so they read as two things you can press. */
+.wrap .dl-cards .dl-card {
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .10);
+  border-top: 3px solid var(--dl-copper-d);
+  transition: transform var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
+}
+.wrap .dl-cards .dl-card__body { padding: clamp(24px, 3vh, 34px) clamp(22px, 2.4vw, 34px) clamp(26px, 3.2vh, 36px); }
+@media (hover: hover) {
+  .wrap .dl-cards .dl-card:hover {
+    transform: translateY(var(--dl-lift-card));
+    box-shadow: var(--dl-shadow-float), inset 0 0 0 1px rgba(47, 53, 50, .10);
+  }
+}
+@media (prefers-reduced-motion: reduce) { .wrap .dl-cards .dl-card { transition: none; } }
+
+/* ---- 32b · the reassurance panel (.assure) ----
+   Client, 6 Sep 2026. This sentence was a full-width pull-quote — the page's
+   loudest register for a line whose job is to lower the temperature. It is a
+   contained panel now at lede scale: wide enough to be read as a statement
+   the page is making, quiet enough not to shout a reassurance. */
+.assure-host { padding-block: 0; }
+.assure {
+  margin: 0 auto;
+  max-width: 62ch;
+  padding: clamp(24px, 3.4vh, 40px) clamp(26px, 4vw, 56px);
+  background: var(--dl-cream);
+  border-left: 3px solid var(--dl-copper-d);
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .08);
+  font: var(--dl-w-regular) clamp(16px, 1.25vw, 19px)/1.65 var(--dl-sans);
+  color: var(--s-body);
+  text-wrap: pretty;
+}
+
+/* ---- 32c · bigger carousel controls (client: "much bigger") ---- */
+.crsl__btn { width: 58px; height: 58px; }
+.crsl__btn svg { width: 24px; height: 24px; }
+.crsl__btn--play svg { width: 20px; height: 20px; }
+@media (max-width: 560px) { .crsl__btn { width: 60px; height: 60px; } }
+
+/* ---- 33 · the article page, designed (client, 6 Sep 2026) ----
+   "Add back the article and do a template mock up article, design the
+   template nicely."
+
+   The reading page had the right bones — a 68ch measure, a lead plate, a meta
+   row — and none of the finish. Three things were missing, and they are the
+   three that make long-form look considered: a first paragraph that announces
+   itself, headings that are anchored to the text rather than floating between
+   two equal gaps, and a pull-quote that is a piece of design rather than an
+   indented paragraph. */
+
+/* The lede. The first paragraph sets one step larger, which is what tells a
+   reader the article has started. */
+.art-body > p:first-child {
+  font: var(--dl-w-regular) clamp(18px, 1.5vw, 22px)/1.62 var(--dl-sans);
+  color: var(--s-strong);
+}
+/* Headings sit closer to the text they open than to the text they follow —
+   the single most reliable signal that a page was typeset rather than dumped. */
+.art-body h2 {
+  margin-top: clamp(40px, 5.2vh, 68px);
+  margin-bottom: clamp(14px, 1.8vh, 20px);
+  padding-top: clamp(20px, 2.6vh, 28px);
+  border-top: 1px solid var(--s-line-soft);
+}
+.art-body p + p { margin-top: clamp(16px, 2vh, 22px); }
+/* Lists get the copper marker the rest of the site uses for a ledger. */
+.art-body ul { margin: clamp(20px, 2.6vh, 28px) 0; padding: 0; list-style: none; }
+.art-body li {
+  position: relative; padding: 10px 0 10px 30px;
+  border-top: 1px solid var(--s-line-soft);
+  font: var(--dl-w-regular) clamp(15.5px, 1.15vw, 17px)/1.62 var(--dl-sans);
+  color: var(--s-body);
+}
+.art-body li:last-child { border-bottom: 1px solid var(--s-line-soft); }
+.art-body li::before {
+  content: ""; position: absolute; left: 0; top: 1.05em;
+  width: 14px; height: 2px; background: var(--dl-copper-d);
+}
+/* The pull-quote becomes an object: copper rule, display face, its own air. */
+.art-body blockquote {
+  margin: clamp(34px, 4.4vh, 56px) 0;
+  padding: clamp(24px, 3vh, 34px) 0 clamp(20px, 2.6vh, 28px);
+  border-top: 2px solid var(--dl-copper-d);
+  border-bottom: 1px solid var(--s-line-soft);
+}
+.art-body blockquote p {
+  margin: 0;
+  font: 500 clamp(20px, 1.9vw, 28px)/1.35 var(--dl-disp);
+  letter-spacing: -.014em; color: var(--s-heading); text-wrap: pretty;
+}
+.art-body blockquote cite {
+  display: block; margin-top: clamp(14px, 1.8vh, 18px);
+  font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--s-label); font-style: normal;
+}
+
+/* ---- 34 · The shape of a year, made visible (client, 6 Sep 2026) ----
+   "Redesign the 'Across the year' part — make the design communicate the
+   better idea."
+
+   The idea was already in the copy and nowhere in the design: frequency is
+   what tells you about the commitment. The section said so in a sentence and
+   then showed three near-identical rows of cards.
+
+   It shows it now. Each tier carries the same twelve-month meter, and how
+   many months are lit is how often you would be in that room — twelve for the
+   Growth Circle, four for the quarterly work, one for the things that happen
+   once. Three rows, one scale, and the argument is legible before any of the
+   cards are read. The meter is decorative and the line under it says the same
+   thing in words, so nothing depends on seeing it. */
+.yearmap .yr {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: clamp(16px, 2.2vh, 22px);
+  max-width: 226px;
+}
+.yearmap .yr i {
+  display: block; height: 20px; border-radius: 1px;
+  background: rgba(47, 53, 50, .13);
+  transition: background-color var(--dl-t-base) var(--dl-ease);
+}
+.yearmap .yr i.on { background: var(--dl-copper-d); }
+/* On the ink spine the unlit months have to read against a dark ground. */
+.yearmap .tier--spine .yr i { background: rgba(246, 241, 232, .18); }
+.yearmap .tier--spine .yr i.on { background: var(--dl-sand); }
+/* The count becomes a frequency: "12× a year · 01 session". */
+.yearmap .n b { display: inline-flex; align-items: baseline; }
+.yearmap .n b em { font-style: normal; font-size: .62em; margin-left: 1px; }
+@media (prefers-reduced-motion: reduce) { .yearmap .yr i { transition: none; } }
+@media (max-width: 760px) { .yearmap .yr { max-width: none; } }
+
+/* ---- 35 · The enquiry form, designed (client, 6 Sep 2026) ----
+   "Make the contact form better with design and higher in contrast."
+
+   It was a stack of bare fields on the page ground: 11px labels, a 1px border
+   at 22% opacity, and nothing holding the group together — so the form read
+   as a list of gaps rather than as one object. Three corrections.
+
+   The form sits on its own surface, so it is a thing you fill in rather than
+   a hole in the page. The field borders go to full strength — the old ones
+   were fainter than the text inside them, which is the wrong way round. And
+   the labels come up off 11px, because a label is the part a person actually
+   has to read. */
+.wrap .reach__form .lead,
+.wrap .lead {
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .12);
+  border-top: 3px solid var(--dl-copper-d);
+  padding: clamp(24px, 3.2vh, 38px) clamp(22px, 2.6vw, 34px) clamp(26px, 3.4vh, 40px);
+}
+.wrap .lead__f > label > span,
+.wrap .lead__f > span {
+  font-size: 12.5px;
+  letter-spacing: .1em;
+  color: var(--dl-copper-d);
+}
+.wrap .lead__f :is(input, select, textarea) {
+  background: var(--dl-ivory);
+  border: 1.5px solid rgba(47, 53, 50, .34);
+  color: var(--s-strong);
+  transition: border-color var(--dl-t-base) var(--dl-ease), box-shadow var(--dl-t-base) var(--dl-ease);
+}
+@media (hover: hover) {
+  .wrap .lead__f :is(input, select, textarea):hover { border-color: rgba(47, 53, 50, .5); }
+}
+.wrap .lead__f :is(input, select, textarea):focus-visible {
+  border-color: var(--dl-copper-d);
+  box-shadow: 0 0 0 3px rgba(156, 90, 55, .18);
+  outline: none;
+}
+/* The action reads as the end of the form rather than as one more row. */
+.wrap .lead__foot { margin-top: clamp(6px, 1vh, 10px); padding-top: clamp(18px, 2.4vh, 24px); border-top: 1px solid rgba(47, 53, 50, .14); }
+.wrap .lead button[type="submit"] { min-height: 54px; padding-inline: clamp(26px, 3vw, 38px); }
+/* The acknowledgement inherits the same surface, so the panel does not vanish
+   at the moment the form is replaced by its answer. */
+.wrap .lead-said {
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .12);
+  border-top: 3px solid var(--dl-copper-d);
+  padding: clamp(24px, 3.2vh, 38px) clamp(22px, 2.6vw, 34px) clamp(26px, 3.4vh, 40px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wrap .lead__f :is(input, select, textarea) { transition: none; }
 }

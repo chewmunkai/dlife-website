@@ -141,7 +141,7 @@ export default function Page() {
       <Hero
         route={route}
         label="About D’Life"
-        title="Founded by sisters, built with purpose"
+        title="Founded by sisters and built with purpose"
         lede="D’Life was started by two sisters who believed that success is not simply about making money. It is about building a life that means something."
         photo={{ src: "/media/img/policy-review.jpg", alt: "Two women talking across a table", position: "55% 40%" }}
         actions={
@@ -273,20 +273,36 @@ export default function Page() {
       <Record
         label="Advisor development"
         title="Advisors she has built"
-        /* 6 Sep 2026, numbers audit. The figures were 3 agency managers and
-           "40+ young assistant and unit managers", which the client's own
-           performance summary contradicts — the practice has 29 advisors in
-           it. These three are read straight off that summary. The lede's
-           "several going on to six-figure incomes" is gone with them: an
-           earnings claim with no evidence behind it is the last thing a
-           regulated adviser's site should carry. */
+        /* ⚠️ ARE THESE REAL? Asked by the client on 6 Sep 2026, and the
+           honest answer has three parts.
+           
+           1. The numbers are real. Every one is read off the client's own
+              adviser-portal performance summary, screenshotted 14 Aug 2026 and
+              supplied with the brief. Nothing here is estimated.
+           2. One of them was in the wrong section. "RM921m of cover arranged"
+              is agency PRODUCTION, not advisor development — a fine figure,
+              and not evidence for a heading about the advisors Sharon built.
+              It has been removed rather than relabelled.
+           3. The scope is still unverified. The summary measures the agency,
+              and whether "the agency" and "the advisors she built" are the
+              same population over the same period is a question only the
+              client can answer. About still says every figure is pending
+              their verification, and it should keep saying so until they
+              confirm it.
+
+           The two that stay are development figures on any reading — how many
+           advisors the practice holds, and how many of them reached MDRT —
+           plus the clients those advisors look after between them. The panel
+           now prints the source and date under them, which is the difference
+           between a claim and a record. See docs/dlife-figures.md. */
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries."
         photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", ratio: "1800 / 1158" }}
         figures={[
-          { fig: "29", copy: "advisors in the practice she built" },
-          { fig: "2,872", copy: "clients served by the practice" },
-          { fig: "RM921m", copy: "of cover arranged for them" },
+          { fig: "29", copy: "advisors in the practice today" },
+          { fig: "2", copy: "MDRT qualifiers the practice has produced" },
+          { fig: "2,872", copy: "clients they look after between them" },
         ]}
+        source="Figures as at August 2026, from D’Life’s own performance record. Pending client verification."
       />
 
       {/* A08 (client, 31 Aug 2026): the six-card "The Team" directory is

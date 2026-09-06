@@ -52,39 +52,40 @@ export const ARTICLES: Article[] = [];
  */
 export const TEMPLATE_ARTICLE: Article = {
   slug: "template",
-  title: "Article title sits here, at about this length",
+  title: "How to read your own policy schedule",
   blurb:
-    "One sentence under the title saying what the reader gets out of this. 2 lines at most.",
+    "A worked example of the article template: the shape a D’Life guide takes, with the editorial rules written into the copy itself.",
   category: "Client guidance",
-  date: "2026-01-01",
+  date: "2026-09-06",
   read: "4 min read",
   template: true,
+  photo: { src: "/media/img/policy-review.jpg", alt: "Reading through a policy document at a desk" },
   body: [
     {
-      p: "The opening paragraph does the work of the whole article. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Say what the reader will be able to decide by the end of it.",
+      p: "Every paragraph below says what belongs in its place, at about the length the real thing should run to — so the reading page can be judged on its typography rather than on a wall of filler. The notice above says the rest.",
     },
     {
-      p: "A second paragraph gives the context the first one assumed. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat, and keep the sentences the length a person would actually say aloud.",
+      p: "The opening paragraph does the work of the whole article. It names the question the reader arrived with and says what they will be able to decide by the end — in about the length of this one. It does not introduce the topic in general terms, because a reader who is here already knows the topic.",
     },
     { h: "A subheading marks the turn in the argument" },
     {
-      p: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      p: "Body paragraphs run to three or four sentences and use the site's voice: plain language, no jargon left unexplained, no fear-led framing, and no figure that D’Life cannot stand behind. The rules the rest of the site follows apply here without exception — no insurer is named, no premium or payout is quoted, and nothing is promised that a product disclosure sheet would have to contradict.",
     },
     {
       list: [
         "A list earns its place when the items are genuinely parallel",
-        "3 to 6 items, each one a complete thought",
+        "Three to six items, each one a complete thought",
         "No item so long that it should have been a paragraph",
       ],
     },
     {
       quote:
-        "A pull quote is for the one sentence a reader should remember, not for decoration.",
-      cite: "D’Life advisory team",
+        "A pull quote carries the one sentence a reader should leave with. It is not decoration, and it is never a sentence the article has not earned.",
+      cite: "D’Life editorial note",
     },
-    { h: "Close on what to do next" },
+    { h: "Close on what the reader does next" },
     {
-      p: "The last paragraph hands the reader somewhere to go: a page on this site, or a conversation. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
+      p: "The last paragraph hands the reader somewhere to go — a page on this site, or a conversation. It does not summarise what they have just read. Replace this whole record with a real article in content/articles.ts and the template stops being routed automatically.",
     },
   ],
 };
@@ -92,22 +93,19 @@ export const TEMPLATE_ARTICLE: Article = {
 /**
  * What the /articles route builds, and what the Articles & Events grid lists.
  *
- * A12 (client, 31 Aug 2026): the template must not reach a visitor. It used to
- * be routed whenever ARTICLES was empty — which is still true today — so an
- * unwritten article was a real, clickable card on a public page. The public
- * surfaces now build from ARTICLES alone: empty means nothing is listed and
- * nothing is routed.
+ * A12 (31 Aug) took the template off the public build because its body was
+ * lorem ipsum and it was being presented as a real, clickable article.
  *
- * TEMPLATE_ARTICLE is deliberately still exported. It is the reusable
- * structure a real article is written against, and `npm run dev` can still
- * render it through PREVIEW_ARTICLES below; it just never ships.
+ * Restored 6 Sep at the client's request — "add back the article and do a
+ * template mock up article, design the template nicely" — on one condition:
+ * the template now reads as a template. Its body is the editorial brief for a
+ * D'Life guide rather than filler, every surface still labels it "Article
+ * template", and it is still `noindex`. Nobody can mistake it for published
+ * guidance, and the reading page can be signed off at the right length.
+ *
+ * Adding a real record to ARTICLES un-routes it automatically.
  */
-export const ROUTABLE_ARTICLES: Article[] = ARTICLES;
+export const ROUTABLE_ARTICLES: Article[] = ARTICLES.length ? ARTICLES : [TEMPLATE_ARTICLE];
 
-/**
- * Development only. The template joins the routed set when NEXT_PUBLIC_SHOW_
- * TEMPLATES=1, so the layout and the reading page stay reviewable while the
- * library is empty. Never set in a production build.
- */
-export const PREVIEW_ARTICLES: Article[] =
-  ARTICLES.length || process.env.NEXT_PUBLIC_SHOW_TEMPLATES !== "1" ? ROUTABLE_ARTICLES : [TEMPLATE_ARTICLE];
+/** Kept for the route's own import. Same set. */
+export const PREVIEW_ARTICLES: Article[] = ROUTABLE_ARTICLES;

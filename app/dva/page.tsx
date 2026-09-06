@@ -87,10 +87,16 @@ const DEVELOPS = [
 
 /* Grouped by how often each session comes round. Eight equal bullets said
    nothing about the shape of a year; the frequency is the information a
-   prospective member actually wants. */
+   prospective member actually wants.
+
+   `perYear` draws the twelve-month meter beside each tier (redesigned 6 Sep
+   2026): every tier shows the same year, and how much of it is filled is how
+   often you would be in the room. Monthly fills it; the annual tier lights
+   one month. That is the section's argument, stated before a word is read. */
 const CADENCE = [
   {
     when: "Every month",
+    perYear: 12,
     note: "The spine of it",
     items: [
       {
@@ -101,6 +107,7 @@ const CADENCE = [
   },
   {
     when: "Through the quarter",
+    perYear: 4,
     note: "Development",
     items: [
       { name: "Leadership workshops", copy: "Strategic thinking, decision-making and coaching." },
@@ -110,6 +117,7 @@ const CADENCE = [
   },
   {
     when: "Across the year",
+    perYear: 1,
     note: "The circle in practice",
     items: [
       { name: "Networking sessions", copy: "Members and invited guests." },

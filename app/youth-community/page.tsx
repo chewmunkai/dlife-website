@@ -244,7 +244,14 @@ export default function Page() {
       </section>
 
       <SplitShot
-        photo={{ src: "/media/img/youth-group.jpg", alt: "Youth Community members together after a session", position: "50% 38%" }}
+        /* Client, 6 Sep 2026: "adjust the image size — right now it's too
+           big." It was, and the cause was the rule working: youth-group.jpg is
+           a 0.75 portrait, so giving the plate the picture's own shape made it
+           538x717 — the tallest object on the page for a section that is a
+           list of takeaways. The plate cannot be capped without cropping
+           somebody, so the photograph changes instead: this one is 4:3, which
+           is 538x404 in the same column. Still nobody cropped. */
+        photo={{ src: "/media/img/community-group.jpg", alt: "Youth Community members together after a session", ratio: "4 / 3" }}
         tone="light"
         label="What members take away"
         title="What people leave with"

@@ -151,8 +151,13 @@ export default function Page() {
           balanced grid the five-term and five-question sections keep. The
           arrows disable at the ends, the track is focusable so a keyboard can
           scroll it, and every card stays reachable on a phone by drag. */}
+      {/* Auto-rotating at the client's request (6 Sep 2026). It stops the
+          moment anyone hovers, focuses, touches an arrow or presses the pause
+          control, and never starts under prefers-reduced-motion — see the note
+          on Carousel's `autoRotate`. */}
       <Ideas
         layout="rail"
+        autoRotate
         railLabel="review cards"
         title="What happens in a review"
         items={IS}
@@ -169,14 +174,27 @@ export default function Page() {
           they are the page's own statement, not a quotation from anybody, and
           inventing an attribution to justify the form is exactly what the
           brief rules out. Do not soften this into a benefit. */}
-      <Said
-        quote={
-          <>
-            Not a sales meeting with a review attached, and not an assessment of whoever advised you before. Nothing
-            here obliges you to move or change a policy.
-          </>
-        }
-      />
+      {/* Client, 6 Sep 2026: "a bit weirdly placed and big — adjust the tone
+          and language, make it smooth, redesign this."
+
+          Two problems, and they were related. It was set as a full-width
+          pull-quote, which is the largest register the page has, for a
+          sentence that is a reassurance rather than a statement of belief. And
+          the language was three refusals in a row — not a sales meeting, not
+          an assessment, nothing obliges you — which reads as defensive even
+          though every word of it is true and load-bearing.
+
+          It says the same three things now, starting with what a review IS.
+          The guardrail is intact: no sale, no obligation to move, no judgement
+          of whoever advised you before. Do not soften it further into a
+          benefit — that is the failure mode this whole page is written
+          against. Contained panel, lede scale, not a quotation. */}
+      <section className="band light assure-host">
+        <p className="assure">
+          A review is a conversation about cover you already hold. There is nothing to buy at the end of it, nothing
+          you have to move, and no verdict on whoever advised you before.
+        </p>
+      </section>
 
       <section className="band light">
         <p className="lbl">What we look at</p>

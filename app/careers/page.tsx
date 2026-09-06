@@ -144,7 +144,7 @@ export default function Page() {
       <Hero
         route={route}
         label="Grow with D’Life"
-        title="A career built on real guidance, not just sales"
+        title="A career built on guidance rather than sales"
         lede="Advising people on their protection and planning is a profession. It takes licensing, training, judgement and a long attention span."
         photo={{
           /* A15: a stock window shot opened a page about joining this
@@ -193,25 +193,37 @@ export default function Page() {
         />
         {/* The one honest exclusion, as a sentence rather than a column of
             crosses. Note: no figure, by design. */}
-        {/* A10: this footnote used to say advisor income was commission-based
-            and nothing else, which now contradicts the client's own C08 answer
-            below. Rewritten to the supplied programme description — no amount,
-            no range, no guarantee, and the "it starts slowly" honesty kept. */}
-        <p className="fnote">
-          <b>2 things it is not.</b> It does not work as a side project, and nobody here earns from signing other
+      </Band>
+
+      {/* Client, 6 Sep 2026: "make it less weird — title and the rest be
+          description. Now there's title, pretitle and content."
+
+          Exactly right: a closed row carried the long heading AND a summary
+          line, and opening it added a third layer underneath. Three registers
+          for one idea. `compact` gives it the shape the homepage already has —
+          the heading alone when closed, and everything else as the
+          description when open. */}
+      <Band tone="sand" label="How you would grow" title="What we actually provide">
+        <Growth items={GROWTH} long compact idBase="careers-grow" />
+      </Band>
+
+      {/* Client, 6 Sep 2026: "put this at a better place, subtle but clean."
+          It was wedged under the six cards describing the work, where a
+          caveat interrupted the description it belonged after. It sits here
+          instead — the honest note that follows the promise, in the same
+          contained panel the Existing Policy reassurance uses, so the two
+          quiet moments on the site look like one idea.
+
+          A10 note stands: no amount, no range, no guarantee, and the "it
+          starts slowly" honesty is kept. */}
+      <section className="band light assure-host">
+        <p className="assure">
+          <b>Two things it is not.</b> It does not work as a side project, and nobody here earns from signing other
           people up. Advisor earnings are commission-based, supported through a structured 18-month career programme
           that includes a basic bonus allowance. We would rather talk the detail through with you properly than
           publish a figure that belongs to somebody else.
         </p>
-      </Band>
-
-      {/* A09: four static rows, title and paragraph, with nothing to open.
-          The same four now open where they stand, off the same records the
-          homepage reads — content/growth.ts. This page keeps its own longer
-          headings (`long`), so its voice is unchanged. */}
-      <Band tone="sand" label="How you would grow" title="What we actually provide">
-        <Growth items={GROWTH} long idBase="careers-grow" />
-      </Band>
+      </section>
 
       {/* The guide runs the career journey through the advisor films, so this
           is a preview of them rather than an unattributed pull-quote. */}

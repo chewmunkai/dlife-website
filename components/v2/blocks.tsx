@@ -289,12 +289,15 @@ export function IdeaCards({
   icons,
   columns = 4,
   layout = "grid",
+  autoRotate = false,
   label = "cards",
 }: {
   items: ReadonlyArray<{ term: string; copy: ReactNode }>;
   icons?: ReadonlyArray<IconKey>;
   columns?: 3 | 4;
   layout?: CardLayout;
+  /** Rail only. See the note on Carousel's own `autoRotate`. */
+  autoRotate?: boolean;
   /** Names the rail for a screen reader, e.g. "terms". Ignored otherwise. */
   label?: string;
 }) {
@@ -312,7 +315,7 @@ export function IdeaCards({
 
   if (layout === "rail") {
     return (
-      <Carousel label={label} className={grid}>
+      <Carousel label={label} className={grid} autoRotate={autoRotate}>
         {cards}
       </Carousel>
     );
@@ -333,6 +336,7 @@ export function Ideas({
   items,
   icons,
   layout,
+  autoRotate = false,
   railLabel = "terms",
 }: {
   label?: string;
@@ -342,6 +346,8 @@ export function Ideas({
   icons?: ReadonlyArray<IconKey>;
   /** Omitted, a set that does not tile falls back to the balanced grid. */
   layout?: CardLayout;
+  /** Rail only. See the note on Carousel's own `autoRotate`. */
+  autoRotate?: boolean;
   /** Names the rail when the set is one. Say what the cards are. */
   railLabel?: string;
 }) {
@@ -356,6 +362,7 @@ export function Ideas({
         items={items}
         icons={icons}
         layout={layout ?? (railed(items.length) ? "fill" : "grid")}
+        autoRotate={autoRotate}
         label={railLabel}
       />
     </section>
@@ -458,6 +465,7 @@ export function Record({
   hint,
   photo,
   figures,
+  source,
 }: {
   label?: string;
   title: ReactNode;
@@ -469,6 +477,8 @@ export function Record({
   /** Fills the left half instead of the framing sentence. */
   photo?: Photo;
   figures: ReadonlyArray<{ fig: string; copy: ReactNode }>;
+  /** Where the figures come from and when. Printed under them, small. */
+  source?: ReactNode;
 }) {
   return (
     <section className="band light">
@@ -486,16 +496,21 @@ export function Record({
             {hint && <p className="hint">{hint}</p>}
           </div>
         )}
-        {/* Cells, not rows: see styles/amendments.css §13 on why the numeral
-            and its description are siblings in one grid. */}
+        {/* Redesigned 6 Sep 2026 at the client's request. Each figure is its
+            own cell with the numeral over its description, rather than three
+            hairlined rows reading numeral-then-sentence across a half panel:
+            at that width the numerals sat in a column of their own with the
+            descriptions stranded to the right of them, and the largest type on
+            the page had the least room. A figure should be read as a figure. */}
         <div className="rows">
           {figures.map((f) => (
-            <Fragment key={f.fig}>
+            <div key={f.fig}>
               <b>{f.fig}</b>
               <span>{f.copy}</span>
-            </Fragment>
+            </div>
           ))}
         </div>
+        {source && <p className="record__src">{source}</p>}
       </div>
     </section>
   );
@@ -716,6 +731,14 @@ export function YearMap({
   tiers: ReadonlyArray<{
     when: string;
     note: string;
+    /**
+     * How many times in a year this tier comes round — 12, 4, 1.
+     *
+     * It draws the twelve-month meter beside the tier, which is the whole
+     * idea of the section made visible: every tier shows the same year, and
+     * how much of it is filled is how often you would be in the room.
+     */
+    perYear?: number;
     items: ReadonlyArray<{ name: string; copy: ReactNode }>;
   }>;
 }) {
@@ -733,9 +756,26 @@ export function YearMap({
             <div>
               <span className="when">{t.when}</span>
               <span className="note">{t.note}</span>
+              {/* Twelve months, and the ones this tier occupies. Decorative —
+                  the sentence under it carries the same information in words,
+                  so nothing here depends on seeing the marks. */}
+              {t.perYear && (
+                <span className="yr" aria-hidden="true">
+                  {Array.from({ length: 12 }, (_, m) => (
+                    <i className={m < t.perYear! ? "on" : undefined} key={m} />
+                  ))}
+                </span>
+              )}
               <span className="n">
-                <b>{String(t.items.length).padStart(2, "0")}</b>
-                {t.items.length === 1 ? "session" : "kinds of session"}
+                {t.perYear && (
+                  <b>
+                    {t.perYear}
+                    <em>×</em>
+                  </b>
+                )}
+                {t.perYear
+                  ? `a year · ${t.items.length} ${t.items.length === 1 ? "session" : "kinds of session"}`
+                  : `${t.items.length} ${t.items.length === 1 ? "session" : "kinds of session"}`}
               </span>
             </div>
             <div className="items" style={{ ["--n" as string]: t.items.length }}>

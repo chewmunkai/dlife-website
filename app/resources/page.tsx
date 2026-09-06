@@ -88,12 +88,11 @@ export default function Page() {
         photo={{ src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress" }}
       />
 
-      {/* Driven by content/articles.ts. A12: while the library is empty this
-          band renders nothing at all — the template article used to stand in
-          here as a real, clickable card, which put placeholder copy on a
-          public page. Publishing a record brings the band back. */}
+      {/* Driven by content/articles.ts. Restored 6 Sep 2026: the template is
+          back, written as a template rather than as filler and labelled as one
+          on every surface. Publishing a real record replaces it. */}
       {ROUTABLE_ARTICLES.length > 0 && (
-      <Band title="Articles">
+      <Band label="Reading" title="Articles">
         <div className="arts">
           {ROUTABLE_ARTICLES.map((a) => (
             <a className="art" href={link(`/articles/${a.slug}`)} key={a.slug}>
