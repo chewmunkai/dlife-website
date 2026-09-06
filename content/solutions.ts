@@ -59,7 +59,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     label: "Protection & Planning",
     h1: "Protecting your family",
     lede:
-      "Most people come to this with one quiet question: if I were not here, would the people I love be alright? That is a reasonable thing to want an answer to.",
+      "Most of us have one quiet question: If I were no longer here, would the people I love be taken care of? It’s a question worth planning for.",
     photo: { src: "/media/img/need-family-malaysia.jpg", alt: "Three generations of a family sharing a meal" },
     recognise: {
       title: "What usually prompts this",
@@ -269,7 +269,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
         },
         {
           term: "Your share",
-          copy: "What you pay yourself: a fixed amount before cover starts, or a share of each bill. A deductible costs less each month and more at the point of treatment.",
+          copy: "The part of the medical bill you pay yourself. This may be a fixed deductible, or a percentage of each claim. A higher deductible can reduce your premium, but means you pay more when you receive treatment.",
         },
         {
           term: "Room and board rate",

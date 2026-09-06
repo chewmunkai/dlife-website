@@ -142,14 +142,22 @@ const TAKEAWAYS = [
 ];
 
 const FAQS = [
-  { q: "Is there a cost to join?", a: "No. The Youth Community is open and free to take part in." },
+  {
+    q: "Is there a cost to join?",
+    /* Client copy C09 (31 Aug 2026). This answer used to say the community was
+       free outright, which the client has now corrected. "Typically below
+       RM50" is theirs and is a typical figure, not a cap — do not rewrite it
+       into a guarantee ("never more than", "capped at"). */
+    a: "Most Youth Community activities are free or kept at a minimal cost. Some workshops and classes are complimentary, while selected sessions may involve a small fee, typically below RM50, to cover refreshments or activity expenses.",
+  },
   {
     q: "Do I have to be studying finance, or want a career in it?",
     a: "Not at all. Most members are not heading into financial services. The sessions are about confidence, communication, health, money and leadership, all of it useful whatever you end up doing.",
   },
   {
     q: "What age is this for?",
-    a: "Broadly university students through to people in the first years of their career. There is no hard cut-off; if the sessions sound useful to you, you are welcome.",
+    /* Client copy C10 (31 Aug 2026). */
+    a: "The Youth Community is open to young adults who are stepping into the working world and beyond. If you are looking to grow, connect, and develop yourself personally and professionally, you are welcome to be part of the community.",
   },
   {
     q: "Is this a recruitment pipeline for D’Life?",
@@ -207,7 +215,7 @@ export default function Page() {
 
       <WhoGrid
         label="Who it’s for"
-        title="Who can join"
+        title="Who should join"
         lede="The Youth Community welcomes anyone young and genuinely willing to grow, personally and professionally."
         items={WHO}
       >

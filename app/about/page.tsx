@@ -13,9 +13,7 @@ import {
   Creed,
   MissionVision,
   Record,
-  Roster,
 } from "../../components/v2/blocks";
-import { ROSTER } from "../../content/team";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -229,14 +227,13 @@ export default function Page() {
         ]}
       />
 
-      {/* New at the client's request. Roles are real; names and portraits are
-          marked pending on the page. See content/team.ts. */}
-      <Roster
-        label="Who you would work with"
-        title="The Team"
-        lede="Beyond the two founders, the practice runs on a team of advisors and managers at different stages of the same path."
-        members={ROSTER}
-      >
+      {/* A08 (client, 31 Aug 2026): the six-card "The Team" directory is
+          removed — heading, lede, portrait placeholders and name placeholders
+          together, not just the unfilled cards. The two onward routes that sat
+          under it are not part of the directory and neither leads to it, so
+          they stay, now carried by a plain band. The roster seam itself
+          survives in content/team.ts if a real, named team is ever supplied. */}
+      <Band tone="light">
         <Cards
           columns={2}
           items={[
@@ -254,7 +251,7 @@ export default function Page() {
             },
           ]}
         />
-      </Roster>
+      </Band>
 
       <ClosingCard
         title="Meet the people, not the brochure"

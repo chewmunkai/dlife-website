@@ -88,7 +88,7 @@ export default function Page() {
       />
 
       <Bar
-        facts={["27 years of guidance", "People-first advice", "We stay after the paperwork"]}
+        facts={["27 years of guidance", "People-first advice", "Support beyond the policy"]}
         statement="Most people arrive with a situation, not a category."
         action={
           <a className="pill" href={advisor}>

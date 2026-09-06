@@ -82,15 +82,16 @@ export default function Page() {
       <Hero
         route={route}
         label="Articles & events"
-        title="Reading, and what’s coming up"
+        title="Reading and what’s coming up"
         lede="Writing worth your time, and the sessions that run across the D’Life community through the year."
         photo={{ src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress" }}
       />
 
-      {/* Driven by content/articles.ts. While it is empty this renders the
-          template article as a real, clickable card so the layout and the
-          reading page can both be reviewed; publishing a record replaces it
-          and un-routes the template. */}
+      {/* Driven by content/articles.ts. A12: while the library is empty this
+          band renders nothing at all — the template article used to stand in
+          here as a real, clickable card, which put placeholder copy on a
+          public page. Publishing a record brings the band back. */}
+      {ROUTABLE_ARTICLES.length > 0 && (
       <Band title="Articles">
         <div className="arts">
           {ROUTABLE_ARTICLES.map((a) => (
@@ -117,6 +118,7 @@ export default function Page() {
           ))}
         </div>
       </Band>
+      )}
 
       <Band label="Events" title="What runs across the year">
         <div className="dl-prose" style={{ marginTop: 20 }}>

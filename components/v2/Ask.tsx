@@ -57,7 +57,12 @@ const Row = ({ item, index, initiallyOpen }: { item: Question; index: number; in
       </button>
       <div className="ask__a" ref={panel} style={{ transition: "height .45s cubic-bezier(.22,.7,.24,1)" }}>
         <div ref={inner}>
-          <p>{item.a}</p>
+          {/* Client answers now arrive as more than one paragraph (C07–C10,
+              31 Aug 2026). A blank line in `a` is a paragraph break; a
+              single-paragraph answer renders exactly as it did before. */}
+          {item.a.split(/\n{2,}/).map((para) => (
+            <p key={para}>{para}</p>
+          ))}
         </div>
       </div>
     </div>

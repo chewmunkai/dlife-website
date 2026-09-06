@@ -89,6 +89,25 @@ export const TEMPLATE_ARTICLE: Article = {
   ],
 };
 
-/** What the /articles route builds. The template is routed only while no real
- *  article exists, so placeholder copy cannot outlive the library going live. */
-export const ROUTABLE_ARTICLES: Article[] = ARTICLES.length ? ARTICLES : [TEMPLATE_ARTICLE];
+/**
+ * What the /articles route builds, and what the Articles & Events grid lists.
+ *
+ * A12 (client, 31 Aug 2026): the template must not reach a visitor. It used to
+ * be routed whenever ARTICLES was empty — which is still true today — so an
+ * unwritten article was a real, clickable card on a public page. The public
+ * surfaces now build from ARTICLES alone: empty means nothing is listed and
+ * nothing is routed.
+ *
+ * TEMPLATE_ARTICLE is deliberately still exported. It is the reusable
+ * structure a real article is written against, and `npm run dev` can still
+ * render it through PREVIEW_ARTICLES below; it just never ships.
+ */
+export const ROUTABLE_ARTICLES: Article[] = ARTICLES;
+
+/**
+ * Development only. The template joins the routed set when NEXT_PUBLIC_SHOW_
+ * TEMPLATES=1, so the layout and the reading page stay reviewable while the
+ * library is empty. Never set in a production build.
+ */
+export const PREVIEW_ARTICLES: Article[] =
+  ARTICLES.length || process.env.NEXT_PUBLIC_SHOW_TEMPLATES !== "1" ? ROUTABLE_ARTICLES : [TEMPLATE_ARTICLE];

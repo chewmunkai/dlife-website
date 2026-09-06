@@ -52,7 +52,7 @@ export type SolutionE2 = {
 
 export const SOLUTIONS_E2: Record<string, SolutionE2> = {
   "protecting-your-family": {
-    bar: { facts: ["27 years of guidance", "People-first advice", "We stay after the paperwork"], statement: "Start with your household, not a policy." },
+    bar: { facts: ["27 years of guidance", "People-first advice", "Support beyond the policy"], statement: "Start with your household, not a policy." },
     open: {
       lead: "Nobody wakes up wanting to buy insurance. Something changes, and a question that was easy to postpone stops being easy to postpone.",
       prose: [
@@ -78,7 +78,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about protecting my family",
   },
   "protecting-your-income": {
-    bar: { facts: ["27 years of guidance", "People-first advice", "We stay after the paperwork"], statement: "One number does most of the work in this conversation." },
+    bar: { facts: ["27 years of guidance", "People-first advice", "Support beyond the policy"], statement: "One number does most of the work in this conversation." },
     open: {
       lead: "If your income stopped for six months, what would change in your household, and in what order?",
       prose: [
@@ -104,7 +104,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about protecting my income",
   },
   "medical-health-preparation": {
-    bar: { facts: ["27 years of guidance", "People-first advice", "We stay after the paperwork"], statement: "Most medical questions are answered by a document you already own." },
+    bar: { facts: ["27 years of guidance", "People-first advice", "Support beyond the policy"], statement: "Most medical questions are answered by a document you already own." },
     open: {
       lead: "Medical cover is the product most Malaysians already hold and least often understand.",
       prose: [
@@ -130,7 +130,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about medical cover",
   },
   "planning-for-your-future": {
-    bar: { facts: ["27 years of guidance", "People-first advice", "We stay after the paperwork"], statement: "Start from the life, not the figure." },
+    bar: { facts: ["27 years of guidance", "People-first advice", "Support beyond the policy"], statement: "Start from the life, not the figure." },
     open: {
       lead: "Almost nobody arrives with a plan. They arrive with a feeling that they should have one.",
       prose: [
@@ -156,7 +156,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about planning ahead",
   },
   "wealth-legacy": {
-    bar: { facts: ["27 years of guidance", "People-first advice", "We stay after the paperwork"], statement: "Passing it on the way you intended is a separate job." },
+    bar: { facts: ["27 years of guidance", "People-first advice", "Support beyond the policy"], statement: "Passing it on the way you intended is a separate job." },
     open: {
       lead: "Legacy conversations are rarely about money for long. They tend to arrive at something more particular.",
       prose: [
@@ -182,7 +182,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     action: "Talk about wealth and legacy",
   },
   "corporate": {
-    bar: { facts: ["27 years of guidance", "People-first advice", "We stay after the paperwork"], statement: "Sized to the team you actually have." },
+    bar: { facts: ["27 years of guidance", "People-first advice", "Support beyond the policy"], statement: "Sized to the team you actually have." },
     open: {
       lead: "Businesses come to us with one of a small number of situations, usually at the point the company has grown past what it started with.",
       prose: [

@@ -250,9 +250,11 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
     </>,
     "Claims",
     "Real Support",
-    // The RM figure is left blank exactly as the report prints it — the amount
-    // is a D'Life decision, not an omitted correction.
-    "Successfully assisting clients with insurance claims exceeding RM __ million, with trusted guidance and dedicated support throughout the process.",
+    // Client copy C01 (WhatsApp, 31 Aug 2026), with "RM 22million" respaced to
+    // "RM22 million". ⚠️ TODO(launch): the supporting screenshot shows agency
+    // claims OF RM22M, not an independently verified amount above it — confirm
+    // "exceeding" versus a flat "RM22 million" before release.
+    "Supporting our clients through insurance claims exceeding RM22 million with trusted guidance, dedicated assistance, and a team that stands by them every step of the way.",
   ],
 ];
 

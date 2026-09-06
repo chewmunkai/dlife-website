@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Shell from "../../../components/v2/Shell";
-import JsonLd from "../../../components/site/JsonLd";
-import { Band, ClosingCard } from "../../../components/v2/blocks";
-import { ROUTABLE_ARTICLES, type Article } from "../../../content/articles";
-import { ROUTES } from "../../../lib/routes";
-import { asset, link } from "../../../lib/asset";
-import { WA, waHref } from "../../../lib/contact";
-import { SITE } from "../../../lib/site";
+import Shell from "../v2/Shell";
+import JsonLd from "../site/JsonLd";
+import { Band, ClosingCard } from "../v2/blocks";
+import { PREVIEW_ARTICLES, type Article } from "../../content/articles";
+import { ROUTES } from "../../lib/routes";
+import { asset, link } from "../../lib/asset";
+import { WA, waHref } from "../../lib/contact";
+import { SITE } from "../../lib/site";
 
 /* ============================================================
    Article page.
@@ -15,16 +15,36 @@ import { SITE } from "../../../lib/site";
    content/articles.ts rather than markup here, so publishing is a content
    edit and the reading measure stays the same on every piece.
 
-   ⚠️ While no article is published, the only route this generates is the
-   template, and every surface that renders it says "template" — the notice
-   below, the label above the title, and its noindex. Adding a real record to
-   ARTICLES removes this page from the build entirely.
+   ⚠️ A12 (client, 31 Aug 2026): placeholder copy must not reach a visitor.
+   While content/articles.ts is empty this file is NOT a route — it lives here
+   with the other kept-but-unrouted templates rather than under app/, so the
+   static export writes no /articles/template.html at all. Next also refuses a
+   dynamic segment whose generateStaticParams() comes back empty under
+   `output: export`, which is the same problem said in the compiler's words.
+
+   TO PUBLISH — after adding the first record to ARTICLES, restore the route by
+   creating app/articles/[slug]/page.tsx containing exactly:
+
+     export {
+       default,
+       generateStaticParams,
+       generateMetadata,
+       dynamicParams,
+     } from "../../../components/pages/ArticlePage";
+
+   Nothing in this file changes. The Articles band on /resources un-hides
+   itself off the same ARTICLES array, so the grid and the route come back
+   together.
    ============================================================ */
 
-const bySlug = (slug: string) => ROUTABLE_ARTICLES.find((a) => a.slug === slug);
+const bySlug = (slug: string) => PREVIEW_ARTICLES.find((a) => a.slug === slug);
+
+/** No published article means no generated page. `dynamicParams = false` keeps
+ *  the static export honest about that rather than leaving the segment open. */
+export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return ROUTABLE_ARTICLES.map((a) => ({ slug: a.slug }));
+  return PREVIEW_ARTICLES.map((a) => ({ slug: a.slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {

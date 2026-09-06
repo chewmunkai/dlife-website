@@ -29,6 +29,15 @@ export const metadata: Metadata = pageMeta(ROUTES.careers);
 
    The pull-quote attribution is pending advisor consent. Do not attach a name
    to it until that is in writing.
+
+   ⚠️ A10 (31 Aug 2026): the client supplied the income answer themselves —
+   "a structured 18-month career programme, which includes a basic bonus
+   allowance alongside commission-based earnings". That copy is now the FAQ
+   answer and the footnote above the FAQs was aligned to it. The standing rule
+   is unchanged in substance: still no range, no average, no top-earner number.
+   ⚠️ TODO(launch): the programme's terms and any eligibility qualifications
+   are unconfirmed — nothing on this page states either, and nothing should be
+   added until the client supplies them in writing.
    ============================================================ */
 
 const WORK = [
@@ -82,13 +91,37 @@ const GROWTH = [
   },
 ];
 
-const SUITS = [
-  "Comfortable starting a conversation with someone they do not know",
-  "Genuinely interested in other people’s circumstances",
-  "Able to sit with a slow first year without panicking",
-  "Willing to tell a client they do not need something",
-  "Organised enough to follow up years later, unprompted",
-  "From a professional background, in any field",
+/* A10 (client copy C05, 31 Aug 2026). Supplied as six named qualities with a
+   line each, replacing the six unnamed pointers this section used to carry.
+   The names arrive in the client's message in full caps; they are set here in
+   the site's own display face, so the words are the client's and the casing is
+   the type system's — the same treatment "Who thrives at D'Life?" gets from
+   `.lbl`. Nothing here is a requirement or an eligibility rule. */
+const QUALITIES = [
+  {
+    name: "Connect",
+    copy: "Confident in building genuine connections with people from different backgrounds.",
+  },
+  {
+    name: "Understand",
+    copy: "Genuinely interested in understanding people, their goals, and what matters to them.",
+  },
+  {
+    name: "Grow",
+    copy: "Open to learning, taking initiative, and continuously developing through experience.",
+  },
+  {
+    name: "Act with integrity",
+    copy: "Committed to doing what is right for the client, even when it does not lead to an immediate sale.",
+  },
+  {
+    name: "Take ownership",
+    copy: "Reliable, self-driven, and committed to following through on what they start.",
+  },
+  {
+    name: "Build with purpose",
+    copy: "Ambitious about building a meaningful career, creating impact, and growing into their full potential.",
+  },
 ];
 
 const FAQS = [
@@ -102,11 +135,11 @@ const FAQS = [
   },
   {
     q: "What does the first year actually look like?",
-    a: "Learning, mostly. Licensing, product knowledge, and sitting in on conversations before you lead them. Building a client base takes time and the early months are the hardest part of the job. We would rather say that now than have you discover it.",
+    a: "Your first year is about learning, growth and building a strong foundation. We begin with a personalised business plan based on your strengths, personality, network and goals.\n\nAlong the way, you’ll develop product knowledge, people skills, communication, mindset and self-awareness, building the confidence and capabilities to grow your career.",
   },
   {
     q: "How is the income structured?",
-    a: "Commission-based, which means it varies and starts slowly. We will talk through what a realistic first 2 years looks like, honestly, rather than publish a figure that would be someone else’s.",
+    a: "We offer a structured 18-month career programme, which includes a basic bonus allowance alongside commission-based earnings.\n\nBeyond income, the programme is designed to help you build your business, develop your capabilities and accelerate your journey towards leadership.",
   },
   {
     q: "Is this a full-time commitment?",
@@ -175,10 +208,15 @@ export default function Page() {
         />
         {/* The one honest exclusion, as a sentence rather than a column of
             crosses. Note: no figure, by design. */}
+        {/* A10: this footnote used to say advisor income was commission-based
+            and nothing else, which now contradicts the client's own C08 answer
+            below. Rewritten to the supplied programme description — no amount,
+            no range, no guarantee, and the "it starts slowly" honesty kept. */}
         <p className="fnote">
           <b>2 things it is not.</b> It does not work as a side project, and nobody here earns from signing other
-          people up. Advisor income is commission-based, which means it varies and starts slowly. We would rather talk
-          that through with you properly than publish a figure that belongs to somebody else.
+          people up. Advisor earnings are commission-based, supported through a structured 18-month career programme
+          that includes a basic bonus allowance. We would rather talk the detail through with you properly than
+          publish a figure that belongs to somebody else.
         </p>
       </Band>
 
@@ -221,16 +259,19 @@ export default function Page() {
           />
         </div>
         <div>
-          <p className="lbl">Who tends to do well</p>
-          <h2>Is this you?</h2>
-          <p className="dl-lede" style={{ maxWidth: "38ch" }}>
-            No single background. This is what they had in common on day one.
+          <p className="lbl">Who thrives at D’Life?</p>
+          <h2>Could this be you?</h2>
+          <p className="dl-lede" style={{ maxWidth: "44ch" }}>
+            There is no single formula for success. But the people who thrive here tend to share these qualities.
           </p>
           <div className="traits">
-            {SUITS.map((s, i) => (
-              <div key={s}>
+            {QUALITIES.map((q, i) => (
+              <div key={q.name}>
                 <b>{String(i + 1).padStart(2, "0")}</b>
-                <span>{s}</span>
+                <span>
+                  {q.name}
+                  <em>{q.copy}</em>
+                </span>
               </div>
             ))}
           </div>
