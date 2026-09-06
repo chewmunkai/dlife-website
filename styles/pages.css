@@ -608,7 +608,14 @@
 .dlife #hd .nav { margin-inline: auto; gap: clamp(12px, 1.5vw, 24px); }
 .dlife #hd .nav a.top { font-size: 15.5px; letter-spacing: .005em; }
 .dlife #hd .rt .pill { font-size: 15px; }
-.dlife #hd .lmark { height: 21px; }
+/* ⚠️ Fourth setting for this value, so here is the whole run: 26px (too
+   loud), 22px, 20px when everything was flattened to one size, 21px when the
+   words went up to 15.5px, and 19px now — the client still read the bar as
+   logo-heavy. The lockup is a wordmark at 5.02:1, so every pixel of height is
+   five of width: 21 -> 19 takes about 10px off the block, which is what moves
+   it from leading the row to sitting in it. Do not go below 18px; the mobile
+   rule already uses that and the letterforms start to close up. */
+.dlife #hd .lmark { height: 19px; }
 @media (max-width: 1300px) { .dlife #hd .nav a.top { font-size: 14px; } .dlife #hd .rt .pill { font-size: 13.5px; } }
 @media (max-width: 720px) { .dlife #hd .lmark { height: 18px; } }
 
