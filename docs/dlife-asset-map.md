@@ -84,3 +84,49 @@ check if the picture is ever changed again.
 - The solution pages keep their licensed stock photography. It is about the
   visitor's life rather than about D'Life, so client photographs would be the
   wrong substitution there, not a better one.
+
+## The logo (6 Sep 2026)
+
+Source: `D'Life Logo-20260906T090952Z-1-001.zip`. Fourteen files, numbered
+rather than named; five of them (`Color/07–12`) are **palette swatches, not
+logos** — `#174A45` primary teal, `#1D4B3E` deep green, `#D0BFA9` sand,
+`#EFE8DA` cream, `#A88652` leaf gold.
+
+All three horizontal lockups trim to an identical 2890×897 (3.22:1). Two are
+dark-on-transparent and one is the cream cut for dark grounds.
+
+| Shipped file | Cut from | Ratio | Used at |
+|---|---|---|---|
+| `logo.png` | `PNG/D_Life FA Logo-02.png`, wordmark region | 5.02:1 | both headers, on ivory |
+| `logo-reversed.png` | `PNG/D_Life FA Logo-03.png`, wordmark region | 5.04:1 | homepage footer; both headers while the menu overlay is open |
+| `logo-full.png` | `PNG/D_Life FA Logo-02.png`, whole lockup | 3.22:1 | **not currently placed** — the light-ground counterpart, kept for any large placement on ivory |
+| `logo-full-reversed.png` | `PNG/D_Life FA Logo-03.png`, whole lockup | 3.23:1 | the homepage loading curtain |
+| `app/icon.png` | `D_Life FA Logo_icon.png`, squared | 1:1, 512px | favicon (replaced the hand-built `app/icon.svg`) |
+
+### Why two cuts rather than one
+
+The supplied lockup sets "IT BEGINS WITH YOU" under the wordmark, and the
+tagline is **19% of the artwork's height**. The header renders the mark at
+22px, which would put the tagline at **4.1px** — not small type, a smudge. So
+the small placements take a wordmark-only cut of the same file and the tagline
+appears where there is room for it: the loading curtain, where the mark runs
+to 76px and the tagline lands near 13px.
+
+Nothing was redrawn. Both cuts come out of the client's own files, and the
+`-reversed` pair is their cream artwork rather than a filtered version of the
+dark one.
+
+The wordmark cut is **5.02:1 against the previous logo's 5.04:1**, which is
+why no header or footer measurement changed with the swap. Measured after:
+110×22 in the header at 1280, 1181 and 375; 135×27 in the footer; 227×70 on
+the curtain. No broken images, no upscaling, no page overflow, and the header
+still clears its right edge at every width.
+
+### What the logo settled
+
+The tagline is **"IT BEGINS WITH YOU"** — which resolves the slogan question
+open since the first round. The page said "Let it begin with you."; the
+meeting transcript asked for "Let it begins with you", which is ungrammatical
+and was therefore refused. Neither was right: the transcript was a garbled
+record of the real brand line. The homepage now reads **"It begins with you."**
+to match the mark above it. If the artwork ever changes, match it.

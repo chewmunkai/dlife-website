@@ -926,19 +926,21 @@ export default function DLife() {
           <h2 className="rv">
             A clearer future can begin with <i>one conversation.</i>
           </h2>
-          {/* L11, settled 6 Sep 2026: this line stands. The transcript asks for
-              "Let it begins with you", which is ungrammatical — the imperative
-              takes no -s. Revision 2 of the brief was not supplied with this
-              round, and revision 1's own decision table says to keep the line
-              below and NOT to change it. So it stands unchanged, and the
-              request is recorded rather than quietly treated as satisfied
-              because the current phrasing happens to be correct.
+          {/* L11 / V3-05, RESOLVED 6 Sep 2026 by the brand artwork itself.
+              This line read "Let it begin with you." for three review rounds
+              while the transcript asked for "Let it begins with you" — which
+              is ungrammatical, so it was kept and the question left open.
 
-              A slogan is the one piece of copy on a site that cannot afford a
-              grammatical error, so this reading treats the transcript as a
-              typo rather than as brand voice. Do not change it back without
-              the client saying so in writing. */}
-          <div className="sub rv">Let it begin with you.</div>
+              The logo bundle settles it. The client's own lockup sets the
+              tagline as "IT BEGINS WITH YOU", which is neither of the two
+              versions being argued over: the transcript was a garbled record
+              of the real brand line, not a request for a broken imperative.
+
+              So the page now says what the logo says. The header carries that
+              lockup and the loading curtain spells the tagline out, and a
+              page whose slogan disagrees with the mark above it is the one
+              outcome worth avoiding. Match the artwork if it ever changes. */}
+          <div className="sub rv">It begins with you.</div>
           <div className="acts rv">
             <a className="pill" data-wa={WA.conversation} href="#">
               <span>Speak with an Advisor</span>

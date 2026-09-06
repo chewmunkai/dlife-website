@@ -66,7 +66,10 @@ export default function SiteShell({
           <div>
             <div className="in">
               <span className="wm">
-                <Logo reversed />
+                {/* The full lockup, tagline included: the curtain runs the
+                    mark up to 76px, which is the only placement on the site
+                    where "IT BEGINS WITH YOU" is legible. */}
+                <Logo reversed full />
               </span>
             </div>
             <div className="sub">Real support, beyond the policy.</div>
