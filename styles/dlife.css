@@ -2359,3 +2359,15 @@ html:not(.js) .dlife #loader { display: none; }
     max-width: 100%;
   }
 }
+
+/* Match the inner pages: retain the full desktop navigation on laptops. */
+@media (min-width: 1024px) and (max-width: 1700px) {
+  .dlife #hd, .dlife #hd.solid {
+    flex-wrap: wrap; gap: 8px 20px; padding: 18px 32px 8px;
+  }
+  .dlife #hd .rt { margin-left: auto; }
+  .dlife #hd .nav {
+    display: flex; order: 3; flex: 0 0 100%; margin: 0;
+    justify-content: space-between; gap: 8px;
+  }
+}

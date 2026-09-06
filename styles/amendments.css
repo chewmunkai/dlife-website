@@ -2741,3 +2741,18 @@
   .dl-header { padding-inline: 24px; }
   .dl-header .nav { gap: clamp(6px, .8vw, 12px); }
 }
+
+/* Desktop navigation remains visible on smaller laptop windows. Keep the
+   Menu control available, and give the links a full row when space is tight. */
+@media (min-width: 1024px) {
+  .dl-header .nav { display: flex; }
+  .dl-header .burger { display: flex; }
+}
+@media (min-width: 1024px) and (max-width: 1700px) {
+  .dl-header { flex-wrap: wrap; gap: 8px 20px; padding: 18px 32px 8px; }
+  .dl-header .rt { margin-left: auto; }
+  .dl-header .nav {
+    order: 3; flex: 0 0 100%; margin: 0;
+    justify-content: space-between; gap: 8px;
+  }
+}
