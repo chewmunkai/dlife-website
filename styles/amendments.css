@@ -2721,3 +2721,23 @@
 @media (max-width: 880px) {
   .wrap .hero .card { margin-top: clamp(18px, 2.6vh, 26px); }
 }
+
+/* ---- 40 · the last 80px before the burger takes over ----
+   ⚠️ Found while answering "where is the menu bar in desktop view". The bar
+   keeps the full navigation down to 1181px and hands to the burger at 1180.
+   Measured at 1200 the row did not actually fit: logo 95 + nav 821 + action
+   225 came to 1141 inside 1118px of content box, so the action pill ended at
+   x=1207 in a 1200px viewport — 7px of "Speak with an Advisor" cut off by the
+   window edge. No scrollbar appeared, because the header's overflow is
+   visible and the document width stayed 1200, which is exactly why it went
+   unnoticed: nothing about the page looked broken except the button.
+
+   The `margin-inline: auto` that centres the nav cannot help here — auto
+   margins collapse to 0 once the content overflows, so the row just runs off
+   the end. The width has to come from somewhere, and the page margin is the
+   cheapest place: 40.8px to 24px each side gives back 33.6px, which clears
+   the 7px with room to spare. The pillars and the action keep their sizes. */
+@media (min-width: 1181px) and (max-width: 1279px) {
+  .dl-header { padding-inline: 24px; }
+  .dl-header .nav { gap: clamp(6px, .8vw, 12px); }
+}

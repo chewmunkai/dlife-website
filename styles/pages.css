@@ -635,3 +635,12 @@
 }
 .dlife .tlink:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .dlife .tlink { transition: none; } }
+
+/* ---- The last 80px before the burger takes over ----
+   Same correction as styles/amendments.css §40, for the homepage's own
+   `.dlife`-scoped chrome. Keep the two in step: at 1200 the action pill ran
+   7px past the window edge and was clipped without a scrollbar appearing. */
+@media (min-width: 1181px) and (max-width: 1279px) {
+  .dlife #hd { padding-inline: 24px; }
+  .dlife #hd .nav { gap: clamp(6px, .8vw, 12px); }
+}
