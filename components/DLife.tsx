@@ -209,7 +209,13 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
     </>,
-    // Is "27 years" Sharon personally, or D'Life as an organisation?
+    /* ⚠️ 6 Sep 2026: the client's performance summary reads "25 year(s)
+       4 month(s)" of insurance experience as at 14 Aug 2026 — but it measures
+       service WITH THE PRINCIPAL INSURER, which is not necessarily the same
+       span as a career or as the agency's life. Two years is too big a gap to
+       leave unexamined and too ambiguous to silently overwrite on the 23
+       places this figure appears. Left as the client wrote it, and raised.
+       See docs/dlife-figures.md. */
     "27 Years",
     "Experience",
     "Guiding families through changing markets, life stages and financial decisions with trusted advice for over 27 years.",
@@ -219,9 +225,16 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
       <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
       <path d="m9 12 2 2 4-4" />
     </>,
-    "AIA",
-    "Trusted Principal",
-    "Proudly partnering with AIA, one of Asia’s leading insurers, while receiving recognition for professional excellence and client service.",
+    /* 6 Sep 2026, client: the site does not name the insurer. This card used
+       to read "Proudly partnering with AIA, one of Asia's leading insurers".
+       D'Life is an agency under a principal insurer and the relationship is
+       real — the client's instruction is that the website reads as an
+       insurance agency and nothing more, so the recognition half of the card
+       stays and the naming goes. If a regulator requires the principal named,
+       that belongs on Disclosures, not on a homepage trust card. */
+    "Recognised",
+    "Professional Standing",
+    "Recognised for professional excellence and client service, against the standards a principal insurer holds its agencies to.",
   ],
   [
     <>
@@ -238,9 +251,15 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
       <circle cx="10" cy="8" r="5" />
       <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
     </>,
+    /* 6 Sep 2026, numbers audit. This said "Built 4 top-tier Senior Managers
+       and 34+ young, passionate leaders" — 38 leaders inside a practice of 29
+       advisors, which the client's own performance summary (14 Aug 2026)
+       makes impossible rather than merely unverified. Replaced with what that
+       summary actually evidences: the size of the practice, and the two MDRT
+       qualifiers it has produced. See docs/dlife-figures.md. */
     "Leadership",
     "People Development",
-    "Built 4 top-tier Senior Managers (District Managers) and 34+ young, passionate leaders (Unit Managers and Assistant Unit Managers) through systematic training and a culture of continuous growth.",
+    "A practice of 29 advisors, developed through systematic training and a culture of continuous growth, and 2 MDRT qualifiers produced along the way.",
   ],
   [
     <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />,
@@ -256,10 +275,11 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
     </>,
     "Claims",
     "Real Support",
-    // Client copy C01 (WhatsApp, 31 Aug 2026), with "RM 22million" respaced to
-    // "RM22 million". ⚠️ TODO(launch): the supporting screenshot shows agency
-    // claims OF RM22M, not an independently verified amount above it — confirm
-    // "exceeding" versus a flat "RM22 million" before release.
+    // Client copy C01 (WhatsApp, 31 Aug 2026), with "RM 22million" respaced
+    // to "RM22 million". Confirmed by the client on 6 Sep 2026 to run as they
+    // wrote it, "exceeding" included. The figure itself is theirs: RM22M is
+    // the agency's total claim amount in the performance summary they
+    // supplied. See docs/dlife-figures.md.
     "Supporting our clients through insurance claims exceeding RM22 million with trusted guidance, dedicated assistance, and a team that stands by them every step of the way.",
   ],
 ];

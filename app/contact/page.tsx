@@ -5,6 +5,9 @@ import JsonLd from "../../components/site/JsonLd";
 import { Hero } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { CONTACT, WA, WA_NUMBER, waHref } from "../../lib/contact";
+
+/** The stand-in WhatsApp number, written the way a Malaysian reads one. */
+const WA_DISPLAY = `+${WA_NUMBER.slice(0, 2)} ${WA_NUMBER.slice(2, 4)}-${WA_NUMBER.slice(4, 7)} ${WA_NUMBER.slice(7)}`;
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.contact);
@@ -24,10 +27,15 @@ export const metadata: Metadata = pageMeta(ROUTES.contact);
    pretending. Connecting it is a client decision (form service + PDPA consent
    wording).
 
-   ⚠️ Every detail below is a placeholder pending client confirmation — the
-   number, the email and the address. See the TODOs in lib/contact.ts. The
-   street address is marked on the page rather than invented, and there is no
-   map because there is no address to centre one on.
+   The office address and the landline were confirmed by the client on
+   6 Sep 2026 and are real. Two things on this page are still not:
+
+   ⚠️ The WhatsApp number is Corrine's own mobile, standing in until D'Life's
+   WhatsApp Business number is issued. It reaches a person, which the old
+   012-345 6789 did not, but it is not the agency's.
+
+   ⚠️ hello@dlife.com.my is unconfirmed, and it is the address the privacy,
+   disclosures and complaints pages tell people to write to.
    ============================================================ */
 
 export default function Page() {
@@ -57,16 +65,27 @@ export default function Page() {
               <div>
                 <dt>Office</dt>
                 <dd>
-                  <span className="tbc">Street address to be confirmed</span>
-                  <br />
-                  {CONTACT.city}
+                  <address>
+                    {CONTACT.street}
+                    <br />
+                    {CONTACT.street2}
+                    <br />
+                    {CONTACT.postcode} {CONTACT.city}
+                  </address>
+                  <em>Visits by appointment.</em>
                 </dd>
               </div>
               <div>
                 <dt>WhatsApp</dt>
                 <dd>
-                  <a href={waHref(WA.conversation)}>{CONTACT.phone}</a>
-                  <em>The quickest route. Opens with a first message written.</em>
+                  <a href={waHref(WA.conversation)}>{WA_DISPLAY}</a>
+                  <em>The quickest route. Opens with a first message already written.</em>
+                </dd>
+              </div>
+              <div>
+                <dt>Telephone</dt>
+                <dd>
+                  <a href={`tel:+603${CONTACT.phone.replace(/\D/g, "").slice(2)}`}>{CONTACT.phone}</a>
                 </dd>
               </div>
               <div>
@@ -94,16 +113,23 @@ export default function Page() {
       </section>
 
       <JsonLd data={breadcrumbLd(route)} />
-      {/* Marked as a placeholder in the same way the page is: no street
-          address, so no PostalAddress beyond the locality. */}
+      {/* A real PostalAddress now: the client confirmed the office on
+          6 Sep 2026, so the structured data carries the whole thing. */}
       <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "FinancialService",
           name: "D’Life Sdn Bhd",
           email: CONTACT.email,
-          telephone: `+${WA_NUMBER}`,
-          address: { "@type": "PostalAddress", addressLocality: "Kuala Lumpur", addressCountry: "MY" },
+          telephone: `+60${CONTACT.phone.replace(/\D/g, "").slice(1)}`,
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: `${CONTACT.street}, ${CONTACT.street2}`,
+            postalCode: CONTACT.postcode,
+            addressLocality: CONTACT.city,
+            addressRegion: CONTACT.region,
+            addressCountry: CONTACT.country,
+          },
           openingHours: "Mo-Fr 09:00-18:00",
         }}
       />

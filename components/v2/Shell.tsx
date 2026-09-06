@@ -27,7 +27,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import Logo from "../site/Logo";
 import { link } from "../../lib/asset";
 import { ROUTES } from "../../lib/routes";
-import { CONTACT, WA, waHref } from "../../lib/contact";
+import { ADDRESS_LINE, CONTACT, WA, waHref } from "../../lib/contact";
 import { NAV, OVERLAY_NAV, FOOTER_DIRS, LEGAL_LINKS } from "./nav";
 
 const Caret = () => (
@@ -177,7 +177,7 @@ export default function Shell({ children }: { children: ReactNode }) {
                 {CONTACT.email} <em aria-hidden="true">→</em>
               </a>
               <span className="sub">
-                Monday to Friday, 9am to 6pm. {CONTACT.city}, visits by appointment.
+                Monday to Friday, 9am to 6pm. {ADDRESS_LINE}, visits by appointment.
               </span>
             </div>
           </div>

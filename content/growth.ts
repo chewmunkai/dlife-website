@@ -18,10 +18,12 @@
    benefit, which is what the homepage already used; `full` is the longer
    heading Careers carried, kept so that page's voice is unchanged.
 
-   ⚠️ TODO(launch): "More than 40 young managers" in the Leadership detail is
-   one of three different figures the site gives for the same thing — the
-   homepage's trust band says 34+ leaders and About says 40+. Do not resolve
-   it by picking one. See docs/dlife-amendment-status.md.
+   6 Sep 2026, numbers audit: the Leadership detail said "More than 40 young
+   managers have come through it here". The client's own performance summary
+   puts 29 advisors in the whole practice, so that figure was not merely
+   unverified, it was impossible. The sentence keeps its meaning and drops the
+   number — the route into leadership is the claim, not a headcount. See
+   docs/dlife-figures.md.
    ============================================================ */
 
 export type Benefit = {
@@ -57,7 +59,7 @@ export const GROWTH: Benefit[] = [
     title: "Leadership",
     full: "A route into leadership",
     summary: "A route from advisor to team leader, with training at each step.",
-    detail: "For those who want it. More than 40 young managers have come through it here.",
+    detail: "For those who want it, with training at each step, and a good number have taken it.",
   },
   {
     no: "04",

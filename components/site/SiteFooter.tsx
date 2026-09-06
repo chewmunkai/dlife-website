@@ -1,5 +1,5 @@
 import { FOOTER_NAV, LEGAL_NAV } from "../../lib/routes";
-import { CONTACT, WA } from "../../lib/contact";
+import { ADDRESS_LINE, CONTACT, WA } from "../../lib/contact";
 import { link } from "../../lib/asset";
 import Logo from "./Logo";
 
@@ -60,8 +60,8 @@ export function SiteFooter() {
             </li>
             <li>
               <span className="k">Office</span>
-              {/* ⚠️ Full street address pending — see CONTACT in lib/contact.ts. */}
-              <address>{CONTACT.city}</address>
+              {/* Confirmed by the client, 6 Sep 2026. */}
+              <address>{ADDRESS_LINE}</address>
               <p className="hint">
                 Visits by appointment.{" "}
                 <a data-wa={WA.visit} href="#">

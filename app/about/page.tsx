@@ -73,13 +73,16 @@ const COMMITMENTS = [
 ];
 
 const RECOGNITION = [
+  /* ⚠️ See the note on the homepage trust card: the client's performance
+     summary reads 25 years 4 months as at Aug 2026, measured as service with
+     the principal insurer. Raised with the client rather than overwritten. */
   "27 years in the financial services industry",
   "GAMA Premium Recruitment Award",
   "GAMA Excellent Recruitment Award",
   "MDRT Builder",
   "Million Dollar Agency (MDA) Qualifier",
   "Million Dollar District (MDD) Achiever",
-  "Multiple-year MDRT Qualifier",
+  "Seven-time MDRT Qualifier",
   "Multiple overseas convention qualifier, across more than 45 countries",
 ];
 
@@ -270,12 +273,19 @@ export default function Page() {
       <Record
         label="Advisor development"
         title="Advisors she has built"
-        lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries, several going on to six-figure incomes. Every figure here is pending client verification."
+        /* 6 Sep 2026, numbers audit. The figures were 3 agency managers and
+           "40+ young assistant and unit managers", which the client's own
+           performance summary contradicts — the practice has 29 advisors in
+           it. These three are read straight off that summary. The lede's
+           "several going on to six-figure incomes" is gone with them: an
+           earnings claim with no evidence behind it is the last thing a
+           regulated adviser's site should carry. */
+        lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries."
         photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", position: "50% 44%" }}
         figures={[
-          { fig: "3", copy: "agency managers now running teams of their own" },
-          { fig: "40+", copy: "young assistant and unit managers developed" },
-          { fig: "MDRT", copy: "consultants, several of them multiple-year qualifiers" },
+          { fig: "29", copy: "advisors in the practice she built" },
+          { fig: "2,872", copy: "clients served by the practice" },
+          { fig: "RM921m", copy: "of cover arranged for them" },
         ]}
       />
 

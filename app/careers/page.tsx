@@ -37,9 +37,10 @@ export const metadata: Metadata = pageMeta(ROUTES.careers);
    allowance alongside commission-based earnings". That copy is now the FAQ
    answer and the footnote above the FAQs was aligned to it. The standing rule
    is unchanged in substance: still no range, no average, no top-earner number.
-   ⚠️ TODO(launch): the programme's terms and any eligibility qualifications
-   are unconfirmed — nothing on this page states either, and nothing should be
-   added until the client supplies them in writing.
+   Settled by the client on 6 Sep 2026: the page states the 18 months and
+   nothing else. Everything further — what the allowance is, how it steps, any
+   qualifying conditions — is deliberately revealed in the conversation, not
+   on the page. Do not add it here later without asking them again.
    ============================================================ */
 
 const WORK = [

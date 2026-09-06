@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Open, Ideas, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Open, Ideas, Said, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -152,15 +152,24 @@ export default function Page() {
         icons={["doc", "gauge", "shield", "clock", "people"]}
       />
 
-      {/* The boundary, stated as a sentence. This is the guardrail in copy
-          form: do not soften it into a benefit. Runs on from the cards above,
-          so it drops its own top padding. */}
-      <section className="band light" style={{ paddingTop: 0 }}>
-        <p className="fnote">
-          <b>What it is not.</b> Not a sales meeting with a review attached, and not an assessment of whoever advised
-          you before. Nothing here obliges you to move or change a policy.
-        </p>
-      </section>
+      {/* A04 (client, 6 Sep 2026): this is the separator the client pointed
+          at — the plain footnote that sat between the review cards and the
+          eight points. It carries the page's guardrail, which is the single
+          most important sentence on it, and it was set as small print.
+
+          It is a quote-style divider now, using the existing `Said` component
+          in its cite-less variant. The words are unchanged and unattributed:
+          they are the page's own statement, not a quotation from anybody, and
+          inventing an attribution to justify the form is exactly what the
+          brief rules out. Do not soften this into a benefit. */}
+      <Said
+        quote={
+          <>
+            Not a sales meeting with a review attached, and not an assessment of whoever advised you before. Nothing
+            here obliges you to move or change a policy.
+          </>
+        }
+      />
 
       <section className="band light">
         <p className="lbl">What we look at</p>

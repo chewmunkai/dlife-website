@@ -141,23 +141,19 @@ export default function Page() {
           <ul>
             <li>The WhatsApp number, email address and office address are the prototype’s placeholders.</li>
             <li>
-              The founders’ portraits have landed and are in place. Both are studio shots in AIA MDRT blazers with the
-              branding legible, and nothing else on this site names an insurer — so whether they run as supplied is a
-              client decision, not a design one.
+              The founders’ portraits have landed and are in place. Both are studio shots in branded corporate
+              blazers with a principal insurer’s marks legible on the lapel, and no copy on this site names an
+              insurer — so whether they run as supplied is worth one more look.
             </li>
             <li>
-              Every award, figure and year on <a href={link(ROUTES.about.path)}>About</a> is verify-before-publish, and
-              the same figure is given three different ways across the site: 4 senior managers and 34+ leaders on the
-              homepage, 3 and 40+ on About, “more than 40” on{" "}
-              <a href={link(ROUTES.careers.path)}>Careers</a>. One of them is right.
+              The manager counts are fixed: they claimed 34+ and 40+ leaders inside a practice of 29 advisors, and
+              the figures now come off the client’s own performance summary. The one number still open is the years —
+              the site says 27, the summary reads 25 years 4 months, and the two may not be measuring the same thing.
             </li>
             <li>
-              Whether the claims figure is “exceeding RM22 million” or simply RM22 million is unconfirmed. The
-              supporting screenshot shows RM22M, not an amount above it.
-            </li>
-            <li>
-              The career programme’s terms — the 18 months, the basic bonus allowance, any eligibility conditions — are
-              published as the client wrote them and are otherwise unverified.
+              The office address and landline are confirmed. The WhatsApp number is a personal mobile standing in
+              until D’Life’s business number is issued, and <code>hello@dlife.com.my</code> is still unconfirmed —
+              which matters, because three legal pages tell people to write to it.
             </li>
             <li>
               No form endpoint is configured, so the enquiry form says outright that nothing was sent. WhatsApp and

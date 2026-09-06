@@ -1,5 +1,4 @@
 import { Fragment, type ReactNode } from "react";
-import Carousel from "./Carousel";
 import { asset, link } from "../../lib/asset";
 import { trail, type Route } from "../../lib/routes";
 import { Icon, type IconKey } from "./icons";
@@ -241,9 +240,14 @@ export function Moments({
 /**
  * A02: a set that does not fill its row leaves one card stranded beside three
  * empty slots. `railed()` is the test — more cards than a row holds, and not
- * a whole number of rows — and the rail is the answer when it passes. Sets
- * that tile cleanly stay a grid, which is why this is a test and not a flag
- * turned on everywhere.
+ * a whole number of rows.
+ *
+ * ⚠️ Revised 6 Sep 2026. The answer used to be a carousel; the client asked
+ * for the other option the brief offered — "3 in a row, the rest put down
+ * there and align to middle". So a set that passes this test now renders
+ * three across with its remainder centred underneath (`.icards--fill`,
+ * styles/amendments.css §27e) rather than as a rail. The Carousel component
+ * stays: Stories still uses it, and it is still right for a set of films.
  */
 export const railed = (count: number, columns = 4) => count > columns && count % columns !== 0;
 
@@ -262,7 +266,7 @@ export function IdeaCards({
   /** Names the rail for a screen reader, e.g. "terms". Ignored as a grid. */
   label?: string;
 }) {
-  const grid = `icards${columns === 3 ? " icards--3" : ""}`;
+  const grid = `icards${columns === 3 ? " icards--3" : ""}${carousel ? " icards--fill" : ""}`;
   const cards = items.map((d, i) => (
     <article className="icard" key={d.term}>
       <span className="no">{String(i + 1).padStart(2, "0")}</span>
@@ -274,13 +278,10 @@ export function IdeaCards({
     </article>
   ));
 
-  if (carousel) {
-    return (
-      <Carousel label={label} className={grid}>
-        {cards}
-      </Carousel>
-    );
-  }
+  /* `carousel` now means "this set does not tile" rather than "make a rail" —
+     the class it turns on lays the remainder out centred. Kept as the prop
+     name so callers do not have to change; `label` is unused in this mode. */
+  void label;
   return <div className={grid}>{cards}</div>;
 }
 
@@ -1017,14 +1018,18 @@ export function StoriesPreview({
 }
 
 /** Quotation carried on a photograph. Without one, the plain variant. */
-export function Said({ photo, quote, cite }: { photo?: Photo; quote: ReactNode; cite: string }) {
+export function Said({ photo, quote, cite }: { photo?: Photo; quote: ReactNode; cite?: string }) {
   return (
-    <section className={photo ? "said ph" : "said said--plain"}>
+    /* A04: `cite` is optional now. Without one this is a quote-style section
+       divider carrying copy the page already owns — which is the whole point.
+       An attribution here would have to be invented, and the brief forbids
+       exactly that. With one, nothing about the block changed. */
+    <section className={`${photo ? "said ph" : "said said--plain"}${cite ? "" : " said--divider"}`}>
       {photo && <Img photo={photo} />}
       <figure>
         <div className="r" />
         <blockquote>{quote}</blockquote>
-        <figcaption>{cite}</figcaption>
+        {cite && <figcaption>{cite}</figcaption>}
       </figure>
     </section>
   );

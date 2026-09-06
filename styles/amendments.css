@@ -49,9 +49,14 @@
   padding-block: clamp(18px, 2.4vh, 26px);
   align-items: stretch;
 }
-.bar .facts { display: flex; gap: 0; flex-wrap: nowrap; }
+.bar .facts { display: flex; gap: 0; flex-wrap: nowrap; align-items: stretch; }
+/* 6 Sep 2026, client: the three credentials did not line up. They were
+   bottom-aligned, so an item that wrapped to three lines pushed its copper
+   tick a line higher than the two that wrapped to two — three ticks at three
+   heights across a strip whose whole job is to look deliberate. Top-aligned
+   now: the ticks sit on one line and so does the first line of every label. */
 .bar .facts span {
-  display: flex; flex-direction: column; justify-content: flex-end;
+  display: flex; flex-direction: column; justify-content: flex-start;
   padding: 0 clamp(14px, 1.6vw, 26px);
   border-left: 1px solid rgba(47, 53, 50, .16);
   font: var(--dl-w-bold) 11px/1.45 var(--dl-sans);
@@ -1738,3 +1743,48 @@
 /* The field the error belongs to says so without relying on the colour. */
 .wrap .lead input[aria-invalid="true"] { border-color: var(--dl-copper-d); box-shadow: inset 0 0 0 1px var(--dl-copper-d); }
 .wrap .lead button[type="submit"][disabled] { opacity: .55; cursor: progress; }
+
+
+/* ---- 27e · card sets that do not fill a row (A02, revised 6 Sep 2026) ----
+   The client looked at the rail and asked for the other option the brief
+   offered instead: "it's 5 designs up there so we should unify it to 3 in a
+   row, the rest put down there and align to middle". So the five-card sets —
+   Medical's terms, Existing Policy Support's review — are a three-up grid
+   with the last two centred under them, not a carousel.
+
+   Same mechanic as the prompting moments in §27c: six columns, each card
+   spanning two, and the first card of a short last row starts half a column
+   in. The nth-child pairs match a set of exactly five or exactly seven, so a
+   four- or six-card section is untouched. The rail itself stays — Stories
+   still uses it, and it is still the right answer for a set of films. */
+.icards--fill { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.icards--fill > .icard { grid-column: span 2; }
+/* five: 3 + 2 centred */
+.icards--fill > .icard:nth-child(4):nth-last-child(2) { grid-column: 2 / span 2; }
+/* seven: 3 + 3 + 1 centred */
+.icards--fill > .icard:nth-child(7):nth-last-child(1) { grid-column: 3 / span 2; }
+@media (max-width: 1180px) {
+  .icards--fill { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .icards--fill > .icard:nth-child(4):nth-last-child(2) { grid-column: auto / span 2; }
+  .icards--fill > .icard:nth-child(7):nth-last-child(1) { grid-column: auto / span 2; }
+  /* Two-up: an odd count strands the last card. Centre it. */
+  .icards--fill > .icard:last-child:nth-child(odd) { grid-column: 2 / span 2; }
+}
+@media (max-width: 560px) {
+  .icards--fill { grid-template-columns: minmax(0, 1fr); }
+  .icards--fill > .icard,
+  .icards--fill > .icard:nth-child(4):nth-last-child(2),
+  .icards--fill > .icard:nth-child(7):nth-last-child(1),
+  .icards--fill > .icard:last-child:nth-child(odd) { grid-column: auto; }
+}
+/* A three-up card is wider than a four-up one, so it needs less height to look
+   composed — the same correction `.icards--3` already makes. */
+.icards--fill .icard { min-height: clamp(228px, 26vh, 276px); }
+
+/* ---- 27f · the quote-style divider (A04) ----
+   `.said--plain` with no attribution: a statement the page already makes,
+   set as a divider between two sections rather than as another paragraph of
+   body copy. No cite, because inventing one is exactly what the brief
+   forbids — the words are the page's own. */
+.said--divider blockquote { max-width: 30ch; }
+.said--divider .r { margin-inline: auto; }

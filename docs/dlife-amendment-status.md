@@ -15,44 +15,66 @@ recorded below, not that it was eyeballed.
 | ID | Amendment | Status | Where |
 |---|---|---|---|
 | A01 | Header rebalance; no clipping at intermediate widths | Verified | `styles/amendments.css` §28, `styles/pages.css`, `styles/ds/overrides.css` |
-| A02 | Carousel for uneven card sets; balanced final rows | Verified | `components/v2/Carousel.tsx`, `blocks.tsx`, `amendments.css` §27 |
+| A02 | Card sets 3-up with a centred remainder; story rail | Verified | `blocks.tsx`, `amendments.css` §27e, `Carousel.tsx` (Stories only) |
 | A03 | Redundant CTA out of the hero trust strip | Verified | `SolutionPage.tsx` + 3 pages |
-| A04 | Quote-style section dividers | **Not applicable — see below** | — |
-| A05 | Homepage claims paragraph → C01 | Implemented · **client input needed** | `components/DLife.tsx` |
+| A04 | Quote-style section divider | Verified | `app/existing-policy-support/page.tsx`, `blocks.tsx` |
+| A05 | Homepage claims paragraph → C01 | Verified · client confirmed | `components/DLife.tsx` |
 | A06 | Family hero → C02; trust strip → C03 | Implemented | `content/solutions.ts`, `content/solutions-e2.ts`, `app/solutions/page.tsx` |
 | A07 | Medical term 02 "Your share" → C04 | Implemented | `content/solutions.ts` |
 | A08 | About: six-card "The Team" directory removed | Verified | `app/about/page.tsx` |
 | A09 | Four benefits expand inline, homepage + Careers | Verified | `components/v2/Growth.tsx`, `content/growth.ts`, `styles/growth.css` |
-| A10 | Careers qualities → C05; FAQ 03/04 → C07/C08 | Implemented · **client input needed** | `app/careers/page.tsx`, `components/v2/Ask.tsx` |
+| A10 | Careers qualities → C05; FAQ 03/04 → C07/C08 | Verified · client confirmed | `app/careers/page.tsx`, `components/v2/Ask.tsx` |
 | A11 | One story grouping; story rail; video controls | Verified | `Carousel.tsx`, `Film.tsx`, `DLife.tsx`, `content/videos.ts` |
 | A12 | "Reading and what's coming up"; template unrouted | Verified | `app/resources/page.tsx`, `content/articles.ts`, `components/pages/ArticlePage.tsx` |
 | A13 | Youth "Who should join"; FAQs → C09/C10; WhatsApp intents | Implemented | `app/youth-community/page.tsx`, `lib/contact.ts` |
 | A14 | DVA grouping preserved; responsive; image framing | Verified | `app/dva/page.tsx` (grouping unchanged) |
-| A15 | Founder portraits; group photography; asset map | Implemented · **client input needed** | `docs/dlife-asset-map.md` |
-| A16 | Contact "Other" + conditional "Please specify" | Implemented · **client input needed** | `components/v2/Lead.tsx` |
+| A15 | Founder portraits; group photography; asset map | Verified · client confirmed | `docs/dlife-asset-map.md` |
+| A16 | Contact "Other" + conditional "Please specify"; real address | Verified · endpoint pending | `components/v2/Lead.tsx`, `app/contact/page.tsx` |
 | A17 | Base path, deep links, one contact record | Verified | `components/DLife.tsx`, `lib/{seo,dlife}.ts`, `content/legal.ts` |
 
-## A04 — why nothing changed, and it is not an oversight
+## A04 — the separator, once the client pointed at it
 
-The brief asks for quote-style dividers "where the discussed plain separators
-are identifiable". They are not, and the reason matters.
+The brief asked for quote-style dividers "where the discussed plain separators
+are identifiable", and from the code alone they were not: commit `a53bee1`
+(17 Aug) had deliberately stripped quote bands off Existing Policy Support,
+DVA and Careers at a client request, so re-adding them would have reversed a
+decision three weeks old.
 
-Commit `a53bee1` (17 Aug, "Round 5: quotes removed off the solution pages")
-**deliberately removed** quote bands from Existing Policy Support, DVA and
-Careers at a client request three weeks before this brief, keeping pull-quotes
-only on the solution pages "where the quotation is the Prove beat". Those
-solution-page quotes are still there, still rendered by the existing `Said`
-component, still driven by approved copy in `content/solutions.ts`.
+The client named it on 6 Sep: **Existing Policy Support, below "What happens
+in a review"**. That was the `.fnote` carrying the page's guardrail — *"Not a
+sales meeting with a review attached, and not an assessment of whoever advised
+you before."* The single most important sentence on the page, set as small
+print between two sections.
 
-So: the quote-style dividers the brief asks for already exist where the client
-last agreed they should, and the only plain rules left in the markup are the
-hairlines inside the DVA crest and inside `Said` itself — functional borders
-the brief says to preserve. Adding quote bands back to the three pages Round 5
-cleared would reverse a decision the client made, and the brief forbids
-inventing attributed quotes to fill them.
+It is a quote-style divider now, using the existing `Said` component in a new
+cite-less variant. The words are unchanged and unattributed — they are the
+page's own statement, not a quotation from anyone, and inventing an
+attribution to justify the form is what the brief rules out.
 
-**Left unchanged and reported, per the brief's own instruction.** If the client
-meant a specific separator, ask them to point at it on the live page.
+## A02 — revised: 3 across, remainder centred
+
+The first pass made the five-card sets a scroll rail. The client asked for the
+other option the brief offered: *"it's 5 designs up there so we should unify it
+to 3 in a row, the rest put down there and align to middle."*
+
+Measured at 1280: row one at x=64, 455, 846; row two at 259 and 650, whose
+midpoint is 639.5 against a content centre of 640. At 900: 2 + 2 + 1, the lone
+card centred. At 375: one column. Medical's five terms and Existing Policy
+Support's five both take it; the four-card pages are untouched.
+
+The `Carousel` component stays and is still used by Stories, where a rail is
+right for a set of films.
+
+## The trust strip
+
+The client's screenshot showed the three credentials with their copper ticks
+at three different heights. They were bottom-aligned, so an item wrapping to
+three lines pushed its tick a line above the two that wrapped to two. Now
+top-aligned: measured at 1280, all three sit at the same y.
+
+That screenshot also still showed "WE STAY AFTER THE PAPERWORK" and a second
+"START A CONVERSATION" button — both already gone on this branch (A06 and
+A03). It was taken from the live site, which is three weeks behind.
 
 ## Checks run, and what they showed
 
@@ -94,33 +116,32 @@ part of the same components measured correctly.
 homepage reel playing and unmuting, the sound control in the film's top-left
 corner, and the carousel arrows gliding rather than jumping.
 
-## Launch blockers — client input required
+## Still open after the client's answers of 6 Sep
 
-1. **"Exceeding" RM22 million.** The supporting screenshot shows agency claims
-   *of* RM22M, not an amount above it. Confirm the wording. (A05)
-2. **Three different figures for the same thing.** Homepage: 4 senior managers
-   and 34+ leaders. About: 3 agency managers and 40+. Careers: "more than 40
-   young managers". One of them is right; nothing here guesses which. (Phase 4)
-3. **AIA branding on the founders' portraits.** Both are studio shots in AIA
-   MDRT blazers with the wordmark legible. Nothing else on this site names an
-   insurer. Compliance question, not a design one. (A15)
-4. **Career programme terms.** The 18 months, the basic bonus allowance and any
-   eligibility conditions are published as the client wrote them and are
-   otherwise unverified. (A10)
-5. **Contact details.** `+60 12-345 6789`, `hello@dlife.com.my` and the missing
-   street address are all still the prototype's. They now live in exactly one
-   file, `lib/contact.ts`. (A16/A17)
-6. **Form endpoint and PDPA consent wording.** The form is built and validated
-   and posts to `NEXT_PUBLIC_FORM_ENDPOINT` when one is set. Until then it says
-   nothing was sent. No provider was chosen or paid for. (A16)
-7. **The four legal drafts** still carry `[TO BE CONFIRMED: …]` markers and must
-   not go live as written. The central open question — whether D'Life is
-   licensed in its own right — changes the wording on all four.
-8. **The article library is empty**, so Articles & Events lists no articles.
-   Accurate, not broken.
-9. **Automated visitor acknowledgements** remain undecided; none was built.
-10. **The "Clarity" feedback tool** is unidentified; nothing was installed and
-    no tracking was added.
+1. **"27 years."** The one figure not resolved. Their performance summary reads
+   25 years 4 months, but measures service with the principal insurer, which
+   may not be the same span as a career. Left as written, raised, and a
+   one-line change once they say which. See `docs/dlife-figures.md`.
+2. **The WhatsApp number is a personal mobile** (018-231 7815), standing in
+   until D'Life's WhatsApp Business number is issued. Every CTA on the site
+   points at it.
+3. **`hello@dlife.com.my` is unconfirmed** — and the privacy, disclosures and
+   complaints pages all tell people to write to it.
+4. **The form has no endpoint**, so it still says nothing was sent. Next job:
+   pick a provider and set `NEXT_PUBLIC_FORM_ENDPOINT`.
+5. **The four legal drafts** still carry `[TO BE CONFIRMED: …]` markers and go
+   live carrying them. They are visible to a visitor. The licensing question
+   is answered privately — D'Life is an agency under a principal insurer — but
+   the client's instruction is that the site names no insurer, and a
+   disclosures page for a regulated agency may be required to name its
+   principal. **That tension needs the client's compliance owner, not a
+   designer.**
+6. **The founders' portraits** carry the principal insurer's marks on the
+   lapel while no copy on the site names an insurer. The client has cleared
+   them to run; it is worth one more look given instruction 2 of 6 Sep.
+7. **No articles**, by decision. Articles & Events runs events only.
+8. **The "Clarity" feedback tool** — the client is covering it later. Nothing
+   installed, no tracking added.
 
 ## Deliberately not done
 

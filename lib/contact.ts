@@ -12,22 +12,42 @@
    ============================================================ */
 
 /**
- * ⚠️ TODO(launch): D'Life's real WhatsApp business number. Direction guide
- * §13 lists the contact number as pending verification, and the number below
- * is the design prototype's placeholder. Every `data-wa` link on the site
- * builds its wa.me deep link from this one value.
+ * ⚠️ TEMPORARY (6 Sep 2026, client): Corrine's own mobile, 018-231 7815,
+ * standing in until D'Life's WhatsApp Business number is issued. It is a real
+ * number that reaches a real person, which is why it is here rather than the
+ * old 012-345 6789 placeholder — but it is not the agency's, and swapping it
+ * is a one-line change because every `data-wa` link on the site builds its
+ * wa.me deep link from this one value.
  */
-export const WA_NUMBER = "60123456789";
+export const WA_NUMBER = "60182317815";
 
 /**
- * ⚠️ TODO(launch): no project document states a street address or a public
- * phone number. Confirm all three before launch.
+ * Confirmed by the client, 6 Sep 2026: the office address and its landline.
+ *
+ * ⚠️ The email is still the prototype's. hello@dlife.com.my has not been
+ * confirmed as a mailbox anyone reads, and it is the address the privacy,
+ * disclosures and complaints pages tell people to write to. Confirm it or
+ * replace it before launch.
  */
 export const CONTACT = {
-  phone: "+60 12-345 6789",
+  /** The office landline. WhatsApp is WA_NUMBER above, and is a mobile. */
+  phone: "03-9766 1205",
+  /** ⚠️ TODO(launch): unconfirmed. */
   email: "hello@dlife.com.my",
-  city: "Kuala Lumpur, Malaysia",
+  street: "P-5-2, Level 2, Pusat Bandar",
+  street2: "Jalan Jalil Utama 2, Bukit Jalil",
+  postcode: "57000",
+  city: "Kuala Lumpur",
+  region: "Federal Territory of Kuala Lumpur",
+  country: "MY",
 } as const;
+
+/** The address as one line, for a footer or a sentence. */
+export const ADDRESS_LINE = [
+  CONTACT.street,
+  CONTACT.street2,
+  `${CONTACT.postcode} ${CONTACT.city}`,
+].join(", ");
 
 /**
  * Pre-filled WhatsApp messages, one per intent. Grouped by the journey that
@@ -37,6 +57,8 @@ export const CONTACT = {
 export const WA = {
   /* General */
   advisor: "Hi D’Life, I’d like to speak with an advisor.",
+  /* Note for whoever reads an incoming thread: wa.me only ever OPENS WhatsApp
+     with the message written into the box. Nothing on this site sends one. */
   conversation: "Hi D’Life, I’d like to start a conversation.",
   question: "Hi D’Life, I have a question I’d like to ask.",
   footer: "Hi D’Life, I’d like to get in touch — I found your contact details on the website.",
