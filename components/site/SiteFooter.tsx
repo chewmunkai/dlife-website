@@ -1,5 +1,5 @@
 import { FOOTER_NAV, LEGAL_NAV } from "../../lib/routes";
-import { ADDRESS_LINE, CONTACT, WA } from "../../lib/contact";
+import { ADDRESS_LINE, CONTACT, SOCIALS, WA, WA_DISPLAY } from "../../lib/contact";
 import { link } from "../../lib/asset";
 import Logo from "./Logo";
 
@@ -42,13 +42,24 @@ export function SiteFooter() {
               {/* aria-label contains the visible string, so WCAG 2.5.3
                   (label in name) holds while the name still says which
                   channel this opens. */}
-              <a className="go" data-wa={WA.footer} href="#" aria-label={`Message D’Life on WhatsApp at ${CONTACT.phone}`}>
-                <span>{CONTACT.phone}</span>
+              <a className="go" data-wa={WA.footer} href="#" aria-label={`Message D’Life on WhatsApp at ${WA_DISPLAY}`}>
+                {/* L02: was CONTACT.phone, which is the office landline. */}
+                <span>{WA_DISPLAY}</span>
                 <em aria-hidden="true">→</em>
               </a>
               <p className="hint">
                 Monday to Friday, 9am–6pm. Most messages get a reply the same day, and no one will chase you afterwards.
               </p>
+            </li>
+            {/* L02: the landline keeps its place, under its own label. It is
+                a real number and a working route; it just is not WhatsApp. */}
+            <li>
+              <span className="k">Telephone</span>
+              <a className="go" href={`tel:+60${CONTACT.phone.replace(/\D/g, "").slice(1)}`}>
+                <span>{CONTACT.phone}</span>
+                <em aria-hidden="true">→</em>
+              </a>
+              <p className="hint">The office line, during working hours.</p>
             </li>
             <li>
               <span className="k">Email</span>
@@ -70,18 +81,22 @@ export function SiteFooter() {
                 .
               </p>
             </li>
-            <li>
-              {/* Social feeds the website, not the other way round. The exits
-                  are grouped once, quietly, at the end of the contact list
-                  rather than scattered as icons.
-                  ⚠️ TODO(launch): real profile URLs. */}
-              <span className="k">Elsewhere</span>
-              <div className="soc">
-                <a href="#">Instagram</a>
-                <a href="#">Facebook</a>
-                <a href="#">YouTube</a>
-              </div>
-            </li>
+            {/* L12: the "Elsewhere" group held three links to "#". Social
+                feeds the website rather than the other way round, so an empty
+                group is no loss — and a dead link is. The group returns whole
+                the moment SOCIALS in lib/contact.ts has a URL in it. */}
+            {SOCIALS.length > 0 && (
+              <li>
+                <span className="k">Elsewhere</span>
+                <div className="soc">
+                  {SOCIALS.map((s) => (
+                    <a key={s.href} href={s.href} rel="noopener">
+                      {s.label}
+                    </a>
+                  ))}
+                </div>
+              </li>
+            )}
           </ul>
         </div>
 

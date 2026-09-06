@@ -43,9 +43,31 @@ const PHOTOS = {
   // the hero no longer depends on an external image endpoint. A commissioned
   // D'Life shoot can replace this stock exception at launch without changing
   // the component or its responsive crop.
+  /* L09: the alt text described the people in the picture by ethnicity. Alt
+     text says what a photograph shows, not who it decides the people in it
+     are — and on an agency page it read as a statement about who the service
+     is for. The scene is the point; the description is the scene.
+
+     ⚠️ AWAITING CLIENT APPROVAL — the replacement hero.
+     The live hero is licensed stock: a family at a kitchen table. The client
+     asked for a candidate from their own Group photos, and hero-team.jpg is
+     it. The two say different things, which is why this is their decision and
+     not a design one: the family is about the visitor, the team is about the
+     agency, and the headline beside it ("Real Support. Beyond the Policy.")
+     was written against the first.
+
+     TO SWITCH: change HERO_PHOTO below to `teamHero`. The band's fade to
+     ivory (styles/dlife.css, #hero .bg::after) is unchanged and works for
+     either — it grades from the picture into the page rather than sitting on
+     top of it, so nothing about the copy's contrast depends on which one runs.
+     Both crops were checked at 712x751 desktop and 375x463 mobile. */
   hero: {
     src: asset("/media/img/hero.jpg"),
-    alt: "An Asian family sharing a meal around their kitchen table",
+    alt: "A family sharing a meal around their kitchen table",
+  },
+  teamHero: {
+    src: asset("/media/img/hero-team.jpg"),
+    alt: "The D’Life team together",
   },
   p1: { src: asset("/media/img/path-family.jpg"), alt: "Three generations of a family gathered around a table" },
   p2: { src: asset("/media/img/path-review.jpg"), alt: "An advisor reviewing paperwork at his desk" },
@@ -80,6 +102,11 @@ const PHOTOS = {
   y2: { src: asset("/media/img/youth-group.jpg"), alt: "D’Life Youth Community members together after a session" },
   y3: { src: asset("/media/img/youth-resources.jpg"), alt: "Hands raised during a workshop session" },
 } satisfies Record<string, Photo>;
+
+/** L09: the one place the homepage hero photograph is chosen. Swap to
+ *  `PHOTOS.teamHero` once the client approves the replacement — see the note
+ *  on PHOTOS.hero for what the choice actually changes. */
+const HERO_PHOTO = PHOTOS.hero;
 
 /**
  * Contents of a `.ph` plate. `parallax` wraps the image in the over-scanned
@@ -454,7 +481,7 @@ export default function DLife() {
           </div>
         </div>
         <div className="bg ph">
-          <Plate photo={PHOTOS.hero} parallax eager />
+          <Plate photo={HERO_PHOTO} parallax eager />
         </div>
       </section>
 
@@ -754,7 +781,10 @@ export default function DLife() {
             below, as one link, which is where a navigation choice belongs
             rather than hidden inside four content rows. */}
         <div className="rv">
-          <Growth items={GROWTH} idBase="home-grow" />
+          {/* L05: closed rows are the four names; opening one gives the
+              summary, the detail and a link to that benefit's own section on
+              Careers rather than to the top of the page. */}
+          <Growth items={GROWTH} compact linkBase={link(ROUTES.careers.path)} idBase="home-grow" />
           <p className="grow__more">
             <a href={link(ROUTES.careers.path)}>
               See the full career page <em aria-hidden="true">→</em>
@@ -898,6 +928,18 @@ export default function DLife() {
           <h2 className="rv">
             A clearer future can begin with <i>one conversation.</i>
           </h2>
+          {/* L11 ⚠️ AWAITING CLIENT DECISION. The meeting transcript asks for
+              "Let it begins with you", which is ungrammatical — the imperative
+              takes no -s. Revision 2 of the brief was not supplied with this
+              round, and revision 1's own decision table says to keep the line
+              below and NOT to change it. So it stands unchanged, and the
+              request is recorded rather than quietly treated as satisfied
+              because the current phrasing happens to be correct.
+
+              Three ways out, for whoever asks them: keep this; accept the
+              transcript's wording as deliberate brand voice; or the third
+              reading, that the intended line was "Let it begin with you" all
+              along and the transcript is a typo. */}
           <div className="sub rv">Let it begin with you.</div>
           <div className="acts rv">
             <a className="pill" data-wa={WA.conversation} href="#">

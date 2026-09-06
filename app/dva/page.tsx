@@ -176,8 +176,12 @@ export default function Page() {
             </ol>
           </nav>
           <p className="lbl">Drive Value Associates</p>
+          {/* L10: the comma was doing a line break's job. The break is real —
+              two spans, two lines — so the punctuation was decorative and read
+              as a mistake. Removed. Grammatical commas in prose stay: the lede
+              directly below keeps its own, because it needs it. */}
           <h1>
-            <span>Built for leaders,</span>
+            <span>Built for leaders</span>
             <span>by invitation.</span>
           </h1>
           <div className="r" />

@@ -1,7 +1,8 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useId, useState } from "react";
 import { CONTACT, WA, waHref } from "../../lib/contact";
+import { submitForm } from "../../lib/forms";
 
 /* ============================================================
    The enquiry form.
@@ -39,8 +40,18 @@ import { CONTACT, WA, waHref } from "../../lib/contact";
    minus Corporate Solutions, which is withheld (2026-08).
    ============================================================ */
 
-/** A16: "Other" is last and is the one that opens a second field. */
-const OTHER = "Other";
+/**
+ * The subject that opens a second field.
+ *
+ * L14 (client review, 6 Sep 2026): back to "Something else", which is what the
+ * dropdown said before A16 renamed it to "Other", and the field it opens is
+ * OPTIONAL. A16 had made it required; the client's review reverses that
+ * explicitly — "keep the field optional … do not introduce mandatory extra
+ * input". Someone who cannot summarise their question in the box should still
+ * be able to send it, because the message field below is where they would
+ * explain anyway.
+ */
+const OTHER = "Something else";
 
 const SUBJECTS = [
   "Protection and planning",
@@ -50,9 +61,6 @@ const SUBJECTS = [
   "The Youth Community",
   OTHER,
 ];
-
-/** Set at build time. Absent means the honest unavailable path above. */
-const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT;
 
 type Answers = {
   name: string;
@@ -69,13 +77,8 @@ const EMPTY: Answers = { name: "", email: "", phone: "", subject: SUBJECTS[0], s
 export default function Lead() {
   const [answers, setAnswers] = useState<Answers>(EMPTY);
   const [state, setState] = useState<"editing" | "sending" | "unsent" | "sent" | "failed">("editing");
-  /** The "Please specify" error, shown only after a submit has been refused. */
-  const [otherError, setOtherError] = useState(false);
-  const otherRef = useRef<HTMLInputElement>(null);
-
   const uid = useId();
   const otherId = `${uid}-other`;
-  const otherErrId = `${uid}-other-error`;
 
   const isOther = answers.subject === OTHER;
   const set = <K extends keyof Answers>(k: K, v: Answers[K]) => setAnswers((a) => ({ ...a, [k]: v }));
@@ -116,40 +119,17 @@ export default function Lead() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    /* A16: required only when Other is chosen. The browser enforces this too
-       (the input carries `required` in that state); this catch is for the
-       whitespace-only case the browser accepts and a person would not. */
-    if (isOther && !answers.subjectOther.trim()) {
-      setOtherError(true);
-      otherRef.current?.focus();
-      return;
-    }
-    setOtherError(false);
-
-    if (!ENDPOINT) {
-      setState("unsent");
-      return;
-    }
-
+    /* L14: nothing here is mandatory beyond name and email. The specification
+       field is a convenience, so an empty one is a valid submission. */
     setState("sending");
-    try {
-      const res = await fetch(ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        /* The whole payload, including the specified subject. A16 asks for
-           that value to travel with the rest, not to be dropped at the edge. */
-        body: JSON.stringify({
-          ...answers,
-          subjectOther: isOther ? answers.subjectOther.trim() : "",
-          /* Which page produced it, the same intent-routing idea the WhatsApp
-             prefills use — the team should not have to guess. */
-          source: typeof window === "undefined" ? "" : window.location.pathname,
-        }),
-      });
-      setState(res.ok ? "sent" : "failed");
-    } catch {
-      setState("failed");
-    }
+    /* The whole payload, including the specified subject: A16 asks for that
+       value to travel with the rest, not to be dropped at the edge. */
+    setState(
+      await submitForm("contact", {
+        ...answers,
+        subjectOther: isOther ? answers.subjectOther.trim() : "",
+      }),
+    );
   };
 
   return (
@@ -203,10 +183,9 @@ export default function Lead() {
             set("subject", e.target.value);
             /* Leaving Other clears both the answer and its error, so a stale
                "Please specify" cannot travel with a different subject. */
-            if (e.target.value !== OTHER) {
-              set("subjectOther", "");
-              setOtherError(false);
-            }
+            /* Leaving the subject clears the answer, so a stale
+               specification cannot travel with a different subject. */
+            if (e.target.value !== OTHER) set("subjectOther", "");
           }}
         >
           {SUBJECTS.map((s) => (
@@ -217,38 +196,23 @@ export default function Lead() {
         </select>
       </label>
 
-      {/* A16: appears only for Other, and is required only then. `hidden`
-          rather than a CSS class, so it is out of the accessibility tree and
-          out of the tab order when it is not being asked for. */}
+      {/* L14: appears only for "Something else", and is optional even then.
+          `hidden` rather than a CSS class, so when it is not being asked for
+          it is out of the accessibility tree and out of the tab order. */}
       <div className="lead__f" hidden={!isOther}>
         <label htmlFor={otherId}>
-          <span>Please specify</span>
+          <span>
+            What is it about? <em>optional</em>
+          </span>
         </label>
         <input
           id={otherId}
-          ref={otherRef}
           type="text"
           name="subjectOther"
-          required={isOther}
-          aria-required={isOther}
-          aria-invalid={otherError || undefined}
-          aria-describedby={otherError ? otherErrId : undefined}
-          /* The browser's own required check fires before onSubmit does, so
-             without this the native bubble would appear and the inline
-             message — the one aria-describedby points at — would not. Both
-             paths now light the same error. */
-          onInvalid={() => setOtherError(true)}
           placeholder="A few words is enough"
           value={answers.subjectOther}
-          onChange={(e) => {
-            set("subjectOther", e.target.value);
-            if (otherError && e.target.value.trim()) setOtherError(false);
-          }}
+          onChange={(e) => set("subjectOther", e.target.value)}
         />
-        {/* Announced when it appears, and tied to the input by id. */}
-        <p className="lead__err" id={otherErrId} role="alert" hidden={!otherError}>
-          Please tell us what this is about.
-        </p>
       </div>
 
       <label className="lead__f">

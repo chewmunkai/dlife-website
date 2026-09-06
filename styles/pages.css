@@ -530,3 +530,20 @@
   .dlife #hd .nav { gap: clamp(6px, .7vw, 10px); margin-left: 12px; }
   .dlife #hd .nav a.top { font-size: 14px; }
 }
+
+/* ---- The overlay menu blows out its own column on a phone (L13) ----
+   The homepage runs the previous design's `.dlife`-scoped overlay, which is
+   the same markup and the same rule: `#menu .big a` is `width: max-content;
+   max-width: 100%`, and the max-width resolves against a `.big` that has no
+   width of its own — so it sizes to the widest label and then lets that label
+   have all of it. "Existing Policy Support" and its 02 marker ran 56px past a
+   320px window. The overlay is the only navigation this page has below
+   1180px.
+
+   Keep this in step with styles/ds/overrides.css §8, which says the same
+   thing to the new design's `.dl-menu`. */
+.dlife #menu .big { min-width: 0; max-width: 100%; }
+@media (max-width: 480px) {
+  .dlife #menu .big a { width: auto; }
+  .dlife #menu .big a i { margin-left: 10px; }
+}

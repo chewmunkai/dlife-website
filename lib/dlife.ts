@@ -16,6 +16,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
    old one. There is one number on this site and it lives there — including
    the TODO that says it is still a placeholder. */
 import { WA_NUMBER } from "./contact";
+import { FORMS_WIRED, submitForm } from "./forms";
 
 export function initDLife(root: HTMLElement): () => void {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -465,12 +466,36 @@ export function initDLife(root: HTMLElement): () => void {
   $$("[data-dl-signup]").forEach((form) => {
     on(form, "submit", (e) => {
       e.preventDefault();
-      const said = document.createElement("p");
-      said.className = "said";
-      said.setAttribute("role", "status");
-      said.textContent =
-        (form as HTMLElement).dataset.dlSignup || "Thanks — we’ll be in touch.";
-      form.replaceWith(said);
+      const say = (text: string, role = "status") => {
+        const said = document.createElement("p");
+        said.className = "said";
+        said.setAttribute("role", role);
+        said.textContent = text;
+        form.replaceWith(said);
+      };
+
+      /* L04: this used to replace itself with "Thanks — we'll be in touch
+         with the next Youth Community update." and store nothing. A form that
+         reports a success it did not have is worse than one that does not
+         work, and this is the homepage. It now says what is true. */
+      if (!FORMS_WIRED) {
+        say(
+          "Sign-up isn’t connected yet, so nothing has been stored. Message us on WhatsApp and we’ll add you to the list by hand.",
+        );
+        return;
+      }
+
+      const email = (form.querySelector("input[type=email]") as HTMLInputElement | null)?.value ?? "";
+      const button = form.querySelector("button");
+      if (button) button.setAttribute("disabled", "true");
+      void submitForm("home-signup", { email }).then((result) => {
+        if (result === "sent") {
+          say((form as HTMLElement).dataset.dlSignup || "Thanks — we’ll be in touch.");
+        } else {
+          button?.removeAttribute("disabled");
+          say("That didn’t send, and nothing was stored. Try again, or message us on WhatsApp.", "alert");
+        }
+      });
     });
   });
 

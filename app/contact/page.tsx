@@ -4,10 +4,7 @@ import Lead from "../../components/v2/Lead";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { CONTACT, WA, WA_NUMBER, waHref } from "../../lib/contact";
-
-/** The stand-in WhatsApp number, written the way a Malaysian reads one. */
-const WA_DISPLAY = `+${WA_NUMBER.slice(0, 2)} ${WA_NUMBER.slice(2, 4)}-${WA_NUMBER.slice(4, 7)} ${WA_NUMBER.slice(7)}`;
+import { CONTACT, WA, WA_DISPLAY, WA_NUMBER, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.contact);

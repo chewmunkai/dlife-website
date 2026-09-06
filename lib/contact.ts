@@ -95,6 +95,30 @@ export const WA = {
 
 export type WaKey = keyof typeof WA;
 
+/**
+ * L02: the WhatsApp number written the way a Malaysian reads one. Both footers
+ * used to print CONTACT.phone under a "WhatsApp" label — which was right until
+ * 6 Sep, when CONTACT.phone became the office landline. The label then said
+ * WhatsApp and showed a number WhatsApp does not answer, while the link
+ * underneath went to the correct mobile. One helper, so the two cannot drift
+ * apart again.
+ */
+export const WA_DISPLAY = `+${WA_NUMBER.slice(0, 2)} ${WA_NUMBER.slice(2, 4)}-${WA_NUMBER.slice(4, 7)} ${WA_NUMBER.slice(7)}`;
+
+/**
+ * L12: D'Life's public social profiles.
+ *
+ * ⚠️ EMPTY ON PURPOSE. Both footers used to carry Instagram, Facebook and
+ * YouTube links pointing at "#", so clicking one jumped to the top of the page
+ * — a placeholder shipping as real navigation. Nothing in this repository, the
+ * brief or the client's materials gives the real URLs.
+ *
+ * Adding one entry here brings the links back in both footers at once. Do not
+ * guess a handle: a wrong profile is worse than no profile, and an insurance
+ * agency linking to somebody else's account is its own problem.
+ */
+export const SOCIALS: ReadonlyArray<{ label: string; href: string }> = [];
+
 /** A wa.me deep link. Used server-side; the client hydrates `[data-wa]` too. */
 export const waHref = (message: string) =>
   `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;

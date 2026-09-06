@@ -27,7 +27,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import Logo from "../site/Logo";
 import { link } from "../../lib/asset";
 import { ROUTES } from "../../lib/routes";
-import { ADDRESS_LINE, CONTACT, WA, waHref } from "../../lib/contact";
+import { ADDRESS_LINE, CONTACT, WA, WA_DISPLAY, waHref } from "../../lib/contact";
 import { NAV, OVERLAY_NAV, FOOTER_DIRS, LEGAL_LINKS } from "./nav";
 
 const Caret = () => (
@@ -170,8 +170,13 @@ export default function Shell({ children }: { children: ReactNode }) {
                 leads the footer on its own. */}
             <h2>Real support, beyond the policy.</h2>
             <div className="ft2-cta">
+              {/* L02: this said "WhatsApp 03-9766 1205" — the office landline
+                  under a WhatsApp label, while the link went to the mobile. */}
               <a href={waHref(WA.footer)}>
-                WhatsApp {CONTACT.phone} <em aria-hidden="true">→</em>
+                WhatsApp {WA_DISPLAY} <em aria-hidden="true">→</em>
+              </a>
+              <a href={`tel:+60${CONTACT.phone.replace(/\D/g, "").slice(1)}`}>
+                Telephone {CONTACT.phone} <em aria-hidden="true">→</em>
               </a>
               <a href={`mailto:${CONTACT.email}`}>
                 {CONTACT.email} <em aria-hidden="true">→</em>
@@ -223,11 +228,14 @@ export default function Shell({ children }: { children: ReactNode }) {
                 {l.label}
               </a>
             ))}
-            {/* TODO(launch): no project document lists D’Life's social
-                profiles. These stay inert rather than guessing a handle. */}
-            <a href="#">Instagram</a>
-            <a href="#">Facebook</a>
-            <a href="#">YouTube</a>
+            {/* L12: three links to "#" were shipping as real navigation —
+                a visitor clicking Instagram got a jump to the top of the page.
+                Nothing in the repository, the brief or the client's materials
+                gives D'Life's profile URLs, so the honest release candidate
+                has no social links at all rather than three dead ones.
+
+                TO RESTORE: put the URLs in SOCIALS in lib/contact.ts. Both
+                footers read the same list and both come back at once. */}
           </div>
           <a className="top" href="#top">
             Back to top <em aria-hidden="true">↑</em>

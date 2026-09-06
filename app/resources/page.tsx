@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, ClosingCard, Events } from "../../components/v2/blocks";
+import { Hero, Band, ClosingCard, Events, StoriesPreview } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { ROUTABLE_ARTICLES } from "../../content/articles";
+import { VIDEOS } from "../../content/videos";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.resources);
@@ -130,6 +131,25 @@ export default function Page() {
         </div>
         <Events items={EVENTS} href={events} />
       </Band>
+
+      {/* L08 (client review, 6 Sep 2026): the advisor films were reachable
+          from this page only through a footer link. They are the closest
+          thing the site has to published content while the article library is
+          empty, so they belong in the main column — the same preview block
+          Careers already uses, off the same three real records. */}
+      <StoriesPreview
+        label="Watch"
+        title="Advisors, in their own words"
+        lede="Short films on what the work actually looks like. Each one plays on the Stories page, with sound."
+        items={VIDEOS.map((v) => ({
+          poster: v.poster,
+          focus: v.focus,
+          title: v.title,
+          runtime: v.runtime,
+        }))}
+        href={ROUTES.stories.path}
+        cta="Watch all the stories"
+      />
 
       <ClosingCard
         title="Would rather just ask someone?"

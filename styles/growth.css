@@ -133,3 +133,39 @@
 }
 .grow__more a:focus-visible { outline: 2px solid var(--dl-copper-d, #8a4b23); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .grow__more a { transition: none; } }
+
+/* ---- L05: the compact (homepage) panel ----
+   A closed row is the benefit's name, so the summary moves inside and leads
+   the panel at the size the row used to give it. */
+.grow__lead {
+  margin: 0 0 12px;
+  margin-left: calc(clamp(38px, 4vw, 60px) + clamp(12px, 2vw, 28px));
+  max-width: 52ch;
+  font: 500 clamp(15.5px, 1.15vw, 17.5px)/1.6 var(--dl-sans, system-ui);
+  text-wrap: pretty;
+}
+/* The way into that benefit's own section on Careers. */
+.grow__go {
+  margin: 14px 0 0;
+  margin-left: calc(clamp(38px, 4vw, 60px) + clamp(12px, 2vw, 28px));
+}
+.grow__go a {
+  display: inline-flex; align-items: center; gap: 9px;
+  font: 500 clamp(14px, 1vw, 15.5px)/1 var(--dl-sans, system-ui);
+  color: var(--dl-copper-d, #8a4b23);
+  text-decoration: none;
+  padding-bottom: 3px;
+  box-shadow: inset 0 -1px 0 currentColor;
+  transition: gap .35s var(--dl-ease, ease);
+}
+.grow__go a em { font-style: normal; }
+@media (hover: hover) { .grow__go a:hover { gap: 14px; } }
+.grow__go a:focus-visible { outline: 2px solid var(--dl-copper-d, #8a4b23); outline-offset: 3px; }
+@media (max-width: 560px) {
+  .grow__lead, .grow__go { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .grow__go a { transition: none; } }
+
+/* L05: a deep link lands on the row, not under a sticky bar. Generous enough
+   for the fixed-header variant even though inner pages run the static one. */
+.grow__row { scroll-margin-top: clamp(84px, 12vh, 120px); }

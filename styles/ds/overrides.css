@@ -119,3 +119,28 @@ section.said { margin-top: 0; }
    reading as two unrelated labels rather than one marked slot. Centre the row
    group, not just each item in its row. */
 .slot-empty { align-content: center; gap: 0; }
+
+/* ---- 8. The overlay menu blows out its own column on a phone (L13) ----
+   `.dl-menu .big a` is `width: max-content; max-width: 100%`. The max-width
+   looks like the guard, but it resolves against `.big` — and `.big` is a flex
+   column with no width of its own, so it sizes to its widest child's
+   max-content and then generously lets that child have 100% of it.
+
+   Measured at 320px: `.big` came out 352px wide starting at x=24, so
+   "Existing Policy Support" and its `02` marker ended at x=376 — 56px past
+   the window. At 375px it clipped by 1px. Only at 390px did it fit. The
+   overlay is the ONLY navigation below 1180px, so this is the same class of
+   fault as rule 2: the menu is there, and part of it cannot be read.
+
+   Two lines. The column is constrained to the track it sits in, and below
+   480px the lines are allowed to wrap instead of being forced onto one
+   max-content line — which keeps the overlay's type identity rather than
+   shrinking it to fit the longest label. The ordinal is inline, so it simply
+   follows the last word onto the second line. */
+.dl-menu .big { min-width: 0; max-width: 100%; }
+@media (max-width: 480px) {
+  .dl-menu .big a { width: auto; }
+  /* A wrapped line does not need the full super-scripted gap before its
+     ordinal, and 14px was enough to tip "02" onto a line of its own. */
+  .dl-menu .big a i { margin-left: 10px; }
+}

@@ -1642,6 +1642,12 @@
   .crsl__btn { transition: none; }
 }
 
+/* L06: a rail carrying `.icards--fill` would otherwise take that class's
+   six-column template and lay one card per two columns inside a track that is
+   already doing its own column sizing. The rail's own template wins. */
+.crsl__track.icards--fill { grid-template-columns: none; }
+.crsl__track.icards--fill > .icard { grid-column: auto; }
+
 /* A rail inside a `.band` should not inherit the grid's top margin twice. */
 .crsl .icards { margin-top: 0; }
 .crsl { margin-top: var(--dl-head-gap); }
@@ -1788,3 +1794,142 @@
    forbids — the words are the page's own. */
 .said--divider blockquote { max-width: 30ch; }
 .said--divider .r { margin-inline: auto; }
+
+/* ============================================================
+   28b · The story reel (.sreel) — L07
+   ------------------------------------------------------------
+   The homepage's centre-stage reel, in this layer's own classes: the playing
+   film large in the middle, its neighbours held either side as posters. The
+   films are vertical 9:16, so the frames are 4:5 and the side cards are held
+   back rather than cropped differently.
+   ============================================================ */
+.sreel__reel {
+  margin-top: var(--dl-head-gap);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.42fr) minmax(0, 1fr);
+  gap: clamp(16px, 2.2vw, 34px);
+  align-items: center;
+}
+/* Two films, or one: the track collapses rather than leaving a hole. */
+.sreel__reel:has(> :nth-child(2):last-child) { grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr); }
+.sreel__reel:has(> :only-child) { grid-template-columns: minmax(0, 620px); justify-content: center; }
+
+.sreel__card { min-width: 0; }
+.sreel__ph {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--s-plate);
+  border-radius: 0;
+}
+.sreel__ph video,
+.sreel__ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The side cards step back so the centre reads as the one that is playing. */
+.sreel__card:not(.is-on) .sreel__ph { opacity: .62; transition: opacity var(--dl-t-base) var(--dl-ease); }
+@media (hover: hover) { .sreel__card:not(.is-on):hover .sreel__ph { opacity: .85; } }
+.sreel__card h3 {
+  margin: clamp(14px, 1.8vh, 20px) 0 0;
+  font: 500 clamp(17px, 1.4vw, 22px)/1.24 var(--dl-disp);
+  letter-spacing: -.014em; color: var(--s-heading); text-wrap: pretty;
+}
+.sreel__card p {
+  margin: 8px 0 0;
+  font: 400 clamp(14px, 1.05vw, 16px)/1.6 var(--dl-sans);
+  color: var(--s-muted); max-width: 40ch;
+}
+.sreel__card:not(.is-on) :is(h3, p) { opacity: .7; }
+
+/* The poster is the control that brings a card to the centre. */
+.sreel__pick {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  padding: 0; border: 0; background: none; cursor: pointer;
+}
+.sreel__pick:focus-visible { outline: 2px solid var(--dl-copper-d); outline-offset: -4px; }
+.sreel__play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: grid; place-items: center;
+  width: 62px; height: 62px; border-radius: 50%;
+  background: rgba(11, 33, 29, .82); color: var(--dl-ivory);
+  transition: background var(--dl-t-base) var(--dl-ease);
+}
+@media (hover: hover) { .sreel__pick:hover .sreel__play { background: var(--dl-copper-d); } }
+.sreel__run {
+  position: absolute; right: 12px; bottom: 12px;
+  padding: 6px 11px; border-radius: 99px;
+  background: rgba(11, 33, 29, .78); color: var(--dl-ivory);
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans); letter-spacing: .1em;
+}
+
+/* Sound: the film's top-left corner, the one the native controls never use,
+   so it cannot sit on the scrubber once sound is on. 44px minimum. */
+.sreel__sound {
+  position: absolute; left: 12px; top: 12px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 9px;
+  min-height: 44px; padding: 12px 18px; border-radius: 99px;
+  border: 1px solid rgba(246, 241, 232, .5);
+  background: rgba(11, 33, 29, .82); color: var(--dl-ivory);
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
+  letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+  transition: background .3s;
+}
+@media (hover: hover) { .sreel__sound:hover { background: var(--dl-copper-d); } }
+.sreel__sound:focus-visible { outline: 2px solid var(--dl-ivory); outline-offset: 2px; }
+.sreel__sound.is-quiet { opacity: .72; }
+.sreel__sound.is-quiet:hover { opacity: 1; }
+.sreel__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--dl-copper); animation: dl-pulse2 1.8s ease-in-out infinite;
+}
+@keyframes dl-pulse2 { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .sreel__dot { animation: none; } }
+
+/* Controls, centred under the reel. Every target is at least 46px. */
+.sreel__ctl {
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(10px, 1.4vw, 20px);
+  margin-top: clamp(22px, 3vh, 36px);
+}
+.sreel__btn {
+  display: inline-grid; place-items: center;
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 1px solid var(--s-outline); background: none;
+  color: var(--s-strong); cursor: pointer;
+  transition: background .3s, border-color .3s, color .3s;
+}
+@media (hover: hover) {
+  .sreel__btn:hover { background: var(--dl-copper-d); border-color: var(--dl-copper-d); color: #fff; }
+}
+.sreel__btn:focus-visible { outline: 2px solid var(--dl-copper-d); outline-offset: 2px; }
+.sreel__dots { display: flex; align-items: center; gap: 0; }
+.sreel__dots button {
+  width: 44px; height: 44px; padding: 0; border: 0; background: none;
+  cursor: pointer; position: relative;
+}
+.sreel__dots button::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--s-outline); transition: background .3s, width .3s;
+}
+.sreel__dots button.is-on::after { background: var(--dl-copper-d); width: 26px; border-radius: 99px; }
+.sreel__dots button:focus-visible { outline: 2px solid var(--dl-copper-d); outline-offset: -6px; }
+.sreel__count {
+  margin: 0; min-width: 6ch; text-align: center;
+  font: 400 14px/1 var(--dl-sans); color: var(--s-muted);
+}
+.sreel__count b { font-weight: var(--dl-w-bold); color: var(--s-strong); }
+@media (prefers-reduced-motion: reduce) {
+  .sreel__btn, .sreel__card:not(.is-on) .sreel__ph, .sreel__play { transition: none; }
+}
+
+/* One film at a time below tablet: the side posters stop earning their room
+   before they stop fitting. The controls are how you move between them. */
+@media (max-width: 900px) {
+  .sreel__reel,
+  .sreel__reel:has(> :nth-child(2):last-child) { grid-template-columns: minmax(0, 1fr); }
+  .sreel__card:not(.is-on) { display: none; }
+}
+@media (max-width: 560px) {
+  .sreel__sound { left: 10px; top: 10px; padding: 12px 14px; }
+  .sreel__ctl { gap: 6px; }
+}

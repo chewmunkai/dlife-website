@@ -146,7 +146,14 @@ export default function Page() {
 
       {/* Same treatment as a solution page's "What it actually means": the
           review's components as icon cards. */}
+      {/* L06 (client review, 6 Sep 2026): these five run as a rail — four in
+          view on a desktop, the fifth an arrow away — rather than the 3+2
+          balanced grid the five-term and five-question sections keep. The
+          arrows disable at the ends, the track is focusable so a keyboard can
+          scroll it, and every card stays reachable on a phone by drag. */}
       <Ideas
+        layout="rail"
+        railLabel="review cards"
         title="What happens in a review"
         items={IS}
         icons={["doc", "gauge", "shield", "clock", "people"]}

@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from "react";
+import Carousel from "./Carousel";
 import { asset, link } from "../../lib/asset";
 import { trail, type Route } from "../../lib/routes";
 import { Icon, type IconKey } from "./icons";
@@ -251,22 +252,33 @@ export function Moments({
  */
 export const railed = (count: number, columns = 4) => count > columns && count % columns !== 0;
 
+/**
+ * How a card set lays out. L06 made this explicit rather than derived: the
+ * client wants Existing Policy Support's five on a rail and the five-term and
+ * five-question sections on the balanced grid, which no single rule about
+ * counts can express.
+ *
+ *   grid — wrapping rows, for a set that tiles cleanly
+ *   fill — three across with the remainder centred underneath
+ *   rail — four in view, the rest reachable by arrow, drag or keyboard
+ */
+export type CardLayout = "grid" | "fill" | "rail";
+
 export function IdeaCards({
   items,
   icons,
   columns = 4,
-  carousel = false,
+  layout = "grid",
   label = "cards",
 }: {
   items: ReadonlyArray<{ term: string; copy: ReactNode }>;
   icons?: ReadonlyArray<IconKey>;
   columns?: 3 | 4;
-  /** Run as a scroll-snap rail instead of a wrapping grid. */
-  carousel?: boolean;
-  /** Names the rail for a screen reader, e.g. "terms". Ignored as a grid. */
+  layout?: CardLayout;
+  /** Names the rail for a screen reader, e.g. "terms". Ignored otherwise. */
   label?: string;
 }) {
-  const grid = `icards${columns === 3 ? " icards--3" : ""}${carousel ? " icards--fill" : ""}`;
+  const grid = `icards${columns === 3 ? " icards--3" : ""}${layout === "fill" ? " icards--fill" : ""}`;
   const cards = items.map((d, i) => (
     <article className="icard" key={d.term}>
       <span className="no">{String(i + 1).padStart(2, "0")}</span>
@@ -278,10 +290,13 @@ export function IdeaCards({
     </article>
   ));
 
-  /* `carousel` now means "this set does not tile" rather than "make a rail" —
-     the class it turns on lays the remainder out centred. Kept as the prop
-     name so callers do not have to change; `label` is unused in this mode. */
-  void label;
+  if (layout === "rail") {
+    return (
+      <Carousel label={label} className={grid}>
+        {cards}
+      </Carousel>
+    );
+  }
   return <div className={grid}>{cards}</div>;
 }
 
@@ -297,6 +312,7 @@ export function Ideas({
   lede,
   items,
   icons,
+  layout,
   railLabel = "terms",
 }: {
   label?: string;
@@ -304,6 +320,8 @@ export function Ideas({
   lede?: ReactNode;
   items: ReadonlyArray<{ term: string; copy: ReactNode }>;
   icons?: ReadonlyArray<IconKey>;
+  /** Omitted, a set that does not tile falls back to the balanced grid. */
+  layout?: CardLayout;
   /** Names the rail when the set is one. Say what the cards are. */
   railLabel?: string;
 }) {
@@ -312,9 +330,14 @@ export function Ideas({
       {label && <p className="lbl">{label}</p>}
       <h2>{title}</h2>
       {lede && <p className="dl-lede">{lede}</p>}
-      {/* A02: 4 terms tile; Medical's 5 and Wealth & Legacy's 7 do not, and
-          become a rail. The page does not decide this — the count does. */}
-      <IdeaCards items={items} icons={icons} carousel={railed(items.length)} label={railLabel} />
+      {/* A02/L06: four terms tile. A set that does not gets the balanced grid
+          unless the page asks for a rail — Existing Policy Support does. */}
+      <IdeaCards
+        items={items}
+        icons={icons}
+        layout={layout ?? (railed(items.length) ? "fill" : "grid")}
+        label={railLabel}
+      />
     </section>
   );
 }

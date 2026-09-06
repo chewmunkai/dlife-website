@@ -29,6 +29,12 @@
 export type Benefit = {
   /** Ordinal, as displayed. */
   no: string;
+  /**
+   * L05: the anchor Careers gives this benefit, and the target the homepage
+   * links each row to. A word rather than an ordinal, so the link still means
+   * something if the order ever changes and so the URL reads.
+   */
+  slug: string;
   /** The client's name for the benefit. */
   title: string;
   /** Careers' longer heading for the same benefit. */
@@ -42,6 +48,7 @@ export type Benefit = {
 export const GROWTH: Benefit[] = [
   {
     no: "01",
+    slug: "mentorship",
     title: "Mentorship",
     full: "Mentorship before independence",
     summary: "You learn the craft beside someone senior before you ever learn a pitch.",
@@ -49,6 +56,7 @@ export const GROWTH: Benefit[] = [
   },
   {
     no: "02",
+    slug: "professionalism",
     title: "Professionalism",
     full: "Licensing and professional standards",
     summary: "Licensing, product knowledge and disclosure done properly.",
@@ -56,6 +64,7 @@ export const GROWTH: Benefit[] = [
   },
   {
     no: "03",
+    slug: "leadership",
     title: "Leadership",
     full: "A route into leadership",
     summary: "A route from advisor to team leader, with training at each step.",
@@ -63,6 +72,7 @@ export const GROWTH: Benefit[] = [
   },
   {
     no: "04",
+    slug: "culture",
     title: "Culture",
     full: "A culture that measures the right thing",
     summary: "People who measure a good year by the clients who stayed.",
