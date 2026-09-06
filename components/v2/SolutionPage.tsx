@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Shell from "./Shell";
+import { servicePhotos } from "../../content/service-photos";
 import Ask from "./Ask";
 import JsonLd from "../site/JsonLd";
 import { Hero, Bar, Band, Said, OpenStatement, Moments, Ideas, StepsPanel, ClosingCard } from "./blocks";
@@ -47,6 +48,7 @@ function withPolicyLink(text: string): ReactNode {
 export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS }) {
   const c = SOLUTIONS[slug];
   const e = SOLUTIONS_E2[slug];
+  const photos = servicePhotos(slug, c.photo, e.moments);
   const route = ROUTES[slug as RouteKey];
   const wa = waHref(c.cta.wa);
   /* The six areas read as a sequence, wrapping at the end, so the closing
@@ -61,7 +63,7 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
         label={c.label}
         title={c.h1}
         lede={c.lede}
-        photo={c.photo}
+        photo={photos.hero}
         actions={
           <a className="pill" href={wa}>
             <span>{e.action}</span>
@@ -89,7 +91,7 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
       </Band>
 
       {/* RECOGNISE — the visitor's own situations, each with a photograph. */}
-      <Moments title={e.split.title} items={c.recognise.questions} photos={e.moments} />
+      <Moments title={e.split.title} items={c.recognise.questions} photos={photos.moments} />
 
       {/* EXPLAIN — tinted icon cards. */}
       <Ideas

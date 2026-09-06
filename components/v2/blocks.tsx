@@ -25,6 +25,8 @@ export type Photo = {
   src: string;
   alt: string;
   position?: string;
+  /** Opt-in full-image fitting; used by service-page photo replacements. */
+  fit?: "contain";
   /**
    * The frame takes THIS ratio instead of its own, e.g. "4 / 3".
    *
@@ -50,7 +52,7 @@ const Img = ({ photo }: { photo: Photo }) => (
   <img
     src={asset(photo.src)}
     alt={photo.alt}
-    style={photo.position ? { objectPosition: photo.position } : undefined}
+    style={photo.position || photo.fit ? { objectPosition: photo.position, objectFit: photo.fit, backgroundColor: photo.fit ? "var(--s-plate, #efece4)" : undefined } : undefined}
   />
 );
 
