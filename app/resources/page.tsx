@@ -85,7 +85,11 @@ export default function Page() {
         label="Articles & events"
         title="Reading and what’s coming up"
         lede="Writing worth your time, and the sessions that run across the D’Life community through the year."
-        photo={{ src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress" }}
+        /* ⚠️ `ratio` is not optional here. dva-workshop.jpg is a 0.80 portrait
+           and this plate is 1.09, which cut the seated participants out along
+           the bottom edge — the same defect this photograph caused on the
+           Youth events grid. The frame takes the picture's shape instead. */
+        photo={{ src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress", ratio: "760 / 950" }}
       />
 
       {/* Driven by content/articles.ts. Restored 6 Sep 2026: the template is

@@ -218,3 +218,31 @@ event cards are a 4:3 grid, and a portrait staircase photograph cannot become
 4:3 without losing the people at the top and bottom of it — so that card
 carries a 4:3 photograph instead. That is the "or DON'T use it" half of the
 rule, and it is the right half more often than it looks.
+
+## Full sweep, round 21
+
+Every image on every page, measured at 1440 **and** 375, then masked. Both
+widths matter: the worst finding of the sweep was invisible at desktop.
+
+| Placement | Photograph | Lost | Verdict |
+|---|---|---|---|
+| Quote band, six solution pages, **≤880px** | `team-gathering.jpg` in a 0.64 frame | **59%** | **Fixed.** `.said` had `min-height: min(72vh,660px)` and no ratio, so on a phone a 1.55 landscape sat in a portrait window and kept 41% of the width — most of the agency gone. Desktop was fine at 30%, which is exactly why one width is not a sweep. Stacked now: picture at its own ratio, quote underneath on ink. |
+| Articles & Events hero plate | `dva-workshop.jpg` in a 1.09 frame | **27%** | **Fixed.** A 0.80 portrait losing its seated participants along the bottom — the same defect this photograph caused on the Youth events grid. The plate takes the picture's ratio. |
+| Homepage closing band, ≤760px | `close-conversation.jpg` in a 0.49 frame | 70% | **Left alone.** Centred on the advisor, who is the subject and is wholly in frame; the bands are out-of-focus foreground and brick. |
+| DVA page, Articles | `dva-forum.jpg` in a 1.33 frame | 44% | **Left alone.** Positioned on the stage band: the panel and screen survive, the empty ceiling goes. |
+| Homepage reel posters | `advisor-*.jpg`, `dva-workshop.jpg` at 0.56 | 30% | **Left alone** for the portraits — single subjects, backdrop only. `dva-workshop` still clips a standing participant; it is a *video* card and the film is 0.80, so it needs a 9:16 cut of the footage, not a poster swap. Client decision. |
+| Solution quote band, desktop | `team-gathering.jpg` in a 2.22 frame | 30% | **Left alone.** Ceiling and floor. |
+| Youth events | `community-gathering.jpg` in a 4:3 card | 11% | **Left alone.** Kitchen counter and bare wall. |
+| Homepage DVA panel | `dva-team.jpg` | 6% | **Left alone.** Backdrop. |
+
+**Stock photography** (`hero.jpg`, `policy-review.jpg`, `path-*`, `need-*`,
+`fam-*`, `close-conversation.jpg`) is outside the client's rule, which says
+"For Dlife images". Two are worth the client's attention anyway:
+
+- `hero.jpg` — the inner-page header band on **every** page, 60–64% at desktop
+  and 52–57% on a phone, and at the narrow sizes it cuts two of the three
+  people. It is a generic stock family and it is the visual identity of every
+  page header. Replacing it is a design decision, not a defect fix.
+- `need-family.jpg` in the Solutions grid, 42% — the crop keeps the umbrella
+  and the garden and loses the family at the table, so the picture no longer
+  shows what it was chosen for.

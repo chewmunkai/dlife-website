@@ -2640,3 +2640,54 @@
   .wrap .band--read .band__body > .dl-lede,
   .wrap .band--read .band__body > .dl-prose { max-width: none; }
 }
+
+/* ============================================================
+   39 · Photo-audit fixes, round 21
+   A full sweep of every image on every page at 1440 and 375, measured and
+   then masked — the percentage triages, only the mask decides (see
+   docs/dlife-asset-map.md and the memory note on this rule).
+   ============================================================ */
+
+/* ---- 39a · the quote band on a phone ----
+   ⚠️ THE WORST FINDING OF THE SWEEP, and it only appears on mobile. `.said` is
+   `min-height: min(72vh, 660px)` with no ratio, so at 375x812 the band is
+   375x585 — a 0.64 PORTRAIT frame holding team-gathering.jpg, which is 1.55
+   landscape. It kept 41% of the width and threw away most of the agency, on
+   all six solution pages. Desktop was fine (2.22 frame, 30% off the height,
+   ceiling and floor) which is exactly why measuring only one width misses it.
+
+   Same fix as the homepage DVA panel took: stop asking one frame to be both
+   the picture and the copy's ground. The photograph gets its own ratio at the
+   top and the quote sits underneath on the ink it was already legible
+   against. Everyone is back in frame. */
+@media (max-width: 880px) {
+  .wrap .said:not(.said--plain) {
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto auto;
+    align-items: stretch;
+    background: var(--dl-ink);
+  }
+  .wrap .said:not(.said--plain) > img {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1800 / 1158;
+    object-fit: cover;
+  }
+  /* The wash existed to hold ivory type over a photograph. Nothing is set over
+     the photograph any more, so it would only be dimming the team. */
+  .wrap .said:not(.said--plain)::after { display: none; }
+  .wrap .said:not(.said--plain) figure { padding: clamp(28px, 5vh, 44px) var(--m) clamp(34px, 6vh, 52px); }
+}
+
+/* ---- 39b · the closing band on a phone — CHECKED, LEFT ALONE ----
+   The homepage closing band measures a 70% loss on close-conversation.jpg at
+   375 (a 1.60 picture in a 0.49 frame), which looks alarming and is not. The
+   crop is centred on the advisor, who is the subject and is entirely in frame;
+   what it discards is out-of-focus foreground and a brick wall. Masked and
+   looked at rather than trusted to the number.
+
+   Recorded here because the number will flag again on the next sweep. The
+   percentage triages; only the mask decides. */
