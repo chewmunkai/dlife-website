@@ -1203,13 +1203,30 @@ body:has(.dlife) {
    is what sets the section's height: the playing card loses ~40px across and
    ~70px down, which is most of what the band gives back, and the centre stage
    is no less obviously the centre stage for it. */
+/* ⚠️ Round 17, client: "there's a big awkward space at left and right."
+   
+   Measured, it was 273px of empty band on each side: three cards and two gaps
+   came to 754px inside a 1296px row. Worth being clear about why that could
+   not be fixed by scaling alone — these are 9:16 films, so width sets height,
+   and filling 1296px with three of them needs a centre card 547px wide and
+   973px tall. The row cannot be filled by three vertical cards at any sane
+   height. More cards is the only real answer, which is what the client asked
+   for in the same breath.
+   
+   So the sizes are set for four: 245 + 350 + 245 + 245 and three gaps comes to
+   1150 of 1296, which reads as full. Three cards now come to 883 rather than
+   754, which is better without pretending to be fixed.
+   
+   ⚠️ With an EVEN number of films the active card cannot sit in the middle of
+   the row — four cards means one flank has two and the other has one. It is
+   centred again at five. */
 .dlife #stories .reel .story {
   flex: 0 0 auto;
-  width: clamp(140px, 14vw, 200px);
+  width: clamp(155px, 17vw, 245px);
   text-align: center;
   transition: width .5s cubic-bezier(.22, .7, .24, 1);
 }
-.dlife #stories .reel .story.on { width: clamp(216px, 21.5vw, 306px); }
+.dlife #stories .reel .story.on { width: clamp(224px, 24.3vw, 350px); }
 /* Frames follow the source: these are 9:16 vertical films, so the card is
    9:16 and the picture fills it edge to edge. The old 4:3-ish frame is what
    put the two dead columns either side of a playing video. */

@@ -3,7 +3,7 @@ import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import Signup from "../../components/v2/Signup";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, Open, SplitShot, Checks, ClosingCard, Trio, WhoGrid, LoopCard, Events } from "../../components/v2/blocks";
+import { Hero, Band, SplitShot, Checks, ClosingCard, Trio, WhoGrid, LoopCard, Events } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -207,11 +207,14 @@ export default function Page() {
         }
       />
 
-      <Band>
-        <Open lead="Young people leaving university today need more than a qualification.">
+      {/* Reverted to the pre-port design at the client's request (Sep 2026):
+          one reading-width column rather than the display lead beside prose. */}
+      <Band read>
+        <div className="dl-prose">
           <p>
-            They need confidence, the ability to communicate, some grasp of how money actually works, a bit of
-            leadership practice and some real-world experience to put it all against.
+            Young people leaving university today need more than a qualification. They need confidence, the ability to
+            communicate, some grasp of how money actually works, a bit of leadership practice and some real-world
+            experience to put it all against.
           </p>
           <p>
             The Youth Community exists to provide those things in a setting that is practical and welcoming rather than
@@ -219,7 +222,7 @@ export default function Page() {
             purpose-driven: people who go on to have a positive effect on their careers, their communities and the
             generation after them.
           </p>
-        </Open>
+        </div>
       </Band>
 
       {/* id="resources": the homepage's "Educational Resources" card lands

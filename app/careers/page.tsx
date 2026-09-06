@@ -3,7 +3,7 @@ import Shell from "../../components/v2/Shell";
 import Growth from "../../components/v2/Growth";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Open, IdeaCards, StoriesPreview, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Bar, Band, IdeaCards, StoriesPreview, ClosingCard } from "../../components/v2/blocks";
 import type { IconKey } from "../../components/v2/icons";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
@@ -169,14 +169,18 @@ export default function Page() {
         statement="An honest conversation about what the work involves."
       />
 
-      <Band>
-        <Open lead="You have probably seen how this industry usually recruits. We are not going to do that.">
+      {/* Reverted to the pre-port design at the client's request (Sep 2026),
+          the same way the openings on About, Stories and Existing Policy
+          Support were: one reading-width column rather than the first
+          sentence at display scale beside the prose. */}
+      <Band read>
+        <div className="dl-prose">
           <p>
-            What we can tell you is what the work actually involves, how you would be trained, and who tends to do well
-            at it. If that reads as less exciting than the alternative, we would rather you decided on the accurate
-            version.
+            You have probably seen how this industry usually recruits. We are not going to do that. What we can tell
+            you is what the work actually involves, how you would be trained, and who tends to do well at it. If that
+            reads as less exciting than the alternative, we would rather you decided on the accurate version.
           </p>
-        </Open>
+        </div>
       </Band>
 
       <Band label="The work itself">
@@ -204,26 +208,33 @@ export default function Page() {
           the heading alone when closed, and everything else as the
           description when open. */}
       <Band tone="sand" label="How you would grow" title="What we actually provide">
-        <Growth items={GROWTH} long compact idBase="careers-grow" />
-      </Band>
+        <Growth items={GROWTH} long compact panelled idBase="careers-grow" />
 
-      {/* Client, 6 Sep 2026: "put this at a better place, subtle but clean."
-          It was wedged under the six cards describing the work, where a
-          caveat interrupted the description it belonged after. It sits here
-          instead — the honest note that follows the promise, in the same
-          contained panel the Existing Policy reassurance uses, so the two
-          quiet moments on the site look like one idea.
+        {/* Round 17, client: the caveat was "placed at a weird spot and taking
+            the spotlight… it needs to be subtle and spaced correctly".
 
-          A10 note stands: no amount, no range, no guarantee, and the "it
-          starts slowly" honesty is kept. */}
-      <section className="band light assure-host">
-        <p className="assure">
+            Both halves of that are fair. It had a whole band to itself between
+            this section and the advisor films, which gave a footnote the same
+            structural weight as the sections either side of it — and it was
+            set as a cream panel with a copper bar, the site's reassurance
+            object, which is a lot of design for a disclaimer.
+
+            It belongs here: it qualifies the 18-month programme these four
+            rows describe, so it reads as the small print under the promise
+            rather than as a statement of its own. `assure--note` is the quiet
+            cut — a hairline above it and nothing else. Existing Policy
+            Support keeps the panel treatment; the client did not ask for that
+            one to change.
+
+            A10 note stands: no amount, no range, no guarantee, and the "it
+            starts slowly" honesty is kept. */}
+        <p className="assure assure--note">
           <b>Two things it is not.</b> It does not work as a side project, and nobody here earns from signing other
           people up. Advisor earnings are commission-based, supported through a structured 18-month career programme
           that includes a basic bonus allowance. We would rather talk the detail through with you properly than
           publish a figure that belongs to somebody else.
         </p>
-      </section>
+      </Band>
 
       {/* The guide runs the career journey through the advisor films, so this
           is a preview of them rather than an unattributed pull-quote. */}
@@ -240,30 +251,49 @@ export default function Page() {
         href={ROUTES.stories.path}
       />
 
-      <section className="two two--flip sand">
-        <div className="plate ph" style={{ aspectRatio: "4 / 3" }}>
-          {/* The plate is 4:5 and this photograph is 4:3, which was costing
-              40% of its width — the worst crop on the site. The plate takes
-              the picture's shape instead. */}
-          <img src={asset("/media/img/team-office.jpg")} alt="D’Life advisors and managers together at the agency office" />
-        </div>
+      {/* Round 17, client: "the image on the right is too small now. Balance
+          it out."
+
+          Fair, and this is the bill for an earlier fix. The plate used to be
+          4:5 and this photograph is 4:3, which cost it 40% of its width — the
+          worst crop on the site — so the plate took the picture's shape. That
+          is right, and it also cost the image 266px of height, which is what
+          made it look small.
+
+          It could not be won back inside the old shape. The six qualities ran
+          down the text column, making it 996px tall against a 398px plate: a
+          597px gap, with the image floating in the middle of it. No column
+          ratio fixes that, and the picture cannot get taller without being
+          cropped again.
+
+          So the section splits in two. The heading pair sits beside the
+          photograph, which is now the wider column and the object that sets
+          the row's height; the six qualities run underneath as a full-width
+          grid, which is a better home for them anyway — six rows of one were
+          a list pretending to be a section. `two--flip` is gone with it: the
+          plate is simply the second child now, because a third child that
+          spans both columns cannot be ordered around a flip. */}
+      <section className="two sand two--pair">
         <div>
           <p className="lbl">Who thrives at D’Life?</p>
           <h2>Could this be you?</h2>
-          <p className="dl-lede" style={{ maxWidth: "44ch" }}>
+          <p className="dl-lede" style={{ maxWidth: "40ch" }}>
             There is no single formula for success. But the people who thrive here tend to share these qualities.
           </p>
-          <div className="traits">
-            {QUALITIES.map((q, i) => (
-              <div key={q.name}>
-                <b>{String(i + 1).padStart(2, "0")}</b>
-                <span>
-                  {q.name}
-                  <em>{q.copy}</em>
-                </span>
-              </div>
-            ))}
-          </div>
+        </div>
+        <div className="plate ph" style={{ aspectRatio: "4 / 3" }}>
+          <img src={asset("/media/img/team-office.jpg")} alt="D’Life advisors and managers together at the agency office" />
+        </div>
+        <div className="traits traits--grid">
+          {QUALITIES.map((q, i) => (
+            <div key={q.name}>
+              <b>{String(i + 1).padStart(2, "0")}</b>
+              <span>
+                {q.name}
+                <em>{q.copy}</em>
+              </span>
+            </div>
+          ))}
         </div>
       </section>
 

@@ -149,12 +149,23 @@ export default function Growth({
   /** Base of the Careers URL each row links to, e.g. "/careers". */
   linkBase,
   idBase = "grow",
+  panelled = false,
 }: {
   items: ReadonlyArray<Benefit>;
   long?: boolean;
   compact?: boolean;
   linkBase?: string;
   idBase?: string;
+  /**
+   * Each row becomes its own surface instead of a hairline in a stack.
+   *
+   * On the homepage this block sits on ink, where hairlines separate rows
+   * perfectly well and four surfaces would compete with the section around
+   * it. On Careers it is the whole of "What we actually provide" on a sand
+   * band — four rules and four headings, which is what the client meant by
+   * asking for it to be designed better. See styles/growth.css.
+   */
+  panelled?: boolean;
 }) {
   /* L05: honour a deep link. Read once on mount rather than on every render —
      the reader may well close the row afterwards, and re-opening it under
@@ -171,7 +182,7 @@ export default function Growth({
   }, []);
 
   return (
-    <div className="grow">
+    <div className={panelled ? "grow grow--cards" : "grow"}>
       {items.map((item) => (
         <Row
           key={item.no}

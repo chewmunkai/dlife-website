@@ -934,11 +934,22 @@
   padding: clamp(28px, 4vh, 46px) clamp(22px, 2.6vw, 40px) clamp(30px, 4.4vh, 50px);
   display: flex; flex-direction: column;
 }
-.trio .pl + .pl { border-left: 1px solid rgba(246, 241, 232, .15); }
+/* ⚠️ Round 17, client: "improve the health pillars design contrast."
+   
+   Nothing here was failing AA — the numerals sat at 3.36:1 against the ink,
+   which clears the 3:1 large-text bar, and the list ran at 7.67:1. What was
+   wrong is that the panel's structure had almost none: the column dividers
+   were at 1.55:1 and the rules between list items at 1.29:1, which is to say
+   invisible, so three columns of type floated in one dark rectangle.
+   
+   So the lift is mostly on the lines, and the numerals stop being a whisper:
+   dividers 1.55 -> 2.42:1, item rules 1.29 -> 1.69:1, numerals 3.36 -> 5.65:1
+   and the specifics 7.67 -> 10.57:1. Measured against #0F332C, not estimated. */
+.trio .pl + .pl { border-left: 1px solid rgba(246, 241, 232, .30); }
 .trio .pl .top { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .trio .pl .no {
   font: 500 clamp(28px, 2.8vw, 44px)/1 var(--dl-disp);
-  letter-spacing: -.03em; color: rgba(208, 191, 169, .55);
+  letter-spacing: -.03em; color: rgba(208, 191, 169, .82);
 }
 .trio .pl .dl-icon { color: var(--dl-sand); flex: none; }
 .trio .pl h3 {
@@ -957,21 +968,25 @@
 /* The specifics, which used to be commas inside the claim. */
 .trio .pl ul {
   list-style: none; margin: clamp(20px, 2.8vh, 28px) 0 0; padding: 0;
-  border-top: 1px solid rgba(246, 241, 232, .15);
+  /* The list's own rule is the strongest of the three, because it is what
+     separates the specifics from the claim above them. */
+  border-top: 1px solid rgba(246, 241, 232, .38);
 }
 .trio .pl li {
-  padding: 10px 0 10px 18px; position: relative;
-  font: var(--dl-w-regular) 14.5px/1.5 var(--dl-sans);
-  color: rgba(246, 241, 232, .76);
+  padding: 11px 0 11px 20px; position: relative;
+  font: var(--dl-w-regular) 15px/1.55 var(--dl-sans);
+  color: rgba(246, 241, 232, .92);
 }
-.trio .pl li + li { border-top: 1px solid rgba(246, 241, 232, .09); }
+.trio .pl li + li { border-top: 1px solid rgba(246, 241, 232, .18); }
+/* The dash was a 1px hairline in copper on ink — 3.33:1, and at one pixel
+   that is a rumour rather than a mark. Two pixels and a little longer. */
 .trio .pl li::before {
   content: ""; position: absolute; left: 0; top: 1.05em;
-  width: 8px; height: 1px; background: var(--dl-copper);
+  width: 10px; height: 2px; background: var(--dl-copper);
 }
 @media (max-width: 900px) {
   .trio { grid-template-columns: minmax(0, 1fr); }
-  .trio .pl + .pl { border-left: 0; border-top: 1px solid rgba(246, 241, 232, .15); }
+  .trio .pl + .pl { border-left: 0; border-top: 1px solid rgba(246, 241, 232, .30); }
 }
 
 /* ============================================================
@@ -1101,14 +1116,14 @@
   margin-top: var(--dl-head-gap);
   background: var(--dl-cream);
   border-top: var(--dl-rule-w) solid var(--dl-copper-d);
-  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .09);
+  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .22);
 }
 .yearmap .tier {
   display: grid; grid-template-columns: minmax(0, 226px) minmax(0, 1fr);
   gap: clamp(22px, 3.4vw, 56px); align-items: start;
   padding: clamp(26px, 3.6vh, 40px) clamp(24px, 3.2vw, 44px);
 }
-.yearmap .tier + .tier { border-top: 1px solid rgba(47, 53, 50, .16); }
+.yearmap .tier + .tier { border-top: 1px solid rgba(47, 53, 50, .28); }
 .yearmap .when {
   font: 500 clamp(22px, 2.1vw, 32px)/1.1 var(--dl-disp);
   letter-spacing: -.02em; color: var(--s-heading); display: block;
@@ -1131,23 +1146,35 @@
   display: grid; grid-template-columns: repeat(var(--n, 1), minmax(0, 1fr));
   gap: clamp(12px, 1.4vw, 18px);
 }
-/* Round 9: the cards were ivory on cream with a .12 hairline, which is barely
-   two steps of tone — they read as gaps in the panel rather than as objects on
-   it. Now each one is capped in copper like every other card in the system,
-   the hairline is strong enough to close the shape, and the padding is a card's
-   worth rather than a cell's. */
+/* Round 9 capped these in copper and closed the shape with a hairline. Round
+   17, client: "make the design of the card with more contrast and better
+   looking."
+   
+   Ivory on cream is two steps of tone, and an 18% hairline was not enough to
+   carry the difference on its own — the cards still read as slightly paler
+   patches of the panel. Three changes, in order of how much they do:
+   
+     · the hairline goes to 30% and the card takes a low shadow, so it sits ON
+       the panel instead of being a lighter area of it
+     · the title gets a rule under it. Each card was two stacked paragraphs
+       with a gap; a rule is what makes it a card with a head and a body
+     · the description comes off the muted token onto body ink */
 .yearmap .it {
   background: var(--dl-ivory);
-  box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .18);
+  box-shadow:
+    inset 0 0 0 1px rgba(47, 53, 50, .30),
+    0 10px 22px -16px rgba(15, 51, 44, .40);
   border-top: 2px solid var(--dl-copper-d);
   padding: clamp(18px, 2vw, 26px) clamp(18px, 2vw, 24px) clamp(20px, 2.4vh, 26px);
-  display: grid; gap: 9px; align-content: start;
+  display: grid; gap: 0; align-content: start;
 }
 .yearmap .it b {
   font: 500 clamp(17px, 1.35vw, 20.5px)/1.24 var(--dl-disp);
   letter-spacing: -.014em; color: var(--s-heading);
+  padding-bottom: clamp(10px, 1.2vh, 13px);
+  border-bottom: 1px solid rgba(47, 53, 50, .20);
 }
-.yearmap .it span { color: var(--s-muted); }
+.yearmap .it span { color: var(--s-body); margin-top: clamp(10px, 1.2vh, 13px); }
 
 /* ---- The spine: the monthly tier, on ink ---- */
 .yearmap .tier--spine {
@@ -1159,14 +1186,20 @@
 .yearmap .tier--spine .n { color: rgba(246, 241, 232, .6); border-top-color: rgba(246, 241, 232, .22); }
 .yearmap .tier--spine .n b { color: var(--dl-sand); }
 /* On ink the wash has to be a shade stronger to separate from the ground, and
-   the cap goes to the lighter copper so it still reads against the dark. */
+   the cap goes to the lighter copper so it still reads against the dark. Same
+   round-17 lift as the light cards: the wash and the hairline both come up,
+   the shadow goes (a drop shadow on a dark ground is nothing), and the title
+   takes its own rule. */
 .yearmap .tier--spine .it {
-  background: rgba(246, 241, 232, .09);
-  box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .22);
+  background: rgba(246, 241, 232, .13);
+  box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .34);
   border-top-color: var(--dl-copper);
 }
-.yearmap .tier--spine .it b { color: var(--dl-ivory); }
-.yearmap .tier--spine .it span { color: rgba(246, 241, 232, .78); }
+.yearmap .tier--spine .it b {
+  color: var(--dl-ivory);
+  border-bottom-color: rgba(246, 241, 232, .26);
+}
+.yearmap .tier--spine .it span { color: rgba(246, 241, 232, .92); }
 
 @media (max-width: 900px) {
   .yearmap .tier { grid-template-columns: minmax(0, 1fr); gap: clamp(16px, 2.2vh, 22px); }
@@ -2414,4 +2447,77 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .wrap .dl-cards--overlay .dl-card { transition: none; }
+}
+
+/* ---- 32d · the reassurance as a footnote (.assure--note) ----
+   Round 17, client: the Careers caveat was "placed at a weird spot and taking
+   the spotlight… subtle and spaced correctly".
+
+   It had its own band between two sections, wearing the cream-and-copper
+   panel that is the site's reassurance object. That is the right register for
+   Existing Policy Support, where the sentence IS the section's point. On
+   Careers it is small print under a promise, so it takes the small print's
+   treatment: a hairline above it, one step down in size, and the ink pulled
+   back — no surface, no bar, no box. It now sits inside "What we actually
+   provide", under the four rows it actually qualifies. */
+.assure--note {
+  max-width: 70ch;
+  margin-top: clamp(30px, 4vh, 48px);
+  padding: clamp(18px, 2.2vh, 24px) 0 0;
+  background: none;
+  border-left: 0;
+  border-top: 1px solid rgba(47, 53, 50, .24);
+  box-shadow: none;
+  font: var(--dl-w-regular) clamp(14.5px, 1.05vw, 16px)/1.7 var(--dl-sans);
+  color: rgba(47, 53, 50, .78);
+}
+.assure--note b { color: var(--s-strong); font-weight: 600; }
+
+/* ---- 37 · "Could this be you?" rebalanced (.two--pair) ----
+   Round 17, client: "the image on the right is too small now. Balance it out."
+
+   See the note at the call site for why it could not be fixed by resizing
+   alone. The section is a heading pair beside a photograph, with the six
+   qualities spanning underneath.
+
+   The photograph takes the wider column here, which is the opposite of the
+   `.two` default — the copy beside it is a label, a title and one line, so
+   the picture is the object with something to say and should have the room. */
+.two--pair {
+  /* 4:7, not the 6:5 `.two` default and not an even split. The left column
+     holds a label, a four-word title and one line; the right holds the
+     photograph. Giving the picture the larger share is what wins back most of
+     the height the crop fix cost it — 743x557 here against the 531x398 the
+     client called too small. */
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  align-items: center;
+  row-gap: clamp(34px, 5vh, 64px);
+}
+/* Full width, under both columns. */
+.two--pair > .traits { grid-column: 1 / -1; }
+
+/* Six rows of one were a list pretending to be a section. Three across, two
+   deep, with the rules drawn per cell so the grid reads as a table. */
+.traits--grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(24px, 3vw, 52px);
+  margin-top: 0;
+  border-top: 0;
+}
+.traits--grid > * {
+  border-top: 1px solid var(--s-line);
+  border-bottom: 0;
+  align-content: start;
+}
+.traits--grid em { max-width: none; }
+@media (max-width: 980px) {
+  .traits--grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 880px) {
+  /* `.two` collapses to one column here, so the span is already the width. */
+  .two--pair { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 620px) {
+  .traits--grid { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
 }

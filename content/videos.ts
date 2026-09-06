@@ -41,6 +41,28 @@ export type Video = {
   blurb: string;
 };
 
+/* ============================================================
+   ⏳ AWAITING A FOURTH FILM (client, round 17)
+
+   The client asked for one more video and supplied an Instagram permalink for
+   it. That link is not something this repository can consume: Instagram does
+   not serve a downloadable file, and pulling media off a third-party page is
+   not a thing to do on the client's behalf without them handing the file over.
+   The homepage reel is sized for four either way — see the note on
+   `#stories .reel .story` in styles/dlife.css — so the layout is waiting, not
+   blocked.
+
+   TO ADD IT, three steps and no code changes beyond this array:
+
+     1. drop the file at  public/media/video/<name>.mp4
+     2. drop a poster at  public/media/poster/<name>.jpg
+        — a still from the film, exported at the same 760x950 as the other
+          three so the reel cards stay identical
+     3. add the entry below, following the shape of its neighbours
+
+   `focus` is the poster's focal point for when a card crops it; `runtime` is
+   read off the file; `next` is the route the film should send a viewer to.
+   ============================================================ */
 export const VIDEOS: Video[] = [
   {
     src: asset("/media/video/advisor-alex.mp4"),
