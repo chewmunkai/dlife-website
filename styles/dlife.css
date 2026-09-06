@@ -661,11 +661,23 @@ body:has(.dlife) {
      by --hero-blend and dissolves across that distance, so the space that used
      to be an empty channel is the transition itself. */
   gap: clamp(18px, 2.4vw, 40px);
-  /* The distance the photograph takes to become the page. Wide enough to read
-     as a dissolve rather than a feathered edge, and it is spent on bleed the
-     composition does not need — see .bg below. */
-  --hero-blend: clamp(60px, 8vw, 148px);
-  min-height: clamp(560px, 78vh, 740px);
+  /* The distance the photograph takes to become the page.
+     
+     ⚠️ This was clamp(60px, 8vw, 148px) — 115px at 1440 — on the reasoning
+     that the bleed was spent on over-hang "the composition does not need".
+     That reasoning holds for a photograph with room at its edges. It does not
+     hold for this one: hero-team.jpg is nineteen people filling the frame edge
+     to edge, so the over-hang was three of them, and 81px of it sat directly
+     under the copy column where nothing could be seen at all. The client
+     asked for everyone in, with a slight fade if one is needed.
+     
+     So it is a feather now, not a dissolve, and it is sized to sit inside the
+     column gap rather than reaching under the copy. */
+  --hero-blend: clamp(16px, 1.8vw, 30px);
+  /* A floor, not the driver. The plate below takes the photograph's own shape
+     and the row sizes to it; a taller floor than that would only add ivory
+     under the picture. */
+  min-height: clamp(460px, 56vh, 600px);
   background: var(--s-bg);
   /* Left and top inset only. The right column has no padding to sit inside,
      which is what carries the picture off the right edge; no bottom padding,
@@ -695,7 +707,15 @@ body:has(.dlife) {
    before, with the seam gone from in front of it. */
 .dlife #hero .bg {
   position: relative;
-  align-self: stretch;
+  /* Was `stretch`, which took its height from the row and its width from the
+     column — and the only way those two met at 4:3 was to bleed 115px left,
+     under the copy. Given the picture's own ratio it needs no bleed to fit,
+     and the row sizes to the plate instead of the plate to the row.
+     
+     ⚠️ 4/3 is hero-team.jpg's ratio (1800x1350). A different photograph here
+     needs this changed with it, or the crop comes straight back. */
+  align-self: start;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   margin-left: calc(var(--hero-blend) * -1);
   /* Ivory, not the cream plate default: the blend resolves to this colour, and
@@ -709,13 +729,14 @@ body:has(.dlife) {
   z-index: 2;
   pointer-events: none;
   background:
-    /* Left: ivory at the plate's own edge, gone by the end of the bleed. The
-       ramp holds near-opaque through its first half so the copy that overlaps
-       it sits on the page ground, not on a ghost of the photograph. */
+    /* Left: a feather that loses the plate's hard vertical edge, and nothing
+       more. The old ramp held 94% opacity through its first half because the
+       copy overlapped it and needed page ground to sit on; the copy no longer
+       overlaps it, so holding that opacity would only be erasing people for a
+       reason that has gone. It starts short of opaque and releases fast. */
     linear-gradient(to right,
-      var(--dl-ivory) 0,
-      rgba(246, 241, 232, .94) calc(var(--hero-blend) * .4),
-      rgba(246, 241, 232, .58) calc(var(--hero-blend) * .72),
+      rgba(246, 241, 232, .88) 0,
+      rgba(246, 241, 232, .42) 45%,
       rgba(246, 241, 232, 0) var(--hero-blend)),
     /* Foot: the picture releases into the pathway strip below rather than
        ending on a ruled line. Short — this is the glass tabletop, and the
@@ -783,7 +804,13 @@ body:has(.dlife) {
   /* Full-bleed again once stacked: the section's left inset is cancelled so
      the band runs edge to edge under the copy. */
   .dlife #hero .bg {
-    height: clamp(280px, 46vh, 420px);
+    /* ⚠️ `height: clamp(280px, 46vh, 420px)` used to be here, and against a
+       full-bleed 375px width that is a 1.0 frame holding a 1.33 photograph —
+       a quarter of its width gone, which on this picture is the people at
+       both ends of the group. The plate keeps the picture's own ratio here as
+       it does on desktop; `auto` is what lets aspect-ratio govern, and saying
+       it explicitly is what stops a stray height rule taking the crop back. */
+    height: auto;
     margin-left: calc(var(--dl-pad) * -1);
   }
   /* Stacked, the left and right edges are the screen's, so there is nothing to

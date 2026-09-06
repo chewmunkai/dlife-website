@@ -496,18 +496,19 @@ export function Record({
             {hint && <p className="hint">{hint}</p>}
           </div>
         )}
-        {/* Redesigned 6 Sep 2026 at the client's request. Each figure is its
-            own cell with the numeral over its description, rather than three
-            hairlined rows reading numeral-then-sentence across a half panel:
-            at that width the numerals sat in a column of their own with the
-            descriptions stranded to the right of them, and the largest type on
-            the page had the least room. A figure should be read as a figure. */}
+        {/* Back to hairlined rows at the client's request (Sep 2026), after
+            one round as three side-by-side cells. Cells, not rows, is why the
+            numeral and its description are siblings rather than nested: the
+            grid pairs them column-wise, so every description starts at the
+            same x no matter how wide its numeral is. The client asked for this
+            shape with more contrast and clearer rules — both are in
+            styles/amendments.css §13, not here. */}
         <div className="rows">
           {figures.map((f) => (
-            <div key={f.fig}>
+            <Fragment key={f.fig}>
               <b>{f.fig}</b>
               <span>{f.copy}</span>
-            </div>
+            </Fragment>
           ))}
         </div>
         {source && <p className="record__src">{source}</p>}
@@ -1218,6 +1219,7 @@ export function Cards({
   items,
   columns = 3,
   media = false,
+  overlay = false,
 }: {
   items: ReadonlyArray<{
     title: string;
@@ -1232,16 +1234,26 @@ export function Cards({
   /** Cards that carry a plate. The plate is the frame, so these drop the
    *  hairline rule the text-only card uses. */
   media?: boolean;
+  /**
+   * The photograph *is* the card: it fills the frame and the copy sits on it
+   * over a gradient, rather than sitting in a body underneath it.
+   *
+   * The frame takes the photograph's own ratio through `frameOf`, not a fixed
+   * one, because a card that crops to a house shape is exactly what the
+   * client's standing rule forbids — see docs/dlife-asset-map.md. Every photo
+   * passed here should carry a `ratio`.
+   */
+  overlay?: boolean;
 }) {
   return (
     <div
-      className={`dl-cards dl-cards--${columns}${media ? " dl-cards--media" : ""}`}
+      className={`dl-cards dl-cards--${columns}${media ? " dl-cards--media" : ""}${overlay ? " dl-cards--overlay" : ""}`}
       style={{ marginTop: "clamp(28px,4vh,46px)" }}
     >
       {items.map((c) => (
         <article className="dl-card" key={c.href}>
           {c.photo && (
-            <div className="dl-card__ph ph">
+            <div className="dl-card__ph ph" style={overlay ? frameOf(c.photo) : undefined}>
               <Img photo={c.photo} />
             </div>
           )}

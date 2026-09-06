@@ -5,7 +5,6 @@ import JsonLd from "../../components/site/JsonLd";
 import {
   Hero,
   Band,
-  Open,
   SplitShot,
   Checks,
   ClosingCard,
@@ -151,11 +150,21 @@ export default function Page() {
         }
       />
 
-      <Band>
-        <Open lead="Sharon and Rachel Cheang grew up without financial abundance. What that taught them became the foundation of the agency they built.">
+      {/* Reverted to the pre-port design at the client's request (Sep 2026):
+          one reading-width column rather than the display lead beside prose.
+
+          The opening sentence goes back to its pre-port construction too. The
+          port split it to make a display line, which left "Hard work,
+          integrity, compassion and a habit of continuing to learn." stranded
+          as a fragment — fine under a heading, not fine as the first line of a
+          paragraph. The em-dash version is the sentence it was. */}
+      <Band read>
+        <div className="dl-prose">
           <p>
-            Hard work, integrity, compassion and a habit of continuing to learn. It is also why the first question here
-            is usually about your circumstances rather than your budget.
+            Sharon and Rachel Cheang grew up without financial abundance. What that taught them — hard work,
+            integrity, compassion and a habit of continuing to learn — became the foundation of the agency they
+            built. It is also why the first question here is usually about your circumstances rather than your
+            budget.
           </p>
           <p>
             D’Life is a Malaysian financial advisory and insurance agency. We help individuals, families, professionals
@@ -164,7 +173,7 @@ export default function Page() {
             <a href={link(ROUTES.dva.path)}>Drive Value Associates</a> leadership circle and the{" "}
             <a href={link(ROUTES.youth.path)}>Youth Community</a>.
           </p>
-        </Open>
+        </div>
       </Band>
 
       {/* The page's one ink panel. The four commitments are the practice's own
@@ -311,21 +320,41 @@ export default function Page() {
           under it are not part of the directory and neither leads to it, so
           they stay, now carried by a plain band. The roster seam itself
           survives in content/team.ts if a real, named team is ever supplied. */}
+      {/* Round 16, client: "reference the design of our card, with an image
+          background overlay." These were the text-only card — a rule, a
+          heading, a line and a link — at the foot of a page carrying the
+          founders' portraits and two photographic panels, which is where the
+          design visibly stopped.
+
+          Each card takes its destination's own hero photograph, so the preview
+          looks like the page it opens. Both are 4:3 and the frame follows the
+          picture, so neither is cropped. See amendments.css §36. */}
       <Band tone="light">
         <Cards
           columns={2}
+          overlay
           items={[
             {
               title: "Grow With D’Life",
               copy: "What a career here actually involves, and who it suits.",
               href: ROUTES.careers.path,
               cta: "Explore a career",
+              photo: {
+                src: "/media/img/team-outdoors.jpg",
+                alt: "D’Life advisors together on an agency away day",
+                ratio: "4 / 3",
+              },
             },
             {
               title: "Advisor stories",
               copy: "Advisors in their own words, on the work and why they stayed.",
               href: ROUTES.stories.path,
               cta: "Watch the stories",
+              photo: {
+                src: "/media/img/team-offsite.jpg",
+                alt: "D’Life advisors relaxed away from the office",
+                ratio: "4 / 3",
+              },
             },
           ]}
         />

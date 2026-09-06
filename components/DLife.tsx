@@ -248,7 +248,7 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
        See docs/dlife-figures.md. */
     "27 Years",
     "Experience",
-    "Guiding families through changing markets, life stages and financial decisions with trusted advice for over 27 years.",
+    "Guiding families through changing markets and life stages for over 27 years.",
   ],
   [
     <>
@@ -264,7 +264,7 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
        that belongs on Disclosures, not on a homepage trust card. */
     "Recognised",
     "Professional Standing",
-    "Recognised for professional excellence and client service, against the standards a principal insurer holds its agencies to.",
+    "Recognised for professional excellence and client service, to a principal insurer’s standards.",
   ],
   [
     <>
@@ -273,7 +273,7 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
     </>,
     "Million Dollar Agency",
     "MDRT Builder",
-    "Consistently achieving Million Dollar Agency recognition since 2002 and appointed as an MDRT Builder, developing high-performing financial professionals to international standards.",
+    "Million Dollar Agency since 2002, and an MDRT Builder developing advisors to international standards.",
   ],
   [
     <>
@@ -289,13 +289,13 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
        qualifiers it has produced. See docs/dlife-figures.md. */
     "Leadership",
     "People Development",
-    "A practice of 29 advisors, developed through systematic training and a culture of continuous growth, and 2 MDRT qualifiers produced along the way.",
+    "A practice of 29 advisors built through structured training, and 2 MDRT qualifiers.",
   ],
   [
     <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />,
     "Clients",
     "People First",
-    "People come before products. Every recommendation begins with meaningful conversations, understanding individual needs and giving advice only when it genuinely creates value.",
+    "People come before products. Every recommendation starts with your circumstances, not a catalogue.",
   ],
   [
     <>
@@ -305,12 +305,16 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
     </>,
     "Claims",
     "Real Support",
-    // Client copy C01 (WhatsApp, 31 Aug 2026), with "RM 22million" respaced
-    // to "RM22 million". Confirmed by the client on 6 Sep 2026 to run as they
-    // wrote it, "exceeding" included. The figure itself is theirs: RM22M is
-    // the agency's total claim amount in the performance summary they
-    // supplied. See docs/dlife-figures.md.
-    "Supporting our clients through insurance claims exceeding RM22 million with trusted guidance, dedicated assistance, and a team that stands by them every step of the way.",
+    /* ⚠️ This one was the client's own wording (C01, WhatsApp 31 Aug 2026),
+       and they confirmed on 6 Sep 2026 that it should run as they wrote it —
+       then, later the same day, asked for all six of these cards to be cut
+       for concision. The later instruction wins, but it is worth knowing that
+       this is the one card where trimming overrode an explicit approval of
+       the exact words. Both facts they cared about survive: the RM22 million,
+       which is their own performance summary's total claim amount, and
+       "exceeding". Easy to restore from git if they want it back verbatim.
+       See docs/dlife-figures.md. */
+    "Supporting clients through claims exceeding RM22 million, with a team that stays alongside them.",
   ],
 ];
 

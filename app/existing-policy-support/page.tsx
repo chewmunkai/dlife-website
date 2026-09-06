@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Open, Ideas, Said, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Ideas, Said, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -131,17 +131,22 @@ export default function Page() {
         statement="A review, not a transfer."
       />
 
-      <Band>
-        <Open lead="Most people have not read their policy since the day they signed it.">
+      {/* Reverted to the pre-port design at the client's request (Sep 2026).
+          The port turned this into `Open` — the first sentence pulled out at
+          34px display scale in a 5fr column with the prose in a 7fr column
+          beside it. The client asked for the old one back: one reading-width
+          column, the opening sentence doing its work as a sentence. */}
+      <Band read>
+        <div className="dl-prose">
           <p>
-            That is normal. These documents are written in language most of us do not use, and then left alone while
-            life carries on changing around them.
+            Most people have not read their policy since the day they signed it. That is normal. These documents are
+            written in language most of us do not use, and then left alone while life carries on changing around them.
           </p>
           <p>
             This is an offer to read yours with you: what it covers, what it does not, and whether it still fits the
             circumstances you are in now rather than the ones you were in when you bought it.
           </p>
-        </Open>
+        </div>
       </Band>
 
       {/* Same treatment as a solution page's "What it actually means": the

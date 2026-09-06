@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import StoryReel from "../../components/v2/StoryReel";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, Open, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Band, ClosingCard } from "../../components/v2/blocks";
 import { VIDEOS } from "../../content/videos";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
@@ -58,9 +58,12 @@ export default function Page() {
           content/videos.ts holds, so 5 films or 12 need no change here. */}
       <StoryReel items={VIDEOS} />
 
-      <Band>
-        <Open lead="No script, and no polish. This is how the work actually goes.">
+      {/* Reverted to the pre-port design at the client's request (Sep 2026):
+          one reading-width column rather than the display lead beside prose. */}
+      <Band read>
+        <div className="dl-prose">
           <p>
+            No script, and no polish. This is how the work actually goes.{" "}
             You are probably watching because you are wondering what the job is actually like, not because you want to
             hear how good we are at it. So that is what they talk about: an ordinary week, the parts that are hard, and
             the reason they stayed.
@@ -70,7 +73,7 @@ export default function Page() {
             <a href={link(ROUTES.careers.path)}>Grow With D’Life</a> is the more useful read. It covers what the films
             leave out, including what the first year actually asks of you.
           </p>
-        </Open>
+        </div>
       </Band>
 
       <ClosingCard
