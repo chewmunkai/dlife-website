@@ -305,16 +305,16 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
     </>,
     "Claims",
     "Real Support",
-    /* ⚠️ This one was the client's own wording (C01, WhatsApp 31 Aug 2026),
-       and they confirmed on 6 Sep 2026 that it should run as they wrote it —
-       then, later the same day, asked for all six of these cards to be cut
-       for concision. The later instruction wins, but it is worth knowing that
-       this is the one card where trimming overrode an explicit approval of
-       the exact words. Both facts they cared about survive: the RM22 million,
-       which is their own performance summary's total claim amount, and
-       "exceeding". Easy to restore from git if they want it back verbatim.
-       See docs/dlife-figures.md. */
-    "Supporting clients through claims exceeding RM22 million, with a team that stays alongside them.",
+    /* ⚠️ DO NOT TRIM THIS ONE. It is the client's own wording (C01, WhatsApp
+       31 Aug 2026), and it has now been approved three times: written by them,
+       confirmed on 6 Sep to run exactly as written, briefly shortened when
+       they asked for all six cards cut for concision, and restored verbatim on
+       7 Sep when they saw the shorter version. It is deliberately longer than
+       its five neighbours.
+
+       The figure is theirs: RM22M is the total claim amount in the performance
+       summary they supplied. See docs/dlife-figures.md. */
+    "Supporting our clients through insurance claims exceeding RM22 million with trusted guidance, dedicated assistance, and a team that stands by them every step of the way.",
   ],
 ];
 
