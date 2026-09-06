@@ -1096,7 +1096,11 @@ export function Events({
             </div>
             <h3>{e.title}</h3>
             <p>{e.copy}</p>
-            <a className="tlink" href={href}>
+            {/* Every caller passes a wa.me URL today, which link() leaves
+                alone. Wrapped anyway: the day someone passes a route here, it
+                should not be the one link on the page that ignores the base
+                path. A17. */}
+            <a className="tlink" href={link(href)}>
               {cta} <em aria-hidden="true">→</em>
             </a>
           </div>

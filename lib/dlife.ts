@@ -11,10 +11,11 @@
    ============================================================ */
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// TODO(launch): replace with D'Life's real WhatsApp business number.
-// Carried over from the prototype ("replace WA_NUMBER at launch").
-const WA_NUMBER = "60123456789";
+/* A16/A17: this file kept its own copy of the number, so changing the one in
+   lib/contact.ts would have left every homepage [data-wa] link pointing at the
+   old one. There is one number on this site and it lives there — including
+   the TODO that says it is still a placeholder. */
+import { WA_NUMBER } from "./contact";
 
 export function initDLife(root: HTMLElement): () => void {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;

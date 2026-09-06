@@ -14,6 +14,7 @@
    ============================================================ */
 import type { Metadata } from "next";
 import { SITE, isPreview } from "./site";
+import { CONTACT } from "./contact";
 import { ROUTES, trail, type Route } from "./routes";
 
 /** Absolute URL for a site-relative path. */
@@ -67,7 +68,8 @@ export const ORGANISATION_LD = {
       url: SITE,
       slogan: "Real Support. Beyond the Policy.",
       description: ROUTES.home.description,
-      email: "hello@dlife.com.my",
+      /* A16/A17: from the one contact record, placeholder and all. */
+      email: CONTACT.email,
       areaServed: { "@type": "Country", name: "Malaysia" },
       knowsLanguage: ["en", "ms"],
       founder: [

@@ -1,4 +1,7 @@
 import type { RouteKey } from "../lib/routes";
+/* A16/A17: the address is the one in lib/contact.ts — still a placeholder,
+   and it should change in exactly one place when the real one arrives. */
+import { CONTACT } from "../lib/contact";
 
 /* ============================================================
    Legal pages.
@@ -54,7 +57,7 @@ export const LEGAL: Record<string, LegalContent> = {
         heading: "Who we are",
         paras: [
           `D’Life Sdn Bhd ${tbc("company registration number and registered address")} is a financial advisory and insurance agency operating in Malaysia. This policy explains what we do with personal information you give us through this website or in the course of an advisory relationship.`,
-          "If you have a question about anything in this policy, or you want to exercise any of the rights described below, contact us at hello@dlife.com.my.",
+          `If you have a question about anything in this policy, or you want to exercise any of the rights described below, contact us at ${CONTACT.email}.`,
         ],
       },
       {
@@ -90,7 +93,7 @@ export const LEGAL: Record<string, LegalContent> = {
       {
         heading: "Your rights",
         paras: [
-          "Under Malaysia’s Personal Data Protection Act you have rights of access and correction in relation to your personal data, and you may limit how we process it for direct marketing. To make a request, email hello@dlife.com.my.",
+          `Under Malaysia’s Personal Data Protection Act you have rights of access and correction in relation to your personal data, and you may limit how we process it for direct marketing. To make a request, email ${CONTACT.email}.`,
           tbc(
             "the full PDPA notice. The Act sets out specific content and bilingual notice requirements that this summary does not satisfy on its own",
           ),
@@ -216,7 +219,7 @@ export const LEGAL: Record<string, LegalContent> = {
         heading: "If something has gone wrong",
         paras: [
           "Tell us. We would far rather hear about it directly and have the chance to put it right than have you leave without saying anything.",
-          "You can raise a concern with your advisor, or if you would rather not, email hello@dlife.com.my and it will reach someone else.",
+          `You can raise a concern with your advisor, or if you would rather not, email ${CONTACT.email} and it will reach someone else.`,
         ],
       },
       {

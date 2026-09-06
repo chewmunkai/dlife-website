@@ -169,7 +169,10 @@ const FAQS = [
 
 export default function Page() {
   const route = ROUTES.youth;
-  const join = waHref(WA.youth);
+  /* A13/A16: joining, asking and events are three different messages, so the
+     team reads the first line of a WhatsApp and knows which one arrived. None
+     of these sends anything — wa.me opens the app with the message written. */
+  const join = waHref(WA.youthJoin);
 
   return (
     <Shell>
@@ -234,7 +237,7 @@ export default function Page() {
           members mentor, volunteer and work with universities together. Dates and venues go out to members ahead of
           time, and the quickest way to hear about the next one is to sign up below.
         </p>
-        <Events items={EVENTS} href={waHref(WA.event)} />
+        <Events items={EVENTS} href={waHref(WA.youthEvent)} />
       </section>
 
       <SplitShot
@@ -270,6 +273,9 @@ export default function Page() {
         <div>
           <Ask items={FAQS} />
           <div className="dl-actions" style={{ marginTop: "clamp(28px,4vh,44px)" }}>
+            {/* Ordinary navigation, deliberately: a question that does not
+                fit the FAQ belongs on the contact page with its own form,
+                not in a WhatsApp thread. */}
             <a className="pill ghost" href={link(ROUTES.contact.path)}>
               <span>Ask us something else</span>
             </a>

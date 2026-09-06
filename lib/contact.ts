@@ -60,6 +60,15 @@ export const WA = {
   dva: "Hi D’Life, I’d like to know more about DVA.",
   youth: "Hi D’Life, I’d like Youth Community updates.",
   event: "Hi D’Life, I’d like to know about upcoming events.",
+
+  /* A13/A16: the Youth Community's own three intents. "Ask about joining"
+     used to open on the updates prefill, which told the team the opposite of
+     what the visitor had just clicked, and its events used the site-wide
+     events line. Each says which section and which button produced it, which
+     is the whole point of this table. */
+  youthJoin: "Hi D’Life, I’d like to join the Youth Community. How do I get started?",
+  youthAsk: "Hi D’Life, I have a question about the Youth Community.",
+  youthEvent: "Hi D’Life, I’d like to know about the next Youth Community session.",
 } as const;
 
 export type WaKey = keyof typeof WA;

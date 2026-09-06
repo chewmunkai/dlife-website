@@ -448,8 +448,13 @@ export default function DLife() {
           <span>I’m looking to…</span>
         </p>
         <div className="opts rv">
+          {/* A17: these five went out as bare "/solutions/…" hrefs. Every
+              other link on the site runs through link(), which is what applies
+              the deployment base path — so under GitHub Pages, where the site
+              is served from /dlife-website/, the routing strip on the homepage
+              was the one set of links that 404'd. */}
           {PATHS.map(([icon, label, href]) => (
-            <a className="opt" href={href} key={label}>
+            <a className="opt" href={link(href)} key={label}>
               <Ico>{icon}</Ico>
               {label}
               <em>→</em>
