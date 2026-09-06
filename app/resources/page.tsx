@@ -33,14 +33,14 @@ const EVENTS = [
     when: "Monthly",
     where: "Klang Valley",
     title: "Growth Circle",
-    photo: { src: "/media/img/dva-workshop.jpg", alt: "Members in a Growth Circle session" },
+    photo: { src: "/media/img/dva-forum.jpg", alt: "Members in a Growth Circle session" },
     copy: "One of D’Life’s signature development platforms. A regular gathering where members reflect on progress, share experience, discuss what is not working and learn from each other.",
   },
   {
     when: "Through the year",
     where: "Klang Valley",
     title: "Leadership development workshops",
-    photo: { src: "/media/img/dva-team.jpg", alt: "A leadership development workshop" },
+    photo: { src: "/media/img/team-office.jpg", alt: "A leadership development workshop" },
     copy: "Interactive sessions on strategic thinking, decision-making, emotional intelligence, coaching and applying leadership in practice.",
   },
   {
@@ -61,7 +61,7 @@ const EVENTS = [
     when: "Through the year",
     where: "Campus & community venues",
     title: "Youth leadership programmes",
-    photo: { src: "/media/img/youth-stories.jpg", alt: "A youth leadership session" },
+    photo: { src: "/media/img/youth-session.jpg", alt: "A youth leadership session" },
     copy: "Sessions for students, fresh graduates and young professionals across health, wealth and leadership.",
   },
   {

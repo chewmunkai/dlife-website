@@ -192,9 +192,13 @@ export default function Page() {
         </div>
         <div className="shot ph">
           <img
-            src={asset("/media/img/dva-team.jpg")}
-            alt="The D’Life advisory team"
-            style={{ objectPosition: "58% 42%" }}
+            /* A15: DVA's own forum, from the client's library — the screen
+               behind the panel names the session and its speakers. Framed on
+               the stage band rather than the audience: the source is portrait
+               and this plate is not, so the crop is where the people are. */
+            src={asset("/media/img/dva-forum.jpg")}
+            alt="A D’Life leadership forum in session, with the panel on stage"
+            style={{ objectPosition: "50% 34%" }}
           />
         </div>
       </section>

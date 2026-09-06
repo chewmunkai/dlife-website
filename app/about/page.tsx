@@ -15,7 +15,7 @@ import {
   Record,
 } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { link } from "../../lib/asset";
+import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
@@ -38,9 +38,24 @@ export const metadata: Metadata = pageMeta(ROUTES.about);
    whether Sharon ever said it as a sentence is unconfirmed. No attribution is
    printed. Confirm before adding one.
 
-   Founder portraits are marked empty slots, not stock photography. A stock
-   photograph standing in for a real named person is the one substitution this
-   design system refuses to make.
+   A15 (client, 31 Aug 2026): the founder portraits are real now. Sharon and
+   Rachel were supplied as SHARON.jpg and RACHEL.jpg in the client's own Drive
+   folder, and each is mapped to its subject BY FILENAME — not by looking at
+   the two photographs and deciding which woman is the older sister. If a
+   third portrait ever arrives, map it the same way and confirm the name with
+   the client rather than inferring it.
+
+   The empty-slot path below is kept for exactly that case: a founder without
+   a portrait still renders a marked slot. A stock photograph standing in for
+   a real named person is the one substitution this design system refuses to
+   make, and that has not changed.
+
+   ⚠️ TODO(launch): both portraits are studio shots in AIA MDRT blazers, with
+   the AIA wordmark and the MDRT roundel legible on the lapel. Nothing else on
+   this site names an insurer — content/solutions.ts forbids it outright — so
+   whether D'Life wants insurer branding on its founders' portraits is the
+   client's call and a compliance question, not a design one. Raise it before
+   launch. The alternative is a re-shoot, not a retouch.
    ============================================================ */
 
 /* The last entry carries the client's 45-countries credential inside the
@@ -71,12 +86,15 @@ const RECOGNITION = [
 function Founder({
   name,
   role,
+  photo,
   flip = false,
   tone = "light",
   children,
 }: {
   name: string;
   role: string;
+  /** Omitted still renders the marked slot. See the header note. */
+  photo?: { src: string; alt: string; position?: string };
   flip?: boolean;
   tone?: "light" | "sand";
   children: ReactNode;
@@ -85,11 +103,19 @@ function Founder({
     <Band tone={tone}>
       <div className={`folk${flip ? " folk--flip" : ""}`}>
         <div className="plate ph">
-          {/* Marked placeholder, deliberately. See the header note. */}
-          <div className="slot-empty">
-            {name}
-            <em>{role}</em>
-          </div>
+          {photo ? (
+            <img
+              src={asset(photo.src)}
+              alt={photo.alt}
+              style={photo.position ? { objectPosition: photo.position } : undefined}
+            />
+          ) : (
+            /* Marked placeholder, deliberately. See the header note. */
+            <div className="slot-empty">
+              {name}
+              <em>{role}</em>
+            </div>
+          )}
         </div>
         <div>
           <p className="lbl">{role}</p>
@@ -165,7 +191,18 @@ export default function Page() {
         ]}
       />
 
-      <Founder name="Sharon Cheang" role="Founder">
+      <Founder
+        name="Sharon Cheang"
+        role="Founder"
+        /* A15. Mapped from the client's SHARON.jpg. The frame is the shot's
+           own upper two-thirds, so the 4:5 plate holds her head and hands
+           without cutting either — see docs/dlife-asset-map.md. */
+        photo={{
+          src: "/media/img/founder-sharon.jpg",
+          alt: "Sharon Cheang, founder of D’Life",
+          position: "50% 22%",
+        }}
+      >
         <p>
           Sharon founded D’Life after more than two decades in financial services. She entered the industry with an aim
           larger than selling policies: to help families build secure, well-considered lives, and to raise the standard
@@ -183,7 +220,20 @@ export default function Page() {
         </p>
       </Founder>
 
-      <Founder name="Rachel Cheang" role="Co-Founder" flip tone="sand">
+      <Founder
+        name="Rachel Cheang"
+        role="Co-Founder"
+        flip
+        tone="sand"
+        /* A15. Mapped from the client's RACHEL.jpg. The supplied frame is
+           full-length, which left her a small figure in a field of backdrop
+           at plate size; cropped to head-and-upper-body instead. */
+        photo={{
+          src: "/media/img/founder-rachel.jpg",
+          alt: "Rachel Cheang, co-founder of D’Life",
+          position: "50% 25%",
+        }}
+      >
         <p>
           Rachel leads business development, community engagement and the youth development side of D’Life. Where
           Sharon is strategic, Rachel is relational: she builds the rooms people want to come back to.
@@ -200,7 +250,9 @@ export default function Page() {
       </Founder>
 
       <SplitShot
-        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team" }}
+        /* A15: was a stock plate standing in for "the D'Life advisory team".
+           This is the practice's own room. */
+        photo={{ src: "/media/img/team-award.jpg", alt: "D’Life advisors and managers at an agency recognition event", position: "50% 42%" }}
         tone="light"
         label="Recognition"
         title="Professional record"
@@ -219,7 +271,7 @@ export default function Page() {
         label="Advisor development"
         title="Advisors she has built"
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries, several going on to six-figure incomes. Every figure here is pending client verification."
-        photo={{ src: "/media/img/dva-team.jpg", alt: "Sharon Cheang with the D’Life advisory team", position: "50% 38%" }}
+        photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", position: "50% 44%" }}
         figures={[
           { fig: "3", copy: "agency managers now running teams of their own" },
           { fig: "40+", copy: "young assistant and unit managers developed" },

@@ -44,7 +44,7 @@ export default function Page() {
         label="Advisor stories"
         title="Meet the people behind D’Life"
         lede="Real advisors, in their own words. What the work actually looks like, who it is for, and what keeps them doing it."
-        photo={{ src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team", position: "50% 34%" }}
+        photo={{ src: "/media/img/team-offsite.jpg", alt: "D’Life advisors together away from the office", position: "50% 40%" }}
         actions={
           <a className="pill" href="#films">
             <span>Watch the films</span>

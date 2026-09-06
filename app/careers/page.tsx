@@ -146,9 +146,11 @@ export default function Page() {
         title="A career built on real guidance, not just sales"
         lede="Advising people on their protection and planning is a profession. It takes licensing, training, judgement and a long attention span."
         photo={{
-          src: "/media/img/path-career.jpg",
-          alt: "A woman looking out through a window at trees",
-          position: "30% 50%",
+          /* A15: a stock window shot opened a page about joining this
+             agency. The agency itself does the job better. */
+          src: "/media/img/team-outdoors.jpg",
+          alt: "The D’Life team together at an agency away day",
+          position: "50% 46%",
         }}
         actions={
           <a className="pill" href={career}>
@@ -226,9 +228,9 @@ export default function Page() {
       <section className="two two--flip sand">
         <div className="plate ph">
           <img
-            src={asset("/media/img/dva-team.jpg")}
-            alt="The D’Life advisory team"
-            style={{ objectPosition: "60% 50%" }}
+            src={asset("/media/img/team-office.jpg")}
+            alt="D’Life advisors and managers together at the agency office"
+            style={{ objectPosition: "50% 42%" }}
           />
         </div>
         <div>

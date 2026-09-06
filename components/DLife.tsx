@@ -71,9 +71,13 @@ const PHOTOS = {
   },
   policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
   close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
-  dva: { src: asset("/media/img/dva-team.jpg"), alt: "The D’Life advisory team" },
-  y1: { src: asset("/media/img/youth-workshop.jpg"), alt: "Attendees seated at a D’Life workshop session" },
-  y2: { src: asset("/media/img/youth-stories.jpg"), alt: "D’Life community members at an evening gathering" },
+  /* A15: the DVA panel carries copy over the picture, so this is the widest
+     of the supplied group shots with the faces off the centre line where the
+     type sits. Contrast was re-checked against the panel's wash after the
+     swap. */
+  dva: { src: asset("/media/img/team-award.jpg"), alt: "D’Life advisors and managers at an agency recognition event" },
+  y1: { src: asset("/media/img/youth-session.jpg"), alt: "Attendees seated at a D’Life Youth Community session" },
+  y2: { src: asset("/media/img/youth-group.jpg"), alt: "D’Life Youth Community members together after a session" },
   y3: { src: asset("/media/img/youth-resources.jpg"), alt: "Hands raised during a workshop session" },
 } satisfies Record<string, Photo>;
 

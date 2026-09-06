@@ -89,7 +89,7 @@ const EVENTS = [
     when: "Runs through the year",
     where: "Klang Valley",
     title: "Youth leadership programmes",
-    photo: { src: "/media/img/youth-workshop.jpg", alt: "A youth leadership session in progress" },
+    photo: { src: "/media/img/youth-session.jpg", alt: "A youth leadership session in progress" },
     copy: "Structured leadership development for students and young professionals, built around practice rather than theory.",
   },
   {
@@ -124,7 +124,7 @@ const EVENTS = [
     when: "Several a year",
     where: "Various",
     title: "Outdoor & team activities",
-    photo: { src: "/media/img/youth-stories.jpg", alt: "Members at a team activity" },
+    photo: { src: "/media/img/youth-group.jpg", alt: "Members at a team activity" },
     copy: "Adventure-based activities that build teamwork, resilience and friendships that outlast the session.",
   },
 ];
@@ -179,7 +179,8 @@ export default function Page() {
         label="Empowering youth. Building tomorrow."
         title="Youth Community"
         lede="A platform to prepare the next generation for life, career, leadership and financial independence, because education on its own is no longer enough."
-        photo={{ src: "/media/img/youth-workshop.jpg", alt: "Attendees seated at a workshop session" }}
+        /* A15: a real Youth Community session, from the client's library. */
+        photo={{ src: "/media/img/youth-session.jpg", alt: "Members of the D’Life Youth Community at a session", position: "50% 46%" }}
         actions={
           <a className="pill" href={join}>
             <span>Ask about joining</span>
@@ -237,7 +238,7 @@ export default function Page() {
       </section>
 
       <SplitShot
-        photo={{ src: "/media/img/community-gathering.jpg", alt: "People seated around a table at a community gathering" }}
+        photo={{ src: "/media/img/youth-group.jpg", alt: "Youth Community members together after a session", position: "50% 38%" }}
         tone="light"
         label="What members take away"
         title="What people leave with"
