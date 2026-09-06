@@ -85,11 +85,17 @@ export default function Page() {
         label="Articles & events"
         title="Reading and what’s coming up"
         lede="Writing worth your time, and the sessions that run across the D’Life community through the year."
-        /* ⚠️ `ratio` is not optional here. dva-workshop.jpg is a 0.80 portrait
-           and this plate is 1.09, which cut the seated participants out along
-           the bottom edge — the same defect this photograph caused on the
-           Youth events grid. The frame takes the picture's shape instead. */
-        photo={{ src: "/media/img/dva-workshop.jpg", alt: "A workshop session in progress", ratio: "760 / 950" }}
+        /* Round 22, client: a new hero here. It was dva-workshop.jpg, which is a
+           0.80 portrait — it needed the plate turned portrait to stop it cutting
+           the seated participants out, and a tall plate is the wrong shape for
+           a page hero. This photograph is landscape, it is an actual D'Life
+           gathering rather than a workshop seen over people's heads, and it was
+           the one image in the library used nowhere else on the site. */
+        photo={{
+          src: "/media/img/youth-stories.jpg",
+          alt: "D’Life members together at an evening gathering",
+          ratio: "1200 / 800",
+        }}
       />
 
       {/* Driven by content/articles.ts. Restored 6 Sep 2026: the template is

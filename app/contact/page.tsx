@@ -45,7 +45,16 @@ export default function Page() {
         label="Contact"
         title="Tell us what you need"
         lede="A few lines is enough to start. We will read it, work out who should answer, and come back to you."
-        photo={{ src: "/media/img/close-conversation.jpg", alt: "Two people talking across a table" }}
+        /* Round 22, client: a new hero here too. It was close-conversation.jpg, a
+           stock still of one man talking. The page asks the reader to get in touch,
+           so the picture should be the people who would answer — this is D'Life's
+           own advisors at the office. `ratio` keeps the plate at the picture's
+           1280x960 so nobody is cropped. */
+        photo={{
+          src: "/media/img/team-office.jpg",
+          alt: "D’Life advisors and managers together at the agency office",
+          ratio: "1280 / 960",
+        }}
       />
 
       <section className="band light">
