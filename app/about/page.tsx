@@ -255,7 +255,7 @@ export default function Page() {
       <SplitShot
         /* A15: was a stock plate standing in for "the D'Life advisory team".
            This is the practice's own room. */
-        photo={{ src: "/media/img/team-award.jpg", alt: "D’Life advisors and managers at an agency recognition event", position: "50% 42%" }}
+        photo={{ src: "/media/img/team-award.jpg", alt: "D’Life advisors and managers at an agency recognition event", ratio: "4 / 3" }}
         tone="light"
         label="Recognition"
         title="Professional record"
@@ -281,7 +281,7 @@ export default function Page() {
            earnings claim with no evidence behind it is the last thing a
            regulated adviser's site should carry. */
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries."
-        photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", position: "50% 44%" }}
+        photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", ratio: "1800 / 1158" }}
         figures={[
           { fig: "29", copy: "advisors in the practice she built" },
           { fig: "2,872", copy: "clients served by the practice" },

@@ -561,3 +561,52 @@
    `[hidden] { display: none }` is one class strong and this layer's rules are
    mostly two, so `hidden` loses by default. Keep the two in step. */
 .dlife [hidden] { display: none !important; }
+
+/* ---- The hero plate takes the photograph's shape, not the other way round ----
+   Client rule, 6 Sep 2026: a D'Life photograph never has anyone cropped out of
+   it. The hero plate was a full-height column — 712x751 at 1280, a 0.95 frame
+   holding a 1.33 photograph — so `object-fit: cover` took 29% off the width
+   and the people at both ends of the group went with it.
+
+   The plate is now the picture's own 4:3, centred in the band, so `cover`
+   resolves to an exact fit and nothing is lost. The dissolve into the page and
+   the bleed off the right edge are untouched; the plate is simply no longer
+   taller than the photograph it carries.
+
+   If the hero photograph is ever replaced, set this ratio to the new file's. */
+.dlife #hero .bg { align-self: center; aspect-ratio: 4 / 3; }
+@media (max-width: 980px) {
+  /* Stacked, the plate runs edge to edge and dlife.css gives it a fixed
+     height — which, against an aspect-ratio, resolves the WIDTH from that
+     height instead. Measured at 375: a 498px plate inside a 375px column,
+     clipped by the section's overflow, so 123px of the photograph was gone
+     and the rule was broken on a phone while looking fine on a desktop.
+     Width leads here and the height follows it. */
+  .dlife #hero .bg { height: auto; align-self: stretch; }
+}
+
+/* ---- The navigation bar, evened up (client, 6 Sep 2026) ----
+   Same three corrections as styles/amendments.css §29, for the homepage's
+   `.dlife`-scoped chrome. Keep the two in step. */
+.dlife #hd .nav a.top { font-size: 14px; letter-spacing: .005em; }
+.dlife #hd .rt .pill { font-size: 14px; }
+.dlife #hd .lmark { height: 20px; }
+@media (max-width: 1300px) { .dlife #hd .rt .pill { font-size: 13px; } }
+@media (max-width: 720px) { .dlife #hd .lmark { height: 18px; } }
+
+/* ---- Text calls to action, at full strength ----
+   Same correction as styles/amendments.css §30, for the homepage's own
+   `.tlink` — "Discover our story" is one of the three the client named. The
+   rule under it was a 45% hairline; it is the label's own colour now, at 2px,
+   with a copper wash on hover. */
+.dlife .tlink {
+  border-bottom: 2px solid currentColor;
+  padding: 2px 4px 9px;
+  margin-inline: -4px;
+  transition: gap .35s var(--dl-ease), background-color .35s var(--dl-ease);
+}
+@media (hover: hover) {
+  .dlife .tlink:hover { background: rgba(156, 90, 55, .10); border-color: currentColor; }
+}
+.dlife .tlink:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .dlife .tlink { transition: none; } }

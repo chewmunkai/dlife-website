@@ -130,3 +130,48 @@ meeting transcript asked for "Let it begins with you", which is ungrammatical
 and was therefore refused. Neither was right: the transcript was a garbled
 record of the real brand line. The homepage now reads **"It begins with you."**
 to match the mark above it. If the artwork ever changes, match it.
+
+## The standing rule on D'Life photography (6 Sep 2026)
+
+> "For D'Life images NEVER crop out someone — must adjust it to include
+> everyone on the picture, or DON'T use it."
+
+This is a hard rule and it is now enforceable rather than a matter of taste.
+`Photo.ratio` (components/v2/blocks.tsx) tells a frame to take the
+photograph's own shape, so `object-fit: cover` resolves to an exact fit.
+Set it on every placement that carries the practice's own photography.
+
+**How to check it.** Run this in the console on any page — it reports the
+percentage of each D'Life photograph the frame is throwing away:
+
+```js
+[...document.querySelectorAll('img')]
+  .filter(i => i.naturalWidth && /founder-|team-|dva-team|youth-session|youth-group|community-group|hero-team/.test(i.currentSrc))
+  .map(i => { const r = i.getBoundingClientRect(), n = i.naturalWidth / i.naturalHeight, b = r.width / r.height;
+    return { src: i.currentSrc.split('/').pop(), lostPct: +(Math.abs(n - b) / Math.max(n, b) * 100).toFixed(1) }; })
+```
+
+Anything above 0 is a photograph with people missing from it. **Check it at
+375px as well as at desktop** — the hero passed at 1280 while a fixed mobile
+height was resolving the plate's width from it and losing 123px of the
+picture on a phone.
+
+**What it was before the sweep**, measured at 1280:
+
+| Page | Photograph | Lost |
+|---|---|---|
+| Careers | `team-office.jpg` in a 4:5 plate | **40%** |
+| Youth | `youth-group.jpg` in a 4:3 card | **44%** |
+| About | `team-award.jpg` in a 0.91 plate | **32%** |
+| DVA | `dva-team.jpg` in a 1.26 plate | **29%** |
+| Careers · Stories · Youth | three heroes at 0.97 | **27%** each |
+| Homepage | `hero-team.jpg` at 0.95 | **29%** |
+| About | `team-gathering.jpg` | 9% |
+
+All of them are 0% now. The client named three; the sweep found seven more.
+
+**When the picture cannot fit the frame, the picture changes.** The Youth
+event cards are a 4:3 grid, and a portrait staircase photograph cannot become
+4:3 without losing the people at the top and bottom of it — so that card
+carries a 4:3 photograph instead. That is the "or DON'T use it" half of the
+rule, and it is the right half more often than it looks.

@@ -124,7 +124,10 @@ const EVENTS = [
     when: "Several a year",
     where: "Various",
     title: "Outdoor & team activities",
-    photo: { src: "/media/img/youth-group.jpg", alt: "Members at a team activity" },
+    /* The event cards are a 4:3 grid, so a 0.75 portrait lost 44% of itself
+       here — the picture cannot change shape without losing the people at the
+       top and bottom of the staircase, so the picture changes instead. */
+    photo: { src: "/media/img/team-outdoors.jpg", alt: "Members at an outdoor team activity" },
     copy: "Adventure-based activities that build teamwork, resilience and friendships that outlast the session.",
   },
 ];
@@ -183,7 +186,7 @@ export default function Page() {
         title="Youth Community"
         lede="A platform to prepare the next generation for life, career, leadership and financial independence, because education on its own is no longer enough."
         /* A15: a real Youth Community session, from the client's library. */
-        photo={{ src: "/media/img/youth-session.jpg", alt: "Members of the D’Life Youth Community at a session", position: "50% 46%" }}
+        photo={{ src: "/media/img/youth-session.jpg", alt: "Members of the D’Life Youth Community at a session", ratio: "4 / 3" }}
         actions={
           <a className="pill" href={join}>
             <span>Ask about joining</span>

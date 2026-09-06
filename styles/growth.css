@@ -118,19 +118,22 @@
    One navigation choice under the ledger reads as a choice; the same link
    repeated four times inside the content did not. */
 .grow__more { margin: clamp(20px, 2.6vh, 28px) 0 0; }
+/* Was body ink on cream at a 1px hairline — the least visible action on the
+   homepage, and one of the three the client named. Copper now, like every
+   other text action on the site, with the same 2px rule. */
 .grow__more a {
   display: inline-flex; align-items: center; gap: 10px;
-  font: 500 clamp(15px, 1.1vw, 17px)/1 var(--dl-sans, system-ui);
-  color: inherit;
+  font: 600 clamp(15px, 1.1vw, 17px)/1 var(--dl-sans, system-ui);
+  color: var(--dl-copper-d, #8a4b23);
   text-decoration: none;
-  padding-bottom: 4px;
-  box-shadow: inset 0 -1px 0 currentColor;
-  transition: gap .35s var(--dl-ease, ease), color .3s var(--dl-ease, ease);
+  padding: 2px 4px 8px;
+  margin-inline: -4px;
+  border-bottom: 2px solid currentColor;
+  box-shadow: none;
+  transition: gap .35s var(--dl-ease, ease), background-color .35s var(--dl-ease, ease);
 }
+@media (hover: hover) { .grow__more a:hover { background: rgba(156, 90, 55, .10); } }
 .grow__more a em { font-style: normal; }
-@media (hover: hover) {
-  .grow__more a:hover { gap: 15px; color: var(--dl-copper-d, #8a4b23); }
-}
 .grow__more a:focus-visible { outline: 2px solid var(--dl-copper-d, #8a4b23); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .grow__more a { transition: none; } }
 
@@ -149,17 +152,24 @@
   margin: 14px 0 0;
   margin-left: calc(clamp(38px, 4vw, 60px) + clamp(12px, 2vw, 28px));
 }
+/* Client, 6 Sep 2026: "make it with more contrast and aesthetic". The label
+   was already copper; the 1px rule under it was what made this read as quiet
+   text rather than as something to press. Full-strength, 2px, and a copper
+   wash on hover so the target is legible before the pointer is on it. Matches
+   `.tlink` everywhere else — see styles/amendments.css §30. */
 .grow__go a {
-  display: inline-flex; align-items: center; gap: 9px;
-  font: 500 clamp(14px, 1vw, 15.5px)/1 var(--dl-sans, system-ui);
+  display: inline-flex; align-items: center; gap: 10px;
+  font: 600 clamp(14px, 1vw, 15.5px)/1 var(--dl-sans, system-ui);
   color: var(--dl-copper-d, #8a4b23);
   text-decoration: none;
-  padding-bottom: 3px;
-  box-shadow: inset 0 -1px 0 currentColor;
-  transition: gap .35s var(--dl-ease, ease);
+  padding: 2px 4px 8px;
+  margin-inline: -4px;
+  border-bottom: 2px solid currentColor;
+  box-shadow: none;
+  transition: gap .35s var(--dl-ease, ease), background-color .35s var(--dl-ease, ease);
 }
+@media (hover: hover) { .grow__go a:hover { background: rgba(156, 90, 55, .10); } }
 .grow__go a em { font-style: normal; }
-@media (hover: hover) { .grow__go a:hover { gap: 14px; } }
 .grow__go a:focus-visible { outline: 2px solid var(--dl-copper-d, #8a4b23); outline-offset: 3px; }
 @media (max-width: 560px) {
   .grow__lead, .grow__go { margin-left: 0; }

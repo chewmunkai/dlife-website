@@ -92,13 +92,18 @@ const PHOTOS = {
   },
   policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
   close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
-  /* A15: the DVA panel carries copy over the picture, so this is the widest
-     of the supplied group shots with the faces off the centre line where the
-     type sits. Contrast was re-checked against the panel's wash after the
-     swap. */
-  dva: { src: asset("/media/img/team-award.jpg"), alt: "D’Life advisors and managers at an agency recognition event" },
+  /* Reverted at the client's request (6 Sep 2026), and the measurements say
+     why it was the right picture: the panel is 878x504 (1.74) and this file is
+     1.78, so it fills the frame with almost nothing cropped. team-award.jpg is
+     1.33 and lost a slice of the room at both ends. */
+  dva: { src: asset("/media/img/dva-team.jpg"), alt: "The D’Life advisory team" },
   y1: { src: asset("/media/img/youth-session.jpg"), alt: "Attendees seated at a D’Life Youth Community session" },
-  y2: { src: asset("/media/img/youth-group.jpg"), alt: "D’Life Youth Community members together after a session" },
+  /* The Youth cards are 4:3 frames. This was youth-group.jpg, a 0.75 portrait,
+     so the frame took a band out of the middle and cut the people standing at
+     the top and bottom of the staircase — the "stories image being cut out"
+     the client flagged. Replaced with a 1.33 photograph, which is the card's
+     exact ratio: nothing is cropped at all. */
+  y2: { src: asset("/media/img/community-group.jpg"), alt: "D’Life community members together at a gathering" },
   y3: { src: asset("/media/img/youth-resources.jpg"), alt: "Hands raised during a workshop session" },
 } satisfies Record<string, Photo>;
 
@@ -479,7 +484,13 @@ export default function DLife() {
           </div>
         </div>
         <div className="bg ph">
-          <Plate photo={HERO_PHOTO} parallax eager />
+          {/* No parallax on the hero any more. The effect works by over-scanning
+              the picture (.prlx insets it -12% top and bottom) and sliding it,
+              which means the frame only ever shows part of the photograph — and
+              the standing rule from 6 Sep is that a D'Life photograph never has
+              anyone cropped out of it. The plate takes the picture's own 4:3
+              shape instead, so what is on the page is the whole group. */}
+          <Plate photo={HERO_PHOTO} eager />
         </div>
       </section>
 
@@ -488,7 +499,10 @@ export default function DLife() {
           deliberately lighter than the life-needs section below it, and sits
           above the trust band rather than after it. */}
       <section id="path">
-        <span className="lb rv">Choose your path</span>
+        {/* The eyebrow said "Choose your path" and the line under it said
+            "I'm looking to…" — the same instruction twice, and the client
+            asked for fewer words and a straighter question. One line now, and
+            it is the one that speaks in the visitor's own voice. */}
         <p className="q rv">
           <span>I’m looking to…</span>
         </p>
@@ -587,21 +601,32 @@ export default function DLife() {
       </section>
 
       <section id="founder">
-        {/* TODO(launch): founder portraits. Both slots stay marked rather than
-            filled with a film still — the brief lists photography rights as a
-            blocking question, and a founder's face is the last thing to fake. */}
+        {/* The portraits arrived on 6 Sep 2026 and the marked slots are gone.
+            Mapped by filename from the client's SHARON.jpg and RACHEL.jpg, the
+            same way About maps them — never by deciding from the photographs
+            which sister is which. The frames were 3:4 and the portraits are
+            4:5; the frames changed rather than the pictures, so neither woman
+            loses a shoulder to a crop. */}
         <div className="fpair rv">
           <div className="ph">
-            <div className="slot-empty">
-              Sharon Cheang
-              <em>Founder</em>
-            </div>
+            <img
+              src={asset("/media/img/founder-sharon.jpg")}
+              alt="Sharon Cheang, founder of D’Life"
+              width={1400}
+              height={1750}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div className="ph">
-            <div className="slot-empty">
-              Rachel Cheang
-              <em>Co-Founder</em>
-            </div>
+            <img
+              src={asset("/media/img/founder-rachel.jpg")}
+              alt="Rachel Cheang, co-founder of D’Life"
+              width={1400}
+              height={1749}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
         <div>

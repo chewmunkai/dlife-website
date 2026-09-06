@@ -1947,3 +1947,138 @@
    the person writing it expects. `!important` is the conventional guard for
    exactly this rule and is scoped to the shell. */
 .wrap [hidden] { display: none !important; }
+
+/* ---- 28d · a frame may take its photograph's shape (client rule, 6 Sep) ----
+   "For D'Life images NEVER crop out someone — adjust it to include everyone,
+   or don't use it."
+
+   The design's plates are fixed shapes, which is right for licensed stock:
+   that photography is composed to be cropped. It is wrong for a group
+   photograph of the practice, where the composition IS the people and the
+   frame decides who is in the picture. Measured before this: 40% of the width
+   gone on Careers, 31% on About, 29% on DVA, 27% on three heroes.
+
+   `Photo.ratio` opts a placement into the picture's own shape. These rules
+   clear the fixed heights the plates otherwise carry, so the ratio can win.
+   Nothing here changes a plate that has not asked. */
+.hero .art[style*="aspect-ratio"] { height: auto; }
+.crest .shot[style*="aspect-ratio"] { align-self: center; min-height: 0; }
+.record .shot[style*="aspect-ratio"] { min-height: 0; }
+.split-shot .shot[style*="aspect-ratio"] { align-self: center; min-height: 0; }
+.two .plate[style*="aspect-ratio"] { align-self: center; }
+@media (max-width: 900px) {
+  /* The stacked layouts give the plate their own short height; the ratio
+     still wins, so a phone shows the same whole picture. */
+  .hero .art[style*="aspect-ratio"],
+  .crest .shot[style*="aspect-ratio"] { height: auto; min-height: 0; }
+}
+
+/* ============================================================
+   29 · The navigation bar, evened up (client, 6 Sep 2026)
+   ------------------------------------------------------------
+   "Adjust the navigation bar size across font and menu and logo to be more
+   consistent & aligned, now logo is bigger."
+
+   Measured at 1440 before this: the pillars were 15px/500 with no tracking,
+   the action 13px/700 with 0.05em, and the lockup 22px tall. Three type
+   treatments in one 97px bar, and the new wordmark is optically heavier than
+   the one it replaced, so the lockup had started to dominate the row it sits
+   in.
+
+   One size for the words, one for the lockup, and both centred on the same
+   line: pillars and action both at 14px, and the lockup down to 20px so it
+   reads as the bar's equal rather than its headline. The action keeps its
+   heavier weight and its tracking — a button should not look like a link. */
+.dl-header .nav a.top { font-size: 14px; letter-spacing: .005em; }
+.dl-header .rt .pill { font-size: 14px; }
+.dl-header .lmark { height: 20px; }
+@media (max-width: 1300px) {
+  /* §28 already steps the pillars down here; keep the action with them. */
+  .dl-header .rt .pill { font-size: 13px; }
+}
+@media (max-width: 620px) { .dl-header .lmark { height: 18px; } }
+
+/* ============================================================
+   30 · Text calls to action, at full strength (client, 6 Sep 2026)
+   ------------------------------------------------------------
+   "For buttons like CTA make it more visible, eg: More on mentorship, See
+   full clear page, discover our story — make it with more contrast and
+   aesthetic."
+
+   The label was never the problem: `.tlink` is copper on ivory at 5.34:1.
+   The rule under it was — 1px at 45% opacity (`--s-rule`), which is what made
+   these read as quiet text rather than as something to press. It is now
+   full-strength and 2px, so the line is the same colour as the words above
+   it, and the whole action takes a copper wash on hover so the target is
+   legible before you are on top of it.
+
+   Written against `.tlink` itself rather than an inner span, because these
+   appear in two shapes across the site — some carry an arrow, some are bare
+   text — and one rule has to serve both. Applied to every text action, not
+   only the three named, so the pattern stays one pattern. */
+.wrap .tlink {
+  border-bottom: 2px solid currentColor;
+  box-shadow: none;
+  padding: 2px 4px 9px;
+  margin-inline: -4px;
+  transition: gap var(--dl-t-base) var(--dl-ease), background-color var(--dl-t-base) var(--dl-ease);
+}
+@media (hover: hover) {
+  .wrap .tlink:hover {
+    /* A wash rather than a fill: the copper stays the text colour, so the
+       contrast the label already had is untouched. */
+    background: var(--s-outline-wash, rgba(156, 90, 55, .10));
+    border-color: currentColor;
+  }
+}
+.wrap .tlink:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .wrap .tlink { transition: none; } }
+/* `.grow__go` and `.grow__more` get the same treatment from styles/growth.css,
+   which is the sheet BOTH shells load — this one never reaches the homepage,
+   and those two links live there. */
+
+/* ============================================================
+   31 · Service-page boxes on one line (client, 6 Sep 2026)
+   ------------------------------------------------------------
+   "For the box points at 'What it actually means' and 'How the conversation
+   goes': adjust all the header to be the consistent height. If the word count
+   is too much, prolong the box for every one."
+
+   Measured on Medical before this, at 1280:
+
+     · the idea cards bottom-anchor their text (`.foot { margin-top: auto }`),
+       so a card with three lines of copy started its heading 51px higher than
+       a card with two — 127 against 178 down the card
+     · the rows were different heights as well, 341 and 289, because a grid
+       row only stretches to its own tallest card
+     · in the steps panel, "You decide what, if anything, to change" wraps to
+       two lines and pushed its paragraph 20px below the other three
+
+   Two rules, and they do what the client asked in the order they asked it.
+   Every box in the section takes the height of the tallest — so a long
+   heading prolongs all of them rather than making one odd — and the block
+   under each heading reserves a common number of lines, which puts every
+   heading and every paragraph on one line across the row. */
+
+/* All rows match the tallest, not just the cards within a row. */
+.icards { grid-auto-rows: 1fr; }
+.icards .icard { height: 100%; }
+/* The heading stops floating. `.foot { margin-top: auto }` pushed the whole
+   text block to the bottom of the card, so the heading's position was decided
+   by how long its own paragraph happened to be — a three-line card started
+   its heading 51px above a two-line one. The block is top-anchored now, at a
+   fixed distance below the icon, so every heading in the section sits on one
+   line by construction rather than by luck. The card keeps its presence from
+   the row height above, which is why nothing collapses. */
+.icards .icard .foot { margin-top: 0; padding-top: clamp(26px, 3.4vh, 38px); }
+
+/* The steps panel: two lines reserved for the heading, so a title that wraps
+   does not push its own paragraph out of line with the other three. */
+.steps-panel h3 { min-height: calc(1.35em * 2); }
+
+@media (max-width: 560px) {
+  /* One card per row on a phone: nothing to line up with, and reserved space
+     under a heading is just a hole. */
+  .icards { grid-auto-rows: auto; }
+  .steps-panel h3 { min-height: 0; }
+}

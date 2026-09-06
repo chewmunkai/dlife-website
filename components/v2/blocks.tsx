@@ -21,7 +21,27 @@ import { Icon, type IconKey } from "./icons";
    ============================================================ */
 
 export type Tone = "light" | "sand" | "dark" | "ink";
-export type Photo = { src: string; alt: string; position?: string };
+export type Photo = {
+  src: string;
+  alt: string;
+  position?: string;
+  /**
+   * The frame takes THIS ratio instead of its own, e.g. "4 / 3".
+   *
+   * Client rule, 6 Sep 2026: a D'Life photograph never has anyone cropped out
+   * of it. The design's plates are fixed shapes, so a 4:3 group photo in a
+   * 4:5 plate loses 40% of its width — and the people standing at either end
+   * with it. Setting this to the file's own ratio makes `object-fit: cover`
+   * resolve to an exact fit, so nothing is lost.
+   *
+   * Only set it on the practice's own photography. Licensed stock is composed
+   * to be cropped and the design's proportions are deliberate.
+   */
+  ratio?: string;
+};
+
+/** The frame style a `Photo` asks for, or nothing. */
+export const frameOf = (photo?: Photo) => (photo?.ratio ? { aspectRatio: photo.ratio } : undefined);
 
 /** `ink` is a second dark, so a dark page can modulate without a third colour. */
 export const mode = (tone: Tone = "light") => (tone === "ink" ? "dark ink" : tone);
@@ -84,7 +104,7 @@ export function Hero({
   return (
     <section className={`hero ${photo ? "" : "hero--noart "}${mode(tone)}`}>
       {photo && (
-        <div className="art ph">
+        <div className="art ph" style={frameOf(photo)}>
           <Img photo={photo} />
         </div>
       )}
@@ -457,7 +477,7 @@ export function Record({
       {lede && <p className="dl-lede">{lede}</p>}
       <div className="record">
         {photo ? (
-          <div className="shot ph">
+          <div className="shot ph" style={frameOf(photo)}>
             <Img photo={photo} />
           </div>
         ) : (
@@ -925,7 +945,7 @@ export function SplitShot({
       id={id}
       className={`split-shot ${mode(tone)}${flip ? " split-shot--flip" : ""}${className ? ` ${className}` : ""}`}
     >
-      <div className="shot ph">
+      <div className="shot ph" style={frameOf(photo)}>
         <Img photo={photo} />
       </div>
       <div className="body">

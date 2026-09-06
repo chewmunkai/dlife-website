@@ -151,7 +151,9 @@ export default function Page() {
              agency. The agency itself does the job better. */
           src: "/media/img/team-outdoors.jpg",
           alt: "The D’Life team together at an agency away day",
-          position: "50% 46%",
+          /* 4:3 is the file's own shape. The hero plate was 0.97 and took 27%
+             off the width — the people at both ends of the group. */
+          ratio: "4 / 3",
         }}
         actions={
           <a className="pill" href={career}>
@@ -227,12 +229,11 @@ export default function Page() {
       />
 
       <section className="two two--flip sand">
-        <div className="plate ph">
-          <img
-            src={asset("/media/img/team-office.jpg")}
-            alt="D’Life advisors and managers together at the agency office"
-            style={{ objectPosition: "50% 42%" }}
-          />
+        <div className="plate ph" style={{ aspectRatio: "4 / 3" }}>
+          {/* The plate is 4:5 and this photograph is 4:3, which was costing
+              40% of its width — the worst crop on the site. The plate takes
+              the picture's shape instead. */}
+          <img src={asset("/media/img/team-office.jpg")} alt="D’Life advisors and managers together at the agency office" />
         </div>
         <div>
           <p className="lbl">Who thrives at D’Life?</p>

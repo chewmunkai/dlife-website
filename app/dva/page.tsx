@@ -194,15 +194,18 @@ export default function Page() {
             </a>
           </div>
         </div>
-        <div className="shot ph">
+        {/* 16:9, the file's own shape. The plate was 1.26 and took 29% off
+            the width of the room. */}
+        <div className="shot ph" style={{ aspectRatio: "16 / 9" }}>
           <img
-            /* A15: DVA's own forum, from the client's library — the screen
-               behind the panel names the session and its speakers. Framed on
-               the stage band rather than the audience: the source is portrait
-               and this plate is not, so the crop is where the people are. */
-            src={asset("/media/img/dva-forum.jpg")}
-            alt="A D’Life leadership forum in session, with the panel on stage"
-            style={{ objectPosition: "50% 34%" }}
+            /* Reverted at the client's request (6 Sep 2026). dva-forum.jpg is
+               a portrait source (0.75) in a landscape plate, so filling the
+               frame meant cutting the room at both sides — which the client's
+               standing rule on D'Life photography forbids. This file is 1.78
+               against a 1.52 plate: a little off the ends of an empty
+               foreground, and nobody lost. */
+            src={asset("/media/img/dva-team.jpg")}
+            alt="The D’Life advisory team"
           />
         </div>
       </section>
