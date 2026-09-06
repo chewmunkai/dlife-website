@@ -737,20 +737,34 @@
   margin-top: var(--dl-head-gap);
   background: var(--dl-sand);
   box-shadow: inset 0 0 0 1px rgba(47, 53, 50, .28);
-  /* One column now, not two. The panel reads top to bottom: the practice,
-     then what it adds up to. */
-  display: grid; grid-template-columns: minmax(0, 1fr);
+  /* ⚠️ Two columns again, at the client's request (round 18): "you have yet
+     to revert the design of Advisor development, revert it back."
+     
+     They were right and I had done half of it. Round 14 changed two things
+     here — two columns to one, AND the figures from hairlined rows to three
+     cells — and round 17 only put the rows back. This is the other half: the
+     photograph beside the record rather than stacked above it.
+     
+     One thing does NOT come back with it. The old rule had
+     `align-self: stretch; min-height: clamp(240px, 32vh, 340px)` on the plate,
+     which is a fixed-height frame holding a 1.55 photograph — it cropped. The
+     plate keeps the picture's own ratio and the panel takes its height from
+     whichever column is taller. */
+  display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
+  align-items: start;
 }
 .record .say {
   min-width: 0;
   padding: clamp(28px, 4vh, 48px) clamp(24px, 3.2vw, 48px);
-  border-bottom: 1px solid rgba(47, 53, 50, .38);
+  border-right: 1px solid rgba(47, 53, 50, .38);
 }
-/* The photograph runs the full width of the panel and keeps its own shape —
-   the standing rule on D'Life photography (see docs/dlife-asset-map.md). */
+/* The photograph fills its half of the panel edge to edge — no padding,
+   because a plate inset inside a sand panel reads as a picture pinned to a
+   board — and keeps its own shape, per the standing rule on D'Life
+   photography (docs/dlife-asset-map.md). */
 .record .shot {
   min-width: 0; position: relative; overflow: hidden;
-  border-bottom: 1px solid rgba(47, 53, 50, .38);
+  border-right: 1px solid rgba(47, 53, 50, .38);
 }
 .record .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .record .say p {
@@ -782,6 +796,7 @@
 .record .rows {
   min-width: 0;
   display: grid; grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
 }
 .record .rows > * {
   display: flex; align-items: center;
@@ -807,8 +822,10 @@
   font: var(--dl-w-regular) clamp(15px, 1.15vw, 17.5px)/1.55 var(--dl-sans);
   color: var(--dl-ink); text-wrap: pretty;
 }
-/* Where the numbers come from, said on the page rather than left implied. */
+/* Where the numbers come from, said on the page rather than left implied.
+   Spans both columns: it is the panel's footer, not the figures' caption. */
 .record__src {
+  grid-column: 1 / -1;
   margin: 0;
   padding: clamp(14px, 1.8vh, 20px) clamp(24px, 3.2vw, 48px);
   border-top: 1px solid rgba(47, 53, 50, .38);
@@ -816,6 +833,12 @@
   color: rgba(47, 53, 50, .72);
 }
 @media (max-width: 860px) {
+  /* The panel stacks, so its vertical divider becomes a horizontal one. */
+  .record { grid-template-columns: minmax(0, 1fr); }
+  .record .say, .record .shot {
+    border-right: 0;
+    border-bottom: 1px solid rgba(47, 53, 50, .38);
+  }
   /* One column on a phone, so the numeral sits over its description and the
      rule runs under each complete pair rather than between the two halves of
      one. `2n + 1` is every numeral after the first. */
@@ -2521,3 +2544,28 @@
 @media (max-width: 620px) {
   .traits--grid { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
 }
+
+/* ---- 38 · the reading band's heading (.band--read h2) ----
+   Round 18, client, on three pages: "this section used to have a headline,
+   add it back."
+
+   They were right, and it was true on five. Round 16 reverted these openings
+   from `Open` — first sentence at display scale in its own column — to a
+   single reading column, and the sentence went down into the paragraph with
+   the layout, so each section began cold on a description with nothing above
+   it. The heading is back and the reverted layout stays.
+
+   It needs its own scale. A section heading here is `clamp(28px, 3.2vw, 48px)`
+   at a 20ch measure, which is drawn for two or three words: "Most people have
+   not read their policy since the day they signed it." at 48px in 20 characters
+   is five lines of very large type. These headings are sentences, so they run
+   at the statement scale `Open` used, on a measure that lets them breathe. */
+.wrap .band--read > h2 {
+  font-size: clamp(23px, 2.5vw, 37px);
+  line-height: 1.16;
+  max-width: 30ch;
+  text-wrap: pretty;
+}
+/* The prose follows the heading rather than opening the band, so the gap
+   above it belongs to the heading pair, not to the section. */
+.wrap .band--read > h2 + .dl-prose { margin-top: clamp(20px, 2.8vh, 30px); }

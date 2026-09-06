@@ -58,12 +58,13 @@ export default function Page() {
           content/videos.ts holds, so 5 films or 12 need no change here. */}
       <StoryReel items={VIDEOS} />
 
-      {/* Reverted to the pre-port design at the client's request (Sep 2026):
-          one reading-width column rather than the display lead beside prose. */}
-      <Band read>
+      {/* The headline is the opening sentence, split out of the prose below —
+          see the fuller note on Existing Policy Support. Reverting this block
+          from `Open` in round 16 took the sentence into the paragraph and left
+          the section with no heading at all. */}
+      <Band read title="No script, and no polish. This is how the work actually goes.">
         <div className="dl-prose">
           <p>
-            No script, and no polish. This is how the work actually goes.{" "}
             You are probably watching because you are wondering what the job is actually like, not because you want to
             hear how good we are at it. So that is what they talk about: an ordinary week, the parts that are hard, and
             the reason they stayed.

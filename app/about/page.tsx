@@ -150,21 +150,16 @@ export default function Page() {
         }
       />
 
-      {/* Reverted to the pre-port design at the client's request (Sep 2026):
-          one reading-width column rather than the display lead beside prose.
-
-          The opening sentence goes back to its pre-port construction too. The
-          port split it to make a display line, which left "Hard work,
-          integrity, compassion and a habit of continuing to learn." stranded
-          as a fragment — fine under a heading, not fine as the first line of a
-          paragraph. The em-dash version is the sentence it was. */}
-      <Band read>
+      {/* The headline is the opening sentence, split out of the prose below —
+          see the fuller note on Existing Policy Support. Reverting this block
+          from `Open` in round 16 took the sentence into the paragraph and left
+          the section with no heading at all. */}
+      <Band read title="Sharon and Rachel Cheang grew up without financial abundance.">
         <div className="dl-prose">
           <p>
-            Sharon and Rachel Cheang grew up without financial abundance. What that taught them — hard work,
-            integrity, compassion and a habit of continuing to learn — became the foundation of the agency they
-            built. It is also why the first question here is usually about your circumstances rather than your
-            budget.
+            What that taught them — hard work, integrity, compassion and a habit of continuing to learn — became the
+            foundation of the agency they built. It is also why the first question here is usually about your
+            circumstances rather than your budget.
           </p>
           <p>
             D’Life is a Malaysian financial advisory and insurance agency. We help individuals, families, professionals

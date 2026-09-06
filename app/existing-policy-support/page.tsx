@@ -131,16 +131,22 @@ export default function Page() {
         statement="A review, not a transfer."
       />
 
-      {/* Reverted to the pre-port design at the client's request (Sep 2026).
-          The port turned this into `Open` — the first sentence pulled out at
-          34px display scale in a 5fr column with the prose in a 7fr column
-          beside it. The client asked for the old one back: one reading-width
-          column, the opening sentence doing its work as a sentence. */}
-      <Band read>
+      {/* ⚠️ The headline is the section's opening sentence, and it is NOT
+          repeated in the prose below — the two halves are one piece of copy
+          split at the full stop.
+
+          Round 16 reverted this block from `Open`, which set that sentence at
+          display scale in its own column. Reverting the layout took the
+          sentence down into the paragraph with it, so the section lost its
+          heading entirely and started cold on a description. The client caught
+          that on three pages; it was true on all five. The heading is back,
+          the single reading column stays. `.band--read h2` runs at a statement
+          scale rather than the 48px section scale — see amendments.css §38. */}
+      <Band read title="Most people have not read their policy since the day they signed it.">
         <div className="dl-prose">
           <p>
-            Most people have not read their policy since the day they signed it. That is normal. These documents are
-            written in language most of us do not use, and then left alone while life carries on changing around them.
+            That is normal. These documents are written in language most of us do not use, and then left alone while
+            life carries on changing around them.
           </p>
           <p>
             This is an offer to read yours with you: what it covers, what it does not, and whether it still fits the
@@ -179,27 +185,6 @@ export default function Page() {
           they are the page's own statement, not a quotation from anybody, and
           inventing an attribution to justify the form is exactly what the
           brief rules out. Do not soften this into a benefit. */}
-      {/* Client, 6 Sep 2026: "a bit weirdly placed and big — adjust the tone
-          and language, make it smooth, redesign this."
-
-          Two problems, and they were related. It was set as a full-width
-          pull-quote, which is the largest register the page has, for a
-          sentence that is a reassurance rather than a statement of belief. And
-          the language was three refusals in a row — not a sales meeting, not
-          an assessment, nothing obliges you — which reads as defensive even
-          though every word of it is true and load-bearing.
-
-          It says the same three things now, starting with what a review IS.
-          The guardrail is intact: no sale, no obligation to move, no judgement
-          of whoever advised you before. Do not soften it further into a
-          benefit — that is the failure mode this whole page is written
-          against. Contained panel, lede scale, not a quotation. */}
-      <section className="band light assure-host">
-        <p className="assure">
-          A review is a conversation about cover you already hold. There is nothing to buy at the end of it, nothing
-          you have to move, and no verdict on whoever advised you before.
-        </p>
-      </section>
 
       <section className="band light">
         <p className="lbl">What we look at</p>

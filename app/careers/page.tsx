@@ -169,16 +169,16 @@ export default function Page() {
         statement="An honest conversation about what the work involves."
       />
 
-      {/* Reverted to the pre-port design at the client's request (Sep 2026),
-          the same way the openings on About, Stories and Existing Policy
-          Support were: one reading-width column rather than the first
-          sentence at display scale beside the prose. */}
-      <Band read>
+      {/* The headline is the opening sentence, split out of the prose below —
+          see the fuller note on Existing Policy Support. Reverting this block
+          from `Open` in round 16 took the sentence into the paragraph and left
+          the section with no heading at all. */}
+      <Band read title="You have probably seen how this industry usually recruits. We are not going to do that.">
         <div className="dl-prose">
           <p>
-            You have probably seen how this industry usually recruits. We are not going to do that. What we can tell
-            you is what the work actually involves, how you would be trained, and who tends to do well at it. If that
-            reads as less exciting than the alternative, we would rather you decided on the accurate version.
+            What we can tell you is what the work actually involves, how you would be trained, and who tends to do well
+            at it. If that reads as less exciting than the alternative, we would rather you decided on the accurate
+            version.
           </p>
         </div>
       </Band>

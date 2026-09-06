@@ -207,14 +207,15 @@ export default function Page() {
         }
       />
 
-      {/* Reverted to the pre-port design at the client's request (Sep 2026):
-          one reading-width column rather than the display lead beside prose. */}
-      <Band read>
+      {/* The headline is the opening sentence, split out of the prose below —
+          see the fuller note on Existing Policy Support. Reverting this block
+          from `Open` in round 16 took the sentence into the paragraph and left
+          the section with no heading at all. */}
+      <Band read title="Young people leaving university today need more than a qualification.">
         <div className="dl-prose">
           <p>
-            Young people leaving university today need more than a qualification. They need confidence, the ability to
-            communicate, some grasp of how money actually works, a bit of leadership practice and some real-world
-            experience to put it all against.
+            They need confidence, the ability to communicate, some grasp of how money actually works, a bit of
+            leadership practice and some real-world experience to put it all against.
           </p>
           <p>
             The Youth Community exists to provide those things in a setting that is practical and welcoming rather than

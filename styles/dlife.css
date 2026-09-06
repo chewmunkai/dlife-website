@@ -673,7 +673,7 @@ body:has(.dlife) {
      
      So it is a feather now, not a dissolve, and it is sized to sit inside the
      column gap rather than reaching under the copy. */
-  --hero-blend: clamp(16px, 1.8vw, 30px);
+  --hero-blend: 0px;
   /* A floor, not the driver. The plate below takes the photograph's own shape
      and the row sizes to it; a taller floor than that would only add ivory
      under the picture. */
@@ -729,20 +729,20 @@ body:has(.dlife) {
   z-index: 2;
   pointer-events: none;
   background:
-    /* Left: a feather that loses the plate's hard vertical edge, and nothing
-       more. The old ramp held 94% opacity through its first half because the
-       copy overlapped it and needed page ground to sit on; the copy no longer
-       overlaps it, so holding that opacity would only be erasing people for a
-       reason that has gone. It starts short of opaque and releases fast. */
-    linear-gradient(to right,
-      rgba(246, 241, 232, .88) 0,
-      rgba(246, 241, 232, .42) 45%,
-      rgba(246, 241, 232, 0) var(--hero-blend)),
-    /* Foot: the picture releases into the pathway strip below rather than
-       ending on a ruled line. Short — this is the glass tabletop, and the
-       band is there to lose an edge, not to wash the photograph out. The top
-       edge keeps its clean seam under the header. */
-    linear-gradient(to top, var(--dl-ivory) 0, rgba(246, 241, 232, 0) 10%);
+    /* ⚠️ There is no left fade any more, at the client's request: "remove the
+       fade, just pic the pic since it showed everyone."
+       
+       The fade existed to dissolve the plate into the page across a 115px
+       bleed, and the bleed existed because the plate needed the extra width to
+       hold a 4:3 picture. Neither is true now — the plate takes the
+       photograph's own ratio, so `--hero-blend` is 0 and the picture simply
+       starts at the column edge. Keeping a feather over it would be softening
+       an edge that no longer needs it, on top of people. */
+    /* Nothing. The foot release went with the left fade — "just pic the pic".
+       Kept as a rule rather than deleted so the seam is still here if the
+       client wants a soft edge back at the bottom; it was a 10% wash to ivory
+       so the picture did not end on a ruled line. */
+    none;
 }
 /* Up from clamp(8px, 1.5vw, 24px) with the closed gap: the copy keeps the same
    measure it had, and the extra inset is what holds the longest headline off
@@ -1190,7 +1190,8 @@ body:has(.dlife) {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(12px, 1.5vw, 24px);
+  --reel-gap: clamp(12px, 1.5vw, 24px);
+  gap: var(--reel-gap);
 }
 /* The row's own sizing. Scoped to the reel because the /stories page lays the
    same cards out in a grid and must not inherit a fixed strip width.
@@ -1220,13 +1221,33 @@ body:has(.dlife) {
    ⚠️ With an EVEN number of films the active card cannot sit in the middle of
    the row — four cards means one flank has two and the other has one. It is
    centred again at five. */
+/* The row divides the width it has between however many films exist, rather
+   than carrying fixed card sizes that only suit one count.
+   
+   `--reel-n` is set inline from VIDEOS.length. Each preview takes one share
+   and the playing card takes 1.23 of one, so:
+   
+     share = (100% - (n - 1) gaps) / (n + 0.23)
+   
+   and the row comes out exactly the width of its container at any count. At
+   three that arithmetic wants a 477px active card — 848px tall at 9:16, taller
+   than most laptop viewports — so both are capped. Three films therefore fill
+   1173 of 1296 rather than the 754 the client saw, four fill it exactly, and
+   five still fit.
+   
+   ⚠️ 9:16 is why this cannot simply be "make them bigger": width sets height
+   here, so every 100px across is 178px down. */
 .dlife #stories .reel .story {
   flex: 0 0 auto;
-  width: clamp(155px, 17vw, 245px);
+  width: calc((100% - (var(--reel-n, 3) - 1) * var(--reel-gap)) / (var(--reel-n, 3) + .23));
+  max-width: 350px;
   text-align: center;
   transition: width .5s cubic-bezier(.22, .7, .24, 1);
 }
-.dlife #stories .reel .story.on { width: clamp(224px, 24.3vw, 350px); }
+.dlife #stories .reel .story.on {
+  width: calc(1.23 * (100% - (var(--reel-n, 3) - 1) * var(--reel-gap)) / (var(--reel-n, 3) + .23));
+  max-width: 430px;
+}
 /* Frames follow the source: these are 9:16 vertical films, so the card is
    9:16 and the picture fills it edge to edge. The old 4:3-ish frame is what
    put the two dead columns either side of a playing video. */

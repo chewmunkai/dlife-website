@@ -669,7 +669,10 @@ export default function DLife() {
             without React relocating three cards' worth of media on every
             step. Reading order therefore stays 1, 2, 3, which is also what
             the carousel dots below announce. */}
-        <div className="reel">
+        {/* `--reel-n` lets the row divide its width between however many films
+            there are — see the note on `#stories .reel .story` in
+            styles/dlife.css. Adding a film needs no CSS change. */}
+        <div className="reel" style={{ ["--reel-n" as string]: VIDEOS.length } as React.CSSProperties}>
           {VIDEOS.map((v, i) => {
             const on = i === active;
             /* Distance forward from the active card: 0 is the centre, the
