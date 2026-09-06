@@ -496,3 +496,37 @@
   .dlife .e2-bar { gap: 10px 18px; }
   .dlife .e2-bar .pill { width: 100%; justify-content: center; }
 }
+
+/* ============================================================
+   The header, rebalanced (A01) — homepage copy of the rule
+   ------------------------------------------------------------
+   The homepage runs the previous design's `.dlife`-scoped chrome, so neither
+   styles/ds/overrides.css §1–2 nor styles/amendments.css §28 reaches it: both
+   are written against `.dl-header`. The markup and the measurements are the
+   same, and so is the fault. At 1280 the row wanted 1458px — the burger's
+   right edge sat 178px past the window, on the site's most important page,
+   invisible because nothing here scrolls sideways.
+
+   Same two moves as §28, said in this sheet's own selector:
+
+   1 · No burger beside an open navigation. Above 1180px all seven pillars are
+       in the bar and the overlay behind the burger is those same seven.
+   2 · The bar's gutter and the pillars come in over the tightest laptop
+       widths, where losing the burger alone is not enough.
+
+   Keep this in step with styles/amendments.css §28. When the homepage moves
+   onto the new design this block goes with the rest of the `.dlife` layer.
+   ============================================================ */
+@media (min-width: 1181px) {
+  .dlife #hd .burger { display: none; }
+}
+@media (min-width: 1181px) and (max-width: 1460px) {
+  .dlife #hd { padding-inline: clamp(28px, 3.4vw, 48px); }
+  .dlife #hd .nav { gap: clamp(8px, .9vw, 14px); margin-left: clamp(10px, 1.2vw, 20px); }
+  .dlife #hd .rt { gap: 8px; }
+  .dlife #hd .rt .pill { padding: 13px 20px; font-size: 13px; }
+}
+@media (min-width: 1181px) and (max-width: 1300px) {
+  .dlife #hd .nav { gap: clamp(6px, .7vw, 10px); margin-left: 12px; }
+  .dlife #hd .nav a.top { font-size: 14px; }
+}

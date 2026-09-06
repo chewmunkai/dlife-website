@@ -1545,3 +1545,166 @@
 .wrap .ask-host { grid-template-columns: minmax(0, 4.4fr) minmax(0, 7.6fr); }
 /* 16ch was the old cap and is narrower than the column now. */
 .wrap .ask-host .ask-head h2 { max-width: none; }
+
+/* ============================================================
+   27 · The carousel (.crsl)
+   ------------------------------------------------------------
+   A02/A11. A 4-up card grid holding 5 or 7 cards puts one card on a row of
+   its own beside three empty slots — "uneven rows and too much empty space"
+   in the client's words. The rail is the fix, and it is one rail: the idea
+   cards, the Existing Policy list and the story sets all use it.
+
+   The track keeps whatever grid class it was given (`.icards`, `.dl-videos__
+   grid`), so a card's own sizing, tint and hover are untouched — only the
+   flow changes, from wrapping rows to one scroll-snapping line.
+   ============================================================ */
+.crsl { position: relative; --crsl-gap: clamp(14px, 1.6vw, 22px); --crsl-per: 4; }
+.crsl__track {
+  /* Beats the wrapping grid on the same element without touching its cards. */
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: none;
+  /* A DEFINITE track size, not `minmax(0, …)`. With a zero minimum grid
+     shrinks the columns to fit rather than overflowing, so the rail silently
+     became a squashed row that could not scroll — five 271px cards arriving
+     as five 214px ones. */
+  grid-auto-columns: calc((100% - (var(--crsl-per) - 1) * var(--crsl-gap)) / var(--crsl-per));
+  gap: var(--crsl-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: auto;
+  /* Room for the focus ring and the cards' hover lift, which would otherwise
+     be clipped by the scroll container's own edge. */
+  padding-block: 4px;
+  scrollbar-width: none;
+}
+.crsl__track::-webkit-scrollbar { display: none; }
+.crsl__track > * { scroll-snap-align: start; }
+.crsl__track:focus-visible {
+  outline: 2px solid var(--dl-copper-d);
+  outline-offset: 4px;
+}
+/* Two, then one-and-a-bit cards in view — the same steps the grid took. The
+   phone deliberately leaves an edge of the next card showing, which is what
+   tells a thumb the rail scrolls before it has been touched. */
+@media (max-width: 1180px) { .crsl { --crsl-per: 2; } }
+@media (max-width: 560px) {
+  .crsl__track { grid-auto-columns: 86%; }
+}
+
+/* The controls sit under the rail on its right, in the ledger's own grammar:
+   a hairline square, copper on hover, and visibly dead at the end of the
+   track rather than silently dead. */
+.crsl__nav {
+  display: flex; gap: 8px; justify-content: flex-end;
+  margin-top: clamp(14px, 1.8vh, 20px);
+}
+.crsl__btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px;
+  background: none; cursor: pointer;
+  border: 1px solid rgba(47, 53, 50, .22);
+  color: var(--s-heading);
+  transition: border-color var(--dl-t-base) var(--dl-ease), color var(--dl-t-base) var(--dl-ease),
+    background-color var(--dl-t-base) var(--dl-ease);
+}
+@media (hover: hover) {
+  .crsl__btn:not(:disabled):hover { border-color: var(--dl-copper-d); color: var(--dl-copper-d); }
+}
+.crsl__btn:focus-visible { outline: 2px solid var(--dl-copper-d); outline-offset: 2px; }
+.crsl__btn:disabled { opacity: .32; cursor: default; }
+/* 44px minimum touch target is the reason for the size above; on a phone the
+   pair is spread rather than tucked into the corner. */
+@media (max-width: 560px) {
+  .crsl__nav { justify-content: space-between; }
+  .crsl__btn { width: 52px; height: 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crsl__btn { transition: none; }
+}
+
+/* A rail inside a `.band` should not inherit the grid's top margin twice. */
+.crsl .icards { margin-top: 0; }
+.crsl { margin-top: var(--dl-head-gap); }
+
+/* ---- 27b · the trust bar without its second call to action ----
+   A03: the bar sat under a hero that already carried the same button, going
+   to the same WhatsApp prefill. With the action gone the third grid column
+   would hold nothing, so the statement takes the room back. */
+.bar--stated { grid-template-columns: minmax(0, auto) minmax(0, 1fr); }
+@media (max-width: 1080px) { .bar--stated { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============================================================
+   28 · The header, rebalanced (A01)
+   ------------------------------------------------------------
+   The bar was carrying four things across a 1280px laptop: the lockup, seven
+   pillars, a 219px action pill and a burger. Measured, the row wanted 1352px.
+   The burger's right edge landed at 1300 — twenty pixels past the window —
+   and only `.wrap { overflow-x: clip }` (overrides.css §6) kept that from
+   showing as a scrollbar. So the header was clipped on the most common laptop
+   width on the site, silently.
+
+   Two changes, in the order they matter:
+
+   1 · The burger stops appearing beside a navigation that is already open.
+       Above 1180px all seven pillars are visible in the bar, and the overlay
+       behind the burger is those same seven plus two links that are also in
+       the bar and in the footer. A second door to a room you are standing in
+       is not navigation, it is clutter — and it was the clutter pushing the
+       row off the screen. Below 1180px, where the nav hides, the burger is
+       the only way in and is untouched.
+
+   2 · The bar's own side padding comes in on laptop widths. The page margin
+       is unchanged; this is the header's gutter only, so nothing below the
+       header moves.
+
+   Together that is ~94px recovered at 1280 and the row fits with room to
+   spare. The lockup, the pillars and the action keep their sizes — the point
+   of the amendment was the balance between the three, not shrinking them.
+   ============================================================ */
+@media (min-width: 1181px) {
+  .dl-header .burger { display: none; }
+}
+@media (min-width: 1181px) and (max-width: 1460px) {
+  .dl-header { padding-inline: clamp(28px, 3.4vw, 48px); }
+  .dl-header .nav { gap: clamp(8px, .9vw, 14px); margin-left: clamp(10px, 1.2vw, 20px); }
+}
+/* The last 120px before the nav hands over to the burger is the tightest the
+   bar ever gets: seven pillars and a full action pill inside 1181–1300, where
+   losing the burger alone still left the pill 28px past the window edge. The
+   pillars set one step smaller here rather than the gutter closing up — a
+   24px gutter would have put the lockup nearer the edge than any content
+   below it, which is the imbalance this amendment is about. */
+@media (min-width: 1181px) and (max-width: 1300px) {
+  .dl-header .nav { gap: clamp(6px, .7vw, 10px); margin-left: 12px; }
+  .dl-header .nav a.top { font-size: 14px; }
+}
+
+/* ---- 27c · the prompting moments' last row (A02) ----
+   Five moments in a three-up grid leave one empty slot beside the last two —
+   the same "uneven row, too much empty space" the card sets had. A rail is
+   the wrong answer here: these are numbered 01–05 and read as a sequence a
+   visitor works down, and putting 04 and 05 behind an arrow would hide half
+   of what the section is for. The brief's own alternative applies — a
+   balanced final row.
+
+   Six columns with each card spanning two gives the three-up rhythm back and
+   lets a two-card last row start half a column in, so it sits centred under
+   the row above. The nth-child pair matches only a set of exactly five, so a
+   four- or six-card section is untouched. */
+.moments .rows { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.moments .mcard { grid-column: span 2; }
+.moments .rows > .mcard:nth-child(4):nth-last-child(2) { grid-column: 2 / span 2; }
+@media (max-width: 900px) {
+  .moments .rows { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* Two-up: the offset above would push the fourth card onto its own row. */
+  .moments .rows > .mcard:nth-child(4):nth-last-child(2) { grid-column: auto / span 2; }
+  /* An odd count now strands one card on the last row instead. Centre it. */
+  .moments .rows > .mcard:last-child:nth-child(odd) { grid-column: 2 / span 2; }
+}
+@media (max-width: 560px) {
+  .moments .rows { grid-template-columns: minmax(0, 1fr); }
+  .moments .mcard,
+  .moments .rows > .mcard:nth-child(4):nth-last-child(2),
+  .moments .rows > .mcard:last-child:nth-child(odd) { grid-column: auto; }
+}

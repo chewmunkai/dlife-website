@@ -87,14 +87,10 @@ export default function Page() {
         }
       />
 
+      {/* A03: the hero's own button is the same action on the same prefill. */}
       <Bar
         facts={["27 years of guidance", "People-first advice", "Support beyond the policy"]}
         statement="Most people arrive with a situation, not a category."
-        action={
-          <a className="pill" href={advisor}>
-            <span>Start a conversation</span>
-          </a>
-        }
       />
 
       <Band

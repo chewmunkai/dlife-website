@@ -69,15 +69,12 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
         }
       />
 
-      <Bar
-        facts={e.bar.facts}
-        statement={e.bar.statement}
-        action={
-          <a className="pill" href={wa}>
-            <span>Start a conversation</span>
-          </a>
-        }
-      />
+      {/* A03: this carried a second "Start a conversation" pill going to the
+          same WhatsApp prefill as the hero button directly above it. The hero
+          keeps the action; the strip goes back to being three credentials and
+          a statement. The closing panel still offers the same step at the
+          bottom of the page, where it is the next thing rather than a repeat. */}
+      <Bar facts={e.bar.facts} statement={e.bar.statement} />
 
       {/* The opening carries no photograph: the letterboxed plate sat between
           the statement and the section below it at an awkward crop, and the

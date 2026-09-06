@@ -125,14 +125,10 @@ export default function Page() {
         }
       />
 
+      {/* A03: the hero above already offers the review on the same prefill. */}
       <Bar
         facts={["Costs you nothing", "Nothing has to change", "Any policy, wherever you bought it"]}
         statement="A review, not a transfer."
-        action={
-          <a className="pill" href={waHref(WA.policy)}>
-            <span>Send us your policy</span>
-          </a>
-        }
       />
 
       <Band>

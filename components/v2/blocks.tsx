@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from "react";
+import Carousel from "./Carousel";
 import { asset, link } from "../../lib/asset";
 import { trail, type Route } from "../../lib/routes";
 import { Icon, type IconKey } from "./icons";
@@ -101,7 +102,10 @@ export function Hero({
 /** Sticky intent bar: what a visitor wants settled before committing. */
 export function Bar({ facts, statement, action }: { facts: string[]; statement: string; action?: ReactNode }) {
   return (
-    <div className="bar">
+    /* A03: without an action the third grid column holds nothing, so the
+       statement takes the room back rather than leaving a gap where a button
+       used to be. See styles/amendments.css §27b. */
+    <div className={action ? "bar" : "bar bar--stated"}>
       <div className="facts">
         {facts.map((f) => (
           <span key={f}>{f}</span>
@@ -234,29 +238,50 @@ export function Moments({
  * The card grid on its own, for sections that need the pattern without the
  * `.ideas` section head around it. Careers uses it directly.
  */
+/**
+ * A02: a set that does not fill its row leaves one card stranded beside three
+ * empty slots. `railed()` is the test — more cards than a row holds, and not
+ * a whole number of rows — and the rail is the answer when it passes. Sets
+ * that tile cleanly stay a grid, which is why this is a test and not a flag
+ * turned on everywhere.
+ */
+export const railed = (count: number, columns = 4) => count > columns && count % columns !== 0;
+
 export function IdeaCards({
   items,
   icons,
   columns = 4,
+  carousel = false,
+  label = "cards",
 }: {
   items: ReadonlyArray<{ term: string; copy: ReactNode }>;
   icons?: ReadonlyArray<IconKey>;
   columns?: 3 | 4;
+  /** Run as a scroll-snap rail instead of a wrapping grid. */
+  carousel?: boolean;
+  /** Names the rail for a screen reader, e.g. "terms". Ignored as a grid. */
+  label?: string;
 }) {
-  return (
-    <div className={`icards${columns === 3 ? " icards--3" : ""}`}>
-      {items.map((d, i) => (
-        <article className="icard" key={d.term}>
-          <span className="no">{String(i + 1).padStart(2, "0")}</span>
-          {icons?.[i] && <Icon name={icons[i]} />}
-          <div className="foot">
-            <h3>{d.term}</h3>
-            <p>{d.copy}</p>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
+  const grid = `icards${columns === 3 ? " icards--3" : ""}`;
+  const cards = items.map((d, i) => (
+    <article className="icard" key={d.term}>
+      <span className="no">{String(i + 1).padStart(2, "0")}</span>
+      {icons?.[i] && <Icon name={icons[i]} />}
+      <div className="foot">
+        <h3>{d.term}</h3>
+        <p>{d.copy}</p>
+      </div>
+    </article>
+  ));
+
+  if (carousel) {
+    return (
+      <Carousel label={label} className={grid}>
+        {cards}
+      </Carousel>
+    );
+  }
+  return <div className={grid}>{cards}</div>;
 }
 
 /**
@@ -271,19 +296,24 @@ export function Ideas({
   lede,
   items,
   icons,
+  railLabel = "terms",
 }: {
   label?: string;
   title: ReactNode;
   lede?: ReactNode;
   items: ReadonlyArray<{ term: string; copy: ReactNode }>;
   icons?: ReadonlyArray<IconKey>;
+  /** Names the rail when the set is one. Say what the cards are. */
+  railLabel?: string;
 }) {
   return (
     <section className="band light ideas">
       {label && <p className="lbl">{label}</p>}
       <h2>{title}</h2>
       {lede && <p className="dl-lede">{lede}</p>}
-      <IdeaCards items={items} icons={icons} />
+      {/* A02: 4 terms tile; Medical's 5 and Wealth & Legacy's 7 do not, and
+          become a rail. The page does not decide this — the count does. */}
+      <IdeaCards items={items} icons={icons} carousel={railed(items.length)} label={railLabel} />
     </section>
   );
 }

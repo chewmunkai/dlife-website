@@ -20,7 +20,15 @@
    Rather than hiding the nav on the most common desktop widths, the bar
    tightens: the action takes its own .sm sizing, the burger keeps its icon
    but drops the word, and both gaps come in. That recovers roughly 200px and
-   keeps all seven pillars plus the CTA visible. */
+   keeps all seven pillars plus the CTA visible.
+
+   ⚠️ Not enough on its own — measured at 1280 the row still wanted 1352px and
+   the burger's right edge sat 20px off-screen. The client's A01 amendment
+   finishes the job in styles/amendments.css §28, which drops the burger
+   entirely above 1180px (where it duplicates a navigation that is already
+   visible) and brings the bar's own gutter in. The rules below still apply
+   underneath it; the burger rules in this block are now inert above 1180px
+   and are kept only so re-showing the burger there would still fit. */
 @media (min-width: 1181px) and (max-width: 1440px) {
   .dl-header { gap: 12px; }
   .dl-header .nav { gap: 10px; margin-left: 16px; }

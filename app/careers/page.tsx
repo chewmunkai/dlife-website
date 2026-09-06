@@ -174,14 +174,11 @@ export default function Page() {
         }
       />
 
+      {/* A03: "Start there" went to the same prefill as the hero's own
+          "Explore a career conversation" a few hundred pixels above it. */}
       <Bar
         facts={["A conversation, not an interview", "Honest about the hard parts", "No dream-lifestyle pitch"]}
         statement="An honest conversation about what the work involves."
-        action={
-          <a className="pill" href={career}>
-            <span>Start there</span>
-          </a>
-        }
       />
 
       <Band>
