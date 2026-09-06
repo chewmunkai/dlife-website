@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:mock": "NEXT_PUBLIC_FORM_ENDPOINT=http://localhost:4555/submit next dev -p 3100"
   },
   "dependencies": {
     "gsap": "^3.12.5",

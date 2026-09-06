@@ -63,7 +63,20 @@ export const LEGAL: Record<string, LegalContent> = {
       {
         heading: "What we collect",
         paras: [
-          "From this website, we collect only what you choose to send us. There is no contact form here: the enquiry routes open WhatsApp or your email client, so whatever you send arrives directly with us and is held in those systems.",
+          /* V3-02: this said "There is no contact form here", which stopped
+             being true the moment the Contact page's enquiry form and the two
+             email sign-ups were built. A privacy notice that misdescribes its
+             own data flow is the one kind of error on these pages that is
+             worse than an unfilled placeholder, so it is corrected here as a
+             matter of fact rather than left for the legal review.
+
+             It describes what the code actually does today: nothing is
+             transmitted, because no endpoint is configured. The bracketed
+             marker is what the content owner has to complete once one is —
+             everything after "when that is connected" is unwritten on purpose. */
+          "From this website, we collect only what you choose to send us. The WhatsApp and email routes open your own app, so whatever you send arrives directly with us and is held in those systems.",
+          "This site also has an enquiry form on the Contact page and an email sign-up on the homepage and the Youth Community page. They ask for your name, email address, an optional phone number, the subject of your enquiry and anything you choose to write. At the time of writing they are not connected to any system: submitting one stores and transmits nothing, and each says so on the page rather than reporting a success it did not have.",
+          "[TO BE CONFIRMED: the form provider, the mailbox enquiries are delivered to, whether submissions are also written to a spreadsheet or CRM, who has access to them, how long they are kept, and whether an automatic acknowledgement is sent. This paragraph must be completed before the forms are connected, not after — the notice has to describe the flow on the day it starts running.]",
           "If you sign up for updates, we collect the email address you provide. If you become a client, we collect the information necessary to advise you and arrange cover, which is more extensive and is set out separately in the documentation you receive at that point.",
           `We also collect standard analytics about how this website is used. ${tbc("the analytics provider, whether IP anonymisation is enabled, and the cookie notice this requires")}`,
         ],
@@ -169,10 +182,22 @@ export const LEGAL: Record<string, LegalContent> = {
       {
         heading: "Who we are and what we are licensed to do",
         paras: [
+          /* V3-02: the status question itself is ANSWERED. The client
+             confirmed on 6 Sep 2026 that D'Life is an agency operating under
+             a principal insurer, and instructed in the same message that the
+             website is to read as an insurance agency and name no insurer.
+
+             Those two instructions do not conflict for marketing copy — they
+             did, and the naming came off the homepage trust band. They may
+             conflict here, because a disclosures page is where a regulator
+             expects the principal to be named. That is a compliance judgement
+             and it is the content owner's, not a designer's, which is why the
+             fact is recorded in the source and the public marker below asks
+             for the wording rather than for the answer. */
           tbc(
-            "the central open question. D’Life’s status, whether a licensed agency in its own right or a team operating under the licence of a larger insurer, determines the wording of this entire page, including the correct use of ‘we’, the regulator named here, and the licence details published. It must be answered before this page goes live",
+            "the regulator's required wording for this page. D’Life’s status is confirmed and on file; what is not settled is how much of it this page must state, which governs the use of ‘we’, the regulator named, and the licence details published. A compliance owner has to answer this before the page goes live",
           ),
-          tbc("regulator, licence or registration number, and the principal insurer relationship"),
+          tbc("regulator, and licence or registration number"),
         ],
       },
       {

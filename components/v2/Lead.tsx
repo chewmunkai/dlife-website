@@ -183,8 +183,11 @@ export default function Lead() {
             set("subject", e.target.value);
             /* Leaving Other clears both the answer and its error, so a stale
                "Please specify" cannot travel with a different subject. */
-            /* Leaving the subject clears the answer, so a stale
-               specification cannot travel with a different subject. */
+            /* V3-01: leaving the subject clears the answer, so a value typed
+               against "Something else" cannot travel with a different subject.
+               The payload guards the same thing a second way — it only sends
+               `subjectOther` when `isOther` — because two cheap guards on a
+               field that reaches a person's inbox is the right number. */
             if (e.target.value !== OTHER) set("subjectOther", "");
           }}
         >
@@ -196,24 +199,35 @@ export default function Lead() {
         </select>
       </label>
 
-      {/* L14: appears only for "Something else", and is optional even then.
-          `hidden` rather than a CSS class, so when it is not being asked for
-          it is out of the accessibility tree and out of the tab order. */}
-      <div className="lead__f" hidden={!isOther}>
-        <label htmlFor={otherId}>
-          <span>
-            What is it about? <em>optional</em>
-          </span>
-        </label>
-        <input
-          id={otherId}
-          type="text"
-          name="subjectOther"
-          placeholder="A few words is enough"
-          value={answers.subjectOther}
-          onChange={(e) => set("subjectOther", e.target.value)}
-        />
-      </div>
+      {/* V3-01: this was `<div className="lead__f" hidden={!isOther}>`, and
+          the `hidden` attribute did nothing. Its only effect is the user
+          agent's `[hidden] { display: none }`, which is one class selector
+          strong — and `.wrap .lead__f { display: grid }` in
+          styles/amendments.css is two. So the browser kept rendering the
+          field: visible under the default subject, focusable, and in the
+          accessibility tree. Exactly what `hidden` was there to prevent.
+
+          Rendered conditionally now, so when it is not being asked for it is
+          not in the document at all. That cannot be overridden by a
+          stylesheet. Unmounting also clears the input, which is the behaviour
+          we want anyway — see the note on the select below. */}
+      {isOther && (
+        <div className="lead__f">
+          <label htmlFor={otherId}>
+            <span>
+              What is it about? <em>optional</em>
+            </span>
+          </label>
+          <input
+            id={otherId}
+            type="text"
+            name="subjectOther"
+            placeholder="A few words is enough"
+            value={answers.subjectOther}
+            onChange={(e) => set("subjectOther", e.target.value)}
+          />
+        </div>
+      )}
 
       <label className="lead__f">
         <span>

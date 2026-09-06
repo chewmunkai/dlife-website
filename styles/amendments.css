@@ -1933,3 +1933,17 @@
   .sreel__sound { left: 10px; top: 10px; padding: 12px 14px; }
   .sreel__ctl { gap: 6px; }
 }
+
+/* ---- 28c · the `hidden` attribute has to actually hide (V3-01) ----
+   `[hidden] { display: none }` comes from the user agent at one class of
+   specificity, and this sheet is full of two-class rules that set `display`
+   — `.wrap .lead__f { display: grid }` among them. Any of them silently wins,
+   and the element stays visible, focusable and in the accessibility tree
+   while the markup says it is hidden. That is what happened on the Contact
+   form's conditional field.
+
+   The field itself is rendered conditionally now, so it does not depend on
+   this. This is here so the next use of `hidden` in this layer works the way
+   the person writing it expects. `!important` is the conventional guard for
+   exactly this rule and is scoped to the shell. */
+.wrap [hidden] { display: none !important; }

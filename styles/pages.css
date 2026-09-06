@@ -555,3 +555,9 @@
    row's heads clear of the top edge and the seated front row clear of the
    bottom at both sizes. Checked against both frames before it was set. */
 .dlife #hero .bg img { object-position: 50% 42%; }
+
+/* ---- the `hidden` attribute has to actually hide (V3-01) ----
+   Same guard as styles/amendments.css §28c, for the `.dlife` layer: the UA's
+   `[hidden] { display: none }` is one class strong and this layer's rules are
+   mostly two, so `hidden` loses by default. Keep the two in step. */
+.dlife [hidden] { display: none !important; }
