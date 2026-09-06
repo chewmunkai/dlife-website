@@ -45,15 +45,17 @@ export default function Page() {
         label="Contact"
         title="Tell us what you need"
         lede="A few lines is enough to start. We will read it, work out who should answer, and come back to you."
-        /* Round 22, client: a new hero here too. It was close-conversation.jpg, a
-           stock still of one man talking. The page asks the reader to get in touch,
-           so the picture should be the people who would answer — this is D'Life's
-           own advisors at the office. `ratio` keeps the plate at the picture's
-           1280x960 so nobody is cropped. */
+        /* Round 22. This is the second photograph on this page: it was
+           close-conversation.jpg (a stock still of one man talking), then
+           team-office.jpg, which the client also turned down. The page asks the
+           reader to get in touch, so the picture wants to be warm and to have
+           the whole practice in it rather than a tidy row on a sofa. This is
+           the agency together in its own office lounge. 1800x1158, plate takes
+           the ratio, 0%. */
         photo={{
-          src: "/media/img/team-office.jpg",
-          alt: "D’Life advisors and managers together at the agency office",
-          ratio: "1280 / 960",
+          src: "/media/img/team-gathering.jpg",
+          alt: "The D’Life team together at the agency office",
+          ratio: "1800 / 1158",
         }}
       />
 

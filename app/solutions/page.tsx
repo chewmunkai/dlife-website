@@ -79,7 +79,17 @@ export default function Page() {
         label="Protection & planning"
         title="Start wherever you are"
         lede="5 areas most households eventually need to think about. None of them require a decision today, and you will not be asked to make one."
-        photo={{ src: "/media/img/path-family.jpg", alt: "A family at home together" }}
+        /* Round 22, client: "get a completely new photo… need better ones."
+           It was path-family.jpg, a dark, low-resolution video still of a room of
+           people holding phones up — the worst photograph on the site and the first
+           thing a visitor to the solutions hub saw. This is D'Life's own people,
+           properly lit and properly shot. `ratio` keeps the plate at 4:3 so nobody
+           is cropped, and it appears nowhere else on this page. */
+        photo={{
+          src: "/media/img/community-group.jpg",
+          alt: "D’Life advisors together at an agency session",
+          ratio: "1800 / 1350",
+        }}
         actions={
           <a className="pill" href={advisor}>
             <span>Speak with an Advisor</span>
