@@ -207,16 +207,30 @@ export default function Page() {
         }
       />
 
-      {/* The headline is the opening sentence, split out of the prose below —
-          see the fuller note on Existing Policy Support. Reverting this block
-          from `Open` in round 16 took the sentence into the paragraph and left
-          the section with no heading at all. */}
-      <Band read title="Young people leaving university today need more than a qualification.">
+      {/* ⚠️ THE OPENING SECTION FOLLOWS THE SAME PATTERN ON ALL FIVE PAGES.
+          Round 19, client: "every page's beginning section is changed to be
+          like this (headline on top and description on bottom), I don't like
+          this design — replace all page first sections that are like this to
+          [the Advisor development section]."
+
+          What was wrong was not the stacking; that section stacks too. It was
+          that these openings had only two parts to stack. A sentence-long
+          heading sitting straight on a block of body prose reads as the top of
+          an article, not as the start of a section — there is no label to say
+          what the section IS, and the description carries the same ink weight
+          as the heading, so nothing steps down.
+
+          They take the page's own section grammar now, the one "Advisor
+          development" uses: a copper label, the heading, then the description
+          as a lede rather than as body copy. Three registers instead of two.
+          Any further paragraphs stay as prose underneath. */}
+      <Band
+        read
+        label="Why it exists"
+        title="Young people leaving university today need more than a qualification."
+        lede="They need confidence, the ability to communicate, some grasp of how money actually works, a bit of leadership practice and some real-world experience to put it all against."
+      >
         <div className="dl-prose">
-          <p>
-            They need confidence, the ability to communicate, some grasp of how money actually works, a bit of
-            leadership practice and some real-world experience to put it all against.
-          </p>
           <p>
             The Youth Community exists to provide those things in a setting that is practical and welcoming rather than
             academic. Its purpose is to help young people become confident, healthy, financially aware and

@@ -673,7 +673,17 @@ body:has(.dlife) {
      
      So it is a feather now, not a dissolve, and it is sized to sit inside the
      column gap rather than reaching under the copy. */
-  --hero-blend: 0px;
+  /* ⚠️ Back from 0, at the client's request: with no fade at all the plate met
+     the page on a hard vertical line and read as "a straight cut". This is the
+     third setting for this value, so the reasoning is worth keeping.
+     
+     It was 115px at 94% opacity, which dissolved three people out of a
+     photograph of nineteen. It was 0, which showed all nineteen against a hard
+     edge. The number that does both jobs is a small one: 46px is wide enough to
+     lose the edge and narrow enough that it lands mostly on the plate's
+     overhang into the column gutter rather than on the group, and it starts at
+     78% rather than 94% so that whatever it does touch still reads. */
+  --hero-blend: clamp(28px, 3.2vw, 46px);
   /* A floor, not the driver. The plate below takes the photograph's own shape
      and the row sizes to it; a taller floor than that would only add ivory
      under the picture. */
@@ -729,20 +739,17 @@ body:has(.dlife) {
   z-index: 2;
   pointer-events: none;
   background:
-    /* ⚠️ There is no left fade any more, at the client's request: "remove the
-       fade, just pic the pic since it showed everyone."
-       
-       The fade existed to dissolve the plate into the page across a 115px
-       bleed, and the bleed existed because the plate needed the extra width to
-       hold a 4:3 picture. Neither is true now — the plate takes the
-       photograph's own ratio, so `--hero-blend` is 0 and the picture simply
-       starts at the column edge. Keeping a feather over it would be softening
-       an edge that no longer needs it, on top of people. */
-    /* Nothing. The foot release went with the left fade — "just pic the pic".
-       Kept as a rule rather than deleted so the seam is still here if the
-       client wants a soft edge back at the bottom; it was a 10% wash to ivory
-       so the picture did not end on a ruled line. */
-    none;
+    /* A soft edge, not a dissolve. It starts short of opaque and is gone by the
+       end of the blend, so the plate arrives at the page colour instead of
+       stopping on a line — and at 46px there is no point at which a face is
+       under more than a wash. */
+    linear-gradient(to right,
+      rgba(246, 241, 232, .78) 0,
+      rgba(246, 241, 232, .30) 42%,
+      rgba(246, 241, 232, 0) 100%),
+    /* Foot: the same short release at the bottom, so the picture does not end
+       on a ruled line above the pathway strip. */
+    linear-gradient(to top, var(--dl-ivory) 0, rgba(246, 241, 232, 0) 9%);
 }
 /* Up from clamp(8px, 1.5vw, 24px) with the closed gap: the copy keeps the same
    measure it had, and the extra inset is what holds the longest headline off

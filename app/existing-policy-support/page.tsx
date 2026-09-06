@@ -131,23 +131,30 @@ export default function Page() {
         statement="A review, not a transfer."
       />
 
-      {/* ⚠️ The headline is the section's opening sentence, and it is NOT
-          repeated in the prose below — the two halves are one piece of copy
-          split at the full stop.
+      {/* ⚠️ THE OPENING SECTION FOLLOWS THE SAME PATTERN ON ALL FIVE PAGES.
+          Round 19, client: "every page's beginning section is changed to be
+          like this (headline on top and description on bottom), I don't like
+          this design — replace all page first sections that are like this to
+          [the Advisor development section]."
 
-          Round 16 reverted this block from `Open`, which set that sentence at
-          display scale in its own column. Reverting the layout took the
-          sentence down into the paragraph with it, so the section lost its
-          heading entirely and started cold on a description. The client caught
-          that on three pages; it was true on all five. The heading is back,
-          the single reading column stays. `.band--read h2` runs at a statement
-          scale rather than the 48px section scale — see amendments.css §38. */}
-      <Band read title="Most people have not read their policy since the day they signed it.">
+          What was wrong was not the stacking; that section stacks too. It was
+          that these openings had only two parts to stack. A sentence-long
+          heading sitting straight on a block of body prose reads as the top of
+          an article, not as the start of a section — there is no label to say
+          what the section IS, and the description carries the same ink weight
+          as the heading, so nothing steps down.
+
+          They take the page's own section grammar now, the one "Advisor
+          development" uses: a copper label, the heading, then the description
+          as a lede rather than as body copy. Three registers instead of two.
+          Any further paragraphs stay as prose underneath. */}
+      <Band
+        read
+        label="Your existing cover"
+        title="Most people have not read their policy since the day they signed it."
+        lede="That is normal. These documents are written in language most of us do not use, and then left alone while life carries on changing around them."
+      >
         <div className="dl-prose">
-          <p>
-            That is normal. These documents are written in language most of us do not use, and then left alone while
-            life carries on changing around them.
-          </p>
           <p>
             This is an offer to read yours with you: what it covers, what it does not, and whether it still fits the
             circumstances you are in now rather than the ones you were in when you bought it.

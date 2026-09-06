@@ -150,17 +150,30 @@ export default function Page() {
         }
       />
 
-      {/* The headline is the opening sentence, split out of the prose below —
-          see the fuller note on Existing Policy Support. Reverting this block
-          from `Open` in round 16 took the sentence into the paragraph and left
-          the section with no heading at all. */}
-      <Band read title="Sharon and Rachel Cheang grew up without financial abundance.">
+      {/* ⚠️ THE OPENING SECTION FOLLOWS THE SAME PATTERN ON ALL FIVE PAGES.
+          Round 19, client: "every page's beginning section is changed to be
+          like this (headline on top and description on bottom), I don't like
+          this design — replace all page first sections that are like this to
+          [the Advisor development section]."
+
+          What was wrong was not the stacking; that section stacks too. It was
+          that these openings had only two parts to stack. A sentence-long
+          heading sitting straight on a block of body prose reads as the top of
+          an article, not as the start of a section — there is no label to say
+          what the section IS, and the description carries the same ink weight
+          as the heading, so nothing steps down.
+
+          They take the page's own section grammar now, the one "Advisor
+          development" uses: a copper label, the heading, then the description
+          as a lede rather than as body copy. Three registers instead of two.
+          Any further paragraphs stay as prose underneath. */}
+      <Band
+        read
+        label="Where it began"
+        title="Sharon and Rachel Cheang grew up without financial abundance."
+        lede="What that taught them — hard work, integrity, compassion and a habit of continuing to learn — became the foundation of the agency they built. It is also why the first question here is usually about your circumstances rather than your budget."
+      >
         <div className="dl-prose">
-          <p>
-            What that taught them — hard work, integrity, compassion and a habit of continuing to learn — became the
-            foundation of the agency they built. It is also why the first question here is usually about your
-            circumstances rather than your budget.
-          </p>
           <p>
             D’Life is a Malaysian financial advisory and insurance agency. We help individuals, families, professionals
             and business owners protect what matters and plan for what is ahead, and we stay with them after the

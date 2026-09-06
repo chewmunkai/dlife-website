@@ -58,17 +58,30 @@ export default function Page() {
           content/videos.ts holds, so 5 films or 12 need no change here. */}
       <StoryReel items={VIDEOS} />
 
-      {/* The headline is the opening sentence, split out of the prose below —
-          see the fuller note on Existing Policy Support. Reverting this block
-          from `Open` in round 16 took the sentence into the paragraph and left
-          the section with no heading at all. */}
-      <Band read title="No script, and no polish. This is how the work actually goes.">
+      {/* ⚠️ THE OPENING SECTION FOLLOWS THE SAME PATTERN ON ALL FIVE PAGES.
+          Round 19, client: "every page's beginning section is changed to be
+          like this (headline on top and description on bottom), I don't like
+          this design — replace all page first sections that are like this to
+          [the Advisor development section]."
+
+          What was wrong was not the stacking; that section stacks too. It was
+          that these openings had only two parts to stack. A sentence-long
+          heading sitting straight on a block of body prose reads as the top of
+          an article, not as the start of a section — there is no label to say
+          what the section IS, and the description carries the same ink weight
+          as the heading, so nothing steps down.
+
+          They take the page's own section grammar now, the one "Advisor
+          development" uses: a copper label, the heading, then the description
+          as a lede rather than as body copy. Three registers instead of two.
+          Any further paragraphs stay as prose underneath. */}
+      <Band
+        read
+        label="In their own words"
+        title="No script, and no polish. This is how the work actually goes."
+        lede="You are probably watching because you are wondering what the job is actually like, not because you want to hear how good we are at it. So that is what they talk about: an ordinary week, the parts that are hard, and the reason they stayed."
+      >
         <div className="dl-prose">
-          <p>
-            You are probably watching because you are wondering what the job is actually like, not because you want to
-            hear how good we are at it. So that is what they talk about: an ordinary week, the parts that are hard, and
-            the reason they stayed.
-          </p>
           <p>
             And if what you are really weighing up is whether you would want this career yourself,{" "}
             <a href={link(ROUTES.careers.path)}>Grow With D’Life</a> is the more useful read. It covers what the films

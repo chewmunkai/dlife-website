@@ -588,10 +588,28 @@
 /* ---- The navigation bar, evened up (client, 6 Sep 2026) ----
    Same three corrections as styles/amendments.css §29, for the homepage's
    `.dlife`-scoped chrome. Keep the two in step. */
-.dlife #hd .nav a.top { font-size: 14px; letter-spacing: .005em; }
-.dlife #hd .rt .pill { font-size: 14px; }
-.dlife #hd .lmark { height: 20px; }
-@media (max-width: 1300px) { .dlife #hd .rt .pill { font-size: 13px; } }
+/* ⚠️ Round 19, client: "the logo takes up more place and the navigation bar
+   words are a bit small — balance and align, including logo positioning and
+   size."
+
+   The previous pass here flattened everything to one size to stop the lockup
+   dominating: pillars and action both 14px, lockup 20px. That fixed the
+   dominance and left the words too quiet, and it did nothing about the real
+   imbalance, which was horizontal. Measured at 1440: the logo ended at 148,
+   the nav began at 166 — an 18px gap — and then 204px of nothing before the
+   action. The bar read as a left-hand cluster with a hole in it.
+
+   `margin-inline: auto` on the nav is the whole fix: the free space splits
+   evenly either side, so the three parts sit as logo · nav · action rather
+   than crowding the left. The words come up to 15.5px and the action to 15px,
+   which is where they were before the flattening, and the lockup goes to 21px
+   — up one, but the words went up more, so it is proportionally quieter than
+   it was at 20 against 14. Everything stays centred on the same line. */
+.dlife #hd .nav { margin-inline: auto; gap: clamp(12px, 1.5vw, 24px); }
+.dlife #hd .nav a.top { font-size: 15.5px; letter-spacing: .005em; }
+.dlife #hd .rt .pill { font-size: 15px; }
+.dlife #hd .lmark { height: 21px; }
+@media (max-width: 1300px) { .dlife #hd .nav a.top { font-size: 14px; } .dlife #hd .rt .pill { font-size: 13.5px; } }
 @media (max-width: 720px) { .dlife #hd .lmark { height: 18px; } }
 
 /* ---- Text calls to action, at full strength ----

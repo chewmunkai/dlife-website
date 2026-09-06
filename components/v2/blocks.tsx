@@ -155,7 +155,8 @@ export function Band({
   /** In-page anchor target, e.g. the homepage cards' deep links. */
   id?: string;
   className?: string;
-  children: ReactNode;
+  /** Optional: a band can be a heading pair and a lede with nothing under it. */
+  children?: ReactNode;
 }) {
   return (
     <section
