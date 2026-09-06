@@ -683,7 +683,7 @@ body:has(.dlife) {
      lose the edge and narrow enough that it lands mostly on the plate's
      overhang into the column gutter rather than on the group, and it starts at
      78% rather than 94% so that whatever it does touch still reads. */
-  --hero-blend: clamp(28px, 3.2vw, 46px);
+  --hero-blend: clamp(14px, 1.7vw, 24px);
   /* A floor, not the driver. The plate below takes the photograph's own shape
      and the row sizes to it; a taller floor than that would only add ivory
      under the picture. */
@@ -739,16 +739,26 @@ body:has(.dlife) {
   z-index: 2;
   pointer-events: none;
   background:
-    /* A soft edge, not a dissolve. It starts short of opaque and is gone by the
-       end of the blend, so the plate arrives at the page colour instead of
-       stopping on a line — and at 46px there is no point at which a face is
-       under more than a wash. */
+    /* ⚠️ EVERY STOP HERE IS A calc() OF --hero-blend, AND MUST STAY THAT WAY.
+       This rule is `inset: 0`, so a percentage stop is a percentage of the
+       WHOLE PLATE — 732px at 1440 — not of the blend. That is the bug that
+       made three attempts fail: the stops read `.78 0, .30 42%, 0 100%`, which
+       is not a 46px feather but a full-plate wash sitting at 78% ivory on the
+       leftmost man's face and still 26% ivory at the picture's midpoint. Ten of
+       the nineteen people were under it. `--hero-blend` was only ever wired to
+       the negative margin, so re-tuning it could not move the fade.
+
+       In px the feather is now what it says it is: 24px at 1440, gone by the
+       end of the blend, and the rest of the photograph is untouched. */
     linear-gradient(to right,
-      rgba(246, 241, 232, .78) 0,
-      rgba(246, 241, 232, .30) 42%,
-      rgba(246, 241, 232, 0) 100%),
+      rgba(246, 241, 232, .70) 0,
+      rgba(246, 241, 232, .34) calc(var(--hero-blend) * .45),
+      rgba(246, 241, 232, .12) calc(var(--hero-blend) * .75),
+      rgba(246, 241, 232, 0) var(--hero-blend)),
     /* Foot: the same short release at the bottom, so the picture does not end
        on a ruled line above the pathway strip. */
+    /* Foot: 9% of the plate's HEIGHT, ~49px — a percentage is right here
+       because it is releasing into the strip below, not feathering an edge. */
     linear-gradient(to top, var(--dl-ivory) 0, rgba(246, 241, 232, 0) 9%);
 }
 /* Up from clamp(8px, 1.5vw, 24px) with the closed gap: the copy keeps the same
