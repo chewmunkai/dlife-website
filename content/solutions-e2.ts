@@ -85,8 +85,22 @@ export type SolutionE2 = {
    at the bottom under a chandelier, `need-health` needs 20% because the man's
    face is near the top. Do not normalise these to one number.
 
-   The real fix is landscape stills for a landscape card. Until those exist,
-   this is what keeps the faces in frame. */
+   The three portraits that are still here — path-future, path-review and
+   need-health — read well as full-width slices and keep their positions.
+
+   ⚠️ Six of these entries point at `-wide` derivatives. They exist because
+   the card frame is 1.6 landscape and the sources are 0.75-0.865 portraits:
+   `object-fit: cover` keeps the full WIDTH and a thin band of height, so the
+   subject ends up small inside a lot of room — an empty kitchen with a woman
+   at the edge, a chandelier above a table of people. The derivative is a 1.6
+   window cropped AROUND the subject instead, which is the same picture framed
+   rather than sliced. Regenerate with the same centre/width fractions if the
+   source is ever replaced.
+
+   `need-income.jpg` is not among them. It is the back of a man's head against
+   a blank wall and there is no window in it that contains a subject, so the
+   two cards that used it carry different photographs now.
+   */
 export const SOLUTIONS_E2: Record<string, SolutionE2> = {
   "protecting-your-family": {
     bar: { facts: ["27 years of guidance", "People-first advice", "Support beyond the policy"], statement: "Start with your household, not a policy." },
@@ -103,7 +117,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
       { src: "/media/img/hero.jpg", alt: "A family sharing a meal at home" },
       { src: "/media/img/fam-newhome.jpg", alt: "A couple carrying boxes into a new home" },
       { src: "/media/img/need-legacy-malaysia.jpg", alt: "A family looking through documents and photographs together" },
-      { src: "/media/img/policy-review.jpg", alt: "One person explaining something to another", position: "50% 42%" },
+      { src: "/media/img/policy-review-wide.jpg", alt: "One person explaining something to another" },
       { src: "/media/img/path-review.jpg", alt: "A man reading through paperwork at a desk", position: "50% 58%" },
     ],
     ideaIcons: ["shield", "people", "pulse", "doc"],
@@ -130,7 +144,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
       { src: "/media/img/inc-savings.jpg", alt: "Coins in a glass jar" },
       { src: "/media/img/inc-askhelp.jpg", alt: "A family talking over a meal at home" },
       { src: "/media/img/inc-priorities.jpg", alt: "A hand writing a list in a notebook" },
-      { src: "/media/img/need-income.jpg", alt: "Someone working through figures alone at a laptop", position: "50% 25%" },
+      { src: "/media/img/close-conversation.jpg", alt: "Someone working through figures alone at a laptop" },
     ],
     ideaIcons: ["coins", "clock", "gauge", "people"],
     explain: { label: "What it actually means", title: "What income protection covers", lede: "This area gets confused with medical cover more often than any other. They do different jobs, and most households need to understand both." },
@@ -153,9 +167,9 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     split: { photo: { src: "/media/img/path-review.jpg", alt: "" }, label: "What people usually want to know", title: "The questions that come up every time", flip: false },
     moments: [
       { src: "/media/img/path-future.jpg", alt: "Someone writing in a notebook at a desk", position: "50% 55%" },
-      { src: "/media/img/need-income.jpg", alt: "Someone working through figures alone at a laptop", position: "50% 25%" },
-      { src: "/media/img/need-legacy.jpg", alt: "The reception area of a building", position: "50% 72%" },
-      { src: "/media/img/path-career.jpg", alt: "A woman outdoors, thinking something over", position: "50% 45%" },
+      { src: "/media/img/need-health-malaysia.jpg", alt: "Someone working through figures alone at a laptop" },
+      { src: "/media/img/need-legacy-wide.jpg", alt: "The reception area of a building" },
+      { src: "/media/img/path-career-wide.jpg", alt: "A woman outdoors, thinking something over" },
       { src: "/media/img/need-health.jpg", alt: "A man drinking water after exercise", position: "50% 20%" },
     ],
     ideaIcons: ["gauge", "coins", "building", "pulse", "swap"],
@@ -180,9 +194,9 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     moments: [
       { src: "/media/img/fut-epf.jpg", alt: "A woman working through documents at a desk" },
       { src: "/media/img/need-family-malaysia.jpg", alt: "Three generations of a family sharing a meal" },
-      { src: "/media/img/need-planning.jpg", alt: "A woman in the kitchen of a home", position: "50% 32%" },
+      { src: "/media/img/need-planning-wide.jpg", alt: "A woman in the kitchen of a home" },
       { src: "/media/img/fut-education.jpg", alt: "A student studying in a library" },
-      { src: "/media/img/path-career.jpg", alt: "A woman outdoors, thinking something over", position: "50% 45%" },
+      { src: "/media/img/path-career-wide.jpg", alt: "A woman outdoors, thinking something over" },
     ],
     ideaIcons: ["coins", "growth", "clock", "shield"],
     explain: { label: "What it actually means", title: "The pieces of a retirement picture", lede: "4 components, and most Malaysian households already have at least two of them." },
@@ -206,8 +220,8 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     moments: [
       { src: "/media/img/need-health-malaysia.jpg", alt: "Two family members in consultation with an advisor" },
       { src: "/media/img/hero.jpg", alt: "A family sharing a meal at home" },
-      { src: "/media/img/need-legacy.jpg", alt: "The reception area of a building", position: "50% 72%" },
-      { src: "/media/img/need-planning.jpg", alt: "A woman in the kitchen of a home", position: "50% 32%" },
+      { src: "/media/img/need-legacy-wide.jpg", alt: "The reception area of a building" },
+      { src: "/media/img/need-planning-wide.jpg", alt: "A woman in the kitchen of a home" },
       { src: "/media/img/path-review.jpg", alt: "A man reading through paperwork at a desk", position: "50% 58%" },
     ],
     ideaIcons: ["growth", "doc", "coins", "people"],
@@ -231,9 +245,9 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     split: { photo: { src: "/media/img/dva-team.jpg", alt: "" }, label: "What businesses come to us with", title: "The point at which the question arrives", flip: false },
     moments: [
       { src: "/media/img/dva-team.jpg", alt: "A company team together" },
-      { src: "/media/img/dva-workshop.jpg", alt: "A staff briefing in progress", position: "50% 22%" },
+      { src: "/media/img/dva-workshop-wide.jpg", alt: "A staff briefing in progress" },
       { src: "/media/img/close-conversation.jpg", alt: "Two colleagues talking" },
-      { src: "/media/img/policy-review.jpg", alt: "Scheme documents being reviewed", position: "50% 42%" },
+      { src: "/media/img/policy-review-wide.jpg", alt: "Scheme documents being reviewed" },
       { src: "/media/img/path-review.jpg", alt: "Costs per head being worked through", position: "50% 58%" },
     ],
     ideaIcons: ["people", "building", "shield", "doc"],

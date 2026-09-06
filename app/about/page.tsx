@@ -142,7 +142,18 @@ export default function Page() {
         label="About D’Life"
         title="Founded by sisters and built with purpose"
         lede="D’Life was started by two sisters who believed that success is not simply about making money. It is about building a life that means something."
-        photo={{ src: "/media/img/policy-review.jpg", alt: "Two women talking across a table", position: "55% 40%" }}
+        /* Round 22, client: change the main image on the founders' page.
+           It was policy-review.jpg — a stock still of two strangers at a
+           table, on the one page that is explicitly about who D'Life is. The
+           agency's own studio portrait is both the truer picture and the best
+           one they have. `ratio` keeps the plate at 1800/1012 so it is not
+           cropped; it also appears on the homepage DVA panel, which is a
+           different page. */
+        photo={{
+          src: "/media/img/dva-team.jpg",
+          alt: "The D’Life advisory team",
+          ratio: "1800 / 1012",
+        }}
         actions={
           <a className="pill" href={advisor}>
             <span>Speak with an Advisor</span>
