@@ -1,9 +1,11 @@
-# Photo generation pack — T02–T06, T08 (14 Sep 2026, rev 2)
+# Photo generation pack — T02–T06, T08 (14 Sep 2026, rev 3)
 
-Twelve images. **Each block below is complete — paste one block, get one
-image.** Nothing needs stitching together.
+**Eleven images.** (Twelve in rev 2 — the Existing Policy hero is now filled
+by the client's Sharon Lau portrait, so its prompt is gone.) **Each block below
+is complete — paste one block, get one image.** Nothing needs stitching
+together.
 
-Save each under the exact filename in its heading, put all twelve in one
+Save each under the exact filename in its heading, put all eleven in one
 folder, and tell me the path. I crop, place, re-run the crop-mask and overflow
 checks and update the asset map.
 
@@ -23,8 +25,8 @@ of them.
 |---|---|---|
 | `EXACT 16:10, 1536x960` | `1536x1024` (3:2) | **16:10 is not a size this generator makes.** It does 1024×1024, 1536×1024, 1024×1536. Asking for 16:10 gets it ignored, or gets bars baked into the image. I crop 3:2 → 16:10 on placement; the 6.7% that comes off the height is inside the safety margin below. |
 | One "central 80%" rule for everything | Per-slot framing rules | The hero plates crop toward square and keep only ~66% of a 3:2 width. Cards keep all of it. Those need different margins. |
-| Look described loosely | One identical LOOK paragraph, verbatim in all twelve | Twelve prompts in twelve chats drift in grade and lens. Identical wording is what makes them read as one shoot. |
-| "Malaysian people" | Ethnicity assigned per image | Malaysia is Malay, Chinese and Indian. Twelve independent "Malaysian" prompts collapse to whatever the model defaults to. Assigned deliberately below — 4 Malay-led, 4 Chinese-led, 3 Indian-led, 1 hands-only. Change any of them if the client has a view. |
+| Look described loosely | One identical LOOK paragraph, verbatim in all twelve | Eleven prompts in eleven chats drift in grade and lens. Identical wording is what makes them read as one shoot. |
+| "Malaysian people" | Ethnicity assigned per image | Malaysia is Malay, Chinese and Indian. Independent "Malaysian" prompts collapse to whatever the model defaults to. Assigned deliberately below — 4 Malay-led, 3 Chinese-led, 3 Indian-led, 1 hands-only. Change any of them if the client has a view. |
 | "No insurer branding" | No brand marks on anything, clothing included | A logo on a polo shirt breaks `content/solutions.ts`'s no-insurer rule as surely as a sentence does — and the founders' AIA blazers are already an open question on this site. |
 | "No text overlays" | Names the surfaces | Image models leak lettering onto paper, screens and walls unless you list them. |
 
@@ -212,23 +214,11 @@ FRAMING: Keep the LEFT THIRD of the frame free of faces and busy detail — it s
 NEVER: No lettering, numbers, signage, labels, handwriting or watermarks anywhere — including on paper, screens, packaging, walls and clothing. No logos or brand marks of any kind. No collage, borders, frames, insets or split-screens: one single continuous photograph filling the frame. No studio backdrop. No stock-photo grins, no thumbs-up, no handshake. Fictional people resembling no real individual.
 ```
 
-## T08a · Existing Policy Support hero — `policy-clarity-hero.png`
+## T08 · "How to read your own policy schedule" article card — `policy-schedule-card.png`
 
-```
-Create one photorealistic editorial photograph, 1536x1024 landscape, for a Malaysian financial advisory website.
-
-LOOK: Warm natural daylight from a window, soft and directional. Muted palette — cream, sand, deep olive-green, warm timber, one small note of terracotta. 35mm lens at f/2, shallow but not blurry, fine natural film grain. Unposed documentary framing: people caught mid-action, nobody looking at the camera. Realistic skin texture, anatomically correct hands.
-
-PEOPLE: A Malay woman in her forties and a Chinese Malaysian advisor in her thirties.
-
-SCENE: Side by side at a wooden table, both looking down at the same printed document. The client's finger rests on one line; the advisor is mid-explanation, open-handed. Collaborative and unhurried — they are on the same side of the table and the same side of the problem. The document shows ruled structure but no readable words. No branded folder, no brochure, no laptop.
-
-FRAMING: Both faces fully inside the central 60% of the width and the central 80% of the height — this image is cropped toward square.
-
-NEVER: No lettering, numbers, signage, labels, handwriting or watermarks anywhere — including on paper, screens, packaging, walls and clothing. No logos or brand marks of any kind. No collage, borders, frames, insets or split-screens: one single continuous photograph filling the frame. No studio backdrop. No stock-photo grins, no thumbs-up, no handshake. Fictional people resembling no real individual.
-```
-
-## T08b · "How to read your own policy schedule" article card — `policy-schedule-card.png`
+The page's hero is now the Sharon Lau portrait (see below). This card still
+needs a photograph: its frame is `aspect-ratio: 3/2` and no crop of a standing
+studio portrait fills a 3:2 frame with a person at a usable size.
 
 ```
 Create one photorealistic editorial photograph, 1536x1024 landscape, for a Malaysian financial advisory website.
@@ -254,19 +244,26 @@ Plus: no horizontal overflow on any touched route, AA contrast re-measured on
 the closing band against its own wash, and a provenance row per file in
 `docs/dlife-asset-map.md`.
 
-## Still needs the client — the Sharon Lau photo
+## The Sharon Lau photo — placed, 14 Sep 2026
 
-One file received, 1706x2560: a full-length studio portrait on a plain white
-backdrop, standing, no context. Both T08 slots are landscape and contextual.
-There is no landscape crop of a standing full-length studio shot that holds a
-person at a usable size — dropping it into either reproduces exactly the defect
-T07 has just corrected on Rachel.
+One file, 1706x2560: a full-length studio portrait on a plain white backdrop.
+The client has no others, and asked to squeeze it in rather than wait.
 
-1. **Ask for two or three more frames of her**, in a setting rather than a
-   studio, landscape or croppable to it. The only option that does what the
-   annotation asks.
-2. **Give her a portrait-shaped placement** — crop what we have to
-   head-and-shoulders and add one portrait plate to the page, an advisor's note
-   beside the FAQ. Costs one new block, slightly beyond the PDF.
-3. **Leave her off this page** and use the portrait where a portrait next
-   belongs. Honest, but it ignores a direct instruction.
+It is now the **Existing Policy Support hero**, cut to `advisor-sharon-lau.jpg`
+at 1340x1340 — head to mid-thigh, her head 25% of the frame width. Two things
+made it work rather than repeat the Rachel defect:
+
+- **The frame is pinned.** That hero plate is a fixed height against a fluid
+  width: 1:1 at 1280, but **2.59:1 at 880px**, which would have taken her head
+  off. Setting `ratio: "1 / 1"` on the photo trips
+  `amendments.css` §2063 (`.hero .art[style*="aspect-ratio"] { height: auto }`)
+  and the frame then holds 1:1 at every width. Measured 640x640 at 1280,
+  880x880 at 880, 375x375 at 375.
+- **The file is cut to exactly 1:1**, so `cover` never pans and no crop rule is
+  in play at any viewport.
+
+The white sweep was the risk and it reads acceptably: the plate is bounded, it
+sits beside the cream card rather than against the dark green ground, and her
+beige blazer happens to land on the site's own sand tone. It is still the only
+studio shot on a site of rooms with people in them — if the client ever sends
+frames of her in a setting, this is the placement to revisit.

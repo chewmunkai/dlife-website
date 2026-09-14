@@ -244,7 +244,7 @@ Nothing deployed. Branch `claude/dlife-website-amendments-aee4b7`.
 | T05 | Blocked | Photo source. |
 | T06 | Blocked | Photo source. |
 | T07 | **Done** | Measured, re-cut, re-measured — see `docs/dlife-asset-map.md`. |
-| T08 | **Partly blocked** | One Sharon Lau file received; see below. |
+| T08 | **Hero done · card blocked** | Hero is `advisor-sharon-lau.jpg` at 1:1, verified 1280/880/375. The 3:2 article card still needs a photograph. |
 | T09 | **Done** | Built output: 129 `wa.me` links all on `60162362286`, 23 `tel:+60162362286`, 23 `tel:+60166616083`, zero occurrences of the old number, landline or `9am to 6pm`. No overflow at 1280 or 375 on `/contact`. |
 
 ### What T09 also fixed on the way
@@ -256,7 +256,14 @@ variant of the same inline slicing. All three now call one `telHref` helper.
 Three files also typeset their own opening-hours string and all three still
 said "9am to 6pm"; they now read one `HOURS` record.
 
-### T08 — the Sharon Lau photo does not fit the slots it was sent for
+### T08 — the Sharon Lau photo (resolved 14 Sep: placed on the hero)
+
+**Update.** The client has only this one file and chose to use it anyway. It is
+now the hero, cut to 1:1 and pinned with `ratio` — see
+`docs/dlife-photo-prompts-2026-09.md`. The original assessment below stands for
+the *article card*, which is 3:2 and still needs a generated photograph.
+
+#### Original assessment
 
 One file arrived ("Sharon Lau", 1706×2560), not the "photos" the PDF implies.
 It is a **full-length studio portrait on a plain white backdrop** — a single

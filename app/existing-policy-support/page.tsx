@@ -113,10 +113,20 @@ export default function Page() {
         label="Existing policyholders"
         title="Need clarity on your current coverage?"
         lede="Understand the protection you already have, and review it with greater confidence. Wherever you bought it, and with no obligation to change anything."
+        /* T08 (client, 14 Sep 2026): "replace some of them with Sharon Lau's
+           photos". One file was supplied — a full-length studio portrait on a
+           white sweep — so this is the best available use of it rather than
+           what the annotation imagined. `ratio` matters here: without it the
+           hero plate is a fixed height against a fluid width, which is 2.59:1
+           at 880px and would take her head off. With it, amendments.css §2063
+           drops the plate to `height: auto` and the frame holds 1:1 at every
+           width. The file is cut to exactly 1:1 so `cover` never pans.
+           The article card below still needs a photograph: its frame is 3:2
+           and no crop of a standing studio shot fills that. */
         photo={{
-          src: "/media/img/policy-review.jpg",
-          alt: "An advisor talking a client through their coverage",
-          position: "55% 40%",
+          src: "/media/img/advisor-sharon-lau.jpg",
+          alt: "Sharon Lau, a D’Life advisor",
+          ratio: "1 / 1",
         }}
         actions={
           <a className="pill" href={clarity}>

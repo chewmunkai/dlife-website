@@ -62,6 +62,18 @@ backdrop and lower body only.
 > founders' portraits needs the client's answer. The alternative is a
 > re-shoot, not a retouch.
 
+## Advisors
+
+| Where | File | Source | Crop | Frame |
+|---|---|---|---|---|
+| Existing Policy Support → hero | `advisor-sharon-lau.jpg` | client Drive file "Sharon Lau", 1706x2560 | x 355–1695, y 84–1424 → 1340x1340 (1:1) | `ratio: "1 / 1"`, `cover`, no `position` |
+
+The supplied frame is full-length studio on a white sweep — the only file the
+client has of her. Cut to head-and-mid-thigh so her head is 25% of the frame
+width. **The `ratio` is load-bearing, not decoration:** `.hero .art` is a fixed
+height against a fluid width, so it is 1:1 at 1280 but **2.59:1 at 880px**;
+without `ratio` that frame takes her head off. See `amendments.css` §2063.
+
 ## Group photography
 
 Exported at 1800px on the long edge, quality 82, progressive. Nothing is
