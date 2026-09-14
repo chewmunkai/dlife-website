@@ -12,17 +12,23 @@
    ============================================================ */
 
 /**
- * ⚠️ TEMPORARY (6 Sep 2026, client): Corrine's own mobile, 018-231 7815,
- * standing in until D'Life's WhatsApp Business number is issued. It is a real
- * number that reaches a real person, which is why it is here rather than the
- * old 012-345 6789 placeholder — but it is not the agency's, and swapping it
- * is a one-line change because every `data-wa` link on the site builds its
- * wa.me deep link from this one value.
+ * D’Life’s own office-hours number, 016-236 2286 (client, 14 Sep 2026). It
+ * replaces Corrine’s personal mobile, which stood in from 6 Sep while the
+ * agency’s number was outstanding — the one-line swap the note here promised.
+ * Every `data-wa` link on the site builds its wa.me deep link from this one
+ * value, so nothing else had to move.
+ *
+ * The after-hours number is deliberately NOT here. It is a voice line
+ * (CONTACT.phoneAfterHours), and a static export cannot switch a displayed
+ * number by time of day without serving a visitor different HTML from the one
+ * a crawler indexed.
  */
-export const WA_NUMBER = "60182317815";
+export const WA_NUMBER = "60162362286";
 
 /**
- * Confirmed by the client, 6 Sep 2026: the office address and its landline.
+ * Confirmed by the client, 6 Sep 2026: the office address. Both numbers were
+ * replaced on 14 Sep 2026 — the 03-9766 1205 landline came off the site
+ * entirely rather than sitting alongside the two mobiles.
  *
  * ⚠️ The email is still the prototype's. hello@dlife.com.my has not been
  * confirmed as a mailbox anyone reads, and it is the address the privacy,
@@ -30,8 +36,10 @@ export const WA_NUMBER = "60182317815";
  * replace it before launch.
  */
 export const CONTACT = {
-  /** The office landline. WhatsApp is WA_NUMBER above, and is a mobile. */
-  phone: "03-9766 1205",
+  /** Office hours. Also the site’s WhatsApp route — see WA_NUMBER above. */
+  phone: "016-236 2286",
+  /** After 5:30pm and at weekends. A voice line; WhatsApp does not reach it. */
+  phoneAfterHours: "016-661 6083",
   /** ⚠️ TODO(launch): unconfirmed. */
   email: "hello@dlife.com.my",
   street: "P-5-2, Level 2, Pusat Bandar",
@@ -48,6 +56,34 @@ export const ADDRESS_LINE = [
   CONTACT.street2,
   `${CONTACT.postcode} ${CONTACT.city}`,
 ].join(", ");
+
+/**
+ * Opening hours, as the client wrote them on 14 Sep 2026. One record because
+ * three files used to typeset their own wording, and all three still said
+ * "9am to 6pm" after the hours changed.
+ */
+export const HOURS = {
+  days: "Monday to Friday",
+  office: "9:00am \u2013 5:30pm",
+  /** The window the second number covers. */
+  after: "After 5:30pm and at weekends",
+  /** schema.org openingHours, off the same source as the visible strings. */
+  schema: "Mo-Fr 09:00-17:30",
+} as const;
+
+/**
+ * A Malaysian number in E.164: drop the trunk 0, prefix +60. Right for a
+ * mobile and a landline alike.
+ *
+ * Three call sites used to inline their own slice of CONTACT.phone, and one of
+ * them hard-coded the Kuala Lumpur `+603` prefix \u2014 correct for the landline it
+ * was written against, and silently wrong the moment that number became a
+ * mobile. One helper, so the next swap cannot reintroduce it.
+ */
+export const telE164 = (display: string) => `+60${display.replace(/\D/g, "").slice(1)}`;
+
+/** The same number as a `tel:` href. */
+export const telHref = (display: string) => `tel:${telE164(display)}`;
 
 /**
  * Pre-filled WhatsApp messages, one per intent. Grouped by the journey that

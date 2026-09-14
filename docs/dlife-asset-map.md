@@ -15,15 +15,45 @@ portrait the same way.
 
 | Where | File | Source | Crop | Desktop | Mobile |
 |---|---|---|---|---|---|
-| About → Sharon Cheang | `founder-sharon.jpg` | `SHARON.jpg` | top 83% of frame, full width → 1400×1750 (4:5) | `50% 22%` | same |
-| About → Rachel Cheang | `founder-rachel.jpg` | `RACHEL.jpg` | x 15–90%, y 6–68% → 1400×1749 (4:5) | `50% 25%` | same |
+| About → Sharon Cheang | `founder-sharon.jpg` | `SHARON.jpg` | top 83% of frame, full width → 1400×1750 (4:5) | `50% 22%` (inert) | same |
+| About → Rachel Cheang | `founder-rachel.jpg` | `RACHEL.jpg` → 1400×1749 → **T07 re-cut** x 155–1203, y 0–1310 → 1048×1310 (4:5) | none | same |
 
-Both plates are `aspect-ratio: 4/5`, so the exported files are cut to 4:5 and
-`object-position` only fine-tunes. Neither crop touches a face.
+> ⚠️ **`object-position` does nothing on either portrait, and never did.** Both
+> files are cut to 4:5 and every frame that holds them is 4:5 — the About
+> plates (400×500 at 1280px), the About hero pair (320×400, `contain`) and the
+> homepage `.fpair` boxes. `cover` therefore has no overflow to pan, and the
+> values were inert the day they were written. Measured 14 Sep 2026; do not
+> reach for `object-position` to fix a founder portrait's framing, because it
+> cannot. Cut the file.
 
-Rachel's supplied frame is full-length standing. At plate size that left her a
-small figure in a wide field of backdrop, so the export is head-to-upper-thigh
-— a portrait crop, not a face crop.
+**T07 (client, 14 Sep 2026): "Rachel's photo needs to be resized to the same
+size as Sharon's photo, and cropped by half to match Sharon's photo."**
+
+The plates were never different sizes — both measured 400×500 at 1280px, both
+`object-fit: cover`, both files 4:5. What differed was subject scale, and that
+is measurable: Rachel's head was **23.2% of her frame's width** against
+Sharon's **31.0%**, because Sharon's supplied frame is waist-up and Rachel's is
+full-length standing. Same plate, so Rachel read as a small figure in a field
+of backdrop.
+
+The re-cut takes the head-width ratio (1.336×) as the scale target and lands
+the crop's lower edge on her blazer hem, which is where Sharon's frame runs off
+the bottom. After: head **29.5%** of width, head-top at 7.0% of height against
+Sharon's 8.9%.
+
+Exported at its native crop size, **not** upscaled to match Sharon's 1400×1750:
+1048×1310 still over-covers the largest plate the file ever lands in (≈423×529
+CSS px at 1440, so 846×1058 at 2× DPR). If a bigger export is ever wanted, go
+back to `RACHEL.jpg` (3719×5578) in the client's Drive folder rather than
+upscaling this one.
+
+The homepage diptych (`components/DLife.tsx`) hard-codes the intrinsic size as
+`width`/`height` attributes, so those moved with the bytes. It is the third
+placement of these portraits and the easiest to miss — About's hero and About's
+`<Founder>` plates are the other two.
+
+Nobody is cropped out: single-subject portrait, and the discarded bands are
+backdrop and lower body only.
 
 > ⚠️ **Launch decision, not a design one.** Both portraits are studio shots in
 > AIA MDRT blazers, with the AIA wordmark and the MDRT roundel legible on the

@@ -4,7 +4,7 @@
 
 This revision supersedes the earlier slot choices below. Family 03 and 04 and Future 05 now use purpose-made landscape scenes instead of portrait Drive images. Wealth 03–05 use the improved `legacy-*-v2.png` scenes. Prompts: [PROMPTS-v2.md](generated/PROMPTS-v2.md). All service moment cards use the existing 16:10 frame with edge-to-edge cover fitting; generated subjects remain visible. Drive originals are no longer used in these card positions. Full-photo fitting remains on the family/future hero images.
 
-The About/Our Founders hero now uses the verified `founder-sharon.jpg` and `founder-rachel.jpg` portraits side by side, without changing their pixels. The DVA page is unchanged. No font stylesheet or text style was modified.
+The About/Our Founders hero now uses the verified `founder-sharon.jpg` and `founder-rachel.jpg` portraits side by side. (Superseded 14 Sep 2026: `founder-rachel.jpg` was re-cut to 1048×1310 under T07 so the pair read at one subject scale — see `docs/dlife-asset-map.md`. `founder-sharon.jpg` is still untouched.) The DVA page is unchanged. No font stylesheet or text style was modified.
 
 ## Earlier selection history
 

@@ -72,7 +72,12 @@ export default function SiteShell({
                 <Logo reversed full />
               </span>
             </div>
-            <div className="sub">Real support, beyond the policy.</div>
+            {/* T01 (client, 14 Sep 2026): "remove this wording" — the
+                "Real support, beyond the policy." line that sat under the
+                lockup. The curtain is now the mark alone, which is also the
+                only placement where the artwork's own "IT BEGINS WITH YOU"
+                is legible. Both footers keep the sentence: the client's own
+                screenshot of the footer left it unmarked. */}
           </div>
         </div>
       )}

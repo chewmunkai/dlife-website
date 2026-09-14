@@ -151,9 +151,11 @@ export default function Page() {
               the site says 27, the summary reads 25 years 4 months, and the two may not be measuring the same thing.
             </li>
             <li>
-              The office address and landline are confirmed. The WhatsApp number is a personal mobile standing in
-              until D’Life’s business number is issued, and <code>hello@dlife.com.my</code> is still unconfirmed —
-              which matters, because three legal pages tell people to write to it.
+              The office address is confirmed. The numbers are now D’Life’s own (client, 14 Sep 2026):
+              <code>016-236 2286</code> in office hours, which is also the site’s WhatsApp route, and{" "}
+              <code>016-661 6083</code> after 5:30pm and at weekends. The <code>03-9766 1205</code> landline and the
+              personal mobile that stood in for WhatsApp are both off the site. <code>hello@dlife.com.my</code> is
+              still unconfirmed — which matters, because three legal pages tell people to write to it.
             </li>
             <li>
               No form endpoint is configured, so the enquiry form says outright that nothing was sent. WhatsApp and

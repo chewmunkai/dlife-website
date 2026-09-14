@@ -610,7 +610,8 @@ export default function DLife() {
             same way About maps them — never by deciding from the photographs
             which sister is which. The frames were 3:4 and the portraits are
             4:5; the frames changed rather than the pictures, so neither woman
-            loses a shoulder to a crop. */}
+            loses a shoulder to a crop. T07 re-cut Rachel's file to her own
+            head-and-torso — still 4:5, still nobody cropped out of frame. */}
         <div className="fpair rv">
           <div className="ph">
             <img
@@ -623,11 +624,14 @@ export default function DLife() {
             />
           </div>
           <div className="ph">
+            {/* T07 (14 Sep): Rachel's file is 1048×1310 since the re-crop.
+                Still 4:5, so the frame is unchanged — but these attributes are
+                the browser's intrinsic-size hint and must track the bytes. */}
             <img
               src={asset("/media/img/founder-rachel.jpg")}
               alt="Rachel Cheang, co-founder of D’Life"
-              width={1400}
-              height={1749}
+              width={1048}
+              height={1310}
               loading="lazy"
               decoding="async"
             />

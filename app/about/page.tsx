@@ -142,9 +142,10 @@ export default function Page() {
         label="About D’Life"
         title="Founded by sisters and built with purpose"
         lede="D’Life was started by two sisters who believed that success is not simply about making money. It is about building a life that means something."
-        /* The verified portraits replace the team image repeated on DVA.
-           Both originals remain intact, side by side in one landscape frame.
-           Identities come from the client filenames, not visual inference. */
+        /* The verified portraits replace the team image repeated on DVA, side
+           by side in one landscape frame. Sharon's file is untouched; Rachel's
+           was re-cut in T07 so the pair read at one scale. Identities come
+           from the client filenames, not visual inference. */
         photo={{
           src: "/media/img/founder-sharon.jpg",
           alt: "Sharon Cheang, co-founder of D’Life",
@@ -258,13 +259,17 @@ export default function Page() {
         role="Co-Founder"
         flip
         tone="sand"
-        /* A15. Mapped from the client's RACHEL.jpg. The supplied frame is
-           full-length, which left her a small figure in a field of backdrop
-           at plate size; cropped to head-and-upper-body instead. */
+        /* A15 mapped this from the client's RACHEL.jpg and tried to solve a
+           full-length frame with object-position. That never worked: the file
+           was 4:5 and the plate is 4:5, so `cover` had nothing to pan and the
+           value was inert. Measured 14 Sep — her head was 23% of the frame
+           against Sharon's 31%, which is the whole of what the client saw.
+           T07 re-cuts the file itself to head-and-blazer at 1048×1310, head
+           now 29.5%. The stale position is gone with the frame it was tuned
+           to. */
         photo={{
           src: "/media/img/founder-rachel.jpg",
           alt: "Rachel Cheang, co-founder of D’Life",
-          position: "50% 25%",
         }}
       >
         <p>

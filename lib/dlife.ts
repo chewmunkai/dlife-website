@@ -83,7 +83,7 @@ export function initDLife(root: HTMLElement): () => void {
     // element under React's control while being visually identical.
     const hideLoader = () => loader && (loader as HTMLElement).style.setProperty("display", "none");
     // Inner pages ship no loader. Without this they would still sit through
-    // the curtain's 2.4s before anything revealed, because the hero entrance
+    // the curtain's two seconds before anything revealed, because the hero entrance
     // is sequenced off the end of that timeline.
     if (!loader) {
       heroIn();
@@ -91,7 +91,6 @@ export function initDLife(root: HTMLElement): () => void {
       gsap
         .timeline()
         .to("#loader .wm", { y: 0, duration: 0.9, ease: "power4.out", delay: 0.1 })
-        .to("#loader .sub", { opacity: 1, duration: 0.6 }, "-=.3")
         .to(loader, { yPercent: -100, duration: 1, ease: "power4.inOut", delay: 0.5, onComplete: hideLoader })
         .add(heroIn, "-=.55");
     } else {

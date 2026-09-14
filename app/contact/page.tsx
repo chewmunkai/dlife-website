@@ -4,7 +4,7 @@ import Lead from "../../components/v2/Lead";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { CONTACT, WA, WA_DISPLAY, WA_NUMBER, waHref } from "../../lib/contact";
+import { CONTACT, HOURS, WA, WA_DISPLAY, WA_NUMBER, telE164, telHref, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.contact);
@@ -89,10 +89,23 @@ export default function Page() {
                   <em>The quickest route. Opens with a first message already written.</em>
                 </dd>
               </div>
+              {/* T09: this built its href as `+603` + the number minus its
+                  first two digits — correct for the 03 landline it was written
+                  against, and wrong the moment the number became an 016
+                  mobile. telHref does the trunk-0 swap for any Malaysian
+                  number, so the bug cannot come back with the next change. */}
               <div>
                 <dt>Telephone</dt>
                 <dd>
-                  <a href={`tel:+603${CONTACT.phone.replace(/\D/g, "").slice(2)}`}>{CONTACT.phone}</a>
+                  <a href={telHref(CONTACT.phone)}>{CONTACT.phone}</a>
+                  <em>Takes a call or a WhatsApp message.</em>
+                </dd>
+              </div>
+              <div>
+                <dt>After hours</dt>
+                <dd>
+                  <a href={telHref(CONTACT.phoneAfterHours)}>{CONTACT.phoneAfterHours}</a>
+                  <em>{HOURS.after}. A voice line — WhatsApp does not reach it.</em>
                 </dd>
               </div>
               <div>
@@ -104,7 +117,7 @@ export default function Page() {
               <div>
                 <dt>Hours</dt>
                 <dd>
-                  Monday to Friday, 9am to 6pm
+                  {HOURS.days}, {HOURS.office}
                   <em>Messages sent on a working day usually get a reply the same day.</em>
                 </dd>
               </div>
@@ -128,7 +141,7 @@ export default function Page() {
           "@type": "FinancialService",
           name: "D’Life Sdn Bhd",
           email: CONTACT.email,
-          telephone: `+60${CONTACT.phone.replace(/\D/g, "").slice(1)}`,
+          telephone: telE164(CONTACT.phone),
           address: {
             "@type": "PostalAddress",
             streetAddress: `${CONTACT.street}, ${CONTACT.street2}`,
@@ -137,7 +150,7 @@ export default function Page() {
             addressRegion: CONTACT.region,
             addressCountry: CONTACT.country,
           },
-          openingHours: "Mo-Fr 09:00-18:00",
+          openingHours: HOURS.schema,
         }}
       />
     </Shell>

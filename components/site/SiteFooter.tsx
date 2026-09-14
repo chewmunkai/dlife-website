@@ -1,5 +1,5 @@
 import { FOOTER_NAV, LEGAL_NAV } from "../../lib/routes";
-import { ADDRESS_LINE, CONTACT, SOCIALS, WA, WA_DISPLAY } from "../../lib/contact";
+import { ADDRESS_LINE, CONTACT, HOURS, SOCIALS, WA, WA_DISPLAY, telHref } from "../../lib/contact";
 import { link } from "../../lib/asset";
 import Logo from "./Logo";
 
@@ -48,18 +48,31 @@ export function SiteFooter() {
                 <em aria-hidden="true">→</em>
               </a>
               <p className="hint">
-                Monday to Friday, 9am–6pm. Most messages get a reply the same day, and no one will chase you afterwards.
+                {HOURS.days}, {HOURS.office}. Most messages get a reply the same day, and no one will chase you
+                afterwards.
               </p>
             </li>
-            {/* L02: the landline keeps its place, under its own label. It is
-                a real number and a working route; it just is not WhatsApp. */}
+            {/* L02 kept the landline here under its own label. T09 (14 Sep)
+                retired that number: the row above and this one are now the
+                same mobile, WhatsApp and voice, so the label carries the
+                window rather than repeating the channel. */}
             <li>
-              <span className="k">Telephone</span>
-              <a className="go" href={`tel:+60${CONTACT.phone.replace(/\D/g, "").slice(1)}`}>
+              <span className="k">Office hours</span>
+              <a className="go" href={telHref(CONTACT.phone)}>
                 <span>{CONTACT.phone}</span>
                 <em aria-hidden="true">→</em>
               </a>
-              <p className="hint">The office line, during working hours.</p>
+              <p className="hint">
+                {HOURS.days}, {HOURS.office}. The same number takes a call or a WhatsApp message.
+              </p>
+            </li>
+            <li>
+              <span className="k">After hours</span>
+              <a className="go" href={telHref(CONTACT.phoneAfterHours)}>
+                <span>{CONTACT.phoneAfterHours}</span>
+                <em aria-hidden="true">→</em>
+              </a>
+              <p className="hint">{HOURS.after}. A voice line — WhatsApp does not reach it.</p>
             </li>
             <li>
               <span className="k">Email</span>
