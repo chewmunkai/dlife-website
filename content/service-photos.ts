@@ -5,13 +5,7 @@ import type { Photo } from "../components/v2/blocks";
 const drive = (name: string, alt: string): Photo => ({
   src: `/media/img/services/${name}.jpg`, alt, fit: "contain",
 });
-/* T03 (client, 14 Sep 2026). Both these heroes used to be one shared const —
-   `shared-meal.jpg`, the dim-sum table — which is how a single rejection took
-   out two pages at once: the client turned the same picture down on Contact.
-   They are now one purpose-made photograph each. No `fit: "contain"` any more
-   either: these are framed for the crop, so the plate fills instead of
-   letterboxing. */
-const shot = (name: string, alt: string): Photo => ({ src: `/media/img/${name}.jpg`, alt });
+const meal = drive("shared-meal", "Nine people gathered around a dining table");
 const generated = (name: string, alt: string): Photo => ({
   src: `/media/img/services/generated/${name}.png`, alt, position: "50% 0%",
 });
@@ -21,10 +15,12 @@ const policyReview = generated("policy-review", "A woman and advisor comparing p
 // They depict fictional people, not D’Life clients or team members.
 const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo> }> = {
   "protecting-your-family": {
-    hero: { ...shot("family-hero", "A family of four around the dinner table at home"), ratio: "1080 / 842" },
-    /* All five moments moved to content/solutions-e2.ts under T05 — the set is
-       purpose-made now, so it no longer needs overriding here. */
-    moments: {},
+    hero: { ...meal, ratio: "1080 / 842" },
+    moments: {
+      3: generated("family-generations", "Grandparents, parents and children spending time together at home"),
+      4: generated("family-support", "A friend offering reassurance during a quiet conversation at home"),
+      5: policyReview,
+    },
   },
   "protecting-your-income": {
     moments: {
@@ -41,12 +37,10 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
     },
   },
   "planning-for-your-future": {
-    hero: { ...shot("future-hero", "A couple in their fifties talking over tea at home"), ratio: "1080 / 842" },
+    hero: { ...meal, ratio: "1080 / 842" },
     moments: {
       3: { src: "/media/img/inc-savings.jpg", alt: "Coins saved in a glass jar" },
-      /* T04: card 05, "whether it is too late to start, or too early to
-         bother". Replaces generated/starting-a-plan.png. */
-      5: shot("future-05-start", "A young man and his mother starting a plan together at the kitchen table"),
+      5: generated("starting-a-plan", "An older woman and her adult son starting a financial plan together"),
     },
   },
   "wealth-legacy": {

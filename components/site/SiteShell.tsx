@@ -76,8 +76,12 @@ export default function SiteShell({
                 "Real support, beyond the policy." line that sat under the
                 lockup. The curtain is now the mark alone, which is also the
                 only placement where the artwork's own "IT BEGINS WITH YOU"
-                is legible. Both footers keep the sentence: the client's own
-                screenshot of the footer left it unmarked. */}
+                is legible. Both footers lost the same sentence in the same
+                pass — the instruction carried no qualifier, so it came off
+                everywhere it was rendered as body copy. It is still the
+                document <title> and a trust-strip fact; those are the browser
+                tab and search results rather than the page, and need the
+                client's word before they change. */}
           </div>
         </div>
       )}

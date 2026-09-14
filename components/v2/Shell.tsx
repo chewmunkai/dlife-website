@@ -163,12 +163,13 @@ export default function Shell({ children }: { children: ReactNode }) {
       <footer className="ft2 dark charcoal">
         <div className="ft2-top">
           <div className="ft2-head">
-            {/* Round 9: the identity line used to sit above this as a tracked
-                eyebrow, which read as a kicker introducing the statement rather
-                than as the agency's own name. It moved to the base row beside
-                the copyright, where an identity line belongs, and the statement
-                leads the footer on its own. */}
-            <h2>Real support, beyond the policy.</h2>
+            {/* T01 (client, 14 Sep 2026): "remove this wording". The client
+                boxed the line under the loader lockup, and the instruction
+                carries no qualifier, so it comes off the footer too — this
+                column now opens on the contact routes. The identity line
+                already sits in the base row beside the copyright, so the
+                agency is still named. `.ft2-cta`'s top margin went with the
+                heading it was spacing away from. */}
             <div className="ft2-cta">
               {/* L02: this said "WhatsApp 03-9766 1205" — the office landline
                   under a WhatsApp label, while the link went to the mobile.

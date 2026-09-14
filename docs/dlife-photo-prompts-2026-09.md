@@ -1,8 +1,19 @@
-# Photo generation pack — T02–T06, T08 (14 Sep 2026, rev 3) — **DELIVERED**
+# Photo generation pack — T02–T06, T08 (14 Sep 2026, rev 3)
 
-> All eleven were generated and placed on 14 Sep 2026. Kept as the record of
-> what was asked for, and as the starting point if any one of them is
-> re-rolled. Provenance and measured crops: `docs/dlife-asset-map.md`.
+> ## ⚠️ ONE OF ELEVEN APPLIED — the rest reverted, 14 Sep 2026
+>
+> All eleven images were generated, placed, verified and deployed. Ten were then
+> **reverted at the client's direction** and are not in the repo; every
+> placement they covered is back on its pre-round photograph.
+>
+> **`closing-next-step.jpg` (T06) was kept** and is live on all ten next-step
+> cards. Its measured frame behaviour and contrast are in
+> `docs/dlife-asset-map.md`.
+>
+> The file is kept because the analysis behind it still holds — in particular
+> the finding that the client's Drive folder cannot supply this imagery (see
+> below), and the measured frame behaviour of the closing band. If the
+> photography is ever revisited, start here rather than from scratch.
 
 **Eleven images.** (Twelve in rev 2 — the Existing Policy hero is now filled
 by the client's Sharon Lau portrait, so its prompt is gone.) **Each block below

@@ -932,9 +932,11 @@ export const CLOSING_PHOTO: Photo = {
   /* One photograph on every next-step card site-wide, at the client's
      direction: the card is a repeated moment in the journey, so a repeated
      image makes it recognisable rather than repetitive. T06 (14 Sep 2026)
-     changes the picture, not that rule — hero.jpg was marked twice in one
-     round, here and as a "5 signs" card, which reads as a verdict on the
-     photograph.
+     changes the picture, not that rule. The wider photography round this came
+     from was reverted at the client's direction; this one band was kept, so
+     hero.jpg is still in use elsewhere on the site — including as the first
+     "5 signs" card, which is why this file is the only purpose-made photograph
+     in the repo.
 
      This replacement is framed for the job rather than borrowed into it: type
      sits over the left under a scrim, so its left third carries no face and no

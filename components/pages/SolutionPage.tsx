@@ -112,15 +112,8 @@ export default function SolutionPage({ slug }: { slug: keyof typeof SOLUTIONS })
 
       {/* ACT — one specific, low-pressure next step, carrying this page's own
           WhatsApp prefill so the team can see which subject produced it. */}
-      {/* The E2 base is the last copy of this template and no route imports
-          it, so it holds its own ground rather than reaching into the v2
-          layer's CLOSING_PHOTO. Keep the two in step if the site-wide
-          next-step photograph changes again. */}
       <E2Closing
-        photo={{
-          src: "/media/img/closing-next-step.jpg",
-          alt: "Three generations talking around a table in the evening",
-        }}
+        photo={e.closing.photo}
         title={e.closing.title}
         lede={e.closing.lede}
         actions={

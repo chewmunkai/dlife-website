@@ -59,10 +59,7 @@ export const TEMPLATE_ARTICLE: Article = {
   date: "2026-09-06",
   read: "4 min read",
   template: true,
-  /* T08. The page's hero is the client's Sharon Lau portrait; this card needed
-     its own photograph, because its frame is 3:2 and no crop of a standing
-     studio portrait fills that with a person at a usable size. */
-  photo: { src: "/media/img/policy-schedule-card.jpg", alt: "Two people reading a printed benefits schedule at a table" },
+  photo: { src: "/media/img/policy-review.jpg", alt: "Reading through a policy document at a desk" },
   body: [
     {
       p: "Every paragraph below says what belongs in its place, at about the length the real thing should run to — so the reading page can be judged on its typography rather than on a wall of filler. The notice above says the rest.",

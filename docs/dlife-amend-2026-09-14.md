@@ -231,88 +231,71 @@ Recorded here so the reasoning is not re-litigated next round.
 
 ---
 
-## Status — wave 1 + T07, 14 Sep 2026
+## Final state — 14 Sep 2026
 
-Nothing deployed. Branch `claude/dlife-website-amendments-aee4b7`.
+The round was implemented in full, deployed, and then **largely reverted at the
+client's direction**. Four items ship; five are back on their pre-round state.
 
-| ID | Status | Evidence |
+### Kept
+
+| ID | What | Where |
 |---|---|---|
-| T01 | **Done** | Loader curtain contains the mark alone (`subPresent: false`). The mark's centre sits 42px low in a measurement, which is exactly its GSAP start-state `translateY(41.8px)`; clearing the transform puts it at 0,0 on both axes — so the curtain is correctly centred without the second line. Both footers keep the sentence per D5. |
-| T02 | Blocked | Photo source. |
-| T03 | Blocked | Photo source. |
-| T04 | Blocked | Photo source. |
-| T05 | Blocked | Photo source. |
-| T06 | Blocked | Photo source. |
-| T07 | **Done** | Measured, re-cut, re-measured — see `docs/dlife-asset-map.md`. |
-| T08 | **Hero done · card blocked** | Hero is `advisor-sharon-lau.jpg` at 1:1, verified 1280/880/375. The 3:2 article card still needs a photograph. |
-| T09 | **Done** | Built output: 129 `wa.me` links all on `60162362286`, 23 `tel:+60162362286`, 23 `tel:+60166616083`, zero occurrences of the old number, landline or `9am to 6pm`. No overflow at 1280 or 375 on `/contact`. |
+| T01 | The "Real support, beyond the policy." line removed from every place it rendered as body copy — the loader curtain, the new footer's heading, the homepage mast | `SiteShell.tsx`, `Shell.tsx`, `SiteFooter.tsx`, `styles/dlife.css`, `lib/dlife.ts`, `styles/amendments.css` |
+| T07 | Rachel's portrait re-cut so the founder pair reads at one subject scale | `founder-rachel.jpg`, `app/about/page.tsx`, `components/DLife.tsx` |
+| T06 | The next-step band's photograph, on all ten `<ClosingCard>` pages | `components/v2/blocks.tsx`, `closing-next-step.jpg` |
+| T09 | The new hours and both new numbers; WhatsApp moved onto D'Life's own line | `lib/contact.ts` + 5 consumers |
 
-### What T09 also fixed on the way
+### Reverted
 
-`app/contact/page.tsx` built its telephone href as `` `tel:+603${phone.slice(2)}` `` —
-right for the `03-9766 1205` landline it was written against, and it would have
-emitted `tel:+6032362286` for an `016` mobile. Both footers had their own
-variant of the same inline slicing. All three now call one `telHref` helper.
-Three files also typeset their own opening-hours string and all three still
-said "9am to 6pm"; they now read one `HOURS` record.
+T02, T03, T04, T05 and T08. Every other photograph is back to what it was
+before this round, and eleven of the twelve image files added are deleted —
+`closing-next-step.jpg` is the one that stays.
+`content/solutions-e2.ts`, `content/service-photos.ts`, `content/articles.ts`,
+`components/pages/SolutionPage.tsx` and `app/existing-policy-support/page.tsx`
+are byte-identical to the pre-round baseline `1df2b3b`. `components/v2/blocks.tsx`
+differs only by `CLOSING_PHOTO`.
 
-### T08 — the Sharon Lau photo (resolved 14 Sep: placed on the hero)
+Note the consequence: `hero.jpg` is back as the first "5 signs" card while the
+next-step band no longer uses it, so the one picture the client marked twice is
+half-retired.
 
-**Update.** The client has only this one file and chose to use it anyway. It is
-now the hero, cut to 1:1 and pinned with `ratio` — see
-`docs/dlife-photo-prompts-2026-09.md`. The original assessment below stands for
-the *article card*, which is 3:2 and still needs a generated photograph.
+Reverted with them, because they only existed to serve that work:
 
-#### Original assessment
+- The deletion of six `closing.photo` records in `content/solutions-e2.ts` that
+  no route rendered. **They are back.** Still dead, still worth removing on a
+  day when nothing else is in flight — their only reader is
+  `components/pages/SolutionPage.tsx`, the orphaned E2 base nothing imports.
+- The Sharon Lau portrait on the Existing Policy hero, and the `ratio` that
+  pinned its frame.
 
-One file arrived ("Sharon Lau", 1706×2560), not the "photos" the PDF implies.
-It is a **full-length studio portrait on a plain white backdrop** — a single
-standing figure, no context.
+### Findings worth keeping, independent of the revert
 
-Both placements it was sent for are landscape and contextual: the Existing
-Policy Support hero (a 1080×842 plate) and the `template` article card
-thumbnail. Dropping a full-length studio standing shot into either reproduces
-exactly the defect T07 has just finished correcting on Rachel — a small figure
-in a field of backdrop — and a white studio sweep behind a page whose every
-other photograph is a room with people in it will read as a different site.
+1. **The client's Drive folder cannot supply lifestyle imagery.** "Website
+   (Group Photo)" holds 22 files as of 14 Sep — all group or event photography
+   of the agency's own people. It held 44 when this repo's asset map was
+   written; the client changed it on 31 Aug. Anything needing a family at home,
+   a couple moving house or an advisor with a document is not in there.
+2. **The closing band's frame cannot be satisfied by one photograph.** Its
+   picture is a full-bleed ground whose frame is the card, and the card's
+   height is its own stacked copy — measured 3.14 at 1440 and **0.54, portrait,
+   at 375**. Whatever picture sits there, people fall out of the phone crop;
+   the long-standing `hero.jpg` loses 56.5% of its width at that breakpoint.
+   The fix is structural and affects all ten next-step cards.
+3. **`object-position` is inert on both founder portraits** and always was —
+   both files are 4:5 and every frame holding them is 4:5, so `cover` has
+   nothing to pan. Framing there has to be fixed by cutting the file.
+4. **Two href bugs fixed under T09 and still in place:** `app/contact/page.tsx`
+   hard-coded a `+603` prefix that would have emitted `tel:+6032362286` for an
+   `016` mobile, and three files each typeset their own opening-hours string,
+   all three still reading "9am to 6pm".
 
-Cropping it to head-and-shoulders makes a usable portrait, but a portrait is
-the wrong shape for both slots.
+### Still open, needs the client
 
-Needed before T08 can proceed: either more Sharon Lau frames (ideally in a
-setting, landscape or croppable to landscape), or a decision to place this one
-in a portrait-shaped slot instead and source the hero and card separately.
-
-
----
-
-## Round closed — 14 Sep 2026
-
-All nine items implemented. Branch `claude/dlife-website-amendments-aee4b7`,
-nothing deployed.
-
-| ID | Status |
-|---|---|
-| T01 | Done — loader line, its rule and its tween all gone |
-| T02 | Done — `contact-hero.jpg`, the fifth photograph this hero has carried |
-| T03 | Done — the two solution heroes no longer share one file |
-| T04 | Done — `future-05-start.jpg` |
-| T05 | Done — all five cards, not the three annotated |
-| T06 | Done — `closing-next-step.jpg` site-wide; see the frame caveat in the asset map |
-| T07 | Done — Rachel re-cut to 1048x1310 on the head-width ratio |
-| T08 | Done — hero is the client's Sharon Lau portrait, card is `policy-schedule-card.jpg` |
-| T09 | Done — new numbers, new hours, WhatsApp retargeted, two href bugs fixed |
-
-Verified on the built output: 27 static pages, structural audit unchanged at
-6/14 (the eight diffs are pre-existing amendment drift in classes this round
-never touched), every retired image at **zero** references, no horizontal
-overflow at 375/1280/1440 on any touched route, and every new crop masked and
-looked at rather than inferred from a percentage.
-
-Cleaned up on the way: six `closing.photo` records in `content/solutions-e2.ts`
-that named an image no route rendered, and `components/pages/SolutionPage.tsx` —
-the orphaned E2 base that was their only reader — now carries its own literal.
-
-**Now unreferenced, not deleted** (say the word): `team-table.jpg`,
-`services/shared-meal.jpg`, and `services/generated/{starting-a-plan,
-family-generations,family-support}.png`.
+- The tagline remains the document `<title>` (`app/layout.tsx`,
+  `app/page.tsx`, `lib/routes.ts`) and "Support beyond the policy" remains a
+  trust-strip fact on the solution pages. Different surface from the body copy
+  that was boxed — browser tab, search results, social cards.
+- `hello@dlife.com.my` is still unconfirmed, and three legal pages tell people
+  to write to it.
+- The founders' portraits still carry a legible AIA wordmark and MDRT roundel,
+  while nothing else on the site names an insurer.

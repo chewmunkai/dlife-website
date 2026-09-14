@@ -19,7 +19,10 @@ export function SiteFooter() {
           <div className="wm">
             <Logo reversed />
           </div>
-          <p className="tag">Real support, beyond the policy.</p>
+          {/* T01 (client, 14 Sep 2026): "remove this wording" — the
+              "Real support, beyond the policy." line. Removed from the loader,
+              this mast and the new footer's heading, which is everywhere it
+              appeared in body copy. The mark stands on its own here. */}
         </div>
         {/* "Since 1999" comes from the client's own logo lockup, and
             2026−1999 = 27 corroborates the trust strip. Still governed by the
