@@ -45,7 +45,13 @@ export type SolutionE2 = {
   /** `photo` omitted renders the plain variant — the same quote, no photograph. */
   said: { photo?: Photo; quote: string; cite: string };
   qa: { label: string; title: string };
-  closing: { photo: Photo; title: string; lede: string };
+  /* `photo` was removed on 14 Sep 2026. The live template,
+     components/v2/SolutionPage.tsx, renders <ClosingCard> without passing one
+     — the band's ground is CLOSING_PHOTO in components/v2/blocks.tsx — so all
+     six records were naming an image no route rendered. The only reader left
+     was components/pages/SolutionPage.tsx, the orphaned E2 base nothing
+     imports, which now carries its own literal. */
+  closing: { title: string; lede: string };
   /** Primary action label, repeated in the hero and the closing panel. */
   action: string;
 };
@@ -113,19 +119,27 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     },
     duo: { src: "/media/img/close-conversation.jpg", alt: "An advisor mid-conversation with two people" },
     split: { photo: { src: "/media/img/path-future.jpg", alt: "A desk with photographs and keepsakes" }, label: "What usually prompts this", title: "5 signs it’s worth having this conversation", flip: false },
+    /* T05 (client, 14 Sep 2026): "change all these photos to other photos".
+       All five, not the three in the annotated screenshot — card 01 was
+       hero.jpg, which was going anyway as CLOSING_PHOTO, and two survivors
+       beside three new scenes would read as a mismatched set. These are
+       purpose-made 3:2 landscapes, one per situation, so none of them needs
+       the `position` nudge the borrowed portraits did. Cards 03-05 used to be
+       overridden in content/service-photos.ts; the whole set lives here now,
+       where moments belong. */
     moments: [
-      { src: "/media/img/hero.jpg", alt: "A family sharing a meal at home" },
-      { src: "/media/img/fam-newhome.jpg", alt: "A couple carrying boxes into a new home" },
-      { src: "/media/img/need-legacy-malaysia.jpg", alt: "A family looking through documents and photographs together" },
-      { src: "/media/img/policy-review-wide.jpg", alt: "One person explaining something to another" },
-      { src: "/media/img/path-review.jpg", alt: "A man reading through paperwork at a desk", position: "50% 58%" },
+      { src: "/media/img/family-01-newborn.jpg", alt: "A couple at home with their newborn" },
+      { src: "/media/img/family-02-mortgage.jpg", alt: "A couple unpacking in an apartment they have just bought" },
+      { src: "/media/img/family-03-sandwich.jpg", alt: "A woman at home with her elderly father and her young daughter" },
+      { src: "/media/img/family-04-bereaved-friend.jpg", alt: "A woman bringing food to a friend at her door" },
+      { src: "/media/img/family-05-old-policy.jpg", alt: "A man opening an old document folder at his dining table" },
     ],
     ideaIcons: ["shield", "people", "pulse", "doc"],
     explain: { label: "What it actually means", title: "The 4 terms worth knowing", lede: "Each one explained in a sentence you will not need translated. Most families use 2 or 3 of them, not all 4." },
     steps: { label: "How the conversation goes", title: "How we work it through" },
     said: { photo: { src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at the office" }, quote: "The families who are glad they did this are rarely the ones who bought the most. They are the ones who understood what they bought.", cite: "D’Life advisory team" },
     qa: { label: "", title: "Common questions" },
-    closing: { photo: { src: "/media/img/hero.jpg", alt: "An interior ceiling with a ring chandelier", position: "50% 42%" }, title: "Start with a conversation about your household", lede: "No forms, no products in the first meeting. Just what your family would need, and what you already have in place." },
+    closing: { title: "Start with a conversation about your household", lede: "No forms, no products in the first meeting. Just what your family would need, and what you already have in place." },
     action: "Talk about protecting my family",
   },
   "protecting-your-income": {
@@ -151,7 +165,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     steps: { label: "How the conversation goes", title: "How we work it through" },
     said: { photo: { src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at the office" }, quote: "People insure the car and the house without thinking. The income that pays for both is the one that gets left to last.", cite: "D’Life advisory team" },
     qa: { label: "", title: "Common questions" },
-    closing: { photo: { src: "/media/img/hero.jpg", alt: "", position: "50% 45%" }, title: "Work out what your income actually has to carry", lede: "Bring your fixed monthly costs. That one number does most of the work in this conversation." },
+    closing: { title: "Work out what your income actually has to carry", lede: "Bring your fixed monthly costs. That one number does most of the work in this conversation." },
     action: "Talk about protecting my income",
   },
   "medical-health-preparation": {
@@ -177,7 +191,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     steps: { label: "How the conversation goes", title: "How we work it through", lede: "Most people who come to us on this subject already have cover. The work is usually understanding it, not replacing it." },
     said: { photo: { src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at the office" }, quote: "Ninety per cent of the medical questions we are asked are answered by a document the client already owns. Reading it together is most of the job.", cite: "D’Life advisory team" },
     qa: { label: "", title: "Common questions" },
-    closing: { photo: { src: "/media/img/hero.jpg", alt: "", position: "50% 40%" }, title: "Have your medical cover explained to you", lede: "Bring your schedule of benefits, or just the policy number. We will walk through what it actually covers, with no obligation to change anything." },
+    closing: { title: "Have your medical cover explained to you", lede: "Bring your schedule of benefits, or just the policy number. We will walk through what it actually covers, with no obligation to change anything." },
     action: "Talk about medical cover",
   },
   "planning-for-your-future": {
@@ -203,7 +217,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     steps: { label: "How the conversation goes", title: "How we work it through" },
     said: { photo: { src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at the office" }, quote: "The best plans we see are not the most sophisticated ones. They are the ones the client can still explain, five years later, without looking anything up.", cite: "D’Life advisory team" },
     qa: { label: "", title: "Common questions" },
-    closing: { photo: { src: "/media/img/hero.jpg", alt: "", position: "50% 42%" }, title: "Put the whole picture in one place", lede: "EPF, savings, property, policies. Seeing it together is usually the point at which planning stops feeling abstract." },
+    closing: { title: "Put the whole picture in one place", lede: "EPF, savings, property, policies. Seeing it together is usually the point at which planning stops feeling abstract." },
     action: "Talk about planning ahead",
   },
   "wealth-legacy": {
@@ -229,7 +243,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     steps: { label: "How the conversation goes", title: "How we work it through", lede: "Estate matters touch law and tax as well as financial planning. We are clear about where our advice ends." },
     said: { photo: { src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at the office" }, quote: "The families who have the easiest time are not the wealthiest. They are the ones where someone wrote things down and told somebody where they were.", cite: "D’Life advisory team" },
     qa: { label: "", title: "Common questions" },
-    closing: { photo: { src: "/media/img/hero.jpg", alt: "", position: "50% 50%" }, title: "Start with what is already written down", lede: "Your existing nominations and policies. For many people, reviewing those is most of what this needs." },
+    closing: { title: "Start with what is already written down", lede: "Your existing nominations and policies. For many people, reviewing those is most of what this needs." },
     action: "Talk about wealth and legacy",
   },
   "corporate": {
@@ -255,7 +269,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     steps: { label: "How the conversation goes", title: "How we work it through" },
     said: { photo: { src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at the office" }, quote: "A benefits scheme nobody has explained to the staff is a cost, not a benefit. Half the value is in the briefing.", cite: "D’Life advisory team" },
     qa: { label: "", title: "Common questions" },
-    closing: { photo: { src: "/media/img/hero.jpg", alt: "", position: "50% 40%" }, title: "Start with a scoping conversation", lede: "Headcount, what is already in place, and what prompted the question. That is enough for a first discussion." },
+    closing: { title: "Start with a scoping conversation", lede: "Headcount, what is already in place, and what prompted the question. That is enough for a first discussion." },
     action: "Enquire about corporate solutions",
   },
 };

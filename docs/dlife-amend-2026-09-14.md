@@ -282,3 +282,37 @@ the wrong shape for both slots.
 Needed before T08 can proceed: either more Sharon Lau frames (ideally in a
 setting, landscape or croppable to landscape), or a decision to place this one
 in a portrait-shaped slot instead and source the hero and card separately.
+
+
+---
+
+## Round closed — 14 Sep 2026
+
+All nine items implemented. Branch `claude/dlife-website-amendments-aee4b7`,
+nothing deployed.
+
+| ID | Status |
+|---|---|
+| T01 | Done — loader line, its rule and its tween all gone |
+| T02 | Done — `contact-hero.jpg`, the fifth photograph this hero has carried |
+| T03 | Done — the two solution heroes no longer share one file |
+| T04 | Done — `future-05-start.jpg` |
+| T05 | Done — all five cards, not the three annotated |
+| T06 | Done — `closing-next-step.jpg` site-wide; see the frame caveat in the asset map |
+| T07 | Done — Rachel re-cut to 1048x1310 on the head-width ratio |
+| T08 | Done — hero is the client's Sharon Lau portrait, card is `policy-schedule-card.jpg` |
+| T09 | Done — new numbers, new hours, WhatsApp retargeted, two href bugs fixed |
+
+Verified on the built output: 27 static pages, structural audit unchanged at
+6/14 (the eight diffs are pre-existing amendment drift in classes this round
+never touched), every retired image at **zero** references, no horizontal
+overflow at 375/1280/1440 on any touched route, and every new crop masked and
+looked at rather than inferred from a percentage.
+
+Cleaned up on the way: six `closing.photo` records in `content/solutions-e2.ts`
+that named an image no route rendered, and `components/pages/SolutionPage.tsx` —
+the orphaned E2 base that was their only reader — now carries its own literal.
+
+**Now unreferenced, not deleted** (say the word): `team-table.jpg`,
+`services/shared-meal.jpg`, and `services/generated/{starting-a-plan,
+family-generations,family-support}.png`.

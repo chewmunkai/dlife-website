@@ -930,12 +930,29 @@ export function StepsPanel({
  */
 export const CLOSING_PHOTO: Photo = {
   /* One photograph on every next-step card site-wide, at the client's
-     direction: a family at a table, warm, no single subject to date it. The
-     card is a repeated moment in the journey, so a repeated image makes it
-     recognisable rather than repetitive. */
-  src: "/media/img/hero.jpg",
-  alt: "A family sharing a meal at home",
-  position: "50% 42%",
+     direction: the card is a repeated moment in the journey, so a repeated
+     image makes it recognisable rather than repetitive. T06 (14 Sep 2026)
+     changes the picture, not that rule — hero.jpg was marked twice in one
+     round, here and as a "5 signs" card, which reads as a verdict on the
+     photograph.
+
+     This replacement is framed for the job rather than borrowed into it: type
+     sits over the left under a scrim, so its left third carries no face and no
+     busy detail, and it is exposed mid-tone so ivory holds AA against the
+     wash. Re-measure that contrast if it is ever changed again. */
+  src: "/media/img/closing-next-step.jpg",
+  alt: "Three generations talking around a table in the evening",
+  /* X and Y act on different axes here, because this card's frame swings from
+     3.14 at 1440 to 0.54 at 375. Above ~640px the frame is wider than the
+     picture, so the crop is on the HEIGHT and X does nothing; Y at 50% keeps
+     the band with every head in it. On a phone the card turns portrait and the
+     crop moves to the WIDTH, keeping only a 557px slice of 1536 — X then
+     decides who survives. 100% keeps four people whole rather than bisecting
+     two, and lands them under the thin end of the scrim, which is the only
+     part of this picture anyone actually sees. See the note in
+     docs/dlife-asset-map.md: no photograph satisfies both ends of this frame,
+     and the outgoing one lost 56.5% of its width here too. */
+  position: "100% 50%",
 };
 
 export function ClosingCard({

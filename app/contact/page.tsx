@@ -45,15 +45,16 @@ export default function Page() {
         label="Contact"
         title="Tell us what you need"
         lede="A few lines is enough to start. We will read it, work out who should answer, and come back to you."
-        /* Round 22, and the fourth photograph this page has carried: a stock still
-           of one man, then team-office.jpg, then team-gathering.jpg, all turned
-           down. This one is new — sourced from the client's public Drive folder in
-           the browser, since the Drive connector cannot read inside a shared
-           folder. A small group around a table, which is what asking someone for
-           advice actually looks like, rather than a lineup of the whole practice. */
+        /* T02, and the fifth photograph this page has carried: a stock still of
+           one man, then team-office.jpg, then team-gathering.jpg, then the
+           dim-sum table — all turned down. The pattern across all four
+           rejections is that every one was a GROUP LINEUP, and this page is
+           about one person asking for help. So this is purpose-made and
+           deliberately two people: someone asking, someone listening and
+           writing it down. */
         photo={{
-          src: "/media/img/team-table.jpg",
-          alt: "D’Life advisors talking around a table",
+          src: "/media/img/contact-hero.jpg",
+          alt: "Two people talking across a café table, one taking a note",
           ratio: "1080 / 842",
         }}
       />

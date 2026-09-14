@@ -1,4 +1,8 @@
-# Photo generation pack — T02–T06, T08 (14 Sep 2026, rev 3)
+# Photo generation pack — T02–T06, T08 (14 Sep 2026, rev 3) — **DELIVERED**
+
+> All eleven were generated and placed on 14 Sep 2026. Kept as the record of
+> what was asked for, and as the starting point if any one of them is
+> re-rolled. Provenance and measured crops: `docs/dlife-asset-map.md`.
 
 **Eleven images.** (Twelve in rev 2 — the Existing Policy hero is now filled
 by the client's Sharon Lau portrait, so its prompt is gone.) **Each block below
