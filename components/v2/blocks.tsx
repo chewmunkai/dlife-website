@@ -48,10 +48,20 @@ export const frameOf = (photo?: Photo) => (photo?.ratio ? { aspectRatio: photo.r
 /** `ink` is a second dark, so a dark page can modulate without a third colour. */
 export const mode = (tone: Tone = "light") => (tone === "ink" ? "dark ink" : tone);
 
-const Img = ({ photo }: { photo: Photo }) => (
+/* Lazy by default, eager on request. The audit found 19 of 157 <img> tags
+   on the site lazy-loading; every plate this helper draws was fetched on
+   page load whether or not it was near the viewport — five 16:10 cards and a
+   full-bleed closing band below the fold on every solution page. `eager` is
+   for the one picture that IS the first paint: the hero plate, which also
+   gets fetchpriority="high" so the browser starts it before the stylesheet's
+   own imports finish. Everything else waits until it is about to be seen. */
+const Img = ({ photo, eager = false }: { photo: Photo; eager?: boolean }) => (
   <img
     src={asset(photo.src)}
     alt={photo.alt}
+    loading={eager ? "eager" : "lazy"}
+    decoding="async"
+    fetchPriority={eager ? "high" : undefined}
     style={photo.position || photo.fit ? { objectPosition: photo.position, objectFit: photo.fit, backgroundColor: photo.fit ? "var(--s-plate, #efece4)" : undefined } : undefined}
   />
 );
@@ -113,11 +123,11 @@ export function Hero({
             <div style={{ display: "flex", width: "100%", height: "100%" }}>
               {[photo, companionPhoto].map((portrait) => (
                 <div key={portrait.src} style={{ width: "50%", height: "100%" }}>
-                  <Img photo={portrait} />
+                  <Img photo={portrait} eager />
                 </div>
               ))}
             </div>
-          ) : <Img photo={photo} />}
+          ) : <Img photo={photo} eager />}
         </div>
       )}
       <div className={`card ${panel === "green" ? "card--green dark" : "light"}`}>

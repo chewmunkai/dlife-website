@@ -105,6 +105,21 @@ band the type occupies: **14.7:1 on the mean, 13.8:1 against the
 95th-percentile brightest pixel**, versus AA's 4.5:1. The outgoing `hero.jpg`
 measured 9.9:1. Re-run this if the picture changes again.
 
+## Generated scenes are JPEG now (15 Sep 2026)
+
+The eleven `services/generated/*` scenes were PNG at ~2 MB each; a service
+page carried five, so the medical page asked a phone for 10 MB of pictures.
+Re-encoded to JPEG q82 progressive — 22 MB → 2.2 MB, same 1536×1024 pixels,
+same crops, same names with `.jpg`. Three superseded v1 scenes were deleted
+outright. Everything under `/media/img` that the built site does not
+reference was removed in the same audit; see `docs/dlife-audit-2026-09-15.md`.
+
+## Open Graph image
+
+`/media/og-default.jpg`, 1200×630, cut from `hero.jpg` (x centred, y at 42%
+— the band the closing card used to favour). All three people whole. One
+image for every page; declared once in `lib/seo.ts`.
+
 ## Group photography
 
 Exported at 1800px on the long edge, quality 82, progressive. Nothing is

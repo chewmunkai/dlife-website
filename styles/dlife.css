@@ -26,7 +26,8 @@
    brief §9 asked for Lora, the design system had moved to Newsreader +
    Bricolage Grotesque. The correction brief resolves it for Lora, so the
    grotesque goes. Noto Serif SC goes with it — no CJK copy ships here. */
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400..600&family=Work+Sans:wght@300;400;500;600&display=swap");
+/* The Google Fonts @import that lived here is gone: both faces come from
+   next/font in app/layout.tsx, self-hosted and preloaded. */
 
 /* Brand palette, verbatim from brief §9. Every name is `--dl-` prefixed so
    nothing can collide with a host app's tokens. */
@@ -43,8 +44,8 @@
   --dl-sand: #D0BFA9;      /* warm section backgrounds */
   --dl-cream: #EFE8DA;     /* soft neutral surfaces */
   --dl-ivory: #F6F1E8;     /* default page background */
-  --dl-disp: "Lora", Georgia, serif;              /* headings 600, editorial 500 */
-  --dl-sans: "Work Sans", system-ui, sans-serif;  /* body, nav, labels, UI */
+  --dl-disp: var(--font-lora), Georgia, serif;             /* headings 600, editorial 500 */
+  --dl-sans: var(--font-work-sans), system-ui, sans-serif; /* body, nav, labels, UI */
   --dl-pad: clamp(24px, 5vw, 84px);
   /* Height of the fixed header, so anything that has to start exactly at its
      lower edge can say so rather than guess. 26px of padding above and below

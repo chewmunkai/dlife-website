@@ -6,8 +6,13 @@ const drive = (name: string, alt: string): Photo => ({
   src: `/media/img/services/${name}.jpg`, alt, fit: "contain",
 });
 const meal = drive("shared-meal", "Nine people gathered around a dining table");
+/* JPEG since the September 2026 audit. The scenes were generated as PNG at
+   ~2 MB each, and a service page carried five of them: the medical page asked
+   a phone for 10 MB of pictures before it could paint a card. Re-encoded at
+   quality 82 they are ~200 KB apiece with no visible change at card size.
+   Same pixels, same crops, same names — only the extension moved. */
 const generated = (name: string, alt: string): Photo => ({
-  src: `/media/img/services/generated/${name}.png`, alt, position: "50% 0%",
+  src: `/media/img/services/generated/${name}.jpg`, alt, position: "50% 0%",
 });
 const policyReview = generated("policy-review", "A woman and advisor comparing policy documents at a desk");
 

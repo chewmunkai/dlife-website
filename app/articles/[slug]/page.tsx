@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_IMAGE } from "../../../lib/seo";
 import Shell from "../../../components/v2/Shell";
 import JsonLd from "../../../components/site/JsonLd";
 import { Band, ClosingCard } from "../../../components/v2/blocks";
@@ -50,7 +51,8 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     alternates: { canonical: `${SITE}${ROUTES.resources.path}/../articles/${a.slug}`.replace("/../", "/") },
     /* A placeholder must never be indexed. */
     robots: a.template ? { index: false, follow: false } : undefined,
-    openGraph: { type: "article", title: a.title, description: a.blurb },
+    openGraph: { type: "article", title: a.title, description: a.blurb, images: [OG_IMAGE] },
+    twitter: { card: "summary_large_image", title: a.title, description: a.blurb, images: [OG_IMAGE.url] },
   };
 }
 

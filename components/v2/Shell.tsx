@@ -4,7 +4,8 @@
    This mirrors the design system's own styles.css entry point. These sheets
    are unscoped, unlike the previous design's .dlife-nested styles, so they
    are only ever loaded by a route that renders this shell. */
-import "../../styles/ds/tokens/fonts.css";
+/* tokens/fonts.css is not imported: its only rule was the Google Fonts
+   @import, and the faces come from next/font in app/layout.tsx now. */
 import "../../styles/ds/tokens/colors.css";
 import "../../styles/ds/tokens/typography.css";
 import "../../styles/ds/tokens/spacing.css";

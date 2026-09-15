@@ -21,6 +21,22 @@ import { ROUTES, trail, type Route } from "./routes";
 export const abs = (path: string) => (path === "/" ? SITE : `${SITE}${path}`);
 
 /**
+ * The picture a shared link shows. Until the September 2026 audit no page
+ * declared one, so WhatsApp, Facebook and LinkedIn previews carried the title
+ * and nothing else — on a site whose trust strip is all photography. It is
+ * the homepage hero, cut to the 1200x630 the platforms want, with all three
+ * people whole. Absolute, off SITE, like every other URL in the metadata —
+ * which means the preview build points at the production host as its
+ * canonicals already do.
+ */
+export const OG_IMAGE = {
+  url: abs("/media/og-default.jpg"),
+  width: 1200,
+  height: 630,
+  alt: "A family sharing a meal at home",
+} as const;
+
+/**
  * Page metadata from a route. Canonical is always self-referential and
  * absolute; the preview build on GitHub Pages stays out of the index
  * entirely so it can never outrank the real domain.
@@ -38,8 +54,9 @@ export function pageMeta(route: Route, extra?: Partial<Metadata>): Metadata {
       url,
       title: route.title,
       description: route.description,
+      images: [OG_IMAGE],
     },
-    twitter: { card: "summary_large_image", title: route.title, description: route.description },
+    twitter: { card: "summary_large_image", title: route.title, description: route.description, images: [OG_IMAGE.url] },
     robots: isPreview || route.utility ? { index: false, follow: true } : { index: true, follow: true },
     ...extra,
   };

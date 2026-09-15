@@ -1,5 +1,9 @@
 # Landscape service image revision
 
+> **Format note, 15 Sep 2026.** Every scene below is installed as `.jpg` (quality 82,
+> progressive), not the `.png` the generator produced — 2 MB a file became ~200 KB
+> with no visible change at card size. The `.png` names are the generation names.
+
 Built-in image generation; fictional service illustrations, 7 September 2026. Original outputs saved in this directory. Exact prompt set below.
 
 Create a single photorealistic natural editorial lifestyle photograph for D’Life Malaysian financial advisory website. Landscape EXACT 16:10 aspect ratio, 1536x960 if possible. Warm soft daylight, muted cream, deep olive green and natural timber, realistic faces and hands, contemporary Malaysian people and interiors. Fictional people only. Entire scene should fill the frame edge to edge: no borders, collage, inset portrait, text overlay, logos or watermarks. Keep every person's face and all key objects inside the central 80% of the frame so a small crop cannot cut them off. Natural varied camera positions, not generic posed stock. Scene: 

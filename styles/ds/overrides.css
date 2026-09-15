@@ -159,3 +159,14 @@ section.said { margin-top: 0; }
 .wrap .band .dl-prose h2 { font-size: var(--dl-card-title);
   margin-top: 1.9em;
   color: var(--s-heading); }
+
+/* 8 · Typefaces come from next/font now (app/layout.tsx), which serves them
+   from /_next/static under generated family names exposed as --font-lora and
+   --font-work-sans on <html>. tokens/typography.css still names "Lora" and
+   "Work Sans" literally — that file is re-syncable and is not edited — so the
+   two variables it defines are re-pointed here, later in the cascade at the
+   same :root weight. The fallbacks are unchanged. */
+:root {
+  --dl-disp: var(--font-lora), Georgia, serif;
+  --dl-sans: var(--font-work-sans), system-ui, sans-serif;
+}
