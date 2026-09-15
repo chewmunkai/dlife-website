@@ -1,4 +1,4 @@
-import type { Photo } from "../components/blocks/E2";
+import type { Photo } from "../components/v2/blocks";
 import type { IconKey } from "../components/v2/icons";
 
 /* ============================================================

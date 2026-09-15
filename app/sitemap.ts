@@ -11,7 +11,7 @@ import { abs } from "../lib/seo";
  * Fixed lastModified, not `new Date()`: a date that changes every deploy cries
  * wolf to crawlers. Bump it when pages change materially.
  */
-const LASTMOD = "2026-08-14";
+const LASTMOD = "2026-09-15";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return ALL_ROUTES.filter((r) => !r.utility && !r.hidden).map((r) => ({

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 /* ============================================================
    .ask — the question ledger.
@@ -47,15 +47,18 @@ const Row = ({ item, index, initiallyOpen }: { item: Question; index: number; in
   }, [open]);
 
   const ordinal = String(index + 1).padStart(2, "0");
+  // aria-expanded says the row is open; aria-controls says what it opened.
+  // Without the second, a screen reader announces a toggle with no target.
+  const panelId = useId();
 
   return (
     <div className={open ? "ask__row is-open" : "ask__row"}>
-      <button className="ask__q" type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+      <button className="ask__q" type="button" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen((v) => !v)}>
         <i>{ordinal}</i>
         <span>{item.q}</span>
         <em aria-hidden="true" />
       </button>
-      <div className="ask__a" ref={panel} style={{ transition: "height .45s cubic-bezier(.22,.7,.24,1)" }}>
+      <div className="ask__a" id={panelId} ref={panel} style={{ transition: "height .45s cubic-bezier(.22,.7,.24,1)" }}>
         <div ref={inner}>
           {/* Client answers now arrive as more than one paragraph (C07–C10,
               31 Aug 2026). A blank line in `a` is a paragraph break; a

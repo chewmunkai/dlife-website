@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Bar, Band, Ideas, Said, ClosingCard } from "../../components/v2/blocks";
+import { Hero, Bar, Band, Ideas, ClosingCard } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";

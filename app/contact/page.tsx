@@ -4,7 +4,7 @@ import Lead from "../../components/v2/Lead";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { CONTACT, HOURS, WA, WA_DISPLAY, WA_NUMBER, telE164, telHref, waHref } from "../../lib/contact";
+import { CONTACT, HOURS, WA, WA_DISPLAY, telE164, telHref, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.contact);

@@ -88,7 +88,10 @@ export default function LegalPage({ slug }: { slug: keyof typeof LEGAL }) {
         <div className="dl-prose" style={{ marginTop: "clamp(26px,3.6vh,42px)" }}>
           {c.sections.map((s) => (
             <Fragment key={s.heading}>
-              <h3>{s.heading}</h3>
+              {/* h2, not h3: these are the page's top-level sections and the
+                  audit found every legal page jumping h1 -> h3. The visual
+                  size is held by a `.dl-prose h2` alias in overrides.css. */}
+              <h2>{s.heading}</h2>
               {s.paras.map((p, i) =>
                 isOnlyMarker(p) ? (
                   <div className="dl-notice" key={i}>

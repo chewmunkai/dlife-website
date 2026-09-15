@@ -144,3 +144,18 @@ section.said { margin-top: 0; }
      ordinal, and 14px was enough to tip "02" onto a line of its own. */
   .dl-menu .big a i { margin-left: 10px; }
 }
+
+/* 7 · Legal pages: section headings are h2, styled as the design's h3.
+   The four legal drafts ran h1 -> h3 with no h2 between, which the audit
+   flagged as a heading-level skip. LegalPage now emits h2 for those
+   sections; this alias keeps them at the size the design gave the h3, so the
+   fix is structural and invisible. Body copied from css/blocks.css
+   `.dl-prose h3`, which is re-syncable and must not be edited.
+
+   Specificity is load-bearing: amendments.css sets
+   `.wrap :is(.band, …) h2` at (0,2,1) and loads after this file, so a plain
+   `.dl-prose h2` at (0,1,1) lost and the headings rendered at the band size —
+   twice what they were. (0,3,1) wins on weight alone, whatever the order. */
+.wrap .band .dl-prose h2 { font-size: var(--dl-card-title);
+  margin-top: 1.9em;
+  color: var(--s-heading); }

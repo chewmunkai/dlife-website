@@ -344,8 +344,11 @@ export default function Page() {
           removed — heading, lede, portrait placeholders and name placeholders
           together, not just the unfilled cards. The two onward routes that sat
           under it are not part of the directory and neither leads to it, so
-          they stay, now carried by a plain band. The roster seam itself
-          survives in content/team.ts if a real, named team is ever supplied. */}
+          they stay, now carried by a plain band. The roster seam that used to
+          wait in content/team.ts was removed in the September 2026 audit — it
+          was never imported. If a real, named team is ever supplied, build the
+          roster then; the rule that no stock photograph may stand in for a
+          named colleague still applies. */}
       {/* Round 16, client: "reference the design of our card, with an image
           background overlay." These were the text-only card — a rule, a
           heading, a line and a link — at the foot of a page carrying the

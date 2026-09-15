@@ -29,8 +29,13 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // suppressHydrationWarning: the inline script below adds class="js" to
+  // <html> before React hydrates, so the client tree carries an attribute the
+  // server never rendered. That is the point of the script, not a mismatch to
+  // fix — but React 18 logs it on every page in development. The flag
+  // silences that one element and nothing below it.
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         {/* Runs before paint: the stylesheet only pre-hides the loader/reveal
             content when JS is actually there to reveal it again. */}
