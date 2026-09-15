@@ -60,10 +60,6 @@ const PHOTOS = {
      rather than on it. Both crops were checked at 712x751 desktop and
      375x463 mobile — every face survives at 50% 42%, which is why that is the
      object-position set in styles/pages.css. */
-  hero: {
-    src: asset("/media/img/hero.jpg"),
-    alt: "A family sharing a meal around their kitchen table",
-  },
   teamHero: {
     src: asset("/media/img/hero-team.jpg"),
     alt: "The D’Life team together",
@@ -107,8 +103,10 @@ const PHOTOS = {
   y3: { src: asset("/media/img/youth-resources.jpg"), alt: "Hands raised during a workshop session" },
 } satisfies Record<string, Photo>;
 
-/** L09: the one place the homepage hero photograph is chosen. `PHOTOS.hero`
- *  is the stock family it replaced, kept so reverting is one word. */
+/** L09: the one place the homepage hero photograph is chosen. It used to name
+ *  a second entry, `PHOTOS.hero` — the stock family this replaced — kept so
+ *  reverting was one word. The client rejected that photograph on 15 Sep 2026
+ *  and hero.jpg is gone from the repo, so the alternative went with it. */
 const HERO_PHOTO = PHOTOS.teamHero;
 
 /**

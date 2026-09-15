@@ -59,14 +59,10 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
     },
     moments: {
       3: { src: "/media/img/inc-savings.jpg", alt: "Coins saved in a glass jar" },
-      /* ⚠️ INTERIM. Card 05's own photograph moved to the hero above, so this
-         slot is back on the design's original choice — a contemplative outdoor
-         portrait, which at least reads for "too late to start, or too early to
-         bother". A purpose-made replacement is briefed in
-         docs/dlife-photo-prompts-2026-09-15.md; swap it in when it arrives and
-         delete path-career-wide.jpg again. Without this the hero and card 05
-         would be the same picture twice on one page. */
-      5: { src: "/media/img/path-career-wide.jpg", alt: "A woman outdoors, thinking something over" },
+      /* Card 05's own photograph became this page's hero, so the slot got a
+         picture of its own rather than a second copy. Deliberately a single
+         subject, to sit against the hero's two-people-at-a-table. */
+      5: { src: "/media/img/future-05-start.jpg", alt: "A woman at a window at home, thinking something over" },
     },
   },
   "wealth-legacy": {

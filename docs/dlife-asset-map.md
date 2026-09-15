@@ -62,6 +62,51 @@ backdrop and lower body only.
 > founders' portraits needs the client's answer. The alternative is a
 > re-shoot, not a retouch.
 
+## Replacement photography, 15 Sep 2026
+
+Four generated scenes, all Chinese Malaysian subjects at the client's
+direction. Prompts: `docs/dlife-photo-prompts-2026-09-15.md`. Installed as
+JPEG q82 progressive, 7 MB of PNG down to 661 KB. Fictional people.
+
+| File | Where | Frame | Crop, measured and masked |
+|---|---|---|---|
+| `family-01-newborn.jpg` | Protecting your family → card 01 | 16:10 | 6.3% off the height; both parents and the baby whole |
+| `legacy-02-fairness.jpg` | Wealth & Legacy → card 02 | 16:10 | 6.3% off the height; all three whole |
+| `future-05-start.jpg` | Planning → card 05 | 16:10 | 6.3% off the height; single subject whole |
+| `closing-next-step.jpg` | The next-step band, all ten pages | see below | — |
+
+### `hero.jpg` is retired
+
+The dated stock shot of a family at a glass dining table. The client marked it
+on 15 Sep. It rendered in exactly two places — the two cards above — and was
+**not** the homepage hero, which is `hero-team.jpg`. Removed with it: the
+unused `PHOTOS.hero` alternative in `components/DLife.tsx`, and six
+`closing.photo` records in `content/solutions-e2.ts` that named it on a field
+no route had read since the E2 base template was deleted. The file is gone.
+
+### The next-step band's phone crop is fixed, by composition
+
+That card's frame is its own copy box: **3.14 at 1440, 0.54 — portrait — at
+375**, where it keeps only the right 36% of the picture's width. The previous
+image spread seven people across the middle and lost three of them there.
+
+The replacement was briefed to put **four people in the right third** with the
+left half left as room. Masked at 375 with `object-position: 100% 50%`: **all
+four survive.** X=78% was tested and rejected — it bisects the son. The band
+still discards 63.8% of the width on a phone; it now discards furniture
+instead of people.
+
+This is worth remembering as the pattern: the frame could not be fixed in CSS
+without redesigning ten cards, so the picture was composed around it instead.
+
+### Contrast, re-measured
+
+Type sits over the left 42% under a scrim running `rgba(11,33,29)` 0.95 →
+0.86 there. Composited against the new picture's own pixels: **14.1:1 on the
+mean, 13.7:1 against the 95th-percentile brightest pixel**, against AA's
+4.5:1. The outgoing image measured 14.7 / 13.8, so the lamplit left wall cost
+nothing.
+
 ## The next-step band (T06, 14 Sep 2026)
 
 `closing-next-step.jpg` (1536x1024, generated, fictional people) is the ground
