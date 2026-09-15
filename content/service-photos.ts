@@ -42,10 +42,31 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
     },
   },
   "planning-for-your-future": {
-    hero: { ...meal, ratio: "1080 / 842" },
+    /* Client, 15 Sep 2026: "replace the hero image with Section 05". Card 05
+       carried `starting-a-plan` — two people of different generations at the
+       same table, doing the same thing — and the client wants that at the top
+       of the page instead of the shared-meal group shot, which is also the
+       photograph they turned down on Contact.
+
+       Built here rather than spread from `generated()` so the hero does not
+       inherit its `position: "50% 0%"`: this frame crops on the WIDTH
+       (1.283 against the file's 1.5), so a top-pinned Y does nothing and a
+       centred crop keeps both subjects whole. */
+    hero: {
+      src: "/media/img/services/generated/starting-a-plan.jpg",
+      alt: "A young man and an older woman starting a plan together at a kitchen table",
+      ratio: "1080 / 842",
+    },
     moments: {
       3: { src: "/media/img/inc-savings.jpg", alt: "Coins saved in a glass jar" },
-      5: generated("starting-a-plan", "An older woman and her adult son starting a financial plan together"),
+      /* ⚠️ INTERIM. Card 05's own photograph moved to the hero above, so this
+         slot is back on the design's original choice — a contemplative outdoor
+         portrait, which at least reads for "too late to start, or too early to
+         bother". A purpose-made replacement is briefed in
+         docs/dlife-photo-prompts-2026-09-15.md; swap it in when it arrives and
+         delete path-career-wide.jpg again. Without this the hero and card 05
+         would be the same picture twice on one page. */
+      5: { src: "/media/img/path-career-wide.jpg", alt: "A woman outdoors, thinking something over" },
     },
   },
   "wealth-legacy": {
