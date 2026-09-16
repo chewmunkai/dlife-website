@@ -107,6 +107,50 @@ mean, 13.7:1 against the 95th-percentile brightest pixel**, against AA's
 4.5:1. The outgoing image measured 14.7 / 13.8, so the lamplit left wall cost
 nothing.
 
+## Ethnicity replacement, 16 Sep 2026
+
+Thirteen generated scenes, all Chinese Malaysian subjects, replacing the images
+flagged in `docs/dlife-ethnicity-audit-2026-09-15.md`; the prompts are in that
+file. Installed as JPEG q82 progressive, 4:4:4 — **28.0 MB of PNG down to
+3.0 MB**. Fictional people, resembling no real individual.
+
+Twelve old files were retired in the same commit. `services/generated/policy-review.jpg`
+keeps its name: its two slots (Family 05, Medical 01) share one `Photo` record,
+and the top-level `policy-review.jpg` on Existing Policy Support is a different
+file that was never flagged.
+
+| File | Replaced | Where | Worst crop, measured and masked |
+|---|---|---|---|
+| `need-health-card.jpg` | `need-health-malaysia.jpg` | Homepage, Solutions hub, Medical hero, Wealth 01 — **4 pages** | 35.4% off the width (Medical hero, 640x660 @1280); all three women whole |
+| `need-family-card.jpg` | `need-family-malaysia.jpg` | Homepage, Solutions hub, Planning 02 — **3 pages** | 12.8% width @375, 8.5% height @1440; all five whole |
+| `need-legacy-card.jpg` | `need-legacy-malaysia.jpg` | Homepage, Solutions hub, Wealth hero — **3 pages** | 35.4% off the width (Wealth hero, 640x660 @1280); all four whole |
+| `need-community-card.jpg` | `need-family.jpg` | Solutions hub | 0% — the 395x263 frame is 1.502 against the file's 1.5 |
+| `family-02-mortgage.jpg` | `fam-newhome.jpg` | Protecting your family 02 | 6.3% off the height, centred; both whole |
+| `income-01-repayments.jpg` | `inc-bills.jpg` | Protecting your income 01 | 6.3% off the height, centred; single subject whole |
+| `generated/policy-review.jpg` | itself | Family 05 + Medical 01 | 6.3% off the bottom; both women whole |
+| `generated/family-03-sandwich.jpg` | `family-generations.jpg` | Protecting your family 03 | 6.3% off the bottom; all three whole |
+| `generated/family-04-bereaved-friend.jpg` | `family-support.jpg` | Protecting your family 04 | 6.3% off the bottom; both men whole |
+| `generated/medical-02-excess.jpg` | `medical-costs.jpg` | Medical 02 | 6.3% off the bottom; single subject whole |
+| `generated/legacy-03-business.jpg` | `legacy-business-v2.jpg` | Wealth & Legacy 03 | 6.3% off the bottom; all three whole |
+| `generated/legacy-04-dependant.jpg` | `legacy-support-v2.jpg` | Wealth & Legacy 04 | 6.3% off the bottom; all three whole, wheelchair fully in frame |
+| `generated/legacy-05-records.jpg` | `legacy-records-v2.jpg` | Wealth & Legacy 05 | 6.3% off the bottom; all three whole |
+
+Swept at 375, 1280 and 1440 across all seven pages that carry them. **1280 is
+the worst viewport, not 375** — the solution hero is 640x660 there (0.97 against
+the file's 1.5), tighter than 375 (375x340, 26.5%) or 1440 (720x660, 27.3%).
+Not one of the thirteen loses a person at any width.
+
+### The homepage cards must be measured at rest, not at scale(1.16)
+
+`lib/dlife.ts:210` tweens every `.ph img` **from** `scale: 1.16` **to** `scale: 1`
+on scroll-in. rAF is throttled in this verification harness, so the images sit
+frozen at the *from* state and `getBoundingClientRect()` reports 434x371 inside
+a 374x320 `.ph` — a 32.9% width crop that no visitor ever sees at rest. The
+resting crop is 22.1%. Both were masked and both pass, so the conclusion did
+not move; but anyone re-measuring here should read the transform before
+trusting the rectangle. Same class of trap as the lazy-loading `naturalWidth`
+0 noted under the founder portraits.
+
 ## The next-step band (T06, 14 Sep 2026)
 
 `closing-next-step.jpg` (1536x1024, generated, fictional people) is the ground

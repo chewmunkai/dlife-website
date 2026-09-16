@@ -363,7 +363,18 @@ argument for leaving the team photography exactly as it is.
 
 ---
 
-## What happens when the 13 arrive
+## Installed, 16 Sep 2026
+
+All thirteen arrived and are in. Every frame measured at 375, 1280 and 1440
+across the seven pages that carry them, every crop masked and looked at:
+**no photograph loses a person at any width.** Twelve old files retired.
+28.0 MB of PNG in, 3.0 MB of JPEG out. Provenance per file, with the measured
+crops, is in `docs/dlife-asset-map.md`.
+
+The nineteen real D'Life photographs below are untouched, and the question
+under them is still open.
+
+## What happened when the 13 arrived
 
 Same as every batch: installed as JPEG q82 progressive, every frame measured
 at 375, 1280 and 1440, every crop masked and looked at before it ships, and a

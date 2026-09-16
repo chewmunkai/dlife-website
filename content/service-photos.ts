@@ -14,7 +14,7 @@ const meal = drive("shared-meal", "Nine people gathered around a dining table");
 const generated = (name: string, alt: string): Photo => ({
   src: `/media/img/services/generated/${name}.jpg`, alt, position: "50% 0%",
 });
-const policyReview = generated("policy-review", "A woman and advisor comparing policy documents at a desk");
+const policyReview = generated("policy-review", "A client and an advisor going through a benefits schedule together");
 
 // Generated scenes fill subjects absent from the client Drive collection.
 // They depict fictional people, not D’Life clients or team members.
@@ -22,8 +22,8 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
   "protecting-your-family": {
     hero: { ...meal, ratio: "1080 / 842" },
     moments: {
-      3: generated("family-generations", "Grandparents, parents and children spending time together at home"),
-      4: generated("family-support", "A friend offering reassurance during a quiet conversation at home"),
+      3: generated("family-03-sandwich", "A woman passing her father a cup while her daughter shows her a drawing"),
+      4: generated("family-04-bereaved-friend", "A man bringing food to a friend in a stacked tiffin carrier"),
       5: policyReview,
     },
   },
@@ -35,7 +35,7 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
   "medical-health-preparation": {
     moments: {
       1: policyReview,
-      2: generated("medical-costs", "A man calculating medical expenses with a receipt and calculator"),
+      2: generated("medical-02-excess", "A man working out a hospital bill with a calculator at his dining table"),
       3: generated("hospital-access", "A visitor speaking with a receptionist at a hospital"),
       4: generated("employment-cover", "A departing employee reviewing benefits paperwork with a colleague"),
       5: generated("medical-history", "A woman discussing her medical history with a doctor"),
@@ -67,9 +67,9 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
   },
   "wealth-legacy": {
     moments: {
-      3: generated("legacy-business-v2", "A mother and son discussing their family business with an advisor"),
-      4: generated("legacy-support-v2", "An adult wheelchair user planning long-term support with a parent and advisor"),
-      5: generated("legacy-records-v2", "Parents showing their adult daughter where important family records are stored"),
+      3: generated("legacy-03-business", "A mother and son discussing their furniture workshop with an advisor"),
+      4: generated("legacy-04-dependant", "An adult wheelchair user planning long-term support with her parent and an advisor"),
+      5: generated("legacy-05-records", "A daughter taking a document folder from the shelf as her father shows her where it is kept"),
     },
   },
 };

@@ -60,7 +60,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Protecting your family",
     lede:
       "Most of us have one quiet question: If I were no longer here, would the people I love be taken care of? It’s a question worth planning for.",
-    photo: { src: "/media/img/need-family-malaysia.jpg", alt: "Three generations of a family sharing a meal" },
+    photo: { src: "/media/img/need-family-card.jpg", alt: "Three generations of a family sharing a meal" },
     recognise: {
       title: "What usually prompts this",
       intro:
@@ -245,7 +245,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Medical & health preparation",
     lede:
       "Treatment in Malaysia can be excellent and it can be expensive. Preparation is mostly about understanding which costs land on you, and when.",
-    photo: { src: "/media/img/need-health-malaysia.jpg", alt: "Two family members in consultation with an advisor" },
+    photo: { src: "/media/img/need-health-card.jpg", alt: "Two family members in consultation with a doctor" },
     recognise: {
       title: "What people usually want to know",
       intro:
@@ -340,7 +340,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Planning for your future",
     lede:
       "Retirement planning is less about a number than about a series of decisions you could explain, in your own words, to your own family.",
-    photo: { src: "/media/img/need-family.jpg", alt: "People sitting together at an outdoor table" },
+    photo: { src: "/media/img/need-community-card.jpg", alt: "People sitting together at an outdoor table" },
     recognise: {
       title: "Where people usually start",
       intro:
@@ -430,7 +430,7 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
     h1: "Wealth & legacy",
     lede:
       "Growing what you have built is one job. Passing it on the way you intended is a different one, and it is the one more often left unfinished.",
-    photo: { src: "/media/img/need-legacy-malaysia.jpg", alt: "A family looking through documents and photographs together" },
+    photo: { src: "/media/img/need-legacy-card.jpg", alt: "A family looking through documents and photographs together" },
     recognise: {
       title: "The questions behind this one",
       intro:

@@ -126,8 +126,8 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
          each now has a purpose-made photograph written to its own caption
          rather than one picture serving two different questions. */
       { src: "/media/img/family-01-newborn.jpg", alt: "A couple at home with their newborn" },
-      { src: "/media/img/fam-newhome.jpg", alt: "A couple carrying boxes into a new home" },
-      { src: "/media/img/need-legacy-malaysia.jpg", alt: "A family looking through documents and photographs together" },
+      { src: "/media/img/family-02-mortgage.jpg", alt: "A couple unpacking in the empty apartment they have just taken on" },
+      { src: "/media/img/need-legacy-card.jpg", alt: "A family looking through documents and photographs together" },
       { src: "/media/img/policy-review-wide.jpg", alt: "One person explaining something to another" },
       { src: "/media/img/path-review.jpg", alt: "A man reading through paperwork at a desk", position: "50% 58%" },
     ],
@@ -151,7 +151,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     duo: { src: "/media/img/path-review.jpg", alt: "", caption: "Fixed costs first. The salary figure comes later." },
     split: { photo: { src: "/media/img/close-conversation.jpg", alt: "" }, label: "One question worth sitting with", title: "5 things worth working out first", flip: false },
     moments: [
-      { src: "/media/img/inc-bills.jpg", alt: "A man reading a letter at his kitchen table" },
+      { src: "/media/img/income-01-repayments.jpg", alt: "A man reading a letter at his kitchen table" },
       { src: "/media/img/inc-savings.jpg", alt: "Coins in a glass jar" },
       { src: "/media/img/inc-askhelp.jpg", alt: "A family talking over a meal at home" },
       { src: "/media/img/inc-priorities.jpg", alt: "A hand writing a list in a notebook" },
@@ -178,7 +178,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     split: { photo: { src: "/media/img/path-review.jpg", alt: "" }, label: "What people usually want to know", title: "The questions that come up every time", flip: false },
     moments: [
       { src: "/media/img/path-future.jpg", alt: "Someone writing in a notebook at a desk", position: "50% 55%" },
-      { src: "/media/img/need-health-malaysia.jpg", alt: "Someone working through figures alone at a laptop" },
+      { src: "/media/img/need-health-card.jpg", alt: "Two family members in consultation with a doctor" },
       { src: "/media/img/need-legacy-wide.jpg", alt: "The reception area of a building" },
       { src: "/media/img/path-career-wide.jpg", alt: "A woman outdoors, thinking something over" },
       { src: "/media/img/need-health.jpg", alt: "A man drinking water after exercise", position: "50% 20%" },
@@ -204,7 +204,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     split: { photo: { src: "/media/img/need-income.jpg", alt: "" }, label: "Where people usually start", title: "The worries underneath the feeling", flip: false },
     moments: [
       { src: "/media/img/fut-epf.jpg", alt: "A woman working through documents at a desk" },
-      { src: "/media/img/need-family-malaysia.jpg", alt: "Three generations of a family sharing a meal" },
+      { src: "/media/img/need-family-card.jpg", alt: "Three generations of a family sharing a meal" },
       { src: "/media/img/need-planning-wide.jpg", alt: "A woman in the kitchen of a home" },
       { src: "/media/img/fut-education.jpg", alt: "A student studying in a library" },
       { src: "/media/img/path-career-wide.jpg", alt: "A woman outdoors, thinking something over" },
@@ -229,7 +229,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
     duo: { src: "/media/img/path-family.jpg", alt: "", caption: "Nominations kept current resolve more difficulty than anything else on this page." },
     split: { photo: { src: "/media/img/policy-review.jpg", alt: "" }, label: "The questions behind this one", title: "What people are actually asking", flip: false },
     moments: [
-      { src: "/media/img/need-health-malaysia.jpg", alt: "Two family members in consultation with an advisor" },
+      { src: "/media/img/need-health-card.jpg", alt: "Two family members in consultation with a doctor" },
       /* See the note on Protecting-your-family card 01: this is the other
          placement hero.jpg had. The caption is "how to be fair between
          children in different circumstances", so the picture is a parent with

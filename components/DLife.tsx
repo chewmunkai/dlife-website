@@ -70,21 +70,21 @@ const PHOTOS = {
   p4: { src: asset("/media/img/path-career.jpg"), alt: "Looking out over the trees, weighing what’s next" },
   p5: { src: asset("/media/img/community-gathering.jpg"), alt: "D’Life colleagues sharing a meal around a table" },
   n1: {
-    src: asset("/media/img/need-family-malaysia.jpg"),
-    alt: "A multigenerational Malaysian family sharing a meal at home",
+    src: asset("/media/img/need-family-card.jpg"),
+    alt: "Three generations of a family talking around the table after a meal",
   },
   n2: {
     src: asset("/media/img/need-income-malaysia.jpg"),
     alt: "A Malaysian couple planning together in their home office",
   },
   n3: {
-    src: asset("/media/img/need-health-malaysia.jpg"),
-    alt: "A Malaysian family discussing preventive health with a doctor",
+    src: asset("/media/img/need-health-card.jpg"),
+    alt: "Two family members in consultation with a doctor at a clinic",
   },
   n4: { src: asset("/media/img/need-planning.jpg"), alt: "Planning at a laptop at the kitchen table" },
   n5: {
-    src: asset("/media/img/need-legacy-malaysia.jpg"),
-    alt: "A Malaysian family sharing memories in a heritage home",
+    src: asset("/media/img/need-legacy-card.jpg"),
+    alt: "A family looking through old photographs and documents together",
   },
   policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
   close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
