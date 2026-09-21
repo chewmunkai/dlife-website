@@ -42,15 +42,24 @@ export type Video = {
 };
 
 /* ============================================================
-   ⏳ AWAITING A FOURTH FILM (client, round 17)
+   ⏳ AWAITING REPLACEMENT FILMS (client, round 17; revised 21 Sep 2026)
 
-   The client asked for one more video and supplied an Instagram permalink for
-   it. That link is not something this repository can consume: Instagram does
-   not serve a downloadable file, and pulling media off a third-party page is
-   not a thing to do on the client's behalf without them handing the file over.
-   The homepage reel is sized for four either way — see the note on
-   `#stories .reel .story` in styles/dlife.css — so the layout is waiting, not
-   blocked.
+   ⚠️ 21 Sep 2026: "What Real Guidance Looks Like" was REMOVED. The advisor
+   in it, May Yee, has resigned, and the client asked for her to be excluded
+   from all material. Her .mp4 and poster were deleted from the repository in
+   the same commit. That film was the library's only client-guidance story,
+   so the subject is now unrepresented — a replacement needs SHOOTING, not
+   sourcing, and nothing here can generate it.
+
+   THE LIBRARY IS DOWN TO TWO FILMS. `--reel-n` is set from VIDEOS.length so
+   the row re-divides itself and nothing breaks, but a two-film reel is a thin
+   showing for a section titled "stories".
+
+   The client also asked for one more video earlier and supplied an Instagram
+   permalink for it. That link is not something this repository can consume:
+   Instagram does not serve a downloadable file, and pulling media off a
+   third-party page is not a thing to do on the client's behalf without them
+   handing the file over.
 
    TO ADD IT, three steps and no code changes beyond this array:
 
@@ -73,16 +82,6 @@ export const VIDEOS: Video[] = [
     category: "Advisor stories",
     next: "careers",
     blurb: "What the work looks like when the job is guidance rather than sales.",
-  },
-  {
-    src: asset("/media/video/advisor-mayyee.mp4"),
-    poster: asset("/media/poster/advisor-mayyee.jpg"),
-    focus: "50% 54%",
-    title: "What Real Guidance Looks Like",
-    runtime: "1 min 30",
-    category: "Client guidance",
-    next: "solutions",
-    blurb: "How a first conversation actually goes, and what it does not involve.",
   },
   {
     src: asset("/media/video/dva-workshop.mp4"),
