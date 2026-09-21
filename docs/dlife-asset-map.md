@@ -198,6 +198,70 @@ that duplicate pair is resolved). `inc-askhelp`, `inc-priorities` and `fut-epf`
 are no longer rendered but stay on disk as the un-overridden fallbacks in
 `content/solutions-e2.ts`.
 
+## Hero standardisation, 21 Sep 2026
+
+Client: the headline box should be consistent across pages, the hero images
+all the same size, and the lede spaced by meaning rather than by wherever the
+measure runs out.
+
+**Before**, the art column was 720 wide on every page but its height ran
+**408, 450, 480, 540, 561 and 660** — six shapes across thirteen heroes. The
+660s came from `height: min(80vh,660px)` in `ds/pages.css`; the rest from
+per-page `Photo.ratio` pins, which §28d lets win so a group photograph keeps
+its own shape.
+
+**After**: one rule in `styles/ds/overrides.css` sets every hero to **4:3**,
+and the per-page pins are gone. 4:3 is the ratio that serves the never-crop
+rule best — the hero group shots on Careers, Solutions, Stories and Youth are
+themselves 4:3, so they crop by **zero**. It is also gentler than what it
+replaced: the four 660px heroes were a 1.09 frame taking 27% off the width of
+a 3:2 photograph, and Protecting-your-income was losing **45%**. Those are now
+11% and 33%.
+
+| Hero | crop at 4:3 | masked |
+|---|---|---|
+| Careers, Solutions, Stories, Youth | **0%** | n/a |
+| Protecting-your-family | 3.8% off the height | everyone whole |
+| Contact, Existing Policy, Medical, Wealth | 11.1% off the width | everyone whole |
+| Planning | 16.6% off the width | both whole |
+| About (each founder portrait in its half) | 16.7% off the width | both whole |
+| Protecting-your-income | 33.3% off the width | both whole |
+| **Resources** | 24.5% off the width | **FAILS — see below** |
+
+### Resources is the one exception, and it is a principled one
+
+`dva-award-night.jpg` is 1.766 and the group spans nearly the full width. At
+4:3 it loses people off **both** edges, so no `object-position` can rescue it —
+the loss is symmetrical. The client's standing rule is explicit: *"NEVER crop
+out someone … or DON'T use it."* So this hero keeps `ratio: "2048 / 1160"` and
+renders 408px tall while the others are 540px.
+
+If a uniform row of heroes matters more, the fix is **a different photograph
+for that page**, not a tighter crop of this one. Worth asking the client.
+
+### The lede now breaks by meaning
+
+`clauseLines()` in `components/v2/blocks.tsx` splits a hero lede at sentence
+and colon boundaries, one clause per line. Protecting-your-family went from
+
+> Most of us have one quiet question: If I / were no longer here, would the
+> people I / love be taken care of? It's a question worth / planning for.
+
+to three clean lines. A clause longer than the measure still wraps inside
+itself, so a phone shows 1 / 2 / 1 lines rather than overflowing. The split
+only fires where the next clause opens with a capital, digit or quote, which
+keeps "Dr. Tan" and decimals intact. **Hero only** — section ledes run longer
+at a wider measure, where one-clause-per-line reads as a list, not prose.
+
+### The headline box
+
+Width was already consistent at 648. Height ran 429–605 and Contact's 429px
+panel read as stunted beside a 540px picture. `.hero .card` now takes a
+`min-height: 37.5vw` floor — the art column is half the viewport at 4:3, so
+37.5vw *is* its height — and centres its content when the copy is short. Cards
+now run 540–660: the floor is absolute, and anything above it is copy length
+deciding, not a fixed height clipping.
+
 ## The next-step band (T06, 14 Sep 2026)
 
 `closing-next-step.jpg` (1536x1024, generated, fictional people) is the ground

@@ -54,7 +54,6 @@ export default function Page() {
         photo={{
           src: "/media/img/contact-conversation.jpg",
           alt: "Someone explaining what they need while an advisor listens",
-          ratio: "1536 / 1024",
         }}
       />
 

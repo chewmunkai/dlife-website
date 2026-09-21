@@ -20,7 +20,7 @@ const policyReview = generated("policy-review", "A client and an advisor going t
 // They depict fictional people, not D’Life clients or team members.
 const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo> }> = {
   "protecting-your-family": {
-    hero: { ...meal, ratio: "1080 / 842" },
+    hero: { ...meal },
     moments: {
       3: generated("family-03-sandwich", "A woman passing her father a cup while her daughter shows her a drawing"),
       4: generated("family-04-bereaved-friend", "A man bringing food to a friend in a stacked tiffin carrier"),
@@ -57,7 +57,6 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
     hero: {
       src: "/media/img/services/generated/starting-a-plan.jpg",
       alt: "A young man and an older woman starting a plan together at a kitchen table",
-      ratio: "1080 / 842",
     },
     moments: {
       1: generated("future-01-is-epf-enough", "A couple in their fifties reading a retirement statement together"),

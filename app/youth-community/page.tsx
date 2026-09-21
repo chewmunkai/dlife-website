@@ -199,7 +199,7 @@ export default function Page() {
         title="Youth Community"
         lede="A platform to prepare the next generation for life, career, leadership and financial independence, because education on its own is no longer enough."
         /* A15: a real Youth Community session, from the client's library. */
-        photo={{ src: "/media/img/youth-session.jpg", alt: "Members of the D’Life Youth Community at a session", ratio: "4 / 3" }}
+        photo={{ src: "/media/img/youth-session.jpg", alt: "Members of the D’Life Youth Community at a session" }}
         actions={
           <a className="pill" href={join}>
             <span>Ask about joining</span>

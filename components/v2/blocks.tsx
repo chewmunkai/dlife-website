@@ -89,6 +89,28 @@ export function Crumbs({ route }: { route: Route }) {
   );
 }
 
+/* A lede is prose, so the browser breaks it wherever the measure runs out —
+   mid-clause. On Protecting-your-family that produced "Most of us have one
+   quiet question: If I" on line one, which reads as a stumble rather than a
+   sentence. Client, 21 Sep 2026: space it by meaning.
+
+   Each sentence, and each colon-clause, gets its own line. A clause longer
+   than the measure still wraps inside itself, so nothing overflows on a
+   phone. The split only fires where the next clause opens with a capital, a
+   digit or a quote, which keeps "Dr. Tan" and decimal figures intact.
+
+   Hero only, deliberately. The section ledes further down a page run longer
+   and at a wider measure, where one-clause-per-line reads as a list rather
+   than as prose. */
+const clauseLines = (text: string) =>
+  text
+    .split(/(?<=[.?!:])\s+(?=[A-Z0-9\u201C"'])/u)
+    .map((clause, i) => (
+      <span className="dl-clause" key={i}>
+        {clause}
+      </span>
+    ));
+
 /**
  * Page hero: the photograph bleeds off the edge and the copy panel cuts into
  * it. Omit `photo` for the flat variant, which the legal pages use — their
@@ -134,7 +156,7 @@ export function Hero({
         <Crumbs route={route} />
         <p className="lbl">{label}</p>
         <h1>{title}</h1>
-        {lede && <p className="dl-lede">{lede}</p>}
+        {lede && <p className="dl-lede">{typeof lede === "string" ? clauseLines(lede) : lede}</p>}
         {actions && <div className="dl-actions">{actions}</div>}
       </div>
     </section>

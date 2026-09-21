@@ -170,3 +170,46 @@ section.said { margin-top: 0; }
   --dl-disp: var(--font-lora), Georgia, serif;
   --dl-sans: var(--font-work-sans), system-ui, sans-serif;
 }
+
+/* ============================================================
+   Hero consistency (client, 21 Sep 2026)
+   ------------------------------------------------------------
+   "The headline box is consistent across all pages; the hero images are all
+   the same size; space the description lines for readability."
+
+   BEFORE: the art column was 720 wide everywhere but its HEIGHT ran 408, 450,
+   480, 540, 561 and 660 across thirteen heroes — six different shapes. The
+   660s were `height: min(80vh,660px)` from ds/pages.css; the rest came from
+   per-page `Photo.ratio` pins, which §28d lets win so a group photograph keeps
+   its own shape and nobody is cropped out.
+
+   AFTER: one shape, 4:3, set here rather than pinned page by page. It is the
+   ratio that serves the never-crop rule best — the four hero group shots
+   (Careers, Solutions, Stories, Youth) are themselves 4:3, so they crop by
+   ZERO. It is also gentler than what it replaces: the four 660px heroes were
+   a 1.09 frame taking 27% off the width of a 3:2 photograph, and Protecting-
+   your-income was losing 45%. At 4:3 those become 11% and 33%.
+
+   Every hero was masked at this frame before it shipped; see
+   docs/dlife-asset-map.md. The one exception is noted below. */
+.hero .art { aspect-ratio: 4 / 3; height: auto; }
+
+/* The lede breaks by meaning, one sentence or colon-clause per line. */
+.hero .card .dl-lede .dl-clause { display: block; }
+
+/* The headline box now tracks the picture beside it rather than collapsing to
+   whatever its copy happens to need. The art column is half the viewport and
+   4:3, so its height is exactly 37.5vw — the card takes the same floor, and
+   its content centres inside when the copy is short. Contact was 429px against
+   a 540px picture and read as a stunted panel; it is now flush with it. A card
+   whose copy runs longer (About, Existing Policy Support) still grows past the
+   floor, which is content doing the deciding rather than a fixed height
+   clipping it. */
+@media (min-width: 901px) {
+  .hero .card {
+    min-height: 37.5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

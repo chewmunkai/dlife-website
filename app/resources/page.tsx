@@ -100,6 +100,14 @@ export default function Page() {
         photo={{
           src: "/media/img/dva-award-night.jpg",
           alt: "D’Life advisors together at the agency award night",
+          /* 21 Sep 2026: every other hero is 4:3 (see styles/ds/overrides.css).
+             This one keeps its own 1.766 shape and is the single exception.
+             Masked at 4:3 before deciding: the DVA Award Night group loses
+             people off BOTH edges, which the client's standing rule forbids —
+             "NEVER crop out someone ... or DON'T use it." Nothing about
+             object-position helps when the loss is symmetrical. The fix, if
+             the client wants a uniform row of heroes, is a different
+             photograph for this page rather than a tighter crop of this one. */
           ratio: "2048 / 1160",
         }}
       />

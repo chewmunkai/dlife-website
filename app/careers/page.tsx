@@ -153,7 +153,6 @@ export default function Page() {
           alt: "The D’Life team together at an agency away day",
           /* 4:3 is the file's own shape. The hero plate was 0.97 and took 27%
              off the width — the people at both ends of the group. */
-          ratio: "4 / 3",
         }}
         actions={
           <a className="pill" href={career}>

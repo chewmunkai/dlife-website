@@ -149,7 +149,6 @@ export default function Page() {
         photo={{
           src: "/media/img/founder-sharon.jpg",
           alt: "Sharon Cheang, co-founder of D’Life",
-          ratio: "8 / 5",
           fit: "contain",
         }}
         companionPhoto={{

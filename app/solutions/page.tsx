@@ -91,7 +91,6 @@ export default function Page() {
         photo={{
           src: "/media/img/team-welcome.jpg",
           alt: "D’Life advisors together at an agency celebration",
-          ratio: "1024 / 768",
         }}
         actions={
           <a className="pill" href={advisor}>
