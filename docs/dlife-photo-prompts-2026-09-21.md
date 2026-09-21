@@ -360,3 +360,55 @@ Same as every batch. Installed as JPEG q82 progressive, every frame measured at
 provenance row per file in `docs/dlife-asset-map.md`. A1 and A2 land in the two
 tightest frames on the site after the solution heroes, so those two get the
 closest look.
+
+---
+
+## Part C — the duplicate I introduced (1 image)
+
+**Why this exists:** `/solutions` and `/stories` were both rendering
+`team-welcome.jpg`. Commit `57fbf1e`, named *"Split the duplicate
+photograph"*, pointed Stories at a file Solutions had used since `a4c5822` —
+so fixing one duplicate created another, against the client's *"don't use the
+same photo."*
+
+**Client's ruling, 21 Sep 2026:** *"for solutions u can use one stock photo."*
+Stories keeps `team-welcome.jpg` — a real team photograph is the right image
+for a page of real advisors' stories. Solutions takes a generated one.
+
+Because it is stock rather than a team photograph, the client's ethnicity rule
+applies in full: *"Only replace stock photos, for team photos we can include
+even if there's Indians or Malays."*
+
+### C1 · `solutions-household.jpg`
+
+**Protection & Planning → hero** — *"5 areas most households eventually need to
+think about. None of them require a decision today, and you will not be asked
+to make one."*
+Replacing: `team-welcome.jpg`, which Stories keeps.
+Frame is 720×540 (4:3) at 1440. A 1536×1024 file crops **11% off the width**,
+about 6% from each side — the gentlest crop of any hero on the site.
+
+**Deliberately not a table-and-paperwork scene.** Four heroes already use that
+motif (`shared-meal`, `starting-a-plan`, `eps-hero-clarity`,
+`policy-homepage-review`). This page is the overview of all five areas, and its
+lede promises *no decision today* — so no advisor, no document, no transaction.
+The picture should be the household the five areas are about, at rest.
+
+```
+Create one photorealistic editorial photograph, 1536x1024 landscape, for a Malaysian financial advisory website.
+
+LOOK: Warm natural daylight from a window, soft and directional. Muted palette — cream, sand, deep olive-green, warm timber, one small note of terracotta. 35mm lens at f/2, shallow but not blurry, fine natural film grain. Unposed documentary framing: people caught mid-action, nobody looking at the camera. Realistic skin texture, anatomically correct hands.
+
+PEOPLE: A Chinese Malaysian household of three generations — a grandmother in her seventies, a couple in their forties, and two children under twelve.
+
+SCENE: An ordinary early evening in the living room of a Malaysian home. The grandmother is settled in her chair; one child is sprawled on the floor doing something absorbing; the parents are mid-movement, one carrying cups through, the other half-listening from the sofa arm. Nobody is working, deciding or discussing anything. It is the unremarkable hour of a household that is simply intact. No table, no documents, no laptop, no advisor, no meal.
+
+FRAMING: A slightly wider view than a portrait — the room is part of the subject. Every face fully inside the central 85% of the frame; roughly the outer sixteenth of each side will be cropped away. Leave clear headroom.
+
+NEVER: No lettering, numbers, signage, labels, handwriting or watermarks anywhere — including on paper, screens, packaging, walls and clothing. No logos or brand marks of any kind. No insurance or financial branding. No collage, borders, frames, insets or split-screens: one single continuous photograph filling the frame. No studio backdrop. No stock-photo grins, no thumbs-up, no handshake. Fictional people resembling no real individual.
+```
+
+**When it arrives:** save as `solutions-household.jpg` in `~/Downloads`. It
+installs to `public/media/img/solutions-household.jpg` and
+`app/solutions/page.tsx:92` points at it. Nothing else changes — the hero
+already takes its shape from `styles/ds/overrides.css`, so no `ratio` is needed.

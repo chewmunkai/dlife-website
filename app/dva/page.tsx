@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import Ask, { type Question } from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
-import { Band, ClosingCard, Creed, Gate, Holds, OpenStatement, YearMap } from "../../components/v2/blocks";
+import { Band, ClosingCard, Creed, Gate, Hero, Holds, OpenStatement, YearMap } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { asset, link } from "../../lib/asset";
+import { link } from "../../lib/asset";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.dva);
@@ -168,55 +168,59 @@ export default function Page() {
 
   return (
     <Shell>
-      {/* Type-led hero. The photograph is a full-height plate carried off the
-          right edge — no card over the crop. */}
-      <section className="crest dark ink">
-        <div className="fg">
-          <nav className="dl-crumbs" aria-label="Breadcrumb">
-            <ol>
-              <li>
-                <a href={link(ROUTES.home.path)}>Home</a>
-                <em>/</em>
-              </li>
-              <li>
-                <span aria-current="page">Drive Value Associates</span>
-              </li>
-            </ol>
-          </nav>
-          <p className="lbl">Drive Value Associates</p>
-          {/* L10: the comma was doing a line break's job. The break is real —
-              two spans, two lines — so the punctuation was decorative and read
-              as a mistake. Removed. Grammatical commas in prose stay: the lede
-              directly below keeps its own, because it needs it. */}
-          <h1>
-            <span>Built for leaders</span>
-            <span>by invitation.</span>
-          </h1>
-          <div className="r" />
-          <p className="dl-lede">
-            A selective circle of financial advisors, shaped by shared values and experience. Founded by Sharon Cheang.
-          </p>
-          <div className="dl-actions">
-            <a className="pill sand" href={link(ROUTES.contact.path)}>
-              <span>Ask about DVA</span>
-            </a>
-          </div>
-        </div>
-        {/* 16:9, the file's own shape. The plate was 1.26 and took 29% off
-            the width of the room. */}
-        <div className="shot ph" style={{ aspectRatio: "16 / 9" }}>
-          <img
-            /* Reverted at the client's request (6 Sep 2026). dva-forum.jpg is
-               a portrait source (0.75) in a landscape plate, so filling the
-               frame meant cutting the room at both sides — which the client's
-               standing rule on D'Life photography forbids. This file is 1.78
-               against a 1.52 plate: a little off the ends of an empty
-               foreground, and nobody lost. */
-            src={asset("/media/img/dva-team.jpg")}
-            alt="The D’Life advisory team"
-          />
-        </div>
-      </section>
+      {/* 21 Sep 2026, client: "make the dva page same sizes as all the pages
+          (referring to the headline box and image), just change the headline
+          box to green to highlight the section — premium feel."
+
+          This page used to open on `.crest`: type first, no card, the
+          photograph held back and carried off the right edge. The design note
+          at the top of this file argued that difference WAS the register
+          change between something you can buy and something you are asked to
+          join, and said not to harmonise it. The client has overruled that, so
+          DVA now takes the same Hero as every other page — the same 4:3 plate
+          and the same 648px headline box.
+
+          What carries the register instead is the panel. `panel="green"` puts
+          the card on --dl-green against this section's --dl-ink ground, so it
+          reads as a raised green plate where every other page shows a cream
+          one. Tone on tone: the page stays dark and contained, and the box is
+          the thing that lifts.
+
+          The photograph is matted, not cropped. dva-team.jpg is 1.78 with
+          seventeen people spanning nearly the full width — a woman at the
+          extreme left, another at the extreme right — so the 25% a 4:3 cover
+          takes off the width would remove them both. `fit: "contain"` keeps
+          everyone and still fills the standard plate. */}
+      <Hero
+        route={route}
+        tone="ink"
+        panel="green"
+        label="Drive Value Associates"
+        /* L10: the comma was doing a line break's job. The break is real —
+           two spans, two lines — so the punctuation was decorative and read
+           as a mistake. Removed. Grammatical commas in prose stay: the lede
+           directly below keeps its own, because it needs it.
+
+           The spans are why `.hero h1 .dl-line` exists in ds/overrides.css:
+           inline spans would set this as one run and lose the authored break. */
+        title={
+          <>
+            <span className="dl-line">Built for leaders</span>
+            <span className="dl-line">by invitation.</span>
+          </>
+        }
+        lede="A selective circle of financial advisors, shaped by shared values and experience. Founded by Sharon Cheang."
+        photo={{
+          src: "/media/img/dva-team.jpg",
+          alt: "The D’Life advisory team",
+          fit: "contain",
+        }}
+        actions={
+          <a className="pill sand" href={link(ROUTES.contact.path)}>
+            <span>Ask about DVA</span>
+          </a>
+        }
+      />
 
       {/* Round 7: was a lone display-scale line, "It is not a networking
           group." The client asked the section to answer "What is DVA" instead

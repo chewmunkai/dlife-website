@@ -100,15 +100,23 @@ export default function Page() {
         photo={{
           src: "/media/img/dva-award-night.jpg",
           alt: "D’Life advisors together at the agency award night",
-          /* 21 Sep 2026: every other hero is 4:3 (see styles/ds/overrides.css).
-             This one keeps its own 1.766 shape and is the single exception.
-             Masked at 4:3 before deciding: the DVA Award Night group loses
-             people off BOTH edges, which the client's standing rule forbids —
-             "NEVER crop out someone ... or DON'T use it." Nothing about
-             object-position helps when the loss is symmetrical. The fix, if
-             the client wants a uniform row of heroes, is a different
-             photograph for this page rather than a tighter crop of this one. */
-          ratio: "2048 / 1160",
+          /* 21 Sep 2026, client: "articles and event photo hero is not same
+             size — find a way to fix it without cutting ppl off."
+
+             The plate is now 4:3 like every other hero, and the photograph is
+             MATTED inside it rather than cropped to it. Both are true at once,
+             which a crop cannot manage here: this is a 1.766 group shot with a
+             man in a burgundy jacket hard against the left edge and another
+             man against the right, so the 24.5% a 4:3 cover would take removes
+             them both — the symmetrical loss that no object-position can save,
+             and exactly what the client's standing rule forbids: "NEVER crop
+             out someone ... or DON'T use it."
+
+             `fit: "contain"` paints the letterbox in --s-plate, which on a
+             dark section is a translucent deep green, so the bars read as an
+             inset mat rather than a gap. The same treatment carries the DVA
+             team photograph, which is 1.78 and has the same problem. */
+          fit: "contain",
         }}
       />
 

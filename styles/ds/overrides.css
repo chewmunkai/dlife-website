@@ -197,19 +197,87 @@ section.said { margin-top: 0; }
 /* The lede breaks by meaning, one sentence or colon-clause per line. */
 .hero .card .dl-lede .dl-clause { display: block; }
 
-/* The headline box now tracks the picture beside it rather than collapsing to
-   whatever its copy happens to need. The art column is half the viewport and
-   4:3, so its height is exactly 37.5vw — the card takes the same floor, and
-   its content centres inside when the copy is short. Contact was 429px against
-   a 540px picture and read as a stunted panel; it is now flush with it. A card
-   whose copy runs longer (About, Existing Policy Support) still grows past the
-   floor, which is content doing the deciding rather than a fixed height
-   clipping it. */
+/* One row, and both halves fill it — so there is never a strip of section
+   background showing between the headline box and the photograph.
+
+   The grid is `align-items: center`, so a child shorter than the row was
+   centred in it and left a sliver above AND below. That is what the client
+   saw on 21 Sep 2026: nine of the thirteen heroes had one, from 11px on the
+   solution pages to 60px on About and 66px on Articles & Events.
+
+   Stretching BOTH children removes it at every width, with nothing hand-computed:
+
+     · the art still contributes its 4:3 height to the row, so the row can
+       never be shorter than the picture wants — that is exactly the floor the
+       previous `min-height: 37.5vw` was calculating by hand;
+     · a card carrying more copy grows the row, and the art grows with it, so
+       the two stay flush instead of one overhanging the other;
+     · on `hero--noart` there is no art at all, so the row is just the card and
+       this does nothing. The old floor was padding those four legal pages with
+       182px of empty space they had no picture to match.
+
+   The card keeps its flex centring so short copy sits in the middle of the
+   plate rather than at the top of it — that is what fixed Contact. */
 @media (min-width: 901px) {
+  .hero .art,
+  .hero .card { align-self: stretch; }
+
   .hero .card {
-    min-height: 37.5vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+}
+
+/* DVA's headline is authored as two lines — "Built for leaders" / "by
+   invitation." — and the break is meaning, not fit: the comma that used to do
+   that job was removed for exactly this reason (see app/dva/page.tsx). Spans
+   are inline by default, so without this the two set as one run. Scoped to a
+   class rather than `.hero h1 span` so it cannot catch a future headline that
+   wants an inline span for something else. */
+.hero h1 .dl-line { display: block; }
+
+/* ---- The hero card, tightened so it fits the picture ------------------
+   Stretching the two halves (above) closes the gap, but it hands the row to
+   whichever half is taller — and on the long-copy pages that was the CARD.
+   The frame then grew past 4:3 and started cropping: Careers went from a
+   ZERO-crop 4:3 group photograph to nearly 10% off the width, and Existing
+   Policy Support to about 20%. That trades the client's standing rule
+   ("NEVER crop out someone ... or DON'T use it") for the gap, which is a bad
+   trade — the rule is the older and stronger instruction.
+
+   So the card is tightened instead, until the tallest of them fits inside the
+   picture's own 4:3 height. Then the art always wins the row, every hero is
+   720x540 at 1440, the gap is gone, and no photograph is cropped any harder
+   than it was this morning.
+
+   The measurements this is derived from, at 1440 (About was the binding
+   case at 616px, Careers and Existing Policy Support at 598):
+
+     padding     51.8 -> 38.9   saves 25.9   (both sides)
+     crumbs mb   22   -> 8      saves 14
+     label mb    14.4 -> 8      saves  6.4
+     h1 mt       14   -> 6      saves  8
+     actions mt  27   -> 14     saves 13
+     h1 size     70.6 -> 66.2   saves 12.3   (3-line headings only)
+
+   Everything here is spacing except the last line. The headline drops about
+   6% — 4.9vw to 4.6vw — which is the smallest type change that lets About's
+   three-line heading fit; without it the card lands ~9px over and About alone
+   would keep a taller plate. Scoped to >=901px: the stacked mobile hero has
+   no picture beside it to match, so it keeps the original spacing. */
+@media (min-width: 901px) {
+  .hero .card { padding: clamp(26px, 2.7vw, 42px); }
+  .hero .card .dl-crumbs { margin-bottom: 4px; }
+  .hero .card .lbl { margin-bottom: 6px; }
+  .hero .card .dl-actions { margin-top: 10px; }
+  .hero h1 { font-size: clamp(36px, 4.6vw, 68px); margin-top: 2px; }
+
+  /* 36ch -> 38ch. Two characters, and it is what finally lands About on 540.
+     Its lede is the longest on the site, and clause-breaking gives each clause
+     its own line-start, so at 36ch the two clauses set as 3 + 2 = FIVE lines
+     with two of them nearly empty. At 38ch they set as 2 + 1 and the lede goes
+     from 144px to 86px. The measure is still short for a hero standfirst, and
+     no other page's clause count changes. */
+  .hero .card .dl-lede { max-width: 38ch; }
 }
