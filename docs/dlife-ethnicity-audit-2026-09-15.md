@@ -324,6 +324,22 @@ NEVER: No lettering, numbers, signage, labels, handwriting or watermarks anywher
 
 ---
 
+## ✅ SETTLED — client ruling, 21 Sep 2026
+
+**"Only replace stock photos. For team photos we can include even if there's
+Indians or Malays."**
+
+That closes the question below, which had been open since 15 September. The
+nineteen real photographs of the practice stay exactly as they are, including
+every colleague in them. The Chinese-Malaysian direction applies to generated
+and licensed stock only — pictures of nobody in particular — and not to
+photographs of the people who actually work there.
+
+Recording it because it is the right answer and because it should not have to
+be asked twice. The section below is kept as the reasoning that led to it.
+
+---
+
 ## The real photography — flagged, but not a prompt
 
 The other 19 images are the client's own: `hero-team`, `team-gathering`,

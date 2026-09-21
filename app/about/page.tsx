@@ -380,8 +380,8 @@ export default function Page() {
               href: ROUTES.stories.path,
               cta: "Watch the stories",
               photo: {
-                src: "/media/img/team-offsite.jpg",
-                alt: "D’Life advisors relaxed away from the office",
+                src: "/media/img/team-office.jpg",
+                alt: "The D’Life team together at the office",
                 ratio: "4 / 3",
               },
             },

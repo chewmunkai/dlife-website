@@ -73,6 +73,31 @@ export type Video = {
    read off the file; `next` is the route the film should send a viewer to.
    ============================================================ */
 export const VIDEOS: Video[] = [
+  /* PLACEHOLDER SLOT (client, 21 Sep 2026: "you can put a placeholder first for now").
+     Uncomment and fill the three fields when the replacement film for May Yee's
+     "What Real Guidance Looks Like" is shot. Nothing else needs changing —
+     `--reel-n` is read from VIDEOS.length and the reel re-divides itself.
+
+     Measured before deciding to leave the reel at two: the cards are
+     HEIGHT-constrained, not width-constrained (the active card is 822px tall
+     and 430 wide, which is its own 9:16 against the row height), so dropping
+     from three films to two centres the row narrower rather than leaving a
+     hole in it. A visible "coming soon" card would advertise a gap that a
+     visitor does not otherwise see, so the placeholder is kept here in the
+     source rather than put on the page. Say the word to make it visible.
+
+  {
+    src: asset("/media/video/<name>.mp4"),
+    poster: asset("/media/poster/<name>.jpg"),   // a still, exported 760x950
+    focus: "50% 50%",
+    title: "",
+    runtime: "",
+    category: "Client guidance",
+    next: "solutions",
+    blurb: "",
+  },
+  */
+
   {
     src: asset("/media/video/advisor-alex.mp4"),
     poster: asset("/media/poster/advisor-alex.jpg"),
