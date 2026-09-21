@@ -86,7 +86,7 @@ const PHOTOS = {
     src: asset("/media/img/need-legacy-card.jpg"),
     alt: "A family looking through old photographs and documents together",
   },
-  policy: { src: asset("/media/img/policy-review.jpg"), alt: "An advisor talking a client through their coverage" },
+  policy: { src: asset("/media/img/policy-homepage-review.jpg"), alt: "A couple going through a policy they have owned for years with an advisor" },
   close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
   /* Reverted at the client's request (6 Sep 2026), and the measurements say
      why it was the right picture: the panel is 878x504 (1.74) and this file is

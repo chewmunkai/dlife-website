@@ -29,7 +29,9 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
   },
   "protecting-your-income": {
     moments: {
-      5: { src: "/media/img/close-conversation.jpg", alt: "A man speaking with two people across a table" },
+      3: generated("income-03-one-income", "A couple working out whether one salary could hold the household up"),
+      4: generated("income-04-what-comes-first", "A couple sorting household paperwork into what comes first and what can wait"),
+      5: generated("income-05-asking", "A man asking his mother for help, and finding it hard to say"),
     },
   },
   "medical-health-preparation": {
@@ -58,7 +60,11 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
       ratio: "1080 / 842",
     },
     moments: {
-      3: { src: "/media/img/inc-savings.jpg", alt: "Coins saved in a glass jar" },
+      1: generated("future-01-is-epf-enough", "A couple in their fifties reading a retirement statement together"),
+      /* Was inc-savings.jpg, the same glass jar already used on Protecting-your-
+         income card 02 — the client spotted the repeat (21 Sep 2026). Replaced
+         with a scene rather than a second still life. */
+      3: generated("future-03-inflation", "An older woman counting her purse at a market stall"),
       /* Card 05's own photograph became this page's hero, so the slot got a
          picture of its own rather than a second copy. Deliberately a single
          subject, to sit against the hero's two-people-at-a-table. */

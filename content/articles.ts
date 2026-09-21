@@ -59,7 +59,7 @@ export const TEMPLATE_ARTICLE: Article = {
   date: "2026-09-06",
   read: "4 min read",
   template: true,
-  photo: { src: "/media/img/policy-review.jpg", alt: "Reading through a policy document at a desk" },
+  photo: { src: "/media/img/article-policy-schedule.jpg", alt: "Reading through a policy schedule at a desk" },
   body: [
     {
       p: "Every paragraph below says what belongs in its place, at about the length the real thing should run to — so the reading page can be judged on its typography rather than on a wall of filler. The notice above says the rest.",

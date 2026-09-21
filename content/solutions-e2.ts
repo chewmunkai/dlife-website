@@ -174,7 +174,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
         "If the plan you want explained was bought elsewhere, that is fine: Existing Policy Support covers exactly that, with no obligation to change anything.",
       ],
     },
-    duo: { src: "/media/img/policy-review.jpg", alt: "" },
+    duo: { src: "/media/img/policy-homepage-review.jpg", alt: "" },
     split: { photo: { src: "/media/img/path-review.jpg", alt: "" }, label: "What people usually want to know", title: "The questions that come up every time", flip: false },
     moments: [
       { src: "/media/img/path-future.jpg", alt: "Someone writing in a notebook at a desk", position: "50% 55%" },
@@ -227,7 +227,7 @@ export const SOLUTIONS_E2: Record<string, SolutionE2> = {
       ],
     },
     duo: { src: "/media/img/path-family.jpg", alt: "", caption: "Nominations kept current resolve more difficulty than anything else on this page." },
-    split: { photo: { src: "/media/img/policy-review.jpg", alt: "" }, label: "The questions behind this one", title: "What people are actually asking", flip: false },
+    split: { photo: { src: "/media/img/policy-homepage-review.jpg", alt: "" }, label: "The questions behind this one", title: "What people are actually asking", flip: false },
     moments: [
       { src: "/media/img/need-health-card.jpg", alt: "Two family members in consultation with a doctor" },
       /* See the note on Protecting-your-family card 01: this is the other

@@ -275,6 +275,16 @@ NEVER: No lettering, numbers, signage, labels, handwriting or watermarks anywher
 
 ---
 
+## ✅ INSTALLED, 21 Sep 2026
+
+All nine generated, downloaded, installed and verified. Every frame measured at
+375, 1280 and 1440, every crop masked and looked at: **no photograph loses a
+person at any width.** 19.2 MB of PNG in, 1.96 MB of JPEG out. Provenance per
+file in `docs/dlife-asset-map.md`.
+
+May Yee is now gone from the site completely — her film went earlier, and
+`policy-review.jpg`, the still from that film, went with this batch.
+
 ## Re-audit, 21 Sep — four things the list misses
 
 Swept all **49 photographs** the branch renders, by placement count and by

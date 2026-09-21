@@ -52,9 +52,9 @@ export default function Page() {
            folder. A small group around a table, which is what asking someone for
            advice actually looks like, rather than a lineup of the whole practice. */
         photo={{
-          src: "/media/img/team-table.jpg",
-          alt: "D’Life advisors talking around a table",
-          ratio: "1080 / 842",
+          src: "/media/img/contact-conversation.jpg",
+          alt: "Someone explaining what they need while an advisor listens",
+          ratio: "1536 / 1024",
         }}
       />
 

@@ -114,9 +114,9 @@ export default function Page() {
         title="Need clarity on your current coverage?"
         lede="Understand the protection you already have, and review it with greater confidence. Wherever you bought it, and with no obligation to change anything."
         photo={{
-          src: "/media/img/policy-review.jpg",
-          alt: "An advisor talking a client through their coverage",
-          position: "55% 40%",
+          src: "/media/img/eps-hero-clarity.jpg",
+          alt: "A client and an advisor reading the same policy schedule together",
+          position: "50% 45%",
         }}
         actions={
           <a className="pill" href={clarity}>
