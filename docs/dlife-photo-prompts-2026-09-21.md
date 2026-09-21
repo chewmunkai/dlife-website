@@ -275,6 +275,56 @@ NEVER: No lettering, numbers, signage, labels, handwriting or watermarks anywher
 
 ---
 
+## Re-audit, 21 Sep — four things the list misses
+
+Swept all **49 photographs** the branch renders, by placement count and by
+perceptual hash rather than by filename. The nine prompts are all justified and
+nothing on the list is unnecessary. But the list is not complete.
+
+**1. Two photographs are on the site twice under different names.** A 16x16
+average hash finds them at Hamming distance **0** — same picture, same
+dimensions, re-encoded:
+
+| Pair | Renders on | Fixed by our list? |
+|---|---|---|
+| `services/shared-meal.jpg` = `team-table.jpg` | Protecting-your-family **hero** + Contact **hero** | ✅ yes — A4 replaces the Contact copy, which un-duplicates it |
+| `hero-team.jpg` = `team-offsite.jpg` | Homepage + About + Stories | ❌ **no — nothing on the list touches this** |
+
+A filename check never catches these. This is the same defect the client
+flagged as "03 cuz its repeated", and there are two more of it.
+
+**2. `close-conversation.jpg` stays on the homepage.** B3 replaces the
+Protecting-your-income copy, but the file also fronts the homepage closing
+section, and that copy is untouched. Two things about it want a decision: the
+man in it does not clearly read as Chinese Malaysian, and there is a legible
+café brand mark on the window behind him — the kind of thing every generated
+prompt in this repo explicitly forbids. If he is a real D'Life advisor rather
+than stock, he belongs in the group-photography question instead.
+
+**3. `need-health-card.jpg` renders on four pages** — homepage need card,
+Solutions hub, Medical **hero** and Wealth card 01. One picture doing four
+jobs. This is inherited from `need-health-malaysia.jpg`, which had exactly the
+same spread, so it is not new — but given the client has just flagged a
+two-page repeat, a four-page one is likely the next note. `need-family-card`
+and `need-legacy-card` are each on three.
+
+**4. `services/generated/policy-review.jpg` renders twice** — Protecting-your-
+family 05 and Medical 01. Deliberate when it was briefed, but it is the same
+repeat pattern.
+
+### What the sweep did NOT find
+
+No missed ethnicity problems. Every photograph in the generated and stock set
+that is not already on the amendment list reads as Chinese Malaysian or has no
+identifiable subject: `need-income-malaysia` (a couple at a laptop, on the
+homepage), `path-career`, `fut-education` (subject seen from behind),
+`hospital-access`, `employment-cover`, `medical-history`, `starting-a-plan`,
+and the three installed on 15 Sep. `close-conversation` above is the one
+borderline call, and it is a judgement for the client rather than a finding.
+
+The five items already fixed in `61bf000` were re-verified as actually
+rendering the new files, not just renamed in source.
+
 ## What I cannot solve with an image
 
 **The replacement film.** "What Real Guidance Looks Like" was the library's
