@@ -8,7 +8,7 @@ import type { IconKey } from "../../components/v2/icons";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
-import { VIDEOS } from "../../content/videos";
+import { FEATURED_VIDEOS } from "../../content/videos";
 import { GROWTH } from "../../content/growth";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
@@ -257,7 +257,7 @@ export default function Page() {
         label="Advisor stories"
         title="Hear it from our Team"
         lede="Three of them talking about the work: what an ordinary week contains, and what made them stay."
-        items={VIDEOS.map((v) => ({
+        items={FEATURED_VIDEOS.map((v) => ({
           poster: v.poster,
           focus: v.focus,
           title: v.title,

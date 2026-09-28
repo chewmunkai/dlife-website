@@ -6,7 +6,7 @@ import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { ROUTABLE_ARTICLES } from "../../content/articles";
-import { VIDEOS } from "../../content/videos";
+import { FEATURED_VIDEOS } from "../../content/videos";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.resources);
@@ -172,7 +172,7 @@ export default function Page() {
         label="Watch"
         title="Advisors, in their own words"
         lede="Short films on what the work actually looks like. Each one plays on the Stories page, with sound."
-        items={VIDEOS.map((v) => ({
+        items={FEATURED_VIDEOS.map((v) => ({
           poster: v.poster,
           focus: v.focus,
           title: v.title,

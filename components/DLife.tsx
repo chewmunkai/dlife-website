@@ -6,7 +6,7 @@ import { ROUTES } from "../lib/routes";
 import Growth from "./v2/Growth";
 import { GROWTH } from "../content/growth";
 import { WA } from "../lib/contact";
-import { VIDEOS } from "../content/videos";
+import { FEATURED_VIDEOS as VIDEOS } from "../content/videos";
 import Faq from "./blocks/Faq";
 import { HOME_FAQS } from "../content/home";
 
