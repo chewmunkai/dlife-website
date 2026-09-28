@@ -18,6 +18,15 @@
         "dev:mock"
       ],
       "port": 3100
+    },
+    {
+      "name": "talous-cms",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd \"$HOME/Documents/talous-cms\" && npm run dev"
+      ],
+      "port": 3200
     }
   ]
 }

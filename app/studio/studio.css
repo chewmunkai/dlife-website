@@ -1,0 +1,45 @@
+/* Studio-only chrome and preview fixes. Everything is under .studio or
+   [data-studio], so none of it can reach the public pages. */
+
+.studio-bar {
+  font: 14px/1.4 system-ui, sans-serif;
+  padding: 8px 14px;
+  border-bottom: 1px solid #e3e1db;
+}
+.studio-bar.info { background: #f6f5f2; color: #1b1d1c; }
+.studio-bar.ok { background: #e8f4ef; color: #0b5a4a; }
+.studio-bar.err, .studio-bar.warn { background: #fdecea; color: #a1261b; }
+.studio-bar ul { margin: 6px 0 0; padding-left: 18px; }
+.studio-bar button { font: inherit; margin: 0 4px; }
+
+.studio-save {
+  font: 600 14px system-ui, sans-serif;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid #0b5a4a;
+  background: #0b5a4a;
+  color: #fff;
+  cursor: pointer;
+}
+.studio-save:disabled { opacity: 0.5; cursor: default; }
+
+.studio-missing { padding: 24px; border: 1px dashed #bbb; color: #666; font-family: system-ui, sans-serif; }
+
+/* In the editor every FAQ answer is shown: there is no accordion script in the
+   preview frame, and an editor needs to see what they are editing. */
+[data-studio] .dl-faq .item .a {
+  display: block !important;
+  max-height: none !important;
+  height: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Puck copies <html class="js"> into its preview frame, which switches on the
+   site's reveal-on-scroll pre-hide (.js .dlife .rv, the hero's line wipe). No
+   scroll engine runs in the editor, so show everything in its final state. */
+[data-studio] .rv,
+[data-studio] #hero h1 .lw span {
+  opacity: 1 !important;
+  transform: none !important;
+}

@@ -7,8 +7,9 @@ import Growth from "./v2/Growth";
 import { GROWTH } from "../content/growth";
 import { WA } from "../lib/contact";
 import { VIDEOS } from "../content/videos";
-import Faq from "./blocks/Faq";
-import { HOME_FAQS } from "../content/home";
+import Faq, { type Qa } from "./blocks/Faq";
+import { HERO_DEFAULTS, FAQ_DEFAULTS } from "../content/cms/manifest";
+import Hero, { type HeroProps } from "./home/Hero";
 
 /* ============================================================
    D'Life — homepage.
@@ -103,11 +104,9 @@ const PHOTOS = {
   y3: { src: asset("/media/img/youth-resources.jpg"), alt: "Hands raised during a workshop session" },
 } satisfies Record<string, Photo>;
 
-/** L09: the one place the homepage hero photograph is chosen. It used to name
- *  a second entry, `PHOTOS.hero` — the stock family this replaced — kept so
- *  reverting was one word. The client rejected that photograph on 15 Sep 2026
- *  and hero.jpg is gone from the repo, so the alternative went with it. */
-const HERO_PHOTO = PHOTOS.teamHero;
+/* L09: the homepage hero photograph is chosen in content/cms/manifest.ts
+   (HERO_DEFAULTS), and from there by Talous CMS. `teamHero` above stays as
+   the record of the decision and its crop check. */
 
 /**
  * Contents of a `.ph` plate. `parallax` wraps the image in the over-scanned
@@ -324,7 +323,7 @@ const PlayIcon = () => (
   </span>
 );
 
-export default function DLife() {
+export default function DLife({ hero = HERO_DEFAULTS, faq = FAQ_DEFAULTS }: { hero?: HeroProps; faq?: { label: string; items: Qa[] } } = {}) {
   /* ---------- featured videos (correction report, video activation) ----------
      One centre card is active and larger than the side previews. When the
      section first enters view the active card starts playing muted, because
@@ -441,46 +440,9 @@ export default function DLife() {
 
   return (
     <>
-      {/* Split hero, per the client's reference: the copy on the beige page
-          ground at the left, the photograph held at the very right edge. The
-          section keeps the page's light mode — nothing sits on the picture
-          any more, so there is no scrim and no reason to invert. */}
-      <section id="hero">
-        <div className="fg">
-          <span className="lb rv">D’Life · Financial Advisory</span>
-          <h1>
-            <span className="lw">
-              <span>Real Support.</span>
-            </span>
-            <span className="lw">
-              <span>
-                <i>Beyond the Policy.</i>
-              </span>
-            </span>
-          </h1>
-          <p className="rv">
-            Protection is only the beginning. D’Life brings real guidance, long-term relationships and support through
-            life’s changes.
-          </p>
-          <div className="acts rv">
-            <a className="pill" data-wa={WA.advisor} href="#">
-              <span>Speak with an Advisor</span>
-            </a>
-            <a className="pill ghost" href="#path">
-              <span>Find your path</span>
-            </a>
-          </div>
-        </div>
-        <div className="bg ph">
-          {/* No parallax on the hero any more. The effect works by over-scanning
-              the picture (.prlx insets it -12% top and bottom) and sliding it,
-              which means the frame only ever shows part of the photograph — and
-              the standing rule from 6 Sep is that a D'Life photograph never has
-              anyone cropped out of it. The plate takes the picture's own 4:3
-              shape instead, so what is on the page is the whole group. */}
-          <Plate photo={HERO_PHOTO} eager />
-        </div>
-      </section>
+      {/* The hero is its own component now, so Talous CMS can edit its copy
+          and photograph (components/home/Hero.tsx). */}
+      <Hero {...hero} />
 
       {/* Approved sequence, per the visual system reference: hero → choose your
           path → trust proof. The selector is a light horizontal routing strip,
@@ -919,7 +881,7 @@ export default function DLife() {
           accordion is made once. Markup and styling are the approved ones. */}
       {/* No route-out link, per the client's 2026-08 amendments: the FAQ ends
           on its last answer and the page moves to the closing frame. */}
-      <Faq items={HOME_FAQS} label="Helpful answers" more={null} />
+      <Faq items={faq.items} label={faq.label} more={null} />
 
       {/* Restored at the client's request: the photograph, its scrim stack and
           the "D'Life" label are back, so the page closes on a picture rather

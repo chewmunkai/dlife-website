@@ -11,6 +11,7 @@
     "dev:mock": "NEXT_PUBLIC_FORM_ENDPOINT=http://localhost:4555/submit next dev -p 3100"
   },
   "dependencies": {
+    "@puckeditor/core": "^0.23.0",
     "gsap": "^3.12.5",
     "next": "14.2.35",
     "react": "18.3.1",
