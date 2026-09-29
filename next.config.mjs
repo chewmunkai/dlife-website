@@ -10,7 +10,12 @@ const basePath = process.env.PAGES_BASE_PATH || "";
 // for the GitHub Pages preview (PAGES_BASE_PATH) or on demand (STATIC_EXPORT=1),
 // in which case pages bake in whatever the CMS had published at build time.
 const staticExport = Boolean(basePath || process.env.STATIC_EXPORT);
-const cmsOrigin = process.env.TALOUS_CMS_URL ? new URL(process.env.TALOUS_CMS_URL).origin : null;
+// The browser-facing CMS address, which frames /studio. On a server the site may reach the CMS
+// over a private address (TALOUS_CMS_URL), so the public one is set separately there.
+const cmsPublic = process.env.TALOUS_CMS_PUBLIC_URL || process.env.TALOUS_CMS_URL;
+const cmsOrigin = cmsPublic ? new URL(cmsPublic).origin : null;
+// Staging copies must stay out of search results.
+const noindex = process.env.SITE_NOINDEX === "1";
 
 const nextConfig = {
   reactStrictMode: true,
@@ -35,6 +40,7 @@ const nextConfig = {
               source: "/studio",
               headers: [{ key: "Content-Security-Policy", value: `frame-ancestors ${cmsOrigin ?? "'none'"}` }],
             },
+            ...(noindex ? [{ source: "/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] }] : []),
           ];
         },
       }),

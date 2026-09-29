@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import type { HeroProps } from "../components/home/Hero";
 import type { Qa } from "../components/blocks/Faq";
 import { HERO_DEFAULTS, FAQ_DEFAULTS } from "../content/cms/manifest";
@@ -27,6 +28,9 @@ export async function getPublished(slug: string): Promise<Published | null> {
     return (await res.json()) as Published;
   } catch (e) {
     console.warn(`[talous] using built-in content for "${slug}":`, (e as Error).message);
+    // The CMS is configured but unreachable: render per request rather than caching the fallback,
+    // so the page picks up published content as soon as the CMS is back.
+    noStore();
     return null;
   }
 }
