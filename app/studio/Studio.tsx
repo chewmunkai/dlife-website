@@ -7,9 +7,10 @@ import "../../styles/pages.css";
 import "./studio.css";
 import { Puck, useGetPuck, type Config, type Data, type Field } from "@puckeditor/core";
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from "react";
-import Hero, { type HeroProps } from "../../components/home/Hero";
-import Faq, { type Qa } from "../../components/blocks/Faq";
-import type { ManifestField } from "../../content/cms/manifest";
+import { HOME_SECTIONS } from "../../components/home/sections";
+import type { HeroProps } from "../../components/home/Hero";
+import type { Qa } from "../../components/blocks/Faq";
+import type { ManifestBlock, ManifestField } from "../../content/cms/manifest";
 
 /*
  * The visual editor Talous CMS frames. It renders this site's real components,
@@ -20,7 +21,7 @@ import type { ManifestField } from "../../content/cms/manifest";
 
 type Manifest = {
   version: string;
-  blocks: Record<string, { label?: string; fields: Record<string, ManifestField> }>;
+  blocks: Record<string, ManifestBlock>;
   templates: Record<string, { fixed?: string[]; allowed?: string[] }>;
   media: { src: string; alt: string }[];
 };
@@ -29,8 +30,10 @@ type Status = { tone: "info" | "ok" | "err"; text: string; errors?: string[] } |
 
 /* How each block type renders. A block in the manifest without a renderer here shows a placeholder. */
 const RENDERERS: Record<string, ComponentType<Record<string, unknown>>> = {
-  Hero: (p) => <Hero {...(p as unknown as HeroProps)} />,
-  Faq: (p) => <Faq items={((p.items as Qa[] | undefined) ?? []).filter((i) => i && (i.q || i.a))} label={String(p.label ?? "")} more={null} />,
+  ...(HOME_SECTIONS as unknown as Record<string, ComponentType<Record<string, unknown>>>),
+  Hero: (p) => <HOME_SECTIONS.Hero {...(p as unknown as HeroProps)} />,
+  // Half-typed new questions are skipped in the preview rather than rendered empty.
+  Faq: (p) => <HOME_SECTIONS.Faq items={((p.items as Qa[] | undefined) ?? []).filter((i) => i && (i.q || i.a))} label={String(p.label ?? "")} />,
 };
 
 function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): Field {
@@ -58,9 +61,17 @@ function buildConfig(manifest: Manifest): Config {
   for (const [type, def] of Object.entries(manifest.blocks)) {
     const Render = RENDERERS[type];
     components[type] = {
-      label: def.label ?? type,
+      label: def.locked ? `${def.label ?? type} · not editable yet` : def.label ?? type,
       fields: Object.fromEntries(Object.entries(def.fields).map(([k, f]) => [k, toPuckField(f, k, manifest.media)])),
-      render: Render ? (props) => <Render {...props} /> : () => <div className="studio-missing">No preview for “{type}”.</div>,
+      render: Render
+        ? def.locked
+          ? (props) => (
+              <div className="studio-locked">
+                <Render {...props} />
+              </div>
+            )
+          : (props) => <Render {...props} />
+        : () => <div className="studio-missing">No preview for “{type}”.</div>,
     };
   }
   return {

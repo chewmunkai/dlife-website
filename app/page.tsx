@@ -18,10 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   // Published content from Talous CMS, or the repo's own content when the CMS is not configured or unreachable.
-  const { hero, faq } = homeFromPublished(await getPublished("home"));
+  const { blocks, faq } = homeFromPublished(await getPublished("home"));
   return (
     <SiteShell path={ROUTES.home.path} loader>
-      <DLife hero={hero} faq={faq} />
+      <DLife blocks={blocks} />
       {/* Built from the same array the accordion renders, so the answers a
           search engine reads cannot drift from the ones on screen. */}
       <JsonLd data={faqLd(faq.items)} />

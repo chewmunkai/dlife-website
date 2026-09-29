@@ -13,7 +13,7 @@ import { HOME_FAQS } from "../home";
  * three and push the buttons below the photograph on mobile.
  */
 export const MANIFEST = {
-  version: "dlife-2026-09-28.1",
+  version: "dlife-2026-09-29.1",
   blocks: {
     Hero: {
       label: "Home hero",
@@ -28,6 +28,17 @@ export const MANIFEST = {
         photoAlt: { type: "text", label: "Photo description (alt text)", required: true, max: 160 },
       },
     },
+    // Shown in the editor so staff see the whole page; their content isn't editable yet.
+    Path: { label: "Find your path", locked: true, fields: {} },
+    Trust: { label: "Trust figures", locked: true, fields: {} },
+    Needs: { label: "Life needs", locked: true, fields: {} },
+    Policy: { label: "Policy review", locked: true, fields: {} },
+    Founder: { label: "Founders", locked: true, fields: {} },
+    Stories: { label: "Stories (films)", locked: true, fields: {} },
+    Careers: { label: "Careers", locked: true, fields: {} },
+    Dva: { label: "DVA", locked: true, fields: {} },
+    Youth: { label: "Youth Community", locked: true, fields: {} },
+    Close: { label: "Closing", locked: true, fields: {} },
     Faq: {
       label: "FAQ",
       fields: {
@@ -47,7 +58,7 @@ export const MANIFEST = {
   },
   templates: {
     // The homepage is a fixed composition: its sections can be edited, not rearranged.
-    home: { fixed: ["Hero", "Faq"] },
+    home: { fixed: ["Hero", "Path", "Trust", "Needs", "Policy", "Founder", "Stories", "Careers", "Dva", "Youth", "Faq", "Close"] },
   },
   // The photographs a field may use. Alt text is the default description; editors can override it.
   media: [
@@ -68,6 +79,8 @@ export const MANIFEST = {
   ],
   seo: { titleMax: 70, descriptionMax: 170 },
 } as const;
+
+export type ManifestBlock = { label?: string; locked?: boolean; fields: Record<string, ManifestField> };
 
 export type ManifestField =
   | { type: "text" | "textarea"; label?: string; required?: boolean; max?: number }
@@ -90,10 +103,24 @@ export const HERO_DEFAULTS: HeroProps = {
 export const FAQ_DEFAULTS: { label: string; items: Qa[] } = { label: "Helpful answers", items: HOME_FAQS };
 
 /** Stable ids: the CMS addresses sections and questions by these. */
-export const HOME_DOCUMENT = {
+const faqBlock = { type: "Faq", props: { id: "home-faq", label: FAQ_DEFAULTS.label, items: HOME_FAQS.map((qa, i) => ({ id: `faq-${i + 1}`, ...qa })) } };
+const locked = (type: string) => ({ type, props: { id: `home-${type.toLowerCase()}` } });
+
+/** The approved sequence. lib/talous.ts uses it to put back any section the CMS is missing. */
+export const HOME_DOCUMENT: { root: { props: Record<string, never> }; content: { type: string; props: { id: string } & Record<string, unknown> }[] } = {
   root: { props: {} },
   content: [
     { type: "Hero", props: { id: "home-hero", ...HERO_DEFAULTS } },
-    { type: "Faq", props: { id: "home-faq", label: FAQ_DEFAULTS.label, items: HOME_FAQS.map((qa, i) => ({ id: `faq-${i + 1}`, ...qa })) } },
+    locked("Path"),
+    locked("Trust"),
+    locked("Needs"),
+    locked("Policy"),
+    locked("Founder"),
+    locked("Stories"),
+    locked("Careers"),
+    locked("Dva"),
+    locked("Youth"),
+    faqBlock,
+    locked("Close"),
   ],
 };

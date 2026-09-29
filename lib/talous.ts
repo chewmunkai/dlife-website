@@ -1,7 +1,6 @@
 import { unstable_noStore as noStore } from "next/cache";
-import type { HeroProps } from "../components/home/Hero";
 import type { Qa } from "../components/blocks/Faq";
-import { HERO_DEFAULTS, FAQ_DEFAULTS } from "../content/cms/manifest";
+import { HERO_DEFAULTS, FAQ_DEFAULTS, HOME_DOCUMENT } from "../content/cms/manifest";
 
 /*
  * Reads published content from Talous CMS. The site never depends on the CMS
@@ -35,15 +34,31 @@ export async function getPublished(slug: string): Promise<Published | null> {
   }
 }
 
-export function homeFromPublished(p: Published | null): { hero: HeroProps; faq: { label: string; items: Qa[] }; seo: Published["seo"] } {
-  const blocks = p?.content.content ?? [];
-  const hero = blocks.find((b) => b.type === "Hero")?.props;
-  const faq = blocks.find((b) => b.type === "Faq")?.props;
-  return {
-    hero: hero ? ({ ...HERO_DEFAULTS, ...hero } as HeroProps) : HERO_DEFAULTS,
-    faq: faq
-      ? { label: String(faq.label ?? FAQ_DEFAULTS.label), items: ((faq.items as Qa[] | undefined) ?? FAQ_DEFAULTS.items).map(({ q, a }) => ({ q, a })) }
-      : FAQ_DEFAULTS,
-    seo: p?.seo ?? {},
-  };
+/**
+ * The homepage's sections, in published order. Any section the CMS doesn't
+ * have (an older version, or the CMS unreachable) goes back in at its
+ * approved position, so the live page can never lose a section.
+ */
+export function homeFromPublished(p: Published | null): { blocks: Block[]; faq: { label: string; items: Qa[] }; seo: Published["seo"] } {
+  const defaults = HOME_DOCUMENT.content as Block[];
+  const blocks: Block[] = (p?.content.content ?? []).filter((b) => defaults.some((d) => d.type === b.type));
+  defaults.forEach((d, i) => {
+    if (blocks.some((b) => b.type === d.type)) return;
+    // Insert after the nearest earlier section that is present.
+    let at = 0;
+    for (const prev of defaults.slice(0, i).reverse()) {
+      const j = blocks.findIndex((b) => b.type === prev.type);
+      if (j >= 0) {
+        at = j + 1;
+        break;
+      }
+    }
+    blocks.splice(at, 0, d);
+  });
+  const withDefaults = blocks.map((b) => (b.type === "Hero" ? { ...b, props: { ...HERO_DEFAULTS, ...b.props } } : b));
+  const faqProps = withDefaults.find((b) => b.type === "Faq")?.props;
+  const faq = faqProps
+    ? { label: String(faqProps.label ?? FAQ_DEFAULTS.label), items: ((faqProps.items as Qa[] | undefined) ?? FAQ_DEFAULTS.items).map(({ q, a }) => ({ q, a })) }
+    : FAQ_DEFAULTS;
+  return { blocks: withDefaults, faq, seo: p?.seo ?? {} };
 }
