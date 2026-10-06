@@ -60,8 +60,11 @@ const PHOTOS = {
      rather than on it. Both crops were checked at 712x751 desktop and
      375x463 mobile — every face survives at 50% 42%, which is why that is the
      object-position set in styles/pages.css. */
+  /* 6 Oct 2026, client: the hero is the 27-strong team in ivory, replacing
+     the nineteen-person hero-team.jpg. Same 4:3 shape (1448x1086), so the
+     plate's aspect-ratio in styles/dlife.css still fits it exactly. */
   teamHero: {
-    src: asset("/media/img/hero-team.jpg"),
+    src: asset("/media/img/hero-team-ivory.jpg"),
     alt: "The D’Life team together",
   },
   p1: { src: asset("/media/img/path-family.jpg"), alt: "Three generations of a family gathered around a table" },
@@ -92,7 +95,12 @@ const PHOTOS = {
      why it was the right picture: the panel is 878x504 (1.74) and this file is
      1.78, so it fills the frame with almost nothing cropped. team-award.jpg is
      1.33 and lost a slice of the room at both ends. */
-  dva: { src: asset("/media/img/dva-team.jpg"), alt: "The D’Life advisory team" },
+  /* 6 Oct 2026, client: the award-night group replaces the studio portrait
+     here. Same 1.78 shape as dva-team.jpg (1672x940), so the panel's crop is
+     unchanged. This is the client's corrected edit — the screen reads "DVA
+     AWARD NIGHT"; dva-award-night.jpg on Resources is the same shot reading
+     "DVL". dva-team.jpg stays on the DVA page and the business solution. */
+  dva: { src: asset("/media/img/dva-award-night-v2.jpg"), alt: "D’Life advisors together at the DVA award night" },
   y1: { src: asset("/media/img/youth-session.jpg"), alt: "Attendees seated at a D’Life Youth Community session" },
   /* The Youth cards are 4:3 frames. This was youth-group.jpg, a 0.75 portrait,
      so the frame took a band out of the middle and cut the people standing at
@@ -100,7 +108,12 @@ const PHOTOS = {
      the client flagged. Replaced with a 1.33 photograph, which is the card's
      exact ratio: nothing is cropped at all. */
   y2: { src: asset("/media/img/community-group.jpg"), alt: "D’Life community members together at a gathering" },
-  y3: { src: asset("/media/img/youth-resources.jpg"), alt: "Hands raised during a workshop session" },
+  /* 6 Oct 2026, client: a workshop in progress replaces youth-resources.jpg on
+     this card only (Youth Community and Resources keep it). Supplied as a
+     1500x2000 portrait; the card is a fixed 4:3, so the file is cut to the
+     4:3 band y 640-1765 — ceiling above, chair legs below, every person and
+     the presenter's screen inside. See docs/dlife-asset-map.md. */
+  y3: { src: asset("/media/img/youth-resources-v2.jpg"), alt: "A presenter leading a workshop, participants seated around tables" },
 } satisfies Record<string, Photo>;
 
 /** L09: the one place the homepage hero photograph is chosen. It used to name
@@ -246,7 +259,7 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
        See docs/dlife-figures.md. */
     "27 Years",
     "Experience",
-    "Guiding families through changing markets and life stages for over 27 years.",
+    "Guiding families through changing markets and every stage of life for over 27 years providing trusted advice, lasting relationships and financial solutions that evolve with their needs.",
   ],
   [
     <React.Fragment key="trust-2">
@@ -284,10 +297,13 @@ const TRUST: Array<[ReactNode, string, string, string]> = [
        advisors, which the client's own performance summary (14 Aug 2026)
        makes impossible rather than merely unverified. Replaced with what that
        summary actually evidences: the size of the practice, and the two MDRT
-       qualifiers it has produced. See docs/dlife-figures.md. */
+       qualifiers it has produced. See docs/dlife-figures.md.
+       6 Oct 2026, client: rewritten again in their words. It names the roles
+       advisors are developed into and carries no headcount, so the arithmetic
+       problem above does not come back. */
     "Leadership",
     "People Development",
-    "A practice of 29 advisors built through structured training, and 2 MDRT qualifiers.",
+    "A proven legacy of developing advisors into Agency Managers, Unit Managers and Assistant Unit Managers building generations of leaders through mentorship, structured development and a culture of excellence.",
   ],
   [
     <React.Fragment key="trust-6"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></React.Fragment>,

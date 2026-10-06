@@ -716,8 +716,9 @@ body:has(.dlife) {
      under the copy. Given the picture's own ratio it needs no bleed to fit,
      and the row sizes to the plate instead of the plate to the row.
      
-     ⚠️ 4/3 is hero-team.jpg's ratio (1800x1350). A different photograph here
-     needs this changed with it, or the crop comes straight back. */
+     ⚠️ 4/3 is hero-team-ivory.jpg's ratio (1448x1086), as it was
+     hero-team.jpg's before it (1800x1350). A different photograph here needs
+     this changed with it, or the crop comes straight back. */
   align-self: start;
   aspect-ratio: 4 / 3;
   overflow: hidden;

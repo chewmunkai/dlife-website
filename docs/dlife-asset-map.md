@@ -262,6 +262,47 @@ panel read as stunted beside a 540px picture. `.hero .card` now takes a
 now run 540–660: the floor is absolute, and anything above it is copy length
 deciding, not a fixed height clipping.
 
+## Homepage hero, 6 Oct 2026
+
+`hero-team.jpg` (nineteen people, 1800×1350) is replaced by `hero-team-ivory.jpg`,
+the 27-strong team in ivory, supplied by the client in chat as a 1448×1086 WebP
+and installed as JPEG q82 progressive. Same 4:3 shape, so the plate's
+`aspect-ratio` was left alone. Measured: 710×533 at 1440, 632×474 at 1280,
+375×281 at 375, all 1.3333, so 0% lost at rest at every width.
+
+- The left feather (24px at 1440, ≈49 image px) lies over the ear and cheek of
+  the leftmost seated man; his face still reads. The source photograph itself
+  cuts his shoulder at the frame edge.
+- 1448px covers the plate at 2× DPR up to 1440 (needs 1420) with no headroom.
+  If the client has the camera original, use it instead.
+
+## Homepage DVA panel, 6 Oct 2026
+
+`dva-team.jpg` (the studio portrait) is replaced on the homepage DVA panel only
+by `dva-award-night-v2.jpg` (1672×940, 1.7787 — the same ratio, so the crop is
+unchanged). `dva-team.jpg` stays on the DVA page and the business solution.
+
+It is the same shot as `dva-award-night.jpg` (Resources hero, avg-hash
+distance 12), but the client's edit: the screen reads "DVA AWARD NIGHT" where
+the older file reads "DVL". Resources still carries the DVL version.
+
+Measured: panel 880×426 at 1440 over an 878×525 parallax layer, 880×396 over
+878×489 at 1280, and 325×183 (exact) at 375. Masked at rest: the discards
+are the top of the event screen (its lettering included), shoes and the table,
+and ~50 image px at each side (an elbow and an arm). No face is lost, and the
+top row of heads still clears at full parallax travel.
+
+## Homepage "Educational Resources" card, 6 Oct 2026
+
+`youth-resources.jpg` is replaced on the homepage Youth card only by
+`youth-resources-v2.jpg` (Youth Community and Resources keep the old file).
+The client's photo is a 1500×2000 portrait and the card is a fixed 4:3, so the
+file is cut to 4:3 at source rather than left to `cover`: band y 640–1765 of
+the original, 1500×1125. Masked before cutting: the discard above is ceiling
+and lights, below is chair legs and one sneaker's toe. Every person, the
+presenter and the screen are inside. Frame measured 411×308 at 1440 and
+325×244 at 375, both exact 4:3.
+
 ## The next-step band (T06, 14 Sep 2026)
 
 `closing-next-step.jpg` (1536x1024, generated, fictional people) is the ground

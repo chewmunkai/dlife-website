@@ -89,14 +89,12 @@ const DEVELOPS = [
    nothing about the shape of a year; the frequency is the information a
    prospective member actually wants.
 
-   `perYear` draws the twelve-month meter beside each tier (redesigned 6 Sep
-   2026): every tier shows the same year, and how much of it is filled is how
-   often you would be in the room. Monthly fills it; the annual tier lights
-   one month. That is the section's argument, stated before a word is read. */
+   6 Oct 2026, client mockup: the twelve-month meter and the "12× a year"
+   counts are gone. The tier names already say how often each comes round,
+   so the column now carries the name, its note and a rule. */
 const CADENCE = [
   {
     when: "Every month",
-    perYear: 12,
     note: "The spine of it",
     items: [
       {
@@ -107,22 +105,20 @@ const CADENCE = [
   },
   {
     when: "Through the quarter",
-    perYear: 4,
     note: "Development",
     items: [
-      { name: "Leadership workshops", copy: "Strategic thinking, decision-making and coaching." },
-      { name: "Learning forums", copy: "Industry experts and experienced practitioners, on the record." },
-      { name: "Personal development programmes", copy: "Structured, and chosen by the member." },
+      { name: "Leadership workshops", copy: "Build leadership mindset, strategic thinking and practical skills through coaching and real cases." },
+      { name: "Learning forums", copy: "Insights from industry experts and experienced practitioners, with sharing and discussions." },
+      { name: "Personal development programmes", copy: "Chosen to support each member’s growth in both personal and professional life." },
     ],
   },
   {
     when: "Across the year",
-    perYear: 1,
     note: "The circle in practice",
     items: [
-      { name: "Networking sessions", copy: "Members and invited guests." },
+      { name: "Networking sessions", copy: "Connect with members and invited guests." },
       { name: "Team building", copy: "Indoors and outdoors." },
-      { name: "Charity and volunteer projects", copy: "Work members contribute to together." },
+      { name: "Charity and volunteer projects", copy: "Give back and make a positive impact together." },
       { name: "Cross-agency collaboration", copy: "Joint initiatives beyond D’Life." },
     ],
   },
@@ -190,7 +186,11 @@ export default function Page() {
           seventeen people spanning nearly the full width — a woman at the
           extreme left, another at the extreme right — so the 25% a 4:3 cover
           takes off the width would remove them both. `fit: "contain"` keeps
-          everyone and still fills the standard plate. */}
+          everyone and still fills the standard plate.
+
+          6 Oct 2026, client: the award-night group replaces it, the same file
+          as the homepage DVA panel. Also 1.78, with a man hard against each
+          edge, so the mat stays for the same reason. */}
       <Hero
         route={route}
         tone="ink"
@@ -211,8 +211,8 @@ export default function Page() {
         }
         lede="A selective circle of financial advisors, shaped by shared values and experience. Founded by Sharon Cheang."
         photo={{
-          src: "/media/img/dva-team.jpg",
-          alt: "The D’Life advisory team",
+          src: "/media/img/dva-award-night-v2.jpg",
+          alt: "D’Life advisors together at the DVA award night",
           fit: "contain",
         }}
         actions={
@@ -291,7 +291,7 @@ export default function Page() {
       <YearMap
         label="Across the year"
         title="The shape of a year in the circle"
-        lede="8 kinds of session. What tells you most about the commitment is how often each one comes round."
+        lede="What tells you most about the commitment is how often each one comes round."
         tiers={CADENCE}
       />
 

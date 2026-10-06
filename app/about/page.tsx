@@ -71,18 +71,19 @@ const COMMITMENTS = [
   { term: "Create Impact", copy: "A practice that leaves the profession in better standing than it found it." },
 ];
 
+/* 6 Oct 2026: the client's own list, supplied as a mockup, replacing the
+   eight-line credential ledger. Their words, with one em dash taken out to
+   match the founders' copy above it. ⚠️ Two things in it are theirs to
+   confirm, not ours to correct: entry 02 expands "MDRT" as "Million Dollar
+   Direct Team" (the Advisor development panel calls the same honour "MDD"),
+   and both this list and that panel now name the insurer. */
 const RECOGNITION = [
-  /* ⚠️ See the note on the homepage trust card: the client's performance
-     summary reads 25 years 4 months as at Aug 2026, measured as service with
-     the principal insurer. Raised with the client rather than overwritten. */
-  "27 years in the financial services industry",
-  "GAMA Premium Recruitment Award",
-  "GAMA Excellent Recruitment Award",
-  "MDRT Builder",
-  "Million Dollar Agency (MDA) Qualifier",
-  "Million Dollar District (MDD) Achiever",
-  "Seven-time MDRT Qualifier",
-  "Multiple overseas convention qualifier, across more than 45 countries",
+  "Fast-tracked promotion to AIA Agency Manager.",
+  "Achieved consecutive Million Dollar Agency (MDA) and Million Dollar Direct Team (MDRT) honors from 2002 – 2025.",
+  "MDRT Builder, successfully mentoring and developing numerous MDRT advisors.",
+  "Recognized as a speaker on Spiritual Growth and Women’s Empowerment, with long-standing invitations from insurance companies, universities and charity platforms.",
+  "Achieved overseas incentive trips for 27 consecutive years, with footprints across 45+ countries.",
+  "Successfully guided and transformed many young individuals, from starting with no experience to becoming confident leaders, building meaningful careers and achieving a better work-life balance.",
 ];
 
 function Founder({
@@ -184,7 +185,7 @@ export default function Page() {
         read
         label="Where it began"
         title="Sharon and Rachel Cheang grew up without financial abundance."
-        lede="What that taught them — hard work, integrity, compassion and a habit of continuing to learn — became the foundation of the agency they built. It is also why the first question here is usually about your circumstances rather than your budget."
+        lede="It taught them hard work, integrity, compassion and a habit of continuing to learn, and those became the foundation of the agency they built. It is also why the first question here is usually about your circumstances rather than your budget."
       >
         <div className="dl-prose">
           <p>
@@ -236,20 +237,26 @@ export default function Page() {
           position: "50% 22%",
         }}
       >
+        {/* 6 Oct 2026: the client's own words, with the dashes taken out at
+            their request. */}
         <p>
-          Sharon founded D’Life after more than two decades in financial services. She entered the industry with an aim
-          larger than selling policies: to help families build secure, well-considered lives, and to raise the standard
-          of the advice they were being given.
+          Sharon has built her career around two commitments: providing families with trusted financial solutions and
+          transforming people into capable professionals and leaders.
         </p>
         <p>
-          Over 27 years she has advised a great many Malaysian families and mentored a generation of financial
-          consultants. She also founded <a href={link(ROUTES.dva.path)}>Drive Value Associates</a>, the leadership
-          circle that grew out of that mentoring work. Her mentoring today centres on 4 things: mindset,
-          personality, wealth and quality of life.
+          Throughout her journey, she has mentored and developed many individuals into managers and leaders, believing
+          that true success is not only about personal achievement, but about developing people who can go on to
+          develop others.
         </p>
         <p>
-          She is unusually firm on one point: financial success should not come at the cost of family, health or
-          personal fulfilment. It should create the freedom to enjoy all three.
+          She later founded <a href={link(ROUTES.dva.path)}>Drive Value Associates (DVA)</a> and the{" "}
+          <a href={link(ROUTES.youth.path)}>Youth Community</a>, extending her mission to leadership development and
+          empowering the next generation.
+        </p>
+        <p>
+          Her mentoring philosophy centres on mindset, personal growth, leadership, financial well-being and quality of
+          life, developing individuals to become confident professionals, financially empowered individuals and
+          purposeful leaders, while building a sustainable and well-balanced life.
         </p>
       </Founder>
 
@@ -271,18 +278,24 @@ export default function Page() {
           alt: "Rachel Cheang, co-founder of D’Life",
         }}
       >
+        {/* 6 Oct 2026: the client's own words, with the dashes taken out at
+            their request. */}
         <p>
-          Rachel leads business development, community engagement and the youth development side of D’Life. Where
-          Sharon is strategic, Rachel is relational: she builds the rooms people want to come back to.
+          Rachel has been part of D’Life’s journey from the early years, not only as Sharon’s sister, but as a trusted
+          partner who has grown alongside her through different seasons of the business.
         </p>
         <p>
-          She is particularly involved with young professionals and families finding their direction, and she leads the{" "}
-          <a href={link(ROUTES.youth.path)}>Youth Community</a>, D’Life’s open platform for students, fresh graduates
-          and people early in their careers.
+          A strong performer in personal sales and approaching Lifetime MDRT recognition, Rachel brings years of
+          experience, consistency and a deep commitment to serving her clients.
         </p>
         <p>
-          The two of them are sisters, and the partnership works on the ordinary basis that good partnerships do:
-          trust, shared values, and a common idea of what the work is for.
+          Today, she leads D’Life’s development in Johor, particularly the Segamat branch, focusing on building people,
+          strengthening the team and nurturing long-term relationships.
+        </p>
+        <p>
+          Her leadership is grounded in professional excellence, personal growth and people development. Together, the
+          sisters bring different strengths but share one purpose: developing people, nurturing leaders and building a
+          legacy that continues beyond themselves.
         </p>
       </Founder>
 
@@ -295,8 +308,8 @@ export default function Page() {
         title="Professional record"
       >
         <p className="dl-lede">
-          Stated plainly rather than displayed: Sharon’s credentials over a 27-year career. Every entry is pending
-          client verification.
+          A reflection of Sharon’s key professional milestones, achievements and contributions throughout her 27-year
+          career.
         </p>
         <Checks items={RECOGNITION} />
       </SplitShot>
@@ -328,13 +341,34 @@ export default function Page() {
            advisors the practice holds, and how many of them reached MDRT —
            plus the clients those advisors look after between them. The panel
            now prints the source and date under them, which is the difference
-           between a claim and a record. See docs/dlife-figures.md. */
+           between a claim and a record. See docs/dlife-figures.md.
+
+           6 Oct 2026: replaced by the client's own six rows, supplied as a
+           mockup. The 3 and 34 managers are the figures the 6 Sep audit took
+           out as impossible inside 29 advisors; the client now frames them
+           against "80 direct and indirect" Life Planners, and indirect is
+           what makes the arithmetic possible. Still theirs to verify — the
+           source line below says so. ⚠️ The year row reads 2022 here and 2002
+           on the Recognition list for the same MDA honour. */
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries."
         photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", ratio: "1800 / 1158" }}
         figures={[
-          { fig: "29", copy: "advisors in the practice today" },
-          { fig: "2", copy: "MDRT qualifiers the practice has produced" },
-          { fig: "2,872", copy: "clients they look after between them" },
+          { fig: "3", copy: <>Mentored <strong>3 top-tier senior agency managers.</strong></> },
+          { fig: "34", copy: <>Developed over <strong>34</strong> young and passionate managers.</> },
+          { fig: "80", copy: <>Led a team of <strong>80</strong> direct and indirect AIA Life Planners.</> },
+          {
+            fig: "",
+            copy: (
+              <>
+                Established a professional advisory team characterized by{" "}
+                <strong>high growth, high culture, and high impact.</strong>
+              </>
+            ),
+          },
+          /* Two set lines, as the mockup has them. A no-break space was not
+             enough: the browser still breaks after an en dash. */
+          { fig: <>2022<br />– 2025</>, word: true, copy: "Consistently achieved Million Dollar Agency (MDA) and Million Dollar Direct Team (MDD)." },
+          { fig: <>MDRT<br />Builder</>, word: true, copy: "Developing and empowering advisors to achieve professional excellence and MDRT standards." },
         ]}
         source="Figures as at August 2026, from D’Life’s own performance record. Pending client verification."
       />

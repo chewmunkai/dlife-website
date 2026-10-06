@@ -541,7 +541,9 @@ export function Record({
   hint?: ReactNode;
   /** Fills the left half instead of the framing sentence. */
   photo?: Photo;
-  figures: ReadonlyArray<{ fig: string; copy: ReactNode }>;
+  /** `fig` may be a word ("MDRT Builder") or a range; set `word` for those
+   *  and they take a smaller size, as the client's 6 Oct 2026 mockup does. */
+  figures: ReadonlyArray<{ fig: ReactNode; copy: ReactNode; word?: boolean }>;
   /** Where the figures come from and when. Printed under them, small. */
   source?: ReactNode;
 }) {
@@ -569,9 +571,10 @@ export function Record({
             shape with more contrast and clearer rules — both are in
             styles/amendments.css §13, not here. */}
         <div className="rows">
-          {figures.map((f) => (
-            <Fragment key={f.fig}>
-              <b>{f.fig}</b>
+          {/* Keyed by position: a row may carry no figure at all. */}
+          {figures.map((f, i) => (
+            <Fragment key={i}>
+              <b className={f.word ? "wd" : undefined}>{f.fig}</b>
               <span>{f.copy}</span>
             </Fragment>
           ))}
@@ -797,14 +800,6 @@ export function YearMap({
   tiers: ReadonlyArray<{
     when: string;
     note: string;
-    /**
-     * How many times in a year this tier comes round — 12, 4, 1.
-     *
-     * It draws the twelve-month meter beside the tier, which is the whole
-     * idea of the section made visible: every tier shows the same year, and
-     * how much of it is filled is how often you would be in the room.
-     */
-    perYear?: number;
     items: ReadonlyArray<{ name: string; copy: ReactNode }>;
   }>;
 }) {
@@ -822,27 +817,8 @@ export function YearMap({
             <div>
               <span className="when">{t.when}</span>
               <span className="note">{t.note}</span>
-              {/* Twelve months, and the ones this tier occupies. Decorative —
-                  the sentence under it carries the same information in words,
-                  so nothing here depends on seeing the marks. */}
-              {t.perYear && (
-                <span className="yr" aria-hidden="true">
-                  {Array.from({ length: 12 }, (_, m) => (
-                    <i className={m < t.perYear! ? "on" : undefined} key={m} />
-                  ))}
-                </span>
-              )}
-              <span className="n">
-                {t.perYear && (
-                  <b>
-                    {t.perYear}
-                    <em>×</em>
-                  </b>
-                )}
-                {t.perYear
-                  ? `a year · ${t.items.length} ${t.items.length === 1 ? "session" : "kinds of session"}`
-                  : `${t.items.length} ${t.items.length === 1 ? "session" : "kinds of session"}`}
-              </span>
+              {/* 6 Oct 2026: the twelve-month meter and the session count
+                  are gone at the client's request; the note takes a rule. */}
             </div>
             <div className="items" style={{ ["--n" as string]: t.items.length }}>
               {t.items.map((it) => (
