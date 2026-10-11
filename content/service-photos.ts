@@ -26,6 +26,16 @@ const generated = (name: string, alt: string): Photo => ({
    maps every file to its section, and that mapping is the one below; the
    Income page's six scenes are newly cast and distinct from each other.
 
+   11 Oct 2026, last: the client's own source zips (fwddlifephotoprotecting
+   myfamily, fwdmedicalhealth, fwdwealthlegacy, fwdprotectyourincome) replace
+   the reworked versions on Family, Medical, Future and Legacy with their
+   originals, each with its own adviser rather than one adviser repeated.
+   ⚠️ "fwdprotectyourincome.zip" holds the PLANNING FOR YOUR FUTURE scenes
+   (four are pixel-identical to Future's market, library, dinner and window
+   photographs; none fits an Income card), so it is applied to Future, and
+   Income keeps the benchmarked set below. Legacy's zip trades the advisor-
+   and-family photo for a doctor consultation, now card 01.
+
    ⚠️ PROVENANCE, in the package's own terms, and binding: the two Income
    scenes with an advisor (hero, card 01) are AI-GENERATED COMPOSITES guided
    by real adviser portraits, not camera photographs; the other Income scenes
@@ -74,8 +84,8 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
   "medical-health-preparation": {
     hero: sol("medical-health/family-doctor-consultation", "Two family members in consultation with a doctor"),
     moments: {
-      1: sol("medical-health/older-woman-advisor", "An advisor going through a policy’s limits with a client"),
-      2: sol("medical-health/medical-bill", "A man working out a medical bill with an advisor"),
+      1: sol("medical-health/older-woman-advisor", "An advisor going through a policy’s limits with an older client"),
+      2: sol("medical-health/medical-bill", "A man working out a medical bill with a calculator at home"),
       3: generated("hospital-access", "A visitor speaking with a receptionist at a hospital"),
       4: sol("medical-health/benefits-review", "A man changing jobs, reviewing his benefits with an advisor"),
       5: sol("medical-health/advisor-doctor", "An advisor going over medical records with a doctor"),
@@ -97,7 +107,7 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
   "wealth-legacy": {
     hero: sol("wealth-legacy/family-photos", "A family looking through photographs and albums together"),
     moments: {
-      1: sol("wealth-legacy/family-legacy-planning", "An advisor with a family going through photographs and papers"),
+      1: sol("wealth-legacy/doctor-consultation", "Two family members in consultation with a doctor"),
       2: sol("wealth-legacy/family-consultation", "A mother and her adult son talking over a meal with an advisor"),
       3: sol("wealth-legacy/workshop-advisor", "A mother and son discussing their furniture workshop with an advisor"),
       4: sol("wealth-legacy/wheelchair-support", "An adult wheelchair user planning long-term support with her parent and an advisor"),
