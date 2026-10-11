@@ -771,6 +771,14 @@
   padding: clamp(28px, 4vh, 48px) clamp(24px, 3.2vw, 48px);
 }
 .record .shot + .say { border-top: 1px solid rgba(47, 53, 50, .38); }
+/* 11 Oct 2026 — the copper rule the quote bands open with (`.said .r`), so
+   the statement reads as a statement from the same system rather than as a
+   caption that drifted under the photograph. */
+.record .say::before {
+  content: ""; display: block; flex: none;
+  width: 40px; height: 2px; margin-bottom: clamp(16px, 2.2vh, 22px);
+  background: var(--dl-copper);
+}
 /* The photograph fills its half of the panel edge to edge — no padding,
    because a plate inset inside a sand panel reads as a picture pinned to a
    board — and keeps its own shape, per the standing rule on D'Life
@@ -785,12 +793,12 @@
 .record .say p {
   margin: 0;
   font: var(--dl-w-regular) var(--dl-body-sm)/1.6 var(--dl-sans);
-  color: var(--dl-ink); max-width: 34ch; text-wrap: pretty;
+  color: rgba(15, 51, 44, .78); max-width: 34ch; text-wrap: pretty;
 }
 .record .say p strong {
-  display: block; margin-top: clamp(10px, 1.4vh, 14px);
-  font: 500 clamp(26px, 2.5vw, 38px)/1.08 var(--dl-disp);
-  letter-spacing: -.02em; color: var(--dl-teal);
+  display: block; margin-top: clamp(12px, 1.6vh, 16px);
+  font: 500 clamp(28px, 2.7vw, 42px)/1.04 var(--dl-disp);
+  letter-spacing: -.025em; color: var(--dl-teal);
 }
 .record .say .hint {
   margin-top: clamp(16px, 2.2vh, 22px);
@@ -834,8 +842,11 @@
   display: grid; grid-template-columns: min-content minmax(0, 1fr);
   align-self: stretch;
   /* auto, not 1fr (6 Oct 2026): with six rows, equal shares made every row
-     as tall as the tallest and the panel ran to 1167px at 1440. */
-  grid-auto-rows: auto;
+     as tall as the tallest and the panel ran to 1167px at 1440.
+     1fr again (11 Oct 2026): the row that forced that was the figure-less
+     statement, now under the photograph. The five left differ by 15px, so
+     equal shares cost 45px and put every rule on one interval. */
+  grid-auto-rows: 1fr;
 }
 .record .rows > * {
   display: flex; align-items: center;
@@ -846,15 +857,21 @@
    the rest. `n + 3` skips the first pair, which needs no rule above it. */
 .record .rows > *:nth-child(n + 3) { border-top: 1px solid rgba(47, 53, 50, .38); }
 .record .rows > b {
-  padding-left: clamp(24px, 3.2vw, 48px);
-  padding-right: clamp(18px, 2.4vw, 34px);
-  font: 500 clamp(34px, 3.6vw, 56px)/.92 var(--dl-disp);
+  padding-left: clamp(28px, 3.4vw, 52px);
+  padding-right: clamp(24px, 3vw, 44px);
+  font: 500 clamp(40px, 4vw, 60px)/.9 var(--dl-disp);
   letter-spacing: -.035em; color: var(--dl-teal);
-  font-variant-numeric: tabular-nums;
-  /* Centred in the column, as the client's 6 Oct 2026 mockup sets them. */
-  justify-content: center; text-align: center;
+  font-variant-numeric: tabular-nums lining-nums;
+  /* 11 Oct 2026: flush left, not centred. Centred, "3" floated in the middle
+     of a column sized by "Builder" and the year range hung its dash off the
+     left of its second line; flush left, every figure starts on one edge and
+     the column reads as a column. */
+  justify-content: flex-start; text-align: left;
 }
-.record .rows > b.wd { font-size: clamp(26px, 2.5vw, 38px); line-height: 1; white-space: nowrap; }
+.record .rows > b.wd {
+  font-size: clamp(24px, 2.2vw, 34px); line-height: 1.04;
+  letter-spacing: -.02em; white-space: nowrap;
+}
 /* ⚠️ No max-width here, deliberately. The cell draws its half of the rule, so
    constraining it stops the rule short of the panel edge and the table looks
    unfinished — which is most of what "clearer lines" was asking about. The
@@ -864,16 +881,10 @@
   font: var(--dl-w-regular) clamp(15px, 1.15vw, 17.5px)/1.55 var(--dl-sans);
   color: var(--dl-ink); text-wrap: pretty;
 }
-/* Where the numbers come from, said on the page rather than left implied.
-   Spans both columns: it is the panel's footer, not the figures' caption. */
-.record__src {
-  grid-column: 1 / -1;
-  margin: 0;
-  padding: clamp(14px, 1.8vh, 20px) clamp(24px, 3.2vw, 48px);
-  border-top: 1px solid rgba(47, 53, 50, .38);
-  font: var(--dl-w-regular) 13px/1.6 var(--dl-sans);
-  color: rgba(47, 53, 50, .72);
-}
+/* The figure repeated in the sentence is the same fact as the numeral beside
+   it, so it takes the numeral's teal rather than a heavier black. */
+.record .rows > span strong { font-weight: 600; color: var(--dl-teal); }
+/* 11 Oct 2026, client: the source line under the figures is removed. */
 @media (max-width: 860px) {
   /* The panel stacks, so its vertical divider becomes a horizontal one. */
   .record { grid-template-columns: minmax(0, 1fr); }
@@ -884,13 +895,23 @@
   /* One column on a phone, so the numeral sits over its description and the
      rule runs under each complete pair rather than between the two halves of
      one. `2n + 3` is every numeral after the first. */
-  .record .rows { grid-template-columns: minmax(0, 1fr); }
+  /* Natural heights here: stacked, each numeral and each description is its
+     own row, and equal shares stretched every numeral cell to the height of
+     the longest description. */
+  .record .rows { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
   .record .rows > * { padding-inline: clamp(22px, 6vw, 40px); }
   .record .rows > *:nth-child(n + 3) { border-top: 0; }
   /* 2n + 3, not 2n + 1: the first numeral sits under the left half's own
      bottom rule, and 2n + 1 drew a second one on top of it. */
   .record .rows > b:nth-child(2n + 3) { border-top: 1px solid rgba(47, 53, 50, .38); }
-  .record .rows > b { padding-block: clamp(18px, 2.4vh, 24px) 0; justify-content: flex-start; text-align: left; }
+  /* padding-inline restated: the desktop `> b` rule outranks `> *` above and
+     put every numeral 6px right of its own description. The statement block
+     takes the same edge. */
+  .record .rows > b {
+    padding-block: clamp(18px, 2.4vh, 24px) 0; padding-inline: clamp(22px, 6vw, 40px);
+    justify-content: flex-start; text-align: left;
+  }
+  .record .say { padding-inline: clamp(22px, 6vw, 40px); }
   .record .rows > span { padding-block: 6px clamp(18px, 2.4vh, 24px); }
   .record .say p, .record .say .hint { max-width: none; }
 }
@@ -2752,4 +2773,105 @@
     order: 3; flex: 0 0 100%; margin: 0;
     justify-content: space-between; gap: 8px;
   }
+}
+
+/* ============================================================
+   40 · About's two records, and the quote band beside its photograph
+   (client, 11 Oct 2026)
+   ============================================================ */
+
+/* ---- 40a · Professional record as one table ----
+   "Suppose to be 2 x 3 not 1 x 6 … align all sentence lines."
+
+   `Checks aligned` is one list on a two-column grid, so the two entries side
+   by side share a row: the taller of the pair sets its height, both start on
+   the same line, and both columns' text runs on one baseline. The rules are
+   drawn by the items with no column gap, so each one crosses the full width
+   as a single line rather than breaking at the gutter — the gutter is
+   padding inside the cells instead. The closing rule sits on the list, not on
+   the last item, or the left column would finish without one. */
+.checks.checks--table {
+  list-style: none; padding: 0;
+  margin-top: clamp(20px, 2.8vh, 30px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 0;
+  border-bottom: 1px solid var(--s-line);
+}
+.checks--table li {
+  grid-template-columns: 34px minmax(0, 1fr);
+  padding-block: clamp(16px, 2.2vh, 22px);
+  text-wrap: pretty;
+}
+.checks--table li:nth-child(odd) { padding-right: clamp(20px, 2.4vw, 40px); }
+.checks--table li:nth-child(even) { padding-left: clamp(20px, 2.4vw, 40px); }
+.checks--table li:last-child { border-bottom: 0; }
+@media (max-width: 880px) {
+  .checks.checks--table { grid-template-columns: minmax(0, 1fr); }
+  .checks--table li:nth-child(n) { padding-inline: 0; }
+}
+
+/* ---- 40b · A split-shot with a full-width foot ----
+   The 2 x 3 table did not fit the body's half of the band: at 1440 each cell
+   had about 265px of text and the long entries ran to six lines. Under the
+   photograph at the band's own measure, each cell has twice that.
+
+   It also settles the photograph. With the table beside it the band was far
+   taller than the 4:3 plate, which floated mid-band with uneven cream above
+   and below. Beside only the label, heading and lede, the plate is the
+   taller of the two, so it sets the first row's height edge to edge and the
+   heading is centred against it. */
+.split-shot__foot {
+  grid-column: 1 / -1; min-width: 0;
+  padding: clamp(36px, 5vh, 60px) var(--m) clamp(56px, 8vh, 112px);
+}
+.split-shot--foot .checks--table { margin-top: 0; }
+@media (min-width: 881px) {
+  /* One vertical edge for the heading and the table's second column. The
+     table is centred in the band, so its second column starts at the band's
+     middle plus the cell's own gutter. The body starts at 42% of the band, so
+     the 8% between is 8/58 of the body's width — percentage padding resolves
+     against the body's own box. */
+  .split-shot--foot .body {
+    display: flex; flex-direction: column; justify-content: center;
+    padding-left: calc(13.793% + clamp(20px, 2.4vw, 40px));
+  }
+}
+@media (max-width: 880px) {
+  .split-shot__foot { padding: 0 var(--dl-pad) clamp(40px, 6vh, 72px); }
+}
+
+/* ---- 40c · The quote band, beside its photograph ----
+   The solution pages' band set its quote over a full-bleed photograph. The
+   client's new picture of the team in ivory is 4:3 with people from its top
+   edge to its bottom, and the band is a 2.2 frame on a desktop: a cover takes
+   40% off the height and the quote lands on the faces at the left. Both are
+   on the client's list of things that read wrong.
+
+   So the photograph sits beside the quote at its own ratio, and the quote
+   keeps the ink it was always set on — the band still reads as the page's
+   dark beat after the steps panel. On a phone §39a already stacks the band
+   (photograph on top at its ratio, quote below on ink); that rule targets a
+   bare `> img`, so the framed plate here gets its own geometry and nothing
+   else changes. */
+.said--split .shot { position: relative; overflow: hidden; min-width: 0; }
+.said--split .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.said--split::after { display: none; }
+@media (min-width: 881px) {
+  .said.said--split {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: center;
+    background: var(--dl-ink);
+  }
+  .said--split .shot { order: 2; }
+  /* Not var(--m): it carries `100%` unresolved, and inside this column that
+     is the column's width, not the band's, so the quote sat 28px left of
+     every other section's edge at 1440. The column is 1/2.1 of the band, so
+     the band's margin, (band - 1240px) / 2, is 105% of the column less 620px
+     — and percentage padding resolves against the column. */
+  .said--split figure {
+    padding: clamp(48px, 8vh, 104px) clamp(32px, 4.4vw, 80px) clamp(48px, 8vh, 104px)
+      max(var(--dl-pad), calc(105% - 620px));
+  }
+  .said--split blockquote { font-size: clamp(26px, 2.8vw, 44px); max-width: 20ch; }
 }

@@ -530,7 +530,6 @@ export function Record({
   hint,
   photo,
   figures,
-  source,
 }: {
   label?: string;
   title: ReactNode;
@@ -544,8 +543,6 @@ export function Record({
   /** `fig` may be a word ("MDRT Builder") or a range; set `word` for those
    *  and they take a smaller size, as the client's 6 Oct 2026 mockup does. */
   figures: ReadonlyArray<{ fig: ReactNode; copy: ReactNode; word?: boolean }>;
-  /** Where the figures come from and when. Printed under them, small. */
-  source?: ReactNode;
 }) {
   return (
     <section className="band light">
@@ -591,7 +588,6 @@ export function Record({
             </Fragment>
           ))}
         </div>
-        {source && <p className="record__src">{source}</p>}
       </div>
     </section>
   );
@@ -1041,6 +1037,7 @@ export function SplitShot({
   className,
   id,
   children,
+  foot,
 }: {
   photo: Photo;
   label?: string;
@@ -1052,11 +1049,14 @@ export function SplitShot({
   className?: string;
   id?: string;
   children: ReactNode;
+  /** Full-width content under the photograph and the body, e.g. a table too
+   *  wide for the body's half of the band (styles/amendments.css §40b). */
+  foot?: ReactNode;
 }) {
   return (
     <section
       id={id}
-      className={`split-shot ${mode(tone)}${flip ? " split-shot--flip" : ""}${className ? ` ${className}` : ""}`}
+      className={`split-shot ${mode(tone)}${flip ? " split-shot--flip" : ""}${foot ? " split-shot--foot" : ""}${className ? ` ${className}` : ""}`}
     >
       <div className="shot ph" style={frameOf(photo)}>
         <Img photo={photo} />
@@ -1066,6 +1066,7 @@ export function SplitShot({
         {title && <h2>{title}</h2>}
         {children}
       </div>
+      {foot && <div className="split-shot__foot">{foot}</div>}
     </section>
   );
 }
@@ -1077,8 +1078,36 @@ export function SplitShot({
  * `<li>`s — so a two-column ledger has to be split into two lists or it
  * renders as one column beside an empty one. Numbering runs continuously
  * across the split, as the design does: 01–04 then 05–08.
+ *
+ * `aligned` sets the two columns as one table instead: a single list on a
+ * two-column grid, so the entries side by side share a row and every rule
+ * runs straight across both. The two-list form lets each column keep its own
+ * rhythm, which is right for short entries and wrong for long ones — entries
+ * of one to four lines put every rule at a different height on each side.
+ * Numbering runs across the row: 01 02, 03 04, 05 06.
  */
-export function Checks({ items, columns = 2 }: { items: ReadonlyArray<ReactNode>; columns?: 1 | 2 }) {
+export function Checks({
+  items,
+  columns = 2,
+  aligned = false,
+}: {
+  items: ReadonlyArray<ReactNode>;
+  columns?: 1 | 2;
+  aligned?: boolean;
+}) {
+  if (aligned) {
+    return (
+      <ul className="checks checks--table">
+        {items.map((item, i) => (
+          <li key={i}>
+            <b>{String(i + 1).padStart(2, "0")}</b>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   const lists =
     columns === 1 ? [items] : [items.slice(0, Math.ceil(items.length / 2)), items.slice(Math.ceil(items.length / 2))];
 
@@ -1175,13 +1204,27 @@ export function StoriesPreview({
 
 /** Quotation carried on a photograph. Without one, the plain variant. */
 export function Said({ photo, quote, cite }: { photo?: Photo; quote: ReactNode; cite?: string }) {
+  /* A photograph that declares its `ratio` is set beside the quote at its own
+     shape rather than behind it. The full-bleed band is a 2.2 frame on a
+     desktop: it takes 40% off the height of a 4:3 group photograph and puts
+     the quote over the faces on its left (styles/amendments.css §40c). */
+  const split = Boolean(photo?.ratio);
   return (
     /* A04: `cite` is optional now. Without one this is a quote-style section
        divider carrying copy the page already owns — which is the whole point.
        An attribution here would have to be invented, and the brief forbids
        exactly that. With one, nothing about the block changed. */
-    <section className={`${photo ? "said ph" : "said said--plain"}${cite ? "" : " said--divider"}`}>
-      {photo && <Img photo={photo} />}
+    <section
+      className={`${photo ? `said ph${split ? " said--split" : ""}` : "said said--plain"}${cite ? "" : " said--divider"}`}
+    >
+      {photo &&
+        (split ? (
+          <div className="shot" style={frameOf(photo)}>
+            <Img photo={photo} />
+          </div>
+        ) : (
+          <Img photo={photo} />
+        ))}
       <figure>
         <div className="r" />
         <blockquote>{quote}</blockquote>

@@ -306,16 +306,22 @@ export default function Page() {
         tone="light"
         label="Recognition"
         title="Professional record"
+        /* 11 Oct 2026: the table sits under the photograph at the band's full
+           measure. In the body's half, two columns left each entry about
+           265px and the long ones ran to six lines. */
+        foot={<Checks items={RECOGNITION} aligned />}
       >
         <p className="dl-lede">
           A reflection of Sharon’s key professional milestones, achievements and contributions throughout her 27-year
           career.
         </p>
-        {/* 11 Oct 2026, client: the two columns did not line up. Six entries
-            of one to four lines each, split into two lists, put every rule at
-            a different height on each side. One list keeps one numeral column,
-            one text column and one set of rules. */}
-        <Checks items={RECOGNITION} columns={1} />
+        {/* 11 Oct 2026, client, twice. First: the two columns did not line up
+            — six entries of one to four lines, split into two lists, put every
+            rule at a different height on each side. A single column fixed the
+            rules and was the wrong answer: "suppose to be 2 x 3 not 1 x 6".
+            `aligned` keeps two columns and makes them one table, so each pair
+            shares a row and every rule runs straight across. It is the
+            band's `foot` above. */}
       </SplitShot>
 
       {/* The figures were a loose stack under a lede. Held on a contained sand
@@ -351,9 +357,14 @@ export default function Page() {
            mockup. The 3 and 34 managers are the figures the 6 Sep audit took
            out as impossible inside 29 advisors; the client now frames them
            against "80 direct and indirect" Life Planners, and indirect is
-           what makes the arithmetic possible. Still theirs to verify — the
-           source line below says so. ⚠️ The year row reads 2022 here and 2002
-           on the Recognition list for the same MDA honour. */
+           what makes the arithmetic possible. Still theirs to verify.
+           ⚠️ The year row reads 2022 here and 2002 on the Recognition list
+           for the same MDA honour.
+
+           11 Oct 2026, client: the source line ("Figures as at August 2026
+           … Pending client verification.") is removed at their request. The
+           page no longer qualifies these figures anywhere, so their accuracy
+           now rests on the client's confirmation alone. */
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries."
         /* 11 Oct 2026, client: the team in front of the D'Life wall replaces
            team-gathering.jpg. 4:3, and the plate takes its ratio. */
@@ -381,10 +392,11 @@ export default function Page() {
           { fig: "80", copy: <>Led a team of <strong>80</strong> direct and indirect AIA Life Planners.</> },
           /* Two set lines, as the mockup has them. A no-break space was not
              enough: the browser still breaks after an en dash. */
-          { fig: <>2022<br />– 2025</>, word: true, copy: "Consistently achieved Million Dollar Agency (MDA) and Million Dollar Direct Team (MDD)." },
+          /* 11 Oct 2026: the break moves to after the dash, where a range
+             breaks, now the figures are set flush left. */
+          { fig: <>2022 –<br />2025</>, word: true, copy: "Consistently achieved Million Dollar Agency (MDA) and Million Dollar Direct Team (MDD)." },
           { fig: <>MDRT<br />Builder</>, word: true, copy: "Developing and empowering advisors to achieve professional excellence and MDRT standards." },
         ]}
-        source="Figures as at August 2026, from D’Life’s own performance record. Pending client verification."
       />
 
       {/* A08 (client, 31 Aug 2026): the six-card "The Team" directory is
