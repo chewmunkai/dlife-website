@@ -756,24 +756,41 @@
   display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
   align-items: start;
 }
-.record .say {
-  min-width: 0;
-  padding: clamp(28px, 4vh, 48px) clamp(24px, 3.2vw, 48px);
+/* The left half: the photograph, then the framing sentence under it. It
+   stretches to the panel's height so its divider runs the full depth whichever
+   column is taller (11 Oct 2026 — the photograph alone stopped halfway down
+   six rows and left the rest of the half as bare sand). */
+.record .side {
+  min-width: 0; align-self: stretch;
+  display: flex; flex-direction: column;
   border-right: 1px solid rgba(47, 53, 50, .38);
 }
+.record .say {
+  min-width: 0; flex: 1;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(28px, 4vh, 48px) clamp(24px, 3.2vw, 48px);
+}
+.record .shot + .say { border-top: 1px solid rgba(47, 53, 50, .38); }
 /* The photograph fills its half of the panel edge to edge — no padding,
    because a plate inset inside a sand panel reads as a picture pinned to a
    board — and keeps its own shape, per the standing rule on D'Life
    photography (docs/dlife-asset-map.md). */
 .record .shot {
   min-width: 0; position: relative; overflow: hidden;
-  border-right: 1px solid rgba(47, 53, 50, .38);
 }
 .record .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* The sentence is set like the rows' copy beside it; what it names is set
+   like their numerals — display face, deep teal — on lines of its own, so
+   the half reads as the panel's statement rather than a stray caption. */
 .record .say p {
   margin: 0;
-  font: 500 clamp(17px, 1.5vw, 23px)/1.5 var(--dl-disp);
-  color: var(--dl-ink); max-width: 30ch; text-wrap: pretty;
+  font: var(--dl-w-regular) var(--dl-body-sm)/1.6 var(--dl-sans);
+  color: var(--dl-ink); max-width: 34ch; text-wrap: pretty;
+}
+.record .say p strong {
+  display: block; margin-top: clamp(10px, 1.4vh, 14px);
+  font: 500 clamp(26px, 2.5vw, 38px)/1.08 var(--dl-disp);
+  letter-spacing: -.02em; color: var(--dl-teal);
 }
 .record .say .hint {
   margin-top: clamp(16px, 2.2vh, 22px);
@@ -860,17 +877,19 @@
 @media (max-width: 860px) {
   /* The panel stacks, so its vertical divider becomes a horizontal one. */
   .record { grid-template-columns: minmax(0, 1fr); }
-  .record .say, .record .shot {
+  .record .side {
     border-right: 0;
     border-bottom: 1px solid rgba(47, 53, 50, .38);
   }
   /* One column on a phone, so the numeral sits over its description and the
      rule runs under each complete pair rather than between the two halves of
-     one. `2n + 1` is every numeral after the first. */
+     one. `2n + 3` is every numeral after the first. */
   .record .rows { grid-template-columns: minmax(0, 1fr); }
   .record .rows > * { padding-inline: clamp(22px, 6vw, 40px); }
   .record .rows > *:nth-child(n + 3) { border-top: 0; }
-  .record .rows > b:nth-child(2n + 1) { border-top: 1px solid rgba(47, 53, 50, .38); }
+  /* 2n + 3, not 2n + 1: the first numeral sits under the left half's own
+     bottom rule, and 2n + 1 drew a second one on top of it. */
+  .record .rows > b:nth-child(2n + 3) { border-top: 1px solid rgba(47, 53, 50, .38); }
   .record .rows > b { padding-block: clamp(18px, 2.4vh, 24px) 0; justify-content: flex-start; text-align: left; }
   .record .rows > span { padding-block: 6px clamp(18px, 2.4vh, 24px); }
   .record .say p, .record .say .hint { max-width: none; }
@@ -2075,6 +2094,12 @@
      still wins, so a phone shows the same whole picture. */
   .hero .art[style*="aspect-ratio"],
   .crest .shot[style*="aspect-ratio"] { height: auto; min-height: 0; }
+  /* 11 Oct 2026: the split-shot was missing from this list. pages.css gives
+     its stacked plate `height: min(44vh, 320px)`, and a fixed height beside
+     an aspect-ratio solves for WIDTH — About's 4:3 recognition photograph
+     came out 427px wide on a 375px phone and lost the people at its right
+     edge under the page's overflow clip. */
+  .split-shot .shot[style*="aspect-ratio"] { height: auto; }
 }
 
 /* ============================================================

@@ -237,8 +237,8 @@ export default function Page() {
           position: "50% 22%",
         }}
       >
-        {/* 6 Oct 2026: the client's own words, with the dashes taken out at
-            their request. */}
+        {/* 11 Oct 2026: the client's own words, verbatim, em dashes included.
+            They were taken out on 6 Oct; the client's latest copy has them. */}
         <p>
           Sharon has built her career around two commitments: providing families with trusted financial solutions and
           transforming people into capable professionals and leaders.
@@ -255,7 +255,7 @@ export default function Page() {
         </p>
         <p>
           Her mentoring philosophy centres on mindset, personal growth, leadership, financial well-being and quality of
-          life, developing individuals to become confident professionals, financially empowered individuals and
+          life — developing individuals to become confident professionals, financially empowered individuals and
           purposeful leaders, while building a sustainable and well-balanced life.
         </p>
       </Founder>
@@ -278,10 +278,10 @@ export default function Page() {
           alt: "Rachel Cheang, co-founder of D’Life",
         }}
       >
-        {/* 6 Oct 2026: the client's own words, with the dashes taken out at
-            their request. */}
+        {/* 11 Oct 2026: the client's own words, verbatim, em dashes included.
+            They were taken out on 6 Oct; the client's latest copy has them. */}
         <p>
-          Rachel has been part of D’Life’s journey from the early years, not only as Sharon’s sister, but as a trusted
+          Rachel has been part of D’Life’s journey from the early years — not only as Sharon’s sister, but as a trusted
           partner who has grown alongside her through different seasons of the business.
         </p>
         <p>
@@ -294,7 +294,7 @@ export default function Page() {
         </p>
         <p>
           Her leadership is grounded in professional excellence, personal growth and people development. Together, the
-          sisters bring different strengths but share one purpose: developing people, nurturing leaders and building a
+          sisters bring different strengths but share one purpose — developing people, nurturing leaders and building a
           legacy that continues beyond themselves.
         </p>
       </Founder>
@@ -311,7 +311,11 @@ export default function Page() {
           A reflection of Sharon’s key professional milestones, achievements and contributions throughout her 27-year
           career.
         </p>
-        <Checks items={RECOGNITION} />
+        {/* 11 Oct 2026, client: the two columns did not line up. Six entries
+            of one to four lines each, split into two lists, put every rule at
+            a different height on each side. One list keeps one numeral column,
+            one text column and one set of rules. */}
+        <Checks items={RECOGNITION} columns={1} />
       </SplitShot>
 
       {/* The figures were a loose stack under a lede. Held on a contained sand
@@ -352,19 +356,27 @@ export default function Page() {
            on the Recognition list for the same MDA honour. */
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries."
         photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", ratio: "1800 / 1158" }}
+        /* 11 Oct 2026: the mockup's fourth row, the one with no figure. It is
+           a statement about the team, not a measure of it, and as a row it
+           left an empty numeral cell in the middle of the ledger. It sits
+           under the team's photograph instead. The client's words, unchanged;
+           the breaks after each comma are setting, not copy. */
+        say={
+          <>
+            Established a professional advisory team characterized by{" "}
+            <strong>
+              high growth,
+              <br />
+              high culture,
+              <br />
+              and high impact.
+            </strong>
+          </>
+        }
         figures={[
           { fig: "3", copy: <>Mentored <strong>3 top-tier senior agency managers.</strong></> },
           { fig: "34", copy: <>Developed over <strong>34</strong> young and passionate managers.</> },
           { fig: "80", copy: <>Led a team of <strong>80</strong> direct and indirect AIA Life Planners.</> },
-          {
-            fig: "",
-            copy: (
-              <>
-                Established a professional advisory team characterized by{" "}
-                <strong>high growth, high culture, and high impact.</strong>
-              </>
-            ),
-          },
           /* Two set lines, as the mockup has them. A no-break space was not
              enough: the browser still breaks after an en dash. */
           { fig: <>2022<br />– 2025</>, word: true, copy: "Consistently achieved Million Dollar Agency (MDA) and Million Dollar Direct Team (MDD)." },

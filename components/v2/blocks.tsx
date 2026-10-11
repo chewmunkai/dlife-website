@@ -535,11 +535,11 @@ export function Record({
   label?: string;
   title: ReactNode;
   lede?: ReactNode;
-  /** The framing sentence. Ignored when `photo` is given. */
+  /** The framing sentence. Sits under the photograph when both are given. */
   say?: ReactNode;
   /** Small print under the framing sentence, e.g. a verification note. */
   hint?: ReactNode;
-  /** Fills the left half instead of the framing sentence. */
+  /** Heads the left half, at its own shape. */
   photo?: Photo;
   /** `fig` may be a word ("MDRT Builder") or a range; set `word` for those
    *  and they take a smaller size, as the client's 6 Oct 2026 mockup does. */
@@ -553,16 +553,22 @@ export function Record({
       <h2>{title}</h2>
       {lede && <p className="dl-lede">{lede}</p>}
       <div className="record">
-        {photo ? (
-          <div className="shot ph" style={frameOf(photo)}>
-            <Img photo={photo} />
-          </div>
-        ) : (
-          <div className="say">
-            {say && <p>{say}</p>}
-            {hint && <p className="hint">{hint}</p>}
-          </div>
-        )}
+        {/* 11 Oct 2026: the photograph and the framing sentence share the left
+            half rather than one replacing the other. A 1.55 photograph alone
+            filled half the height of six rows and left the rest bare sand. */}
+        <div className="side">
+          {photo && (
+            <div className="shot ph" style={frameOf(photo)}>
+              <Img photo={photo} />
+            </div>
+          )}
+          {(say || hint) && (
+            <div className="say">
+              {say && <p>{say}</p>}
+              {hint && <p className="hint">{hint}</p>}
+            </div>
+          )}
+        </div>
         {/* Back to hairlined rows at the client's request (Sep 2026), after
             one round as three side-by-side cells. Cells, not rows, is why the
             numeral and its description are siblings rather than nested: the
@@ -575,7 +581,13 @@ export function Record({
           {figures.map((f, i) => (
             <Fragment key={i}>
               <b className={f.word ? "wd" : undefined}>{f.fig}</b>
-              <span>{f.copy}</span>
+              {/* The inner span is load-bearing. The cell is a flex box so it
+                  can centre its copy and still stretch to draw the rule, and
+                  every child of a flex box is its own item: copy carrying a
+                  <strong> split into columns and lost the space beside it. */}
+              <span>
+                <span>{f.copy}</span>
+              </span>
             </Fragment>
           ))}
         </div>
