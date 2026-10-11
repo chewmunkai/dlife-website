@@ -96,7 +96,9 @@ const EVENTS = [
     when: "Regular",
     where: "Campus & community venues",
     title: "Financial literacy sessions",
-    photo: { src: "/media/img/youth-resources.jpg", alt: "A financial literacy session" },
+    /* 11 Oct 2026, client: the workshop photograph, the same 4:3 cut the
+       homepage's Educational Resources card already uses. */
+    photo: { src: "/media/img/youth-resources-v2.jpg", alt: "A financial literacy session, a presenter leading participants seated around tables" },
     copy: "How money actually works: saving, protection, and the decisions worth making early. No products, no selling.",
   },
   {
@@ -127,10 +129,9 @@ const EVENTS = [
     when: "Several a year",
     where: "Various",
     title: "Community & volunteer projects",
-    /* 1.50 in a 4:3 frame, so 5.6% comes off each side — but the discarded
-       bands are kitchen counter and bare wall, nobody is in them, and the rule
-       is about cutting people out. Verified by masking, and left alone. */
-    photo: { src: "/media/img/community-gathering.jpg", alt: "Members on a community project" },
+    /* 11 Oct 2026, client: their photograph replaces community-gathering.jpg.
+       4:3, the card's own shape, so nobody is cropped. */
+    photo: { src: "/media/img/youth-volunteer-group.jpg", alt: "Youth Community members seated together in two rows at a community gathering" },
     copy: "Service projects that build compassion and responsibility, and give leadership somewhere real to practise.",
   },
   {
@@ -198,8 +199,10 @@ export default function Page() {
         label="Empowering youth. Building tomorrow."
         title="Youth Community"
         lede="A platform to prepare the next generation for life, career, leadership and financial independence, because education on its own is no longer enough."
-        /* A15: a real Youth Community session, from the client's library. */
-        photo={{ src: "/media/img/youth-session.jpg", alt: "Members of the D’Life Youth Community at a session" }}
+        /* 11 Oct 2026, client: the pool photograph replaces youth-session.jpg.
+           It is 1.78 with people from edge to edge, and a 4:3 cover would take
+           the outermost two out, so it is matted like the DVA hero was. */
+        photo={{ src: "/media/img/youth-hero-pool.jpg", alt: "Members of the D’Life Youth Community together by a pool", fit: "contain" }}
         actions={
           <a className="pill" href={join}>
             <span>Ask about joining</span>

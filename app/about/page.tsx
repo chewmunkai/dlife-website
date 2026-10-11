@@ -355,7 +355,9 @@ export default function Page() {
            source line below says so. ⚠️ The year row reads 2022 here and 2002
            on the Recognition list for the same MDA honour. */
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries."
-        photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", ratio: "1800 / 1158" }}
+        /* 11 Oct 2026, client: the team in front of the D'Life wall replaces
+           team-gathering.jpg. 4:3, and the plate takes its ratio. */
+        photo={{ src: "/media/img/about-advisors-dlife.jpg", alt: "The D’Life team together in front of the D’Life wall at the office", ratio: "4 / 3" }}
         /* 11 Oct 2026: the mockup's fourth row, the one with no figure. It is
            a statement about the team, not a measure of it, and as a row it
            left an empty numeral cell in the middle of the ledger. It sits

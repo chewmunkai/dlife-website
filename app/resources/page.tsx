@@ -55,21 +55,25 @@ const EVENTS = [
     when: "Regular",
     where: "Klang Valley",
     title: "Learning forums",
-    photo: { src: "/media/img/youth-resources.jpg", alt: "A learning forum with invited practitioners" },
+    /* 11 Oct 2026, client: their photographs for this card and the two below.
+       All three are 4:3, the card's own shape, so nobody is cropped. The
+       pickleball shot was 2000x1876 and is cut to 4:3 at source through bare
+       wall above the banner and bare floor below the signs. */
+    photo: { src: "/media/img/learning-forum.jpg", alt: "A D’Life learning forum group together in a lounge" },
     copy: "Knowledge sharing with industry experts and experienced professionals, covering advisory practice, business and personal development.",
   },
   {
     when: "Through the year",
     where: "Campus & community venues",
     title: "Youth leadership programmes",
-    photo: { src: "/media/img/youth-session.jpg", alt: "A youth leadership session" },
+    photo: { src: "/media/img/youth-leadership-cafe.jpg", alt: "Youth leadership programme members together at a café session" },
     copy: "Sessions for students, fresh graduates and young professionals across health, wealth and leadership.",
   },
   {
     when: "Several a year",
     where: "Various",
     title: "Charity & community projects",
-    photo: { src: "/media/img/community-gathering.jpg", alt: "Members at a community project" },
+    photo: { src: "/media/img/charity-pickleball.jpg", alt: "The D’Life team with the podium signs at the St. John Pickle Cup" },
     copy: "Service initiatives that members contribute to across the year, run through DVA and the Youth Community.",
   },
 ];

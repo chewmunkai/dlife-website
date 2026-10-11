@@ -113,10 +113,16 @@ export default function Page() {
         label="Existing policyholders"
         title="Need clarity on your current coverage?"
         lede="Understand the protection you already have, and review it with greater confidence. Wherever you bought it, and with no obligation to change anything."
+        /* 11 Oct 2026, client: their photograph replaces eps-hero-clarity.jpg.
+           Supplied at 1.78; cut to 4:3 at source (x 241-1496 of 1672), which
+           keeps both people with about 25px to spare on each side. Matted
+           rather than covered because that spare is not enough at 1280, where
+           the headline box stretches the plate to 1.28 and a cover would take
+           23px off each edge. */
         photo={{
-          src: "/media/img/eps-hero-clarity.jpg",
-          alt: "A client and an advisor reading the same policy schedule together",
-          position: "50% 45%",
+          src: "/media/img/eps-hero-advisor.jpg",
+          alt: "An advisor talking a client through his policy schedule at a table",
+          fit: "contain",
         }}
         actions={
           <a className="pill" href={clarity}>
