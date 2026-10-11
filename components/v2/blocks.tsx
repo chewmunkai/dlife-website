@@ -1037,7 +1037,6 @@ export function SplitShot({
   className,
   id,
   children,
-  foot,
 }: {
   photo: Photo;
   label?: string;
@@ -1049,14 +1048,11 @@ export function SplitShot({
   className?: string;
   id?: string;
   children: ReactNode;
-  /** Full-width content under the photograph and the body, e.g. a table too
-   *  wide for the body's half of the band (styles/amendments.css §40b). */
-  foot?: ReactNode;
 }) {
   return (
     <section
       id={id}
-      className={`split-shot ${mode(tone)}${flip ? " split-shot--flip" : ""}${foot ? " split-shot--foot" : ""}${className ? ` ${className}` : ""}`}
+      className={`split-shot ${mode(tone)}${flip ? " split-shot--flip" : ""}${className ? ` ${className}` : ""}`}
     >
       <div className="shot ph" style={frameOf(photo)}>
         <Img photo={photo} />
@@ -1066,7 +1062,6 @@ export function SplitShot({
         {title && <h2>{title}</h2>}
         {children}
       </div>
-      {foot && <div className="split-shot__foot">{foot}</div>}
     </section>
   );
 }
@@ -1080,11 +1075,13 @@ export function SplitShot({
  * across the split, as the design does: 01–04 then 05–08.
  *
  * `aligned` sets the two columns as one table instead: a single list on a
- * two-column grid, so the entries side by side share a row and every rule
- * runs straight across both. The two-list form lets each column keep its own
- * rhythm, which is right for short entries and wrong for long ones — entries
- * of one to four lines put every rule at a different height on each side.
- * Numbering runs across the row: 01 02, 03 04, 05 06.
+ * two-column grid that fills column by column, so numbering still runs down
+ * the left column and then the right (01–03, 04–06) while each pair side by
+ * side shares a row and its rules. The two-list form lets each column keep
+ * its own rhythm, which is right for short entries and wrong for long ones —
+ * entries of one to four lines put every rule at a different height on each
+ * side. The last entry in each column is marked so it can close its column
+ * with a rule of its own (styles/amendments.css §40a).
  */
 export function Checks({
   items,
@@ -1096,10 +1093,11 @@ export function Checks({
   aligned?: boolean;
 }) {
   if (aligned) {
+    const rows = Math.ceil(items.length / 2);
     return (
-      <ul className="checks checks--table">
+      <ul className="checks checks--table" style={{ ["--rows" as string]: rows }}>
         {items.map((item, i) => (
-          <li key={i}>
+          <li key={i} className={i === rows - 1 || i === items.length - 1 ? "end" : undefined}>
             <b>{String(i + 1).padStart(2, "0")}</b>
             <span>{item}</span>
           </li>

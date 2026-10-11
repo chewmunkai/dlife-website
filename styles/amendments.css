@@ -2781,63 +2781,63 @@
    ============================================================ */
 
 /* ---- 40a · Professional record as one table ----
-   "Suppose to be 2 x 3 not 1 x 6 … align all sentence lines."
+   "Suppose to be 2 x 3 not 1 x 6 … align all sentence lines", and then a
+   mockup: the table beside the photograph, 01–03 down the left and 04–06
+   down the right, large copper numerals, the entries set in the serif.
 
-   `Checks aligned` is one list on a two-column grid, so the two entries side
-   by side share a row: the taller of the pair sets its height, both start on
-   the same line, and both columns' text runs on one baseline. The rules are
-   drawn by the items with no column gap, so each one crosses the full width
-   as a single line rather than breaking at the gutter — the gutter is
-   padding inside the cells instead. The closing rule sits on the list, not on
-   the last item, or the left column would finish without one. */
+   `Checks aligned` is one list on a two-column grid that fills column by
+   column, so each pair side by side (01 and 04, 02 and 05, 03 and 06) shares
+   a row: the taller of the two sets its height and both start on the same
+   line. Each column closes with its own rule (`.end`), because with a gutter
+   between them a rule on the list would cross the gap that every other rule
+   leaves open.
+
+   The entries take Lora, the system's statement face (`.trio .pl .claim` is
+   the precedent), not Work Sans: in the mockup they read as a record set in
+   type, not as body copy in a list. */
 .checks.checks--table {
   list-style: none; padding: 0;
-  margin-top: clamp(20px, 2.8vh, 30px);
+  margin-top: clamp(22px, 3vh, 34px);
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 0;
-  border-bottom: 1px solid var(--s-line);
+  grid-template-rows: repeat(var(--rows, 3), auto);
+  grid-auto-flow: column;
+  column-gap: clamp(24px, 2.8vw, 44px);
 }
 .checks--table li {
-  grid-template-columns: 34px minmax(0, 1fr);
-  padding-block: clamp(16px, 2.2vh, 22px);
+  grid-template-columns: clamp(50px, 4.4vw, 68px) minmax(0, 1fr);
+  gap: 0; align-items: start;
+  padding-block: clamp(16px, 2.2vh, 24px) clamp(18px, 2.6vh, 28px);
+  font: 400 clamp(15.5px, 1.18vw, 18px)/1.42 var(--dl-disp);
+  color: rgba(15, 51, 44, .86);
   text-wrap: pretty;
 }
-.checks--table li:nth-child(odd) { padding-right: clamp(20px, 2.4vw, 40px); }
-.checks--table li:nth-child(even) { padding-left: clamp(20px, 2.4vw, 40px); }
 .checks--table li:last-child { border-bottom: 0; }
+.checks--table li.end { border-bottom: 1px solid var(--s-line); }
+/* Set on the numeral's cap height: line-height 1 and a nudge, so the top of
+   "01" meets the top of the entry's first line rather than its baseline
+   dropping below it. */
+.checks--table b {
+  font: 600 clamp(26px, 2.4vw, 38px)/1 var(--dl-disp);
+  letter-spacing: -.01em; color: var(--s-label);
+  font-variant-numeric: lining-nums tabular-nums;
+  margin-top: -.06em;
+}
 @media (max-width: 880px) {
-  .checks.checks--table { grid-template-columns: minmax(0, 1fr); }
-  .checks--table li:nth-child(n) { padding-inline: 0; }
+  .checks.checks--table { grid-template-columns: minmax(0, 1fr); grid-auto-flow: row; grid-template-rows: none; }
+  .checks--table li.end { border-bottom: 0; }
+  .checks--table li:last-child { border-bottom: 1px solid var(--s-line); }
 }
 
-/* ---- 40b · A split-shot with a full-width foot ----
-   The 2 x 3 table did not fit the body's half of the band: at 1440 each cell
-   had about 265px of text and the long entries ran to six lines. Under the
-   photograph at the band's own measure, each cell has twice that.
-
-   It also settles the photograph. With the table beside it the band was far
-   taller than the 4:3 plate, which floated mid-band with uneven cream above
-   and below. Beside only the label, heading and lede, the plate is the
-   taller of the two, so it sets the first row's height edge to edge and the
-   heading is centred against it. */
-.split-shot__foot {
-  grid-column: 1 / -1; min-width: 0;
-  padding: clamp(36px, 5vh, 60px) var(--m) clamp(56px, 8vh, 112px);
-}
-.split-shot--foot .checks--table { margin-top: 0; }
+/* ---- 40b · A split-shot photograph hung from the top ----
+   The plate keeps its own ratio, so it is shorter than a band carrying a
+   heading, a lede and a table. Centred, it floated with uneven cream above
+   and below and its top edge matched nothing. Hung from the band's own top
+   padding, it starts level with the label beside it, as the mockup has it. */
 @media (min-width: 881px) {
-  /* One vertical edge for the heading and the table's second column. The
-     table is centred in the band, so its second column starts at the band's
-     middle plus the cell's own gutter. The body starts at 42% of the band, so
-     the 8% between is 8/58 of the body's width — percentage padding resolves
-     against the body's own box. */
-  .split-shot--foot .body {
-    display: flex; flex-direction: column; justify-content: center;
-    padding-left: calc(13.793% + clamp(20px, 2.4vw, 40px));
+  .split-shot--top .shot[style*="aspect-ratio"] {
+    align-self: start;
+    margin-top: clamp(48px, 7vh, 104px);
   }
-}
-@media (max-width: 880px) {
-  .split-shot__foot { padding: 0 var(--dl-pad) clamp(40px, 6vh, 72px); }
 }
 
 /* ---- 40c · The quote band, beside its photograph ----

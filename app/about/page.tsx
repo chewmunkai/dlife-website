@@ -306,10 +306,9 @@ export default function Page() {
         tone="light"
         label="Recognition"
         title="Professional record"
-        /* 11 Oct 2026: the table sits under the photograph at the band's full
-           measure. In the body's half, two columns left each entry about
-           265px and the long ones ran to six lines. */
-        foot={<Checks items={RECOGNITION} aligned />}
+        /* 11 Oct 2026, client mockup: the table beside the photograph, and
+           the photograph hung from the top of the band, level with the label. */
+        className="split-shot--top"
       >
         <p className="dl-lede">
           A reflection of Sharon’s key professional milestones, achievements and contributions throughout her 27-year
@@ -320,8 +319,10 @@ export default function Page() {
             rule at a different height on each side. A single column fixed the
             rules and was the wrong answer: "suppose to be 2 x 3 not 1 x 6".
             `aligned` keeps two columns and makes them one table, so each pair
-            shares a row and every rule runs straight across. It is the
-            band's `foot` above. */}
+            shares a row. A full-width table under the photograph was the next
+            wrong answer; the client's mockup keeps it beside the photograph,
+            01–03 down the left and 04–06 down the right. */}
+        <Checks items={RECOGNITION} aligned />
       </SplitShot>
 
       {/* The figures were a loose stack under a lede. Held on a contained sand
