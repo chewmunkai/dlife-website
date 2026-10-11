@@ -21,10 +21,11 @@ const generated = (name: string, alt: string): Photo => ({
    current photograph: Protecting your family card 02 (the mortgage) and
    Medical card 03 (private hospitals).
 
-   ⚠️ Per the package README, 12 of these were reworked from the client's real
-   advisor photographs, so the advisor in a scene may be a real D'Life
-   advisor; the clients and families are generated. The README also asks for
-   client sign-off before publishing.
+   Per the package README, 12 of these were reworked from the client's real
+   advisor photographs, so the advisor in a scene is a real D'Life advisor;
+   the clients and families are generated. That is at the client's own
+   request (confirmed 11 Oct 2026) — the real advisor's face is the point,
+   not an accident of the rework, so do not swap it for a generated one.
    ============================================================ */
 const sol = (file: string, alt: string, extra?: Partial<Photo>): Photo => ({
   src: `/media/img/solutions/${file}.jpg`, alt, ...extra,
