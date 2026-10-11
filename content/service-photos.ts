@@ -21,11 +21,19 @@ const generated = (name: string, alt: string): Photo => ({
    current photograph: Protecting your family card 02 (the mortgage) and
    Medical card 03 (private hospitals).
 
-   Per the package README, 12 of these were reworked from the client's real
-   advisor photographs, so the advisor in a scene is a real D'Life advisor;
-   the clients and families are generated. That is at the client's own
-   request (confirmed 11 Oct 2026) — the real advisor's face is the point,
-   not an accident of the rework, so do not swap it for a generated one.
+   11 Oct 2026, later: "dlife-solution-images-benchmarked.zip" replaces 17 of
+   these files in place and adds a closing photograph for Income. Its README
+   maps every file to its section, and that mapping is the one below; the
+   Income page's six scenes are newly cast and distinct from each other.
+
+   ⚠️ PROVENANCE, in the package's own terms, and binding: the two Income
+   scenes with an advisor (hero, card 01) are AI-GENERATED COMPOSITES guided
+   by real adviser portraits, not camera photographs; the other Income scenes
+   show generated, non-identifiable people. Never describe any of them as
+   authentic or untouched photographs of D'Life advisers. The client asked
+   for their real advisers' likeness (confirmed 11 Oct 2026); if exact
+   photographic identity is ever required, the fix is camera originals the
+   advisers have approved, not another generation.
    ============================================================ */
 const sol = (file: string, alt: string, extra?: Partial<Photo>): Photo => ({
   src: `/media/img/solutions/${file}.jpg`, alt, ...extra,
@@ -44,14 +52,24 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
     },
   },
   "protecting-your-income": {
-    hero: sol("protecting-income/need-income-malaysia", "An advisor working through figures with a couple at their dining table"),
+    /* Matted: 1.78 with the client couple at the right edge, and a 4:3
+       cover cuts the woman through the face. Same treatment as the site's
+       other wide heroes (EPS, Youth, DVA). */
+    hero: sol("protecting-income/need-income-malaysia", "An advisor going through the household’s figures with a couple", { fit: "contain" }),
     moments: {
-      1: sol("protecting-income/income-01-repayments", "An advisor talking a man through his loan repayments"),
-      2: sol("protecting-income/inc-savings", "A couple and an advisor with a jar of savings on the table"),
-      3: sol("protecting-income/income-03-one-income", "A couple working out with an advisor whether one income could carry the household"),
-      4: sol("protecting-income/income-04-what-comes-first", "A couple and an advisor sorting out what to protect first"),
-      5: sol("protecting-income/income-05-asking", "A family talking through who they could turn to for help"),
+      1: sol("protecting-income/income-01-repayments", "An advisor talking a man through his loan repayments over coffee"),
+      2: sol("protecting-income/inc-savings", "A couple working out how long their savings would last"),
+      3: sol("protecting-income/income-03-one-income", "A couple at night working out whether one income could carry the household"),
+      4: sol("protecting-income/income-04-what-comes-first", "A family with young children sorting out what matters first"),
+      5: sol("protecting-income/income-05-asking", "Two women talking through who they could ask for help"),
     },
+    /* The package also supplies closing-family-table.jpg for this page's
+       closing card. Not used (11 Oct 2026): the card is a 3.14 frame with its
+       copy over the left half under a 0.95 scrim, and the photograph puts the
+       grandparents — the "three generations" — exactly there, so they vanish
+       behind the headline; centred, it also cuts the heads on the right. The
+       shared CLOSING_PHOTO is framed for that card (empty left third). A
+       re-framed version with the family in the right half would work. */
   },
   "medical-health-preparation": {
     hero: sol("medical-health/family-doctor-consultation", "Two family members in consultation with a doctor"),
@@ -67,7 +85,9 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
     /* 1.34 against the 4:3 plate, so the frame and the file agree. */
     hero: sol("planning-for-your-future/advisor-planning", "An advisor and a young man starting a plan together at a table"),
     moments: {
-      1: sol("planning-for-your-future/advisor-couple", "An advisor reading through a retirement statement with a client"),
+      /* 1.11, nearly square, in the 16:10 card: 30% of the height goes. At
+         25% the man's head clears the top and the trim falls on the table. */
+      1: sol("planning-for-your-future/advisor-couple", "An advisor reading through a retirement statement with a client", { position: "50% 25%" }),
       2: sol("planning-for-your-future/family-dining", "Grandparents at dinner with their family"),
       3: sol("planning-for-your-future/market-scene", "An older woman counting her purse at a market stall"),
       4: sol("planning-for-your-future/library-study", "A student studying in a library"),
