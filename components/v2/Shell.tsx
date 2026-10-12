@@ -28,7 +28,8 @@ import { useEffect, useState, type ReactNode } from "react";
 import Logo from "../site/Logo";
 import { link } from "../../lib/asset";
 import { ROUTES } from "../../lib/routes";
-import { ADDRESS_LINE, CONTACT, HOURS, WA, WA_DISPLAY, telHref, waHref } from "../../lib/contact";
+import { ADDRESS_LINE, CONTACT, HOURS, SEGAMAT_LINE, WA, WA_DISPLAY, telHref, waHref } from "../../lib/contact";
+import { Icon } from "./icons";
 import { NAV, OVERLAY_NAV, FOOTER_DIRS, LEGAL_LINKS } from "./nav";
 
 const Caret = () => (
@@ -179,20 +180,32 @@ export default function Shell({ children }: { children: ReactNode }) {
                   their digits. They are labelled by channel and by window
                   rather than both printing a bare number, which is what stops
                   a reader counting them as two different lines. */}
+              {/* 12 Oct 2026, client: the rule under each link is gone and
+                  each channel carries its own icon (components/v2/icons). */}
               <a href={waHref(WA.footer)}>
+                <Icon name="whatsapp" size={20} />
                 WhatsApp {WA_DISPLAY} <em aria-hidden="true">→</em>
               </a>
               <a href={telHref(CONTACT.phone)}>
+                <Icon name="phone" size={20} />
                 Office hours {CONTACT.phone} <em aria-hidden="true">→</em>
               </a>
               <a href={telHref(CONTACT.phoneAfterHours)}>
+                <Icon name="moon" size={20} />
                 After hours {CONTACT.phoneAfterHours} <em aria-hidden="true">→</em>
               </a>
               <a href={`mailto:${CONTACT.email}`}>
+                <Icon name="mail" size={20} />
                 {CONTACT.email} <em aria-hidden="true">→</em>
               </a>
+              {/* Both offices, one to a line; "visits by appointment" went
+                  with the same note on the Contact page (12 Oct 2026). */}
               <span className="sub">
-                {HOURS.days}, {HOURS.office}. {ADDRESS_LINE}, visits by appointment.
+                {HOURS.days}, {HOURS.office}.
+                <br />
+                {ADDRESS_LINE}.
+                <br />
+                {SEGAMAT_LINE}.
               </span>
             </div>
           </div>

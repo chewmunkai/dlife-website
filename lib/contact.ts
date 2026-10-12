@@ -58,6 +58,27 @@ export const ADDRESS_LINE = [
 ].join(", ");
 
 /**
+ * The Johor office, as the client wrote it (12 Oct 2026): "DLife Sdn Bhd,
+ * No.39, 2nd Floor, Jalan Utama 2/4, Bandar Utama, 85000 Segamat, Johor."
+ * Same company, so the name is not repeated under the heading that already
+ * carries it. This is the Segamat branch Rachel leads (see About). The
+ * structured data still names the Kuala Lumpur office as the address.
+ */
+export const SEGAMAT = {
+  street: "No.39, 2nd Floor, Jalan Utama 2/4",
+  street2: "Bandar Utama",
+  postcode: "85000",
+  city: "Segamat",
+  region: "Johor",
+} as const;
+
+export const SEGAMAT_LINE = [
+  SEGAMAT.street,
+  SEGAMAT.street2,
+  `${SEGAMAT.postcode} ${SEGAMAT.city}, ${SEGAMAT.region}`,
+].join(", ");
+
+/**
  * Opening hours, as the client wrote them on 14 Sep 2026. One record because
  * three files used to typeset their own wording, and all three still said
  * "9am to 6pm" after the hours changed.

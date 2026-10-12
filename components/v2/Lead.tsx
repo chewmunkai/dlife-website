@@ -255,9 +255,6 @@ export default function Lead() {
         <button className="pill" type="submit" disabled={state === "sending"}>
           <span>{state === "sending" ? "Sending…" : "Send enquiry"}</span>
         </button>
-        <p className="lead__fine">
-          We will only use this to reply to you. Nothing is added to a mailing list.
-        </p>
       </div>
     </form>
   );

@@ -3,7 +3,7 @@ import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero, Bar, Band, Ideas, ClosingCard } from "../../components/v2/blocks";
-import { ROUTES } from "../../lib/routes";
+import { ROUTES, SOLUTIONS_INDEX } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
@@ -257,7 +257,7 @@ export default function Page() {
             <a className="pill sand" href={clarity}>
               <span>Get clarity on my coverage</span>
             </a>
-            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+            <a className="pill ghost" href={link(SOLUTIONS_INDEX)}>
               <span>Explore protection &amp; planning</span>
             </a>
           </>

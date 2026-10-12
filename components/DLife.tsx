@@ -72,24 +72,33 @@ const PHOTOS = {
   p3: { src: asset("/media/img/path-future.jpg"), alt: "Writing out a plan at a desk" },
   p4: { src: asset("/media/img/path-career.jpg"), alt: "Looking out over the trees, weighing what’s next" },
   p5: { src: asset("/media/img/community-gathering.jpg"), alt: "D’Life colleagues sharing a meal around a table" },
+  /* 12 Oct 2026, client: each life-need card shows the hero of the page it
+     opens, so the card and the page agree. The frames were re-cut for these
+     3:2 photographs in styles/dlife.css (#needs); see the note there. */
   n1: {
-    src: asset("/media/img/need-family-card.jpg"),
-    alt: "Three generations of a family talking around the table after a meal",
+    src: asset("/media/img/solutions/protecting-family/family-meal.jpg"),
+    alt: "Three generations of a family sharing a meal at home",
   },
   n2: {
-    src: asset("/media/img/need-income-malaysia.jpg"),
-    alt: "A Malaysian couple planning together in their home office",
+    src: asset("/media/img/solutions/protecting-income/need-income-malaysia.jpg"),
+    alt: "An advisor going through the household’s figures with a couple",
   },
   n3: {
-    src: asset("/media/img/need-health-card.jpg"),
-    alt: "Two family members in consultation with a doctor at a clinic",
+    src: asset("/media/img/solutions/medical-health/family-doctor-consultation.jpg"),
+    alt: "Two family members in consultation with a doctor",
   },
-  n4: { src: asset("/media/img/need-planning.jpg"), alt: "Planning at a laptop at the kitchen table" },
+  n4: {
+    src: asset("/media/img/solutions/planning-for-your-future/advisor-planning.jpg"),
+    alt: "An advisor and a young man starting a plan together at a table",
+  },
   n5: {
-    src: asset("/media/img/need-legacy-card.jpg"),
-    alt: "A family looking through old photographs and documents together",
+    src: asset("/media/img/solutions/wealth-legacy/family-photos.jpg"),
+    alt: "A family looking through photographs and albums together",
   },
-  policy: { src: asset("/media/img/policy-homepage-review.jpg"), alt: "A couple going through a policy they have owned for years with an advisor" },
+  /* 12 Oct 2026, client: the Existing Policy Support hero, so the section
+     and the page it leads to show the same scene. 4:3 against a 1.32–1.42
+     plate: at most 6% of the height goes, and nobody with it. */
+  policy: { src: asset("/media/img/eps-hero-advisor.jpg"), alt: "An advisor talking a client through his policy schedule at a table" },
   close: { src: asset("/media/img/close-conversation.jpg"), alt: "An advisor mid-conversation across a café table" },
   /* Reverted at the client's request (6 Sep 2026), and the measurements say
      why it was the right picture: the panel is 878x504 (1.74) and this file is
@@ -222,7 +231,7 @@ const NEEDS: Array<[Photo, string, string, string]> = [
   [PHOTOS.n1, "Protecting Your Family", "Coverage built around the people who depend on you.", ROUTES["protecting-your-family"].path],
   [PHOTOS.n2, "Protecting Your Income", "Keep life steady even when the unexpected happens.", ROUTES["protecting-your-income"].path],
   [PHOTOS.n3, "Medical & Health Preparation", "Practical support for health and recovery costs.", ROUTES["medical-health-preparation"].path],
-  [PHOTOS.p4, "Planning for Your Future", "Retirement and legacy planning, with confidence.", ROUTES["planning-for-your-future"].path],
+  [PHOTOS.n4, "Planning for Your Future", "Retirement and legacy planning, with confidence.", ROUTES["planning-for-your-future"].path],
   [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built.", ROUTES["wealth-legacy"].path],
 ];
 

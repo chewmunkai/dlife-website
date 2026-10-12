@@ -356,15 +356,22 @@
    thing in .ft2-head and the offset just pushed it down. */
 .ft2-cta { display: grid; gap: 8px; justify-items: start; }
 .ft2-cta a {
-  display: inline-flex; align-items: baseline; gap: 12px;
+  display: inline-flex; align-items: center; gap: 12px;
   font: var(--dl-w-semibold) clamp(15px, 1.2vw, 18px)/1.3 var(--dl-sans);
-  color: var(--dl-ivory); padding-bottom: 6px;
-  border-bottom: 1px solid var(--s-rule);
-  transition: gap var(--dl-t-base) var(--dl-ease), border-color var(--dl-t-base) var(--dl-ease);
+  color: var(--dl-ivory); padding-block: 4px;
+  transition: color var(--dl-t-base) var(--dl-ease);
 }
-.ft2-cta a em { font-style: normal; color: var(--s-label); }
-.ft2-cta a:hover { gap: 18px; border-color: var(--s-accent); color: var(--dl-ivory); }
-.ft2-cta .sub { font-size: 12.5px; color: var(--s-quiet); max-width: 34ch; }
+/* 12 Oct 2026, client: no rule under the links; each channel leads with its
+   icon instead, in the label copper so the column reads as a set. The arrow
+   stays as the "this goes somewhere" mark and still opens out on hover. */
+.ft2-cta a .dl-icon { flex: none; color: var(--s-label); }
+.ft2-cta a em { font-style: normal; color: var(--s-label); transition: transform var(--dl-t-base) var(--dl-ease); }
+/* The arrow moves on hover, not the gap, so the text stays put beside its
+   icon. */
+.ft2-cta a:hover em { transform: translateX(6px); }
+.ft2-cta a:hover { color: var(--dl-ivory); }
+.ft2-cta a:hover .dl-icon { color: var(--s-accent); }
+.ft2-cta .sub { font-size: 12.5px; color: var(--s-quiet); max-width: 40ch; margin-top: 8px; }
 @media (max-width: 880px) {
   .ft2-top { grid-template-columns: minmax(0, 1fr); gap: clamp(26px, 4vh, 40px); }
 }

@@ -1129,21 +1129,6 @@ export function Checks({
   );
 }
 
-/** Steps as a timeline on a copper line. */
-export function Rail({ steps }: { steps: ReadonlyArray<{ title: string; copy: ReactNode }> }) {
-  return (
-    <div className={`rail${steps.length === 3 ? " rail--3" : ""}`}>
-      {steps.map((s, i) => (
-        <div key={s.title}>
-          <b>{String(i + 1).padStart(2, "0")}</b>
-          <h3>{s.title}</h3>
-          <p>{s.copy}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 /**
  * A preview of the Stories page: real film posters with their runtimes,
  * routing on to the full page. Used where a page needs advisor evidence

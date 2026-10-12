@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero, Band, ClosingCard, Events, StoriesPreview } from "../../components/v2/blocks";
-import { ROUTES } from "../../lib/routes";
+import { ROUTES, SOLUTIONS_INDEX } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { ROUTABLE_ARTICLES } from "../../content/articles";
@@ -102,8 +102,12 @@ export default function Page() {
            only photograph in the folder that is unmistakably one. 1.77, so the
            plate takes its ratio and nobody is cropped. */
         photo={{
-          src: "/media/img/dva-award-night.jpg",
-          alt: "D’Life advisors together at the agency award night",
+          /* 12 Oct 2026, client: the corrected edit, its screen reading "DVA
+             AWARD NIGHT" where this one read "DVL". The same file as the
+             homepage DVA panel and the same 1.78 shape, so the mat below is
+             unchanged. */
+          src: "/media/img/dva-award-night-v2.jpg",
+          alt: "D’Life advisors together at the DVA award night",
           /* 21 Sep 2026, client: "articles and event photo hero is not same
              size — find a way to fix it without cutting ppl off."
 
@@ -194,7 +198,7 @@ export default function Page() {
             <a className="pill sand" href={waHref(WA.question)}>
               <span>Ask a question</span>
             </a>
-            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+            <a className="pill ghost" href={link(SOLUTIONS_INDEX)}>
               <span>Explore protection &amp; planning</span>
             </a>
           </>

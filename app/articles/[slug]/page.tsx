@@ -8,6 +8,7 @@ import { ROUTES } from "../../../lib/routes";
 import { asset, link } from "../../../lib/asset";
 import { WA, waHref } from "../../../lib/contact";
 import { SITE } from "../../../lib/site";
+import { notFound } from "next/navigation";
 
 /* ============================================================
    Article page.
@@ -93,7 +94,9 @@ function Body({ blocks }: { blocks: Article["body"] }) {
 
 export default function Page({ params }: { params: { slug: string } }) {
   const a = bySlug(params.slug);
-  if (!a) return null;
+  /* A slug that is not an article is a 404, not an empty page. Matters now
+     the template has a real article in its place: /articles/template is gone. */
+  if (!a) notFound();
 
   return (
     <Shell>
@@ -130,7 +133,11 @@ export default function Page({ params }: { params: { slug: string } }) {
 
         <div className="art-plate ph">
           {a.photo ? (
-            <img src={asset(a.photo.src)} alt={a.photo.alt} />
+            <img
+              src={asset(a.photo.src)}
+              alt={a.photo.alt}
+              style={a.photo.position ? { objectPosition: a.photo.position } : undefined}
+            />
           ) : (
             <div className="slot-empty">
               Lead image

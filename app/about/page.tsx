@@ -373,17 +373,19 @@ export default function Page() {
         /* 11 Oct 2026: the mockup's fourth row, the one with no figure. It is
            a statement about the team, not a measure of it, and as a row it
            left an empty numeral cell in the middle of the ledger. It sits
-           under the team's photograph instead. The client's words, unchanged;
-           the breaks after each comma are setting, not copy. */
+           under the team's photograph instead. The breaks after each comma are
+           setting, not copy.
+           12 Oct 2026, client: each line opens on a capital "High" and the
+           "and" goes, so the three lines start on one word and align. */
         say={
           <>
             Established a professional advisory team characterized by{" "}
             <strong>
-              high growth,
+              High growth,
               <br />
-              high culture,
+              High culture,
               <br />
-              and high impact.
+              High impact.
             </strong>
           </>
         }

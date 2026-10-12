@@ -1,4 +1,4 @@
-import { ROUTES, LIFE_NEEDS } from "../../lib/routes";
+import { ROUTES, LIFE_NEEDS, SOLUTIONS_INDEX } from "../../lib/routes";
 
 /* ============================================================
    Navigation model for the new design (direction E2).
@@ -30,7 +30,7 @@ const SOLUTION_LINKS: NavLink[] = LIFE_NEEDS.map((r) => ({ label: r.label, href:
    about the people, so it belongs with them, and it frees the seventh slot for
    the one route a visitor looks for by name. Still seven pillars. */
 export const NAV: NavPillar[] = [
-  { label: "Solutions", href: ROUTES.solutions.path, children: SOLUTION_LINKS },
+  { label: "Solutions", href: SOLUTIONS_INDEX, children: SOLUTION_LINKS },
   { label: "Existing Policy Support", href: ROUTES.policy.path },
   {
     label: "About D’Life",
