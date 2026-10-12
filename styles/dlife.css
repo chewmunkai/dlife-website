@@ -1598,27 +1598,28 @@ body:has(.dlife) {
      block: the copy filled half the card and the rest was empty photograph,
      which is what still read as big. At 880 the copy fills ~70% and the card
      is sized by what is in it. */
-  max-width: 880px;
+  /* 12 Oct 2026: 1000, up from 880. The team in ivory is 4:3, so the card
+     is taller for its width than the award night was, and the copy now has
+     to fit in the band below the faces (see .fg). 1000 is the width at which
+     the heading holds one line there. */
+  max-width: 1000px;
   margin: 0 auto;
   border-radius: clamp(14px, 1.4vw, 20px);
   border: 1px solid rgba(246, 241, 232, .16);
   background: var(--dl-ink);
   display: grid;
-  place-items: center;
-  text-align: center;
-  padding: clamp(42px, 6vh, 72px) clamp(26px, 5vw, 76px);
-  /* A floor, not a target: the copy is taller than this at every width the
-     panel is wide, so the card is sized by its content and this only catches
-     a very short viewport. Above the content height it would pad the card out
-     for no reason — which is how the last version ran long. */
-  min-height: clamp(280px, 28vw, 380px);
+  align-items: end;
+  text-align: left;
+  padding: clamp(28px, 3.4vw, 48px);
   /* 12 Oct 2026, client: "still blocking someone on the right — expand and
      adjust." The panel was 2.1 wide and its photograph was over-scanned 12%
      top and bottom for parallax, so a 1.78 group was cropped to a 1.67 box:
      about 5% went off each side, and with it half the man at the right edge.
      The panel now takes the photograph's own shape and the over-scan stops
      (below), so the frame and the picture agree and all of the team is in. */
-  aspect-ratio: 1672 / 940;
+  /* 12 Oct 2026: the team in ivory is 1448x1086, so the panel is 4:3 and
+     nothing is cropped. */
+  aspect-ratio: 1448 / 1086;
   /* Wide, low and soft — the panel lifts off the ivory rather than sitting on
      it, which is the whole of "stand out" here. Nothing sharp: the shadow is
      offset less than its own blur. */
@@ -1631,6 +1632,9 @@ body:has(.dlife) {
 /* The picture is a wide group shot in a much shallower frame, so the crop is
    biased up: heads stay in frame, and the floor is what gets cut. */
 .dlife #dva .panel .bg img { object-position: 50% 50%; }
+/* 12 Oct 2026: the centred pool below is replaced (see the override after
+   it). With 27 people across the whole frame, the centre line is faces, so
+   the copy cannot sit there. */
 .dlife #dva .panel .bg::after {
   content: "";
   position: absolute;
@@ -1668,6 +1672,38 @@ body:has(.dlife) {
   text-shadow: 0 1px 18px rgba(11, 33, 29, .55);
 }
 .dlife #dva h2 { font-size: var(--dl-section-title); margin-top: 14px; max-width: 18ch; margin-inline: auto; }
+
+/* ---- 12 Oct 2026: copy below the faces ----
+   Client: the DVA card takes the homepage hero photograph, the team in ivory.
+   Faces run from 24% to 63% of its height, edge to edge, so centred copy would
+   cover the founders. The copy moves to the bottom band instead, over the
+   table and knees: heading and line on the left, button on the right, on a
+   wash that starts at the bottom edge and is gone before the lowest chin.
+   Measured at 1100, 1280 and 1440: the text block stays under 34% of the
+   panel's height. Below 1081px it no longer would, and the card stacks. */
+.dlife #dva .panel .bg::after {
+  background: linear-gradient(to top,
+    rgba(11, 33, 29, .9) 0%,
+    rgba(11, 33, 29, .74) 18%,
+    rgba(11, 33, 29, .32) 29%,
+    rgba(11, 33, 29, 0) 37%);
+}
+.dlife #dva .fg {
+  max-width: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: clamp(24px, 3vw, 48px);
+  align-items: end;
+}
+.dlife #dva .fg > :not(.pill) { grid-column: 1; }
+.dlife #dva .fg .pill { grid-column: 2; grid-row: 1 / span 3; align-self: end; margin-top: 0; }
+.dlife #dva .fg h2 {
+  font-size: clamp(30px, 2.9vw, 42px);
+  max-width: none;
+  margin: 10px 0 0;
+}
+.dlife #dva .fg p { margin: 10px 0 0; max-width: 52ch; }
 .dlife #dva p {
   font: 400 var(--dl-section-body)/1.65 var(--dl-sans);
   /* Full ivory, not the mode's .86 body token. That token is calibrated for a
@@ -1696,19 +1732,20 @@ body:has(.dlife) {
    Desktop is untouched: at 880px wide the panel is close enough to the
    picture's ratio that nobody is lost, and the copy over the photograph is the
    design the client asked for. */
-@media (max-width: 860px) {
+@media (max-width: 1080px) {
   .dlife #dva .panel {
     grid-template-rows: auto auto;
     place-items: stretch;
+    text-align: center;
     padding: 0;
     min-height: 0;
     aspect-ratio: auto;
   }
-  /* Sized by the picture, 1800x1012, rather than by the copy above it. */
+  /* Sized by the picture, 1448x1086, rather than by the copy above it. */
   .dlife #dva .panel .bg {
     position: relative;
     inset: auto;
-    aspect-ratio: 1800 / 1012;
+    aspect-ratio: 1448 / 1086;
   }
   /* The 12% over-scan exists to give an absolutely-positioned plate somewhere
      to travel behind fixed copy. In a band sized by the picture it would put
@@ -1724,7 +1761,12 @@ body:has(.dlife) {
     padding: clamp(30px, 5vh, 44px) clamp(22px, 6vw, 40px) clamp(34px, 5vh, 48px);
     /* The halo was for type on a photograph. On the ink it is just blur. */
     text-shadow: none;
+    /* Stacked: one centred column again, the button under the line. */
+    display: block;
   }
+  .dlife #dva .fg h2 { margin-inline: auto; max-width: 18ch; }
+  .dlife #dva .fg p { margin: 14px auto 0; }
+  .dlife #dva .fg .pill { margin-top: 24px; }
 }
 
 /* ---------- youth community (sand) ---------- */

@@ -52,8 +52,10 @@ export default function Page() {
            folder. A small group around a table, which is what asking someone for
            advice actually looks like, rather than a lineup of the whole practice. */
         photo={{
-          src: "/media/img/contact-conversation.jpg",
-          alt: "Someone explaining what they need while an advisor listens",
+          /* 12 Oct 2026, client: two women talking it through at a table.
+             4:3, which is the hero frame's own shape at desktop. */
+          src: "/media/img/contact-hero-conversation.jpg",
+          alt: "Two women talking over coffee at a wooden table, one explaining while the other listens",
         }}
       />
 

@@ -109,7 +109,11 @@ const PHOTOS = {
      unchanged. This is the client's corrected edit — the screen reads "DVA
      AWARD NIGHT"; dva-award-night.jpg on Resources is the same shot reading
      "DVL". dva-team.jpg stays on the DVA page and the business solution. */
-  dva: { src: asset("/media/img/dva-award-night-v2.jpg"), alt: "D’Life advisors together at the DVA award night" },
+  /* 12 Oct 2026, client: the team in ivory, the homepage hero photograph,
+     replaces the award night here. It is 4:3 (1448x1086), so the panel takes
+     that shape in styles/dlife.css and the copy moves to the bottom of the
+     frame, below the lowest row of faces. */
+  dva: { src: asset("/media/img/hero-team-ivory.jpg"), alt: "The D’Life team together, all in ivory, around a low table" },
   y1: { src: asset("/media/img/youth-session.jpg"), alt: "Attendees seated at a D’Life Youth Community session" },
   /* The Youth cards are 4:3 frames. This was youth-group.jpg, a 0.75 portrait,
      so the frame took a band out of the middle and cut the people standing at

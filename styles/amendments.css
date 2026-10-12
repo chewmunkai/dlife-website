@@ -537,91 +537,8 @@
   .points .pt:last-child::before { bottom: calc(100% - 22px); }
 }
 
-/* ============================================================
-   9 · Article template (.arts)
-   Round 5: the scaffold for a future article library. Marked placeholder
-   copy, so an unfinished library reads as unfinished rather than as three
-   real posts nobody wrote.
-   ============================================================ */
-.arts {
-  margin-top: var(--dl-head-gap);
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(16px, 2vw, 28px);
-}
-.arts .art {
-  background: var(--dl-cream);
-  box-shadow: inset 0 0 0 1px var(--s-line-soft);
-  display: flex; flex-direction: column;
-}
-.arts .art .ph { aspect-ratio: 3 / 2; background: var(--s-plate); position: relative; overflow: hidden; }
-.arts .art .ph .slot-empty { font-size: 13px; }
-.arts .art .body { padding: clamp(18px, 2vw, 24px); display: grid; gap: 10px; }
-.arts .art .meta {
-  display: flex; gap: 12px; align-items: baseline;
-  font: var(--dl-w-bold) 10.5px/1 var(--dl-sans); letter-spacing: .16em;
-  text-transform: uppercase; color: var(--s-label);
-}
-.arts .art .meta em { font-style: normal; color: var(--s-quiet); letter-spacing: .08em; }
-.arts .art h3 { font-size: clamp(18px, 1.4vw, 22px); line-height: 1.24; margin: 0; }
-.arts .art p { color: var(--s-muted); font-size: var(--dl-body-sm); line-height: 1.6; margin: 0; }
-@media (max-width: 860px) { .arts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .arts { grid-template-columns: minmax(0, 1fr); } }
-
-/* ============================================================
-   10 · Article page (.art-head, .art-body)
-   Round 6: the reading template. One measure, one rhythm, and a lead plate
-   that sits under the headline rather than behind it — an article is read,
-   not scanned, so nothing competes with the first line of body copy.
-   ============================================================ */
-.art-head { padding-bottom: 0; }
-.art-head h1 {
-  font-size: clamp(31px, 4vw, 60px); line-height: 1.05;
-  max-width: 26ch; text-wrap: balance; margin-top: 10px;
-}
-.art-head .dl-lede { max-width: 54ch; }
-.art-meta {
-  display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline;
-  margin-top: clamp(18px, 2.4vh, 26px);
-  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
-  letter-spacing: .14em; text-transform: uppercase; color: var(--s-quiet);
-}
-.art-meta em { font-style: normal; color: var(--s-line); }
-.art-plate {
-  margin-top: clamp(26px, 4vh, 46px);
-  aspect-ratio: 21 / 9; max-height: 420px;
-}
-.art-plate img { width: 100%; height: 100%; object-fit: cover; }
-@media (max-width: 700px) { .art-plate { aspect-ratio: 3 / 2; max-height: none; } }
-
-/* The body: one column at a comfortable measure, centred on the container. */
-.art-body { max-width: 68ch; }
-.art-body h2 {
-  font-size: clamp(21px, 2vw, 30px); line-height: 1.18;
-  margin: clamp(30px, 4.4vh, 52px) 0 12px; max-width: 34ch;
-}
-.art-body p { margin: 0 0 16px; }
-.art-body ul {
-  margin: 4px 0 22px; padding: 0; list-style: none;
-  display: grid; gap: 10px;
-}
-.art-body ul li { padding-left: 22px; position: relative; }
-.art-body ul li::before {
-  content: ""; position: absolute; left: 0; top: .68em;
-  width: 9px; height: 2px; background: var(--dl-copper-d);
-}
-.art-body blockquote {
-  margin: clamp(28px, 4vh, 44px) 0;
-  padding-left: clamp(20px, 2.4vw, 32px);
-  border-left: var(--dl-rule-w) solid var(--s-rule);
-}
-.art-body blockquote p {
-  font: 500 clamp(19px, 1.8vw, 26px)/1.42 var(--dl-disp);
-  color: var(--s-heading); margin: 0 0 10px; text-wrap: pretty;
-}
-.art-body blockquote cite {
-  font: var(--dl-w-bold) 11px/1 var(--dl-sans); font-style: normal;
-  letter-spacing: .14em; text-transform: uppercase; color: var(--s-label);
-}
+/* §9 (article cards) and §10 (article page) were replaced on 12 Oct 2026:
+   see §41. */
 
 /* ============================================================
    11 · The four commitments (.creed)
@@ -1422,7 +1339,7 @@
    next component cannot quietly introduce a seventh size.
    ============================================================ */
 .wrap
-  :is(.icards .icard, .creed .cm, .roster .mb, .arts .art, .trio .pl, .whogrid .w, .yearmap .it, .gate .st, .mv2, .record .rows, .steps-panel)
+  :is(.icards .icard, .creed .cm, .roster .mb, .trio .pl, .whogrid .w, .yearmap .it, .gate .st, .mv2, .record .rows, .steps-panel)
   :is(p, li, span:not(.no):not(.k):not(.rl):not(.lbl):not(.tbc):not(.when):not(.note)) {
   font-size: var(--dl-body-sm);
   line-height: 1.6;
@@ -1441,7 +1358,7 @@
    large Lora ordinals (`.trio .pl .no`, `.holds .hd b`, `.record .rows > b`,
    `.steps-panel b`) are display numerals and keep their own scale. */
 .wrap
-  :is(.lbl, .arts .art .meta, .roster .mb .rl, .whogrid .w .no, .creed .cm .no, .icards .icard .no,
+  :is(.lbl, .art-lead .meta, .art-card .meta, .roster .mb .rl, .whogrid .w .no, .creed .cm .no, .icards .icard .no,
       .moments .mcard b, .yearmap .note, .spreview .tile .cat, .ft2-grid .k, .mv2 .k) {
   font-size: 11px;
 }
@@ -1534,7 +1451,7 @@
    Card-level hover survives where the card is a link or lifts as a set — that
    is a control responding, not a photograph being treated.
    ============================================================ */
-.wrap :is(.ph, .shot, .plate, .art-plate, .dl-card__ph, .dl-video__ph, .dl-storycard__ph) img {
+.wrap :is(.ph, .shot, .plate, .art-hero__ph, .dl-card__ph, .dl-video__ph, .dl-storycard__ph) img {
   filter: none;
 }
 .wrap :is(.dl-storycard:hover .dl-storycard__ph, .dl-video__ph:hover) img { transform: none; }
@@ -2324,63 +2241,9 @@
 .crsl__btn--play svg { width: 20px; height: 20px; }
 @media (max-width: 560px) { .crsl__btn { width: 60px; height: 60px; } }
 
-/* ---- 33 · the article page, designed (client, 6 Sep 2026) ----
-   "Add back the article and do a template mock up article, design the
-   template nicely."
-
-   The reading page had the right bones — a 68ch measure, a lead plate, a meta
-   row — and none of the finish. Three things were missing, and they are the
-   three that make long-form look considered: a first paragraph that announces
-   itself, headings that are anchored to the text rather than floating between
-   two equal gaps, and a pull-quote that is a piece of design rather than an
-   indented paragraph. */
-
-/* The lede. The first paragraph sets one step larger, which is what tells a
-   reader the article has started. */
-.art-body > p:first-child {
-  font: var(--dl-w-regular) clamp(18px, 1.5vw, 22px)/1.62 var(--dl-sans);
-  color: var(--s-strong);
-}
-/* Headings sit closer to the text they open than to the text they follow —
-   the single most reliable signal that a page was typeset rather than dumped. */
-.art-body h2 {
-  margin-top: clamp(40px, 5.2vh, 68px);
-  margin-bottom: clamp(14px, 1.8vh, 20px);
-  padding-top: clamp(20px, 2.6vh, 28px);
-  border-top: 1px solid var(--s-line-soft);
-}
-.art-body p + p { margin-top: clamp(16px, 2vh, 22px); }
-/* Lists get the copper marker the rest of the site uses for a ledger. */
-.art-body ul { margin: clamp(20px, 2.6vh, 28px) 0; padding: 0; list-style: none; }
-.art-body li {
-  position: relative; padding: 10px 0 10px 30px;
-  border-top: 1px solid var(--s-line-soft);
-  font: var(--dl-w-regular) clamp(15.5px, 1.15vw, 17px)/1.62 var(--dl-sans);
-  color: var(--s-body);
-}
-.art-body li:last-child { border-bottom: 1px solid var(--s-line-soft); }
-.art-body li::before {
-  content: ""; position: absolute; left: 0; top: 1.05em;
-  width: 14px; height: 2px; background: var(--dl-copper-d);
-}
-/* The pull-quote becomes an object: copper rule, display face, its own air. */
-.art-body blockquote {
-  margin: clamp(34px, 4.4vh, 56px) 0;
-  padding: clamp(24px, 3vh, 34px) 0 clamp(20px, 2.6vh, 28px);
-  border-top: 2px solid var(--dl-copper-d);
-  border-bottom: 1px solid var(--s-line-soft);
-}
-.art-body blockquote p {
-  margin: 0;
-  font: 500 clamp(20px, 1.9vw, 28px)/1.35 var(--dl-disp);
-  letter-spacing: -.014em; color: var(--s-heading); text-wrap: pretty;
-}
-.art-body blockquote cite {
-  display: block; margin-top: clamp(14px, 1.8vh, 18px);
-  font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
-  letter-spacing: .2em; text-transform: uppercase;
-  color: var(--s-label); font-style: normal;
-}
+/* ---- 33 · the article page, designed (6 Sep 2026): replaced by §41
+   (12 Oct 2026). Its lede, anchored headings, ledger list and pull-quote
+   carry over there unchanged in intent. ---- */
 
 /* ---- 34 · The shape of a year: the twelve-month meter (6 Sep 2026) was
    removed at the client's request on 6 Oct 2026. See §19. ---- */
@@ -2882,3 +2745,275 @@
   }
   .said--split blockquote { font-size: clamp(26px, 2.8vw, 44px); max-width: 20ch; }
 }
+
+/* ============================================================
+   41 · Articles, restructured (12 Oct 2026)
+   Client: "fix the structure of the blog and article, is not nice right now
+   and it's a little messy", with equadtech.com's newsroom as the reference.
+
+   What was messy, measured at 1440: the article's text column hugged the left
+   of a 1240 container with 480px of nothing beside it; the lead picture was a
+   third width (980) that lined up with neither; the picture ran straight into
+   the first paragraph with no gap; and the listing was one 395px card alone in
+   a three-column grid.
+
+   The reference's structure, taken here in D'Life's own type and colour:
+   · the article opens on one dark banner, picture and title together;
+   · the body reads in a single centred column, with a contents list in the
+     left margin on wide screens (a closed list above the text on narrow ones);
+   · the listing leads with the newest piece set wide, then a three-up grid.
+   ============================================================ */
+
+/* ---- The listing ---- */
+.arts { margin-top: var(--dl-head-gap); display: grid; gap: clamp(24px, 3vw, 40px); }
+
+.art-lead,
+.art-card {
+  display: grid;
+  background: var(--dl-cream);
+  box-shadow: inset 0 0 0 1px var(--s-line-soft);
+  color: inherit;
+  transition: box-shadow .35s var(--dl-ease, ease);
+}
+.art-lead:hover,
+.art-card:hover { box-shadow: inset 0 0 0 1px var(--s-line), 0 22px 48px -32px rgba(15, 51, 44, .45); }
+
+/* The picture at its own 4:3, so the lead crops nothing; the words beside it. */
+.art-lead { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.art-lead .ph,
+.art-card .ph { position: relative; overflow: hidden; background: var(--s-plate); }
+.art-lead .ph { aspect-ratio: 4 / 3; }
+.art-card .ph { aspect-ratio: 3 / 2; }
+.art-lead .ph img,
+.art-card .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+:is(.art-lead, .art-card) .ph .slot-empty { font-size: 13px; }
+
+.art-lead .body {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(28px, 4vw, 64px);
+}
+.art-card .body {
+  display: flex; flex-direction: column; gap: 12px; flex: 1;
+  padding: clamp(18px, 2vw, 26px);
+}
+
+.wrap :is(.art-lead, .art-card) .meta {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 0; margin: 0;
+  font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--s-label);
+}
+.wrap :is(.art-lead, .art-card) .meta em { font-style: normal; color: var(--s-quiet); }
+.wrap :is(.art-lead, .art-card) .meta em::before { content: "·"; margin: 0 12px; color: var(--s-line); }
+
+.wrap .art-lead h3 {
+  margin: 18px 0 0; max-width: 18ch;
+  font: 500 clamp(28px, 2.7vw, 42px)/1.1 var(--dl-disp);
+  letter-spacing: -.012em; color: var(--s-heading); text-wrap: balance;
+}
+.wrap .art-lead .blurb {
+  margin: 18px 0 0; max-width: 42ch;
+  font: 400 var(--dl-section-body)/1.65 var(--dl-sans); color: var(--s-body);
+}
+.wrap .art-card h3 {
+  margin: 0;
+  font: 500 clamp(19px, 1.5vw, 23px)/1.25 var(--dl-disp);
+  color: var(--s-heading); text-wrap: balance;
+}
+
+/* "Read" link: the whole card is the link, so this is a span that looks like
+   the site's text links, and its arrow is what answers the hover. */
+:is(.art-lead, .art-card) .more {
+  display: inline-flex; align-items: center; gap: 10px; width: max-content;
+  font: var(--dl-w-bold) 12px/1 var(--dl-sans);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--s-accent);
+}
+.art-lead .more { margin-top: clamp(24px, 3.4vh, 34px); }
+.art-card .more { margin-top: auto; padding-top: 6px; }
+:is(.art-lead, .art-card) .more i { font-style: normal; transition: transform .35s var(--dl-ease, ease); }
+:is(.art-lead, .art-card):hover .more i { transform: translateX(5px); }
+:is(.art-lead, .art-card):hover h3 { color: var(--s-accent); }
+
+.art-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.2vw, 30px); }
+.wrap .band .art-grid { margin-top: var(--dl-head-gap); }
+.arts .art-grid { margin-top: 0; }
+
+@media (max-width: 900px) {
+  .art-lead { grid-template-columns: minmax(0, 1fr); }
+  .art-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .art-grid { grid-template-columns: minmax(0, 1fr); }
+  /* Three items do not fit a phone's line, and a wrapped "·" starts the
+     second. The category takes its own line instead. */
+  .wrap .art-lead .meta span { flex-basis: 100%; margin-bottom: 4px; }
+  .wrap .art-lead .meta span + em::before { content: none; }
+}
+
+/* ---- The article: banner ----
+   Dark, as the reference's is, with the title on the ink at the left and the
+   picture bleeding in from the right. Above 1000px the picture's box is close
+   to the photograph's own 4:3 (893x640 at 1440), so almost nothing is cut, and
+   the title column ends before the picture's subject begins. Below, they
+   stack: the picture at 4:3, then the title on ink. */
+.wrap .art-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; align-items: end;
+  min-height: clamp(480px, 64vh, 640px);
+  padding: clamp(44px, 7vh, 80px) var(--m);
+  background: var(--dl-ink);
+}
+.art-hero__ph { position: absolute; top: 0; right: 0; bottom: 0; left: 36%; z-index: -1; background: var(--s-plate); }
+.art-hero__ph img { width: 100%; height: 100%; object-fit: cover; }
+/* The picture's left edge melts into the ink, so the banner reads as one
+   object rather than a box beside a box. */
+.art-hero__ph::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--dl-ink) 0%, rgba(15, 51, 44, .9) 6%, rgba(15, 51, 44, .55) 18%, rgba(15, 51, 44, .18) 30%, rgba(15, 51, 44, 0) 40%),
+    linear-gradient(0deg, rgba(15, 51, 44, .42) 0%, rgba(15, 51, 44, 0) 30%);
+}
+.art-hero__ph .slot-empty { height: 100%; }
+.art-hero__in { max-width: min(600px, 44%); }
+.wrap .art-hero .dl-crumbs { margin-bottom: clamp(20px, 3.4vh, 34px); }
+.wrap .art-hero h1 {
+  margin: 0; max-width: none;
+  font-size: clamp(34px, 3.7vw, 58px); line-height: 1.06;
+  color: var(--s-heading); text-wrap: balance;
+}
+.art-hero__blurb {
+  margin: clamp(16px, 2.4vh, 22px) 0 0; max-width: 46ch;
+  font: 400 var(--dl-section-body)/1.6 var(--dl-sans); color: var(--s-body);
+}
+.art-meta {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline;
+  margin: clamp(20px, 3vh, 30px) 0 0;
+  font: var(--dl-w-bold) 11px/1 var(--dl-sans);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--s-quiet);
+}
+.art-meta em { font-style: normal; color: var(--s-line); }
+
+@media (max-width: 999px) {
+  .wrap .art-hero { display: block; min-height: 0; padding: 0; }
+  .art-hero__ph { position: relative; inset: auto; z-index: 0; aspect-ratio: 4 / 3; }
+  /* Only a fade at the foot, into the ink the title sits on. */
+  .art-hero__ph::after { background: linear-gradient(0deg, var(--dl-ink) 0%, rgba(15, 51, 44, 0) 24%); }
+  .art-hero__in { max-width: none; padding: clamp(18px, 3vh, 28px) var(--m) clamp(40px, 6vh, 56px); }
+}
+/* On a tablet a 4:3 picture is 615px tall at 820 and pushes the title below
+   the fold. 3:2 takes 11% of the height, from the floor end (the article's
+   own object-position keeps the top). Phones keep the whole 4:3. */
+@media (min-width: 561px) and (max-width: 999px) {
+  .art-hero__ph { aspect-ratio: 3 / 2; }
+}
+
+/* ---- The article: body ---- */
+.wrap .art-main { padding-top: clamp(48px, 7vh, 88px); }
+.art-layout { display: grid; grid-template-columns: minmax(0, 1fr); }
+.art-body { width: 100%; max-width: 700px; margin-inline: auto; }
+/* Wide: contents in the left margin, aligned with the banner's title; the
+   text column centred on the page, which is the reference's single column. */
+@media (min-width: 1100px) {
+  .art-layout:not(.art-layout--solo) {
+    grid-template-columns: minmax(200px, 1fr) minmax(0, 700px) minmax(0, 1fr);
+    column-gap: clamp(40px, 4.4vw, 72px);
+    align-items: start;
+  }
+  .art-layout:not(.art-layout--solo) .art-body { grid-column: 2; margin: 0; }
+}
+
+/* Contents. Copper ordinals, as the site numbers everything else. */
+.art-toc { display: none; }
+@media (min-width: 1100px) {
+  .art-toc { display: block; position: sticky; top: clamp(110px, 15vh, 150px); max-width: 250px; }
+  .art-toc-m { display: none; }
+}
+:is(.art-toc, .art-toc-m) ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
+:is(.art-toc, .art-toc-m) li { counter-increment: toc; }
+:is(.art-toc, .art-toc-m) a {
+  display: grid; grid-template-columns: 2.2em minmax(0, 1fr); align-items: baseline;
+  padding: 9px 0; border-top: 1px solid var(--s-line-soft);
+  font: 400 14px/1.45 var(--dl-sans); color: var(--s-muted);
+  transition: color .25s;
+}
+:is(.art-toc, .art-toc-m) li:last-child a { border-bottom: 1px solid var(--s-line-soft); }
+:is(.art-toc, .art-toc-m) a::before {
+  content: counter(toc, decimal-leading-zero);
+  font: 600 12px/1 var(--dl-sans); letter-spacing: .04em; color: var(--dl-copper-d);
+}
+:is(.art-toc, .art-toc-m) a:hover { color: var(--s-accent); }
+.art-toc .lbl { margin-bottom: 14px; }
+
+.art-toc-m { margin-bottom: clamp(30px, 4.4vh, 44px); }
+.art-toc-m summary {
+  list-style: none; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  padding: 14px 0; border-top: 2px solid var(--dl-copper-d);
+  font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--s-label);
+}
+.art-toc-m summary::-webkit-details-marker { display: none; }
+.art-toc-m summary em { font-style: normal; color: var(--s-quiet); margin-left: auto; }
+.art-toc-m summary::after { content: "+"; font: 400 18px/1 var(--dl-sans); color: var(--s-accent); }
+.art-toc-m[open] summary::after { content: "–"; }
+
+/* The copy. One size for reading, a step up for the first paragraph. */
+.wrap .art-copy { max-width: none; }
+.wrap .art-copy p,
+.wrap .art-copy li {
+  font: 400 clamp(16.5px, 1.2vw, 18px)/1.75 var(--dl-sans); color: var(--s-body);
+}
+.wrap .art-copy > p:first-child {
+  font-size: clamp(19px, 1.5vw, 21px); line-height: 1.62; color: var(--s-strong);
+}
+/* Headings sit closer to the text they open than to the text they follow. */
+.wrap .art-copy h2 {
+  max-width: none; scroll-margin-top: clamp(110px, 15vh, 150px);
+  margin: clamp(44px, 6vh, 68px) 0 0;
+  padding-top: clamp(22px, 3vh, 30px);
+  border-top: 1px solid var(--s-line-soft);
+  font-size: clamp(24px, 2.1vw, 32px); line-height: 1.18;
+}
+.wrap .art-copy h2 + * { margin-top: clamp(14px, 1.8vh, 20px); }
+/* Lists: a ledger with the site's copper marker. */
+.wrap .art-copy ul { margin: clamp(20px, 2.6vh, 28px) 0; padding: 0; list-style: none; }
+.wrap .art-copy li {
+  position: relative; margin: 0; padding: 11px 0 11px 30px;
+  border-top: 1px solid var(--s-line-soft);
+}
+.wrap .art-copy li:last-child { border-bottom: 1px solid var(--s-line-soft); }
+.wrap .art-copy li::before {
+  content: ""; position: absolute; left: 0; top: 1.4em;
+  width: 14px; height: 2px; background: var(--dl-copper-d);
+}
+/* The pull-quote: copper rule, display face, its own air. */
+.wrap .art-copy blockquote {
+  margin: clamp(36px, 5vh, 58px) 0;
+  padding: clamp(24px, 3vh, 34px) 0 clamp(20px, 2.6vh, 28px);
+  border-top: 2px solid var(--dl-copper-d);
+  border-bottom: 1px solid var(--s-line-soft);
+}
+.wrap .art-copy blockquote p {
+  margin: 0;
+  font: 500 clamp(21px, 2vw, 29px)/1.35 var(--dl-disp);
+  letter-spacing: -.014em; color: var(--s-heading); text-wrap: pretty;
+}
+/* A heading straight after the quote would stack a second hairline under the
+   quote's own; the quote's rule does the separating. */
+.wrap .art-copy blockquote + h2 { border-top: 0; padding-top: 0; margin-top: 0; }
+.wrap .art-copy blockquote cite {
+  display: block; margin-top: clamp(14px, 1.8vh, 18px);
+  font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
+  letter-spacing: .2em; text-transform: uppercase; color: var(--s-label); font-style: normal;
+}
+
+/* The foot: when it was published, and the way back. */
+.art-end {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px;
+  margin-top: clamp(44px, 6vh, 68px); padding-top: 18px;
+  border-top: 2px solid var(--dl-copper-d);
+  font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--s-quiet);
+}
+.art-end a { color: var(--s-accent); display: inline-flex; gap: 10px; }
+.art-end a i { font-style: normal; transition: transform .3s; }
+.art-end a:hover i { transform: translateX(-4px); }

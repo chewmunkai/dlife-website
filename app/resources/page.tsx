@@ -3,9 +3,10 @@ import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero, Band, ClosingCard, Events, StoriesPreview } from "../../components/v2/blocks";
 import { ROUTES, SOLUTIONS_INDEX } from "../../lib/routes";
-import { asset, link } from "../../lib/asset";
+import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { ROUTABLE_ARTICLES } from "../../content/articles";
+import { ArticleGrid, ArticleLead } from "../../components/v2/articles";
 import { FEATURED_VIDEOS } from "../../content/videos";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
@@ -128,36 +129,16 @@ export default function Page() {
         }}
       />
 
-      {/* Driven by content/articles.ts. Restored 6 Sep 2026: the template is
-          back, written as a template rather than as filler and labelled as one
-          on every surface. Publishing a real record replaces it. */}
+      {/* Driven by content/articles.ts. 12 Oct 2026, client: the listing was
+          one card stranded in a three-column grid. The newest article is now
+          set wide, and anything older follows in the grid below it. */}
       {ROUTABLE_ARTICLES.length > 0 && (
-      <Band label="Reading" title="Articles">
-        <div className="arts">
-          {ROUTABLE_ARTICLES.map((a) => (
-            <a className="art" href={link(`/articles/${a.slug}`)} key={a.slug}>
-              <div className="ph">
-                {a.photo ? (
-                  <img src={asset(a.photo.src)} alt={a.photo.alt} />
-                ) : (
-                  <div className="slot-empty">
-                    Lead image
-                    <em>{a.template ? "Template" : "To be supplied"}</em>
-                  </div>
-                )}
-              </div>
-              <div className="body">
-                <div className="meta">
-                  <span>{a.template ? "Template" : a.category}</span>
-                  <em>{a.read}</em>
-                </div>
-                <h3>{a.title}</h3>
-                <p>{a.blurb}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </Band>
+        <Band label="Reading" title="Articles">
+          <div className="arts">
+            <ArticleLead a={ROUTABLE_ARTICLES[0]} />
+            {ROUTABLE_ARTICLES.length > 1 && <ArticleGrid items={ROUTABLE_ARTICLES.slice(1)} />}
+          </div>
+        </Band>
       )}
 
       <Band label="Events" title="What runs across the year">
