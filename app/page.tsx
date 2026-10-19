@@ -8,12 +8,21 @@ import { getPublished, homeFromPublished } from "../lib/talous";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = homeFromPublished(await getPublished("home"));
-  return pageMeta(ROUTES.home, {
+  const base = pageMeta(ROUTES.home, {
     // The homepage carries the brand line rather than the "%s · D’Life"
     // template, which would read "Real Support. Beyond the Policy. · D’Life".
     title: { absolute: seo.title || "D’Life · Real Support. Beyond the Policy." },
-    ...(seo.description ? { description: seo.description } : {}),
   });
+  if (!seo.title && !seo.description) return base;
+  // Text set in Talous CMS reaches the share previews too, not just the search snippet.
+  const title = seo.title || undefined;
+  const description = seo.description || undefined;
+  return {
+    ...base,
+    ...(description ? { description } : {}),
+    openGraph: { ...base.openGraph, ...(title ? { title } : {}), ...(description ? { description } : {}) },
+    twitter: { ...base.twitter, ...(title ? { title } : {}), ...(description ? { description } : {}) },
+  };
 }
 
 export default async function Page() {

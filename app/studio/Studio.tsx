@@ -100,81 +100,118 @@ function readLaunch() {
   return { cms: q.get("cms"), pageId: q.get("page"), ticket };
 }
 
+/** Toggle fields that were never set read as "off" (e.g. shown), so the editor shows a choice. */
+function withToggleDefaults(content: Data, manifest: Manifest): Data {
+  return {
+    ...content,
+    content: content.content.map((b) => {
+      const fields = manifest.blocks[b.type]?.fields ?? {};
+      const props = { ...b.props };
+      for (const [k, f] of Object.entries(fields)) if (f.type === "toggle" && props[k] === undefined) props[k] = false;
+      return { ...b, props };
+    }),
+  };
+}
+
 export default function Studio() {
   const launch = useRef<ReturnType<typeof readLaunch>>();
   launch.current ??= readLaunch();
-  const { cms, pageId, ticket } = launch.current;
+  const { cms, pageId } = launch.current;
+  // The CMS refreshes the ticket while the page is open, so long sessions keep saving.
+  const ticket = useRef(launch.current.ticket);
+  const cmsOrigin = cms ? new URL(cms).origin : null;
+  const tell = useCallback((msg: Record<string, unknown>) => cmsOrigin && window.parent.postMessage(msg, cmsOrigin), [cmsOrigin]);
 
   const [loaded, setLoaded] = useState<Loaded | null>(null);
+  // Remounts the editor only when the CMS changed the draft (AI edit, restore), never after our own save.
+  const [mount, setMount] = useState(0);
   const [baseId, setBaseId] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>(null);
-  const [dirty, setDirty] = useState(false);
+  const [dirty, setDirtyState] = useState(false);
   const [pendingReload, setPendingReload] = useState(false);
   const [saving, setSaving] = useState(false);
+  const ignoreChange = useRef(false);
+
+  const setDirty = useCallback(
+    (d: boolean) => {
+      setDirtyState(d);
+      tell({ type: "talous:dirty", dirty: d });
+    },
+    [tell],
+  );
 
   const api = cms && pageId ? `${cms}/api/studio/pages/${pageId}` : null;
 
   const load = useCallback(async () => {
-    if (!api || !ticket) return setStatus({ tone: "err", text: "Open this editor from Talous CMS." });
+    if (!api || !ticket.current) return setStatus({ tone: "err", text: "Open this editor from Talous CMS." });
     try {
-      const res = await fetch(api, { headers: { authorization: `Bearer ${ticket}` } });
+      const res = await fetch(api, { headers: { authorization: `Bearer ${ticket.current}` } });
       const body = await res.json();
       if (!res.ok) return setStatus({ tone: "err", text: body.error ?? `The CMS answered ${res.status}.` });
-      setLoaded(body as Loaded);
-      setBaseId(body.draft?.id ?? null);
+      const next = body as Loaded;
+      if (next.draft && next.manifest) next.draft.content = withToggleDefaults(next.draft.content, next.manifest);
+      setLoaded(next);
+      setMount((m) => m + 1);
+      setBaseId(next.draft?.id ?? null);
       setDirty(false);
       setPendingReload(false);
       setStatus(null);
     } catch {
       setStatus({ tone: "err", text: "Couldn't reach Talous CMS." });
     }
-  }, [api, ticket]);
+  }, [api, setDirty]);
 
   useEffect(() => {
     load();
   }, [load]);
 
-  // The CMS asks for a reload after an AI edit, a discard or a restore.
+  // The CMS asks for a reload after an AI edit, a discard or a restore, and sends fresh tickets.
   const dirtyRef = useRef(dirty);
   dirtyRef.current = dirty;
   useEffect(() => {
-    if (!cms) return;
-    const origin = new URL(cms).origin;
+    if (!cmsOrigin) return;
     const onMessage = (e: MessageEvent) => {
-      if (e.origin !== origin || e.data?.type !== "talous:reload") return;
-      if (dirtyRef.current) setPendingReload(true);
-      else load();
+      if (e.origin !== cmsOrigin) return;
+      if (e.data?.type === "talous:ticket" && typeof e.data.ticket === "string") ticket.current = e.data.ticket;
+      if (e.data?.type === "talous:reload") {
+        if (dirtyRef.current) setPendingReload(true);
+        else load();
+      }
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, [cms, load]);
+  }, [cmsOrigin, load]);
 
   const save = useCallback(
-    async (data: Data) => {
-      if (!api || !ticket) return;
+    async (data: Data, dispatch?: (action: { type: "setData"; data: Data }) => void) => {
+      if (!api || !ticket.current) return;
       setSaving(true);
       setStatus({ tone: "info", text: "Saving…" });
       try {
         const res = await fetch(api, {
           method: "PUT",
-          headers: { authorization: `Bearer ${ticket}`, "content-type": "application/json" },
+          headers: { authorization: `Bearer ${ticket.current}`, "content-type": "application/json" },
           body: JSON.stringify({ baseVersionId: baseId, content: data }),
         });
         const body = await res.json();
         if (!res.ok) return setStatus({ tone: "err", text: body.error ?? `Save failed (${res.status}).`, errors: body.errors });
         setBaseId(body.id);
+        // Take the saved copy (it has the ids the CMS gave new list items) without remounting,
+        // so the selection and scroll position survive the save.
+        if (dispatch && body.content && loaded?.manifest) {
+          ignoreChange.current = true;
+          dispatch({ type: "setData", data: withToggleDefaults(body.content, loaded.manifest) });
+        }
         setDirty(false);
         setStatus({ tone: "ok", text: `Saved as draft v${body.n}. Publish it from the panel on the right.` });
-        if (cms) window.parent.postMessage({ type: "talous:saved", versionId: body.id }, new URL(cms).origin);
-        // Reload so ids the CMS assigned to new list items are in the editor's copy.
-        await load();
+        tell({ type: "talous:saved", versionId: body.id });
       } catch {
         setStatus({ tone: "err", text: "Couldn't reach Talous CMS. Nothing was saved." });
       } finally {
         setSaving(false);
       }
     },
-    [api, ticket, baseId, cms, load],
+    [api, baseId, loaded?.manifest, setDirty, tell],
   );
 
   const config = useMemo(() => (loaded?.manifest ? buildConfig(loaded.manifest) : null), [loaded?.manifest]);
@@ -192,11 +229,17 @@ export default function Studio() {
       )}
       <StatusBar status={status} />
       <Puck
-        key={loaded.draft.id}
+        key={mount}
         config={config}
         data={loaded.draft.content}
-        onChange={() => setDirty(true)}
-        onPublish={save}
+        onChange={() => {
+          if (ignoreChange.current) {
+            ignoreChange.current = false;
+            return;
+          }
+          if (!dirtyRef.current) setDirty(true);
+        }}
+        onPublish={(d) => save(d)}
         headerTitle={loaded.page.title}
         // Fixed pages: sections can't be added, removed or duplicated; any-order pages can be dragged.
         permissions={tpl?.fixed ? { drag: !!tpl.anyOrder, duplicate: false, delete: false, insert: false } : undefined}
@@ -206,10 +249,25 @@ export default function Studio() {
   );
 }
 
-function SaveButton({ onSave, saving, dirty }: { onSave: (d: Data) => void; saving: boolean; dirty: boolean }) {
+function SaveButton({
+  onSave,
+  saving,
+  dirty,
+}: {
+  onSave: (d: Data, dispatch: (action: { type: "setData"; data: Data }) => void) => void;
+  saving: boolean;
+  dirty: boolean;
+}) {
   const getPuck = useGetPuck();
   return (
-    <button className="studio-save" disabled={saving || !dirty} onClick={() => onSave(getPuck().appState.data)}>
+    <button
+      className="studio-save"
+      disabled={saving || !dirty}
+      onClick={() => {
+        const puck = getPuck();
+        onSave(puck.appState.data, puck.dispatch as (action: { type: "setData"; data: Data }) => void);
+      }}
+    >
       {saving ? "Saving…" : dirty ? "Save draft" : "Saved"}
     </button>
   );
