@@ -15,7 +15,7 @@ import { HOME_FAQS } from "../home";
 const HIDDEN = { type: "toggle", label: "Hide this section on the site" } as const;
 
 export const MANIFEST = {
-  version: "dlife-2026-10-19.1",
+  version: "dlife-2026-10-19.2",
   blocks: {
     Hero: {
       label: "Home hero",
@@ -68,7 +68,10 @@ export const MANIFEST = {
   },
   // The photographs a field may use. Alt text is the default description; editors can override it.
   media: [
-    { src: "/media/img/hero-team.jpg", alt: "The D’Life team together" },
+    { src: "/media/img/hero-team-ivory.jpg", alt: "The D’Life team together" },
+    { src: "/media/img/hero-team.jpg", alt: "The D’Life team together (2025 photo)" },
+    { src: "/media/img/dva-award-night-v2.jpg", alt: "D’Life advisors together at the DVA award night" },
+    { src: "/media/img/youth-resources-v2.jpg", alt: "A presenter leading a workshop, participants seated around tables" },
     { src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team" },
     { src: "/media/img/community-gathering.jpg", alt: "D’Life colleagues sharing a meal around a table" },
     { src: "/media/img/community-group.jpg", alt: "D’Life community members together at a gathering" },
@@ -105,7 +108,8 @@ export const HERO_DEFAULTS: HeroProps = {
   lede: "Protection is only the beginning. D’Life brings real guidance, long-term relationships and support through life’s changes.",
   primaryCta: "Speak with an Advisor",
   secondaryCta: "Find your path",
-  photo: "/media/img/hero-team.jpg",
+  // 6 Oct 2026, client: the 27-strong team in ivory (same 4:3 as the plate).
+  photo: "/media/img/hero-team-ivory.jpg",
   photoAlt: "The D’Life team together",
 };
 

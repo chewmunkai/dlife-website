@@ -809,9 +809,16 @@
    rules between them land at even intervals and both columns finish level. */
 .record .rows {
   min-width: 0;
-  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  /* min-content, not auto (6 Oct 2026): figures can be words now ("MDRT
+     Builder", "2022 – 2025"). An auto column took them at a full line of
+     display type and squeezed the copy; min-content breaks them onto two
+     lines, as the client's mockup does. The column is sized, not the cell,
+     so every numeral cell still spans it and draws its half of the rule. */
+  display: grid; grid-template-columns: min-content minmax(0, 1fr);
   align-self: stretch;
-  grid-auto-rows: 1fr;
+  /* auto, not 1fr (6 Oct 2026): with six rows, equal shares made every row
+     as tall as the tallest and the panel ran to 1167px at 1440. */
+  grid-auto-rows: auto;
 }
 .record .rows > * {
   display: flex; align-items: center;
@@ -827,7 +834,10 @@
   font: 500 clamp(34px, 3.6vw, 56px)/.92 var(--dl-disp);
   letter-spacing: -.035em; color: var(--dl-teal);
   font-variant-numeric: tabular-nums;
+  /* Centred in the column, as the client's 6 Oct 2026 mockup sets them. */
+  justify-content: center; text-align: center;
 }
+.record .rows > b.wd { font-size: clamp(26px, 2.5vw, 38px); line-height: 1; white-space: nowrap; }
 /* ⚠️ No max-width here, deliberately. The cell draws its half of the rule, so
    constraining it stops the rule short of the panel edge and the table looks
    unfinished — which is most of what "clearer lines" was asking about. The
@@ -861,7 +871,7 @@
   .record .rows > * { padding-inline: clamp(22px, 6vw, 40px); }
   .record .rows > *:nth-child(n + 3) { border-top: 0; }
   .record .rows > b:nth-child(2n + 1) { border-top: 1px solid rgba(47, 53, 50, .38); }
-  .record .rows > b { padding-block: clamp(18px, 2.4vh, 24px) 0; }
+  .record .rows > b { padding-block: clamp(18px, 2.4vh, 24px) 0; justify-content: flex-start; text-align: left; }
   .record .rows > span { padding-block: 6px clamp(18px, 2.4vh, 24px); }
   .record .say p, .record .say .hint { max-width: none; }
 }
@@ -1166,20 +1176,15 @@
   font: 500 clamp(22px, 2.1vw, 32px)/1.1 var(--dl-disp);
   letter-spacing: -.02em; color: var(--s-heading); display: block;
 }
+/* The rule under the note is what the session count used to sit on; the
+   client's 6 Oct 2026 mockup drops the count and keeps the line. */
 .yearmap .note {
   display: block; margin-top: 10px;
+  padding-bottom: clamp(18px, 2.6vh, 26px);
+  border-bottom: 1px solid rgba(47, 53, 50, .2);
   font: var(--dl-w-bold) 11px/1.4 var(--dl-sans);
   letter-spacing: .16em; text-transform: uppercase; color: var(--s-label);
 }
-/* The count, set as a figure rather than a sentence. */
-.yearmap .n {
-  display: block; margin-top: clamp(14px, 2vh, 18px);
-  padding-top: clamp(12px, 1.6vh, 15px);
-  border-top: 1px solid rgba(47, 53, 50, .2);
-  font: var(--dl-w-regular) var(--dl-caption)/1.5 var(--dl-sans);
-  color: var(--s-quiet);
-}
-.yearmap .n b { font: 500 clamp(19px, 1.7vw, 26px)/1 var(--dl-disp); color: var(--s-accent); margin-right: 7px; }
 .yearmap .items {
   display: grid; grid-template-columns: repeat(var(--n, 1), minmax(0, 1fr));
   gap: clamp(12px, 1.4vw, 18px);
@@ -1220,9 +1225,7 @@
   box-shadow: inset 0 2px 0 0 var(--dl-copper-d);
 }
 .yearmap .tier--spine .when { color: var(--dl-ivory); }
-.yearmap .tier--spine .note { color: var(--dl-sand); }
-.yearmap .tier--spine .n { color: rgba(246, 241, 232, .6); border-top-color: rgba(246, 241, 232, .22); }
-.yearmap .tier--spine .n b { color: var(--dl-sand); }
+.yearmap .tier--spine .note { color: var(--dl-sand); border-bottom-color: rgba(246, 241, 232, .22); }
 /* On ink the wash has to be a shade stronger to separate from the ground, and
    the cap goes to the lighter copper so it still reads against the dark. Same
    round-17 lift as the light cards: the wash and the hairline both come up,
@@ -1242,7 +1245,6 @@
 @media (max-width: 900px) {
   .yearmap .tier { grid-template-columns: minmax(0, 1fr); gap: clamp(16px, 2.2vh, 22px); }
   .yearmap .items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .yearmap .n { display: inline-block; margin-top: 12px; }
 }
 @media (max-width: 520px) { .yearmap .items { grid-template-columns: minmax(0, 1fr); } }
 
@@ -2327,41 +2329,8 @@
   color: var(--s-label); font-style: normal;
 }
 
-/* ---- 34 · The shape of a year, made visible (client, 6 Sep 2026) ----
-   "Redesign the 'Across the year' part — make the design communicate the
-   better idea."
-
-   The idea was already in the copy and nowhere in the design: frequency is
-   what tells you about the commitment. The section said so in a sentence and
-   then showed three near-identical rows of cards.
-
-   It shows it now. Each tier carries the same twelve-month meter, and how
-   many months are lit is how often you would be in that room — twelve for the
-   Growth Circle, four for the quarterly work, one for the things that happen
-   once. Three rows, one scale, and the argument is legible before any of the
-   cards are read. The meter is decorative and the line under it says the same
-   thing in words, so nothing depends on seeing it. */
-.yearmap .yr {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 4px;
-  margin-top: clamp(16px, 2.2vh, 22px);
-  max-width: 226px;
-}
-.yearmap .yr i {
-  display: block; height: 20px; border-radius: 1px;
-  background: rgba(47, 53, 50, .13);
-  transition: background-color var(--dl-t-base) var(--dl-ease);
-}
-.yearmap .yr i.on { background: var(--dl-copper-d); }
-/* On the ink spine the unlit months have to read against a dark ground. */
-.yearmap .tier--spine .yr i { background: rgba(246, 241, 232, .18); }
-.yearmap .tier--spine .yr i.on { background: var(--dl-sand); }
-/* The count becomes a frequency: "12× a year · 01 session". */
-.yearmap .n b { display: inline-flex; align-items: baseline; }
-.yearmap .n b em { font-style: normal; font-size: .62em; margin-left: 1px; }
-@media (prefers-reduced-motion: reduce) { .yearmap .yr i { transition: none; } }
-@media (max-width: 760px) { .yearmap .yr { max-width: none; } }
+/* ---- 34 · The shape of a year: the twelve-month meter (6 Sep 2026) was
+   removed at the client's request on 6 Oct 2026. See §19. ---- */
 
 /* ---- 35 · The enquiry form, designed (client, 6 Sep 2026) ----
    "Make the contact form better with design and higher in contrast."

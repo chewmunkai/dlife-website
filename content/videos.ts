@@ -42,62 +42,36 @@ export type Video = {
 };
 
 /* ============================================================
-   ⏳ AWAITING REPLACEMENT FILMS (client, round 17; revised 21 Sep 2026)
+   THE LIBRARY (28 Sep 2026): 13 films.
 
-   ⚠️ 21 Sep 2026: "What Real Guidance Looks Like" was REMOVED. The advisor
-   in it, May Yee, has resigned, and the client asked for her to be excluded
-   from all material. Her .mp4 and poster were deleted from the repository in
-   the same commit. That film was the library's only client-guidance story,
-   so the subject is now unrepresented — a replacement needs SHOOTING, not
-   sourcing, and nothing here can generate it.
+   Eleven came from the client's Drive folder "Website (Video)" on 28 Sep.
+   The masters are 1080x1920 HEVC at ~10 Mbps, 120–300MB each, which is not
+   something to put on a page or in git. Every file here was re-encoded to the
+   same shape as the original two: 720x1280 H.264 High, CRF 26 capped at
+   1.4 Mbps, AAC 96k, faststart. That is 14–25MB a film. The masters stay in
+   Drive; re-encode from there, not from these.
 
-   THE LIBRARY IS DOWN TO TWO FILMS. `--reel-n` is set from VIDEOS.length so
-   the row re-divides itself and nothing breaks, but a two-film reel is a thin
-   showing for a section titled "stories".
+   Skipped from that folder:
+     · MayYee_FINAL — excluded from all material (client, 21 Sep 2026).
+     · Alex_FINAL — the same film as advisor-alex below (identical runtime to
+       the millisecond), so the existing encode stands.
 
-   The client also asked for one more video earlier and supplied an Instagram
-   permalink for it. That link is not something this repository can consume:
-   Instagram does not serve a downloadable file, and pulling media off a
-   third-party page is not a thing to do on the client's behalf without them
-   handing the file over.
+   Posters are the client's own cover images (the "封面" files), cut from 9:16
+   to the card's 4:5 at 760x950. The crop is bottom-anchored so the burned-in
+   headline survives, except ChingYee (150px from the top, or her face goes)
+   and Hebe (from the top, or her headline loses its first line).
 
-   TO ADD IT, three steps and no code changes beyond this array:
+   ⚠️ DRAFT COPY. The eleven new titles are the covers' own headlines,
+   translated where the cover is in Chinese; the blurbs paraphrase the covers'
+   sublines. Neither has been checked by the client. Runtimes are read off
+   the files and floored, matching the original two.
 
-     1. drop the file at  public/media/video/<name>.mp4
-     2. drop a poster at  public/media/poster/<name>.jpg
-        — a still from the film, exported at the same 760x950 as the other
-          three so the reel cards stay identical
+   TO ADD A FILM, three steps and no code changes beyond this array:
+     1. drop the web encode at  public/media/video/<name>.mp4
+     2. drop a poster at        public/media/poster/<name>.jpg (760x950)
      3. add the entry below, following the shape of its neighbours
-
-   `focus` is the poster's focal point for when a card crops it; `runtime` is
-   read off the file; `next` is the route the film should send a viewer to.
    ============================================================ */
 export const VIDEOS: Video[] = [
-  /* PLACEHOLDER SLOT (client, 21 Sep 2026: "you can put a placeholder first for now").
-     Uncomment and fill the three fields when the replacement film for May Yee's
-     "What Real Guidance Looks Like" is shot. Nothing else needs changing —
-     `--reel-n` is read from VIDEOS.length and the reel re-divides itself.
-
-     Measured before deciding to leave the reel at two: the cards are
-     HEIGHT-constrained, not width-constrained (the active card is 822px tall
-     and 430 wide, which is its own 9:16 against the row height), so dropping
-     from three films to two centres the row narrower rather than leaving a
-     hole in it. A visible "coming soon" card would advertise a gap that a
-     visitor does not otherwise see, so the placeholder is kept here in the
-     source rather than put on the page. Say the word to make it visible.
-
-  {
-    src: asset("/media/video/<name>.mp4"),
-    poster: asset("/media/poster/<name>.jpg"),   // a still, exported 760x950
-    focus: "50% 50%",
-    title: "",
-    runtime: "",
-    category: "Client guidance",
-    next: "solutions",
-    blurb: "",
-  },
-  */
-
   {
     src: asset("/media/video/advisor-alex.mp4"),
     poster: asset("/media/poster/advisor-alex.jpg"),
@@ -107,6 +81,116 @@ export const VIDEOS: Video[] = [
     category: "Advisor stories",
     next: "careers",
     blurb: "What the work looks like when the job is guidance rather than sales.",
+  },
+  {
+    src: asset("/media/video/advisor-debbie.mp4"),
+    poster: asset("/media/poster/advisor-debbie.jpg"),
+    focus: "50% 50%",
+    title: "I Was Scared I’d Say These Words to My Son",
+    runtime: "1 min 48",
+    category: "Advisor stories",
+    next: "careers",
+    blurb: "Out of the house before sunrise while her son grew up, and the question that changed that.",
+  },
+  {
+    src: asset("/media/video/dva-kelvin.mp4"),
+    poster: asset("/media/poster/dva-kelvin.jpg"),
+    focus: "50% 50%",
+    title: "No Background, No Talent. How Did I Reach MDRT?",
+    runtime: "1 min 58",
+    category: "Leadership",
+    next: "dva",
+    blurb: "Reaching the Million Dollar Round Table without connections or a head start.",
+  },
+  {
+    src: asset("/media/video/advisor-casie.mp4"),
+    poster: asset("/media/poster/advisor-casie.jpg"),
+    focus: "50% 50%",
+    title: "Sick for Two Years, and the Income Never Stopped",
+    runtime: "1 min 56",
+    category: "Advisor stories",
+    next: "careers",
+    blurb: "An ex-marketer’s career change story.",
+  },
+  {
+    src: asset("/media/video/advisor-janice.mp4"),
+    poster: asset("/media/poster/advisor-janice.jpg"),
+    focus: "50% 50%",
+    title: "Losing Everything Taught Me How to Live",
+    runtime: "2 min 17",
+    category: "Advisor stories",
+    next: "careers",
+    blurb: "A story about loss, and beginning again.",
+  },
+  {
+    src: asset("/media/video/advisor-ching-yee.mp4"),
+    poster: asset("/media/poster/advisor-ching-yee.jpg"),
+    focus: "50% 50%",
+    title: "Twenty Years On, No Regrets",
+    runtime: "2 min 24",
+    category: "Advisor stories",
+    next: "careers",
+    blurb: "From journalist to insurance advisor, and why she would make the move again.",
+  },
+  {
+    src: asset("/media/video/dva-evelyn.mp4"),
+    poster: asset("/media/poster/dva-evelyn.jpg"),
+    focus: "50% 50%",
+    title: "Can a Couple Build a Business Together?",
+    runtime: "2 min 23",
+    category: "Leadership",
+    next: "dva",
+    blurb: "Working toward the same goal, and getting better at it together.",
+  },
+  {
+    src: asset("/media/video/advisor-joey.mp4"),
+    poster: asset("/media/poster/advisor-joey.jpg"),
+    focus: "50% 50%",
+    title: "Ten Years Out of Work. Can She Start Again?",
+    runtime: "2 min 20",
+    category: "Advisor stories",
+    next: "careers",
+    blurb: "Coming back to a career after more than a decade away from one.",
+  },
+  {
+    src: asset("/media/video/advisor-june.mp4"),
+    poster: asset("/media/poster/advisor-june.jpg"),
+    focus: "50% 50%",
+    title: "How Grief Led Her to a Life That Truly Matters",
+    runtime: "1 min 42",
+    category: "Advisor stories",
+    next: "careers",
+    blurb: "One loss, one decision, a whole new life.",
+  },
+  {
+    src: asset("/media/video/advisor-hebe.mp4"),
+    poster: asset("/media/poster/advisor-hebe.jpg"),
+    focus: "50% 50%",
+    title: "Five Years In, Ready to Quit",
+    runtime: "2 min 21",
+    category: "Advisor stories",
+    next: "careers",
+    blurb: "Alone you go faster. Together you go further.",
+  },
+  {
+    src: asset("/media/video/advisor-sharon-lau.mp4"),
+    poster: asset("/media/poster/advisor-sharon-lau.jpg"),
+    focus: "50% 50%",
+    title: "Five Years, and I Lost Myself",
+    runtime: "2 min 00",
+    category: "Advisor stories",
+    next: "careers",
+    blurb: "A mother who keeps growing is the best example her daughter can have.",
+  },
+  {
+    src: asset("/media/video/dva-yeecher.mp4"),
+    poster: asset("/media/poster/dva-yeecher.jpg"),
+    focus: "50% 50%",
+    title: "From Drifting to Finding My Own Path",
+    runtime: "1 min 57",
+    category: "Leadership",
+    next: "dva",
+    blurb: "What it took to stop going with the flow and choose a direction.",
   },
   {
     src: asset("/media/video/dva-workshop.mp4"),
@@ -119,3 +203,17 @@ export const VIDEOS: Video[] = [
     blurb: "A Growth Circle session, and the standard the room holds itself to.",
   },
 ];
+
+/**
+ * The short list for everywhere that is NOT the Stories page: the homepage
+ * reel and the Careers / Resources previews.
+ *
+ * Those three lay every item out side by side (the homepage divides its row
+ * by `--reel-n`, the previews render one tile per item), so handing them all
+ * thirteen films would make a contact sheet. The Stories page's reel windows
+ * itself to three cards and takes the whole library.
+ *
+ * It is the first three of VIDEOS, so reordering the array is how to change
+ * what is featured.
+ */
+export const FEATURED_VIDEOS: ReadonlyArray<Video> = VIDEOS.slice(0, 3);
