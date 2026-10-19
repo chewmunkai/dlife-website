@@ -9,6 +9,21 @@ import { WA } from "../../lib/contact";
 import { FEATURED_VIDEOS as VIDEOS } from "../../content/videos";
 import Faq, { type Qa } from "../blocks/Faq";
 import Hero, { type HeroProps } from "./Hero";
+import { Icon } from "./icons";
+import { Rich } from "./rich";
+import {
+  PATH_DEFAULTS,
+  TRUST_DEFAULTS,
+  NEEDS_DEFAULTS,
+  POLICY_DEFAULTS,
+  FOUNDER_DEFAULTS,
+  STORIES_DEFAULTS,
+  CAREERS_DEFAULTS,
+  DVA_DEFAULTS,
+  YOUTH_DEFAULTS,
+  CLOSE_DEFAULTS,
+  MEDIA_SIZES,
+} from "../../content/cms/home-content";
 
 /* ============================================================
    D'Life — homepage.
@@ -131,204 +146,10 @@ export function Plate({ photo, parallax, eager }: { photo: Photo; parallax?: boo
   return parallax ? <div className="prlx">{img}</div> : img;
 }
 
-/** Geometric outline icons, per the brief's icon direction. */
-export const Ico = ({ children }: { children: ReactNode }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.75"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    {children}
-  </svg>
-);
-
-/**
- * The compact path selector's five routes, in the brief's first-person voice.
- *
- * These are now the real routes rather than in-page anchors. The guide's
- * journey map runs "homepage → pathway selector → relevant solution page", so
- * a visitor who already knows what they want leaves the homepage on the first
- * click instead of being scrolled to a section that only teases it.
- *
- * The first-person wording here is deliberately not the life-needs section's
- * noun wording ("Protect my family" vs "Protecting Your Family") — the
- * non-duplication rule.
- */
-export const PATHS: Array<[ReactNode, string, string]> = [
-  [
-    <path
-      key="p"
-      d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
-    />,
-    "Protect my family",
-    ROUTES["protecting-your-family"].path,
-  ],
-  [
-    <>
-      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" />
-      <path d="M14 2v4a2 2 0 0 0 2 2h4M9 13h6M9 17h4" />
-    </>,
-    "Review my coverage",
-    ROUTES.policy.path,
-  ],
-  [
-    <>
-      <path d="M16 7h6v6" />
-      <path d="m22 7-8.5 8.5-5-5L2 17" />
-    </>,
-    "Plan for the future",
-    ROUTES["planning-for-your-future"].path,
-  ],
-  [
-    <>
-      <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-      <rect x="2" y="6" width="20" height="14" rx="2" />
-    </>,
-    "Explore a career",
-    ROUTES.careers.path,
-  ],
-  [
-    <>
-      <path d="M18 21a8 8 0 0 0-16 0" />
-      <circle cx="10" cy="8" r="5" />
-      <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
-    </>,
-    "Join a community",
-    ROUTES.youth.path,
-  ],
-];
-
-/**
- * The five life needs, in the second person the correction report asks for —
- * "Protecting Your Family", not "Protecting Family". They render as a mosaic
- * of photographic cards: the reference gives this section more imagery and
- * emotional weight than the pathway strip above, and explicitly says not to
- * repeat the pathway's labels or scale.
- *
- * Each card now opens its own Solutions page. The slug the card derived from
- * its own title was always the route name, so nothing had to be renamed for
- * these to become real links.
- * [photo, title, copy, route]
- */
-export const NEEDS: Array<[Photo, string, string, string]> = [
-  // Four original Malaysian lifestyle plates replace the generic library
-  // frames. Planning deliberately retains the existing D'Life photograph.
-  [PHOTOS.n1, "Protecting Your Family", "Coverage built around the people who depend on you.", ROUTES["protecting-your-family"].path],
-  [PHOTOS.n2, "Protecting Your Income", "Keep life steady even when the unexpected happens.", ROUTES["protecting-your-income"].path],
-  [PHOTOS.n3, "Medical & Health Preparation", "Practical support for health and recovery costs.", ROUTES["medical-health-preparation"].path],
-  [PHOTOS.p4, "Planning for Your Future", "Retirement and legacy planning, with confidence.", ROUTES["planning-for-your-future"].path],
-  [PHOTOS.n5, "Wealth & Legacy", "Growing and protecting what you’ve built.", ROUTES["wealth-legacy"].path],
-];
-
-/** [photo, title, copy, link label, route] */
-export const YOUTH: Array<[Photo, string, string, string, string]> = [
-  [PHOTOS.y1, "Events & Workshops", "Hands-on sessions on money, mindset and growth.", "See what’s on →", `${ROUTES.youth.path}#events`],
-  [PHOTOS.y2, "Stories", "Real journeys from young leaders and mentors.", "Read stories →", `${ROUTES.youth.path}#stories`],
-  [PHOTOS.y3, "Educational Resources", "Practical guides on health, wealth and leadership.", "Start learning →", `${ROUTES.youth.path}#resources`],
-];
-
-/** Trust strip: [figure, italic unit, label, copy] */
-/**
- * The six approved trust themes, transcribed from the correction report's
- * structure-corrections slide, which prints them as the approved content
- * basis. The four-item band this replaces was the prototype's own invention.
- *
- * Nothing here may be paraphrased or shortened. Every figure, award wording
- * and permission is pending D'Life verification before publication, and the
- * claims amount stays the blank the report itself prints.
- * [icon, figure, label, copy]
- */
-export const TRUST: Array<[ReactNode, string, string, string]> = [
-  [
-    <React.Fragment key="trust-1">
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 6v6l4 2" />
-    </React.Fragment>,
-    /* ⚠️ 6 Sep 2026: the client's performance summary reads "25 year(s)
-       4 month(s)" of insurance experience as at 14 Aug 2026 — but it measures
-       service WITH THE PRINCIPAL INSURER, which is not necessarily the same
-       span as a career or as the agency's life. Two years is too big a gap to
-       leave unexamined and too ambiguous to silently overwrite on the 23
-       places this figure appears. Left as the client wrote it, and raised.
-       See docs/dlife-figures.md. */
-    "27 Years",
-    "Experience",
-    "Guiding families through changing markets and every stage of life for over 27 years providing trusted advice, lasting relationships and financial solutions that evolve with their needs.",
-  ],
-  [
-    <React.Fragment key="trust-2">
-      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-      <path d="m9 12 2 2 4-4" />
-    </React.Fragment>,
-    /* 6 Sep 2026, client: the site does not name the insurer. This card used
-       to read "Proudly partnering with AIA, one of Asia's leading insurers".
-       D'Life is an agency under a principal insurer and the relationship is
-       real — the client's instruction is that the website reads as an
-       insurance agency and nothing more, so the recognition half of the card
-       stays and the naming goes. If a regulator requires the principal named,
-       that belongs on Disclosures, not on a homepage trust card. */
-    "Recognised",
-    "Professional Standing",
-    "Recognised for professional excellence and client service, to a principal insurer’s standards.",
-  ],
-  [
-    <React.Fragment key="trust-3">
-      <circle cx="12" cy="8" r="6" />
-      <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
-    </React.Fragment>,
-    "Million Dollar Agency",
-    "MDRT Builder",
-    "Million Dollar Agency since 2002, and an MDRT Builder developing advisors to international standards.",
-  ],
-  [
-    <React.Fragment key="trust-4">
-      <path d="M18 21a8 8 0 0 0-16 0" />
-      <circle cx="10" cy="8" r="5" />
-      <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
-    </React.Fragment>,
-    /* 6 Sep 2026, numbers audit. This said "Built 4 top-tier Senior Managers
-       and 34+ young, passionate leaders" — 38 leaders inside a practice of 29
-       advisors, which the client's own performance summary (14 Aug 2026)
-       makes impossible rather than merely unverified. Replaced with what that
-       summary actually evidences: the size of the practice, and the two MDRT
-       qualifiers it has produced. See docs/dlife-figures.md.
-       6 Oct 2026, client: rewritten again in their words. It names the roles
-       advisors are developed into and carries no headcount, so the arithmetic
-       problem above does not come back. */
-    "Leadership",
-    "People Development",
-    "A proven legacy of developing advisors into Agency Managers, Unit Managers and Assistant Unit Managers building generations of leaders through mentorship, structured development and a culture of excellence.",
-  ],
-  [
-    <React.Fragment key="trust-6"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></React.Fragment>,
-    "Clients",
-    "People First",
-    "People come before products. Every recommendation starts with your circumstances, not a catalogue.",
-  ],
-  [
-    <React.Fragment key="trust-5">
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="4" />
-      <path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24m0-14.14-4.24 4.24m-5.66 5.66-4.24 4.24" />
-    </React.Fragment>,
-    "Claims",
-    "Real Support",
-    /* ⚠️ DO NOT TRIM THIS ONE. It is the client's own wording (C01, WhatsApp
-       31 Aug 2026), and it has now been approved three times: written by them,
-       confirmed on 6 Sep to run exactly as written, briefly shortened when
-       they asked for all six cards cut for concision, and restored verbatim on
-       7 Sep when they saw the shorter version. It is deliberately longer than
-       its five neighbours.
-
-       The figure is theirs: RM22M is the total claim amount in the performance
-       summary they supplied. See docs/dlife-figures.md. */
-    "Supporting our clients through insurance claims exceeding RM22 million with trusted guidance, dedicated assistance, and a team that stands by them every step of the way.",
-  ],
-];
+/* The path selector, life needs, trust figures and youth cards are data now:
+   content/cms/home-content.ts holds their approved values (and the notes on
+   which figures are pending verification), components/home/icons.tsx the
+   icons, and Talous CMS edits copies of them. */
 
 export const PlayIcon = () => (
   <span className="play">
@@ -355,32 +176,25 @@ export function HeroSection(hero: HeroProps) {
   );
 }
 
-export function PathSection() {
+export function PathSection(props: Partial<typeof PATH_DEFAULTS>) {
+  const p = { ...PATH_DEFAULTS, ...props };
   return (
     <>
-
       {/* Approved sequence, per the visual system reference: hero → choose your
           path → trust proof. The selector is a light horizontal routing strip,
           deliberately lighter than the life-needs section below it, and sits
-          above the trust band rather than after it. */}
+          above the trust band rather than after it. One line of question, in
+          the visitor's own voice, at the client's request. */}
       <section id="path">
-        {/* The eyebrow said "Choose your path" and the line under it said
-            "I'm looking to…" — the same instruction twice, and the client
-            asked for fewer words and a straighter question. One line now, and
-            it is the one that speaks in the visitor's own voice. */}
         <p className="q rv">
-          <span>I’m looking to…</span>
+          <span>{p.question}</span>
         </p>
         <div className="opts rv">
-          {/* A17: these five went out as bare "/solutions/…" hrefs. Every
-              other link on the site runs through link(), which is what applies
-              the deployment base path — so under GitHub Pages, where the site
-              is served from /dlife-website/, the routing strip on the homepage
-              was the one set of links that 404'd. */}
-          {PATHS.map(([icon, label, href]) => (
-            <a className="opt" href={link(href)} key={label}>
-              <Ico>{icon}</Ico>
-              {label}
+          {/* A17: every link runs through link(), which applies the deployment base path. */}
+          {p.items.map((item, i) => (
+            <a className="opt" href={link(item.href)} key={(item as { id?: string }).id ?? i}>
+              <Icon name={item.icon} />
+              {item.label}
               <em>→</em>
             </a>
           ))}
@@ -391,19 +205,20 @@ export function PathSection() {
   );
 }
 
-export function TrustSection() {
+export function TrustSection(props: Partial<typeof TRUST_DEFAULTS>) {
+  const p = { ...TRUST_DEFAULTS, ...props };
   return (
     <>
-
       <section id="trust" className="dark">
         {/* "27 years" pending client verification — open question #1 in the
-            project brief: Sharon personally, or D'Life as an organisation? */}
-        {TRUST.map(([icon, figure, label, copy]) => (
-          <div className="c rv" key={figure}>
-            <Ico>{icon}</Ico>
-            <b>{figure}</b>
-            <u>{label}</u>
-            <p>{copy}</p>
+            project brief, and see the notes on the figures in
+            content/cms/home-content.ts and docs/dlife-figures.md. */}
+        {p.items.map((item, i) => (
+          <div className="c rv" key={(item as { id?: string }).id ?? i}>
+            <Icon name={item.icon} />
+            <b>{item.figure}</b>
+            <u>{item.label}</u>
+            <p>{item.copy}</p>
           </div>
         ))}
       </section>
@@ -411,40 +226,34 @@ export function TrustSection() {
   );
 }
 
-export function NeedsSection() {
+export function NeedsSection(props: Partial<typeof NEEDS_DEFAULTS>) {
+  const p = { ...NEEDS_DEFAULTS, ...props };
   return (
     <>
-
       <section id="needs">
         <div className="head">
           <div>
-            <span className="lb rv">What brings you here</span>
+            <span className="lb rv">{p.eyebrow}</span>
             <h2 className="rv" style={{ marginTop: 26 }}>
-              Support built around <i>real life needs</i>
+              <Rich text={p.heading} />
             </h2>
           </div>
-          <p className="needs-sub">Everyone arrives with a different question. Start wherever you are.</p>
+          <p className="needs-sub">{p.sub}</p>
         </div>
         {/* Mosaic, not a rail: two cards across the top and three beneath, all
-            five visible at one glance on desktop. The pinned horizontal track
-            this replaces was the scroll-jacking the report rules out. */}
+            five visible at one glance on desktop. */}
         <div className="grid">
-          {NEEDS.map(([photo, title, copy, href]) => (
-            <article className="ncard rv" key={title}>
+          {p.items.map((item, i) => (
+            <article className="ncard rv" key={(item as { id?: string }).id ?? i}>
               <div className="ph">
-                <Plate photo={photo} />
+                <Plate photo={{ src: asset(item.photo), alt: item.photoAlt }} />
               </div>
               <div className="cap">
-                <h3>{title}</h3>
-                <p>{copy}</p>
-                {/* The direct CTA slide 10 requires. It now opens the card's
-                    own Solutions page rather than WhatsApp: the guide's journey
-                    map runs life-needs → relevant solution page → speak with an
-                    advisor, and jumping straight to a message skips the
-                    explanation the visitor came for. The need-specific prefill
-                    lives on that page's own CTA. */}
-                <a className="ncta" href={link(href)}>
-                  Read more
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+                {/* Opens the card's own Solutions page: life-needs → solution page → advisor. */}
+                <a className="ncta" href={link(item.href)}>
+                  {p.ctaLabel}
                   <em>→</em>
                 </a>
               </div>
@@ -456,88 +265,60 @@ export function NeedsSection() {
   );
 }
 
-export function PolicySection({ photoSide }: { photoSide?: string }) {
+export function PolicySection(props: Partial<typeof POLICY_DEFAULTS> & { photoSide?: string }) {
+  const p = { ...POLICY_DEFAULTS, ...props };
   return (
     <>
-
-      <section id="policy" className="sand" data-photo={photoSide === "left" ? "left" : undefined}>
+      <section id="policy" className="sand" data-photo={p.photoSide === "left" ? "left" : undefined}>
         <div className="tx">
-          <span className="lb rv">
-            Existing policyholders
-          </span>
+          <span className="lb rv">{p.eyebrow}</span>
           <h2 className="rv" style={{ marginTop: 16 }}>
-            Need clarity on your <i>current coverage?</i>
+            <Rich text={p.heading} />
           </h2>
-          <p className="rv">
-            Understand the protection you already have. Speak with our team to review your coverage with greater
-            confidence, and see what next step, if any, makes sense.
-          </p>
-          {/* One action only, per the client's 2026-08 amendments: the
-              "How a review works" text link is gone, so this section routes
-              to exactly one place. */}
+          <p className="rv">{p.body}</p>
+          {/* One action only, per the client's 2026-08 amendments. */}
           <div className="acts rv">
             <a className="pill" data-wa={WA.policy} href="#">
-              <span>Get guidance on my policy</span>
+              <span>{p.ctaLabel}</span>
             </a>
           </div>
         </div>
         <div className="ph">
-          <Plate photo={PHOTOS.policy} parallax />
+          <Plate photo={{ src: asset(p.photo), alt: p.photoAlt }} parallax />
         </div>
       </section>
     </>
   );
 }
 
-export function FounderSection() {
+export function FounderSection(props: Partial<typeof FOUNDER_DEFAULTS>) {
+  const p = { ...FOUNDER_DEFAULTS, ...props };
+  const portrait = (src: string, alt: string) => (
+    <div className="ph">
+      {/* The frames are 4:5 to fit the portraits, so neither founder loses a
+          shoulder to a crop. width/height are the browser's intrinsic-size
+          hint and must track the file, so they're only set when known. */}
+      <img src={asset(src)} alt={alt} {...(MEDIA_SIZES[src] ?? {})} loading="lazy" decoding="async" />
+    </div>
+  );
   return (
     <>
-
       <section id="founder">
-        {/* The portraits arrived on 6 Sep 2026 and the marked slots are gone.
-            Mapped by filename from the client's SHARON.jpg and RACHEL.jpg, the
-            same way About maps them — never by deciding from the photographs
-            which sister is which. The frames were 3:4 and the portraits are
-            4:5; the frames changed rather than the pictures, so neither woman
-            loses a shoulder to a crop. T07 re-cut Rachel's file to her own
-            head-and-torso — still 4:5, still nobody cropped out of frame. */}
         <div className="fpair rv">
-          <div className="ph">
-            <img
-              src={asset("/media/img/founder-sharon.jpg")}
-              alt="Sharon Cheang, founder of D’Life"
-              width={1400}
-              height={1750}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div className="ph">
-            {/* T07 (14 Sep): Rachel's file is 1048×1310 since the re-crop.
-                Still 4:5, so the frame is unchanged — but these attributes are
-                the browser's intrinsic-size hint and must track the bytes. */}
-            <img
-              src={asset("/media/img/founder-rachel.jpg")}
-              alt="Rachel Cheang, co-founder of D’Life"
-              width={1048}
-              height={1310}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+          {portrait(p.photo1, p.photo1Alt)}
+          {portrait(p.photo2, p.photo2Alt)}
         </div>
         <div>
-          <span className="lb rv">Our founders</span>
-          <h2 className="rv">Founded by Sisters, Built with Purpose</h2>
-          {/* Cut from two paragraphs to one. The report asks for a short intro
-              that routes to the full story rather than telling it here. */}
+          <span className="lb rv">{p.eyebrow}</span>
+          <h2 className="rv">
+            <Rich text={p.heading} />
+          </h2>
+          {/* One paragraph: a short intro that routes to the full story. */}
           <p className="rv">
-            <b>Sharon Cheang</b> built D’Life on one belief: people come before products, and support should continue
-            long after a policy is signed. Her sister <b>Rachel Cheang</b> leads business development and the community
-            side of the practice.
+            <Rich text={p.body} />
           </p>
           <a className="tlink rv" href={link(ROUTES.about.path)}>
-            Discover our story
+            {p.linkLabel}
           </a>
         </div>
       </section>
@@ -545,7 +326,8 @@ export function FounderSection() {
   );
 }
 
-export function StoriesSection() {
+export function StoriesSection(props: Partial<typeof STORIES_DEFAULTS>) {
+  const p = { ...STORIES_DEFAULTS, ...props };
   /* ---------- featured videos (correction report, video activation) ----------
      One centre card is active and larger than the side previews. When the
      section first enters view the active card starts playing muted, because
@@ -671,9 +453,9 @@ export function StoriesSection() {
             with an action floating opposite it. "View all stories" moves with
             that change — see the foot of the section. */}
         <div className="head">
-          <span className="lb rv">Featured videos</span>
+          <span className="lb rv">{p.eyebrow}</span>
           <h2 className="rv" style={{ marginTop: 16 }}>
-            Meet the people <i>behind D’Life</i>
+            <Rich text={p.heading} />
           </h2>
         </div>
         {/* Centre stage: the playing film sits in the middle of the row at the
@@ -795,7 +577,7 @@ export function StoriesSection() {
             heading. */}
         <div className="more rv">
           <a className="pill ghost" href={link(ROUTES.stories.path)}>
-            <span>View all stories</span>
+            <span>{p.ctaLabel}</span>
           </a>
         </div>
       </section>
@@ -803,43 +585,33 @@ export function StoriesSection() {
   );
 }
 
-export function CareersSection() {
+export function CareersSection(props: Partial<typeof CAREERS_DEFAULTS>) {
+  const p = { ...CAREERS_DEFAULTS, ...props };
   return (
     <>
-
       {/* Cream, not dark: this sits between Stories and DVA, and the brand's
           section rhythm forbids two dark sections touching. */}
       <section id="careers">
         <div>
-          <span className="lb rv">
-            Grow with D’Life
-          </span>
+          <span className="lb rv">{p.eyebrow}</span>
           <h2 className="rv">
-            A career built on <i>real guidance,</i> not just sales.
+            <Rich text={p.heading} />
           </h2>
-          {/* The advisor quote the brief keeps alongside the four pillars, and
-              which the reference shows sitting under the heading. */}
           <blockquote className="qt rv">
-            <p>“D’Life gave me the mentorship I couldn’t find anywhere else.”</p>
-            <span>D’Life Advisor</span>
+            <p>{p.quote}</p>
+            <span>{p.quoteBy}</span>
           </blockquote>
           <a className="pill rv" data-wa={WA.career} href="#">
-            <span>Explore a career conversation</span>
+            <span>{p.ctaLabel}</span>
           </a>
         </div>
-        {/* A09: these were four whole-row links to /careers, so the only way
-            to read one more sentence about mentorship was to leave the page.
-            They open where they stand now. The route out is still here —
-            below, as one link, which is where a navigation choice belongs
-            rather than hidden inside four content rows. */}
         <div className="rv">
-          {/* L05: closed rows are the four names; opening one gives the
-              summary, the detail and a link to that benefit's own section on
-              Careers rather than to the top of the page. */}
+          {/* The four growth rows are shared with the Careers page (content/growth.ts),
+              so they're edited there, not per section. */}
           <Growth items={GROWTH} compact linkBase={link(ROUTES.careers.path)} idBase="home-grow" />
           <p className="grow__more">
             <a href={link(ROUTES.careers.path)}>
-              See the full career page <em aria-hidden="true">→</em>
+              {p.moreLabel} <em aria-hidden="true">→</em>
             </a>
           </p>
         </div>
@@ -848,37 +620,26 @@ export function CareersSection() {
   );
 }
 
-export function DvaSection() {
+export function DvaSection(props: Partial<typeof DVA_DEFAULTS>) {
+  const p = { ...DVA_DEFAULTS, ...props };
   return (
     <>
-
       <section id="dva">
-        {/* Bounded panel, not a full-viewport band: the brief wants DVA
-            "contained" so it reads against Youth's openness below.
-
-            The photograph covers the whole panel again, at the client's
-            request, with the copy centred over it rather than beside it in a
-            split card. The dark now belongs to the panel and not to the
-            section: the page ground stays the same ivory as "Grow with D'Life"
-            above it, so the card lifts off the page as its own frame — which
-            is what makes the section stand out without a full dark band
-            interrupting the run.
-
-            Soft, not heavy: the flat 72% block this used to carry is a graded
-            wash now, deep enough behind the type to hold ivory at AA and light
-            enough at the edges that the team still reads as a photograph. */}
+        {/* Bounded panel with the photograph covering it and the copy centred
+            over a graded wash (deep enough behind the type for AA). The report
+            calls "Association" wrong: it is Drive Value Associates. */}
         <div className="panel dark rv">
           <div className="bg ph">
-            <Plate photo={PHOTOS.dva} parallax />
+            <Plate photo={{ src: asset(p.photo), alt: p.photoAlt }} parallax />
           </div>
           <div className="fg">
-            <span className="lb">By invitation</span>
-            {/* The report calls "Association" wrong outright: it is Drive
-                Value Associates, in the section and in the footer. */}
-            <h2>Drive Value Associates (DVA)</h2>
-            <p>Built for leaders, a selective circle shaped by shared values and experience.</p>
+            <span className="lb">{p.eyebrow}</span>
+            <h2>
+              <Rich text={p.heading} />
+            </h2>
+            <p>{p.body}</p>
             <a className="pill" href={link(ROUTES.dva.path)}>
-              <span>Discover DVA</span>
+              <span>{p.ctaLabel}</span>
             </a>
           </div>
         </div>
@@ -887,41 +648,34 @@ export function DvaSection() {
   );
 }
 
-export function YouthSection() {
+export function YouthSection(props: Partial<typeof YOUTH_DEFAULTS>) {
+  const p = { ...YOUTH_DEFAULTS, ...props };
   return (
     <>
-
       <section id="youth" className="sand">
         <div className="head">
           <div>
-            <span className="lb rv">
-              Community
-            </span>
+            <span className="lb rv">{p.eyebrow}</span>
             <h2 className="rv" style={{ marginTop: 24 }}>
-              Youth Community
+              <Rich text={p.heading} />
             </h2>
-            <div className="sup rv">Empowering youth. Building tomorrow.</div>
+            <div className="sup rv">{p.sup}</div>
           </div>
-          <p className="intro rv">
-            A platform for young people to explore health, wealth and leadership through real talks, mentors and
-            experience.
-          </p>
+          <p className="intro rv">{p.intro}</p>
         </div>
         <div className="grid">
-          {/* The comp makes the whole card one <a>. Kept as a div with the CTA
-              link stretched over it instead, so the heading and copy stay
-              outside the link's accessible name rather than being swallowed
-              into one very long label. */}
-          {YOUTH.map(([photo, title, copy, cta, href]) => (
-            <div className="yc rv" key={title}>
+          {/* Each card keeps its heading and copy outside the link's accessible
+              name; the CTA link is stretched over the card instead. */}
+          {p.cards.map((card, i) => (
+            <div className="yc rv" key={(card as { id?: string }).id ?? i}>
               <div className="ph">
-                <Plate photo={photo} />
+                <Plate photo={{ src: asset(card.photo), alt: card.photoAlt }} />
               </div>
               <div className="tx">
-                <h3>{title}</h3>
-                <p>{copy}</p>
-                <a className="cta" href={link(href)}>
-                  <em>{cta}</em>
+                <h3>{card.title}</h3>
+                <p>{card.copy}</p>
+                <a className="cta" href={link(card.href)}>
+                  <em>{card.ctaLabel}</em>
                 </a>
               </div>
             </div>
@@ -929,25 +683,21 @@ export function YouthSection() {
         </div>
         <div className="loop rv">
           <div>
-            <h3>Stay in the Loop</h3>
-            <p>Event invites and Youth Community updates, by email or on WhatsApp, whichever you actually read.</p>
+            <h3>{p.loopTitle}</h3>
+            <p>{p.loopBody}</p>
           </div>
           <div>
             <span className="k">By email</span>
             {/* Front end only: no endpoint is wired, so on submit the form is
-                replaced by an inline acknowledgement rather than anything that
-                implies the address has been stored. */}
+                replaced by an inline acknowledgement. */}
             <form data-dl-signup="Thanks — we’ll be in touch with the next Youth Community update.">
               <input type="email" placeholder="Your email" required aria-label="Your email" />
               <button className="pill" type="submit">
                 <span>Sign Up</span>
               </button>
             </form>
-            {/* Consent wording is [PENDING D'LIFE CONFIRMATION] — data storage,
-                list ownership and unsubscribe method are unresolved. */}
-            <p className="consent">
-              By signing up you agree to receive Youth Community updates. Unsubscribe anytime.
-            </p>
+            {/* Consent wording is [PENDING D'LIFE CONFIRMATION]. */}
+            <p className="consent">{p.consent}</p>
             <div className="alt">
               <a className="tlink" data-wa={WA.youth} href="#">
                 Get updates on WhatsApp
@@ -979,56 +729,31 @@ export function FaqSection(faq: { label: string; items: Qa[] }) {
   );
 }
 
-export function CloseSection() {
+export function CloseSection(props: Partial<typeof CLOSE_DEFAULTS>) {
+  const p = { ...CLOSE_DEFAULTS, ...props };
   return (
     <>
-
-      {/* Restored at the client's request: the photograph, its scrim stack and
-          the "D'Life" label are back, so the page closes on a picture rather
-          than on a flat green band. The hero opens on one at the right of the
-          band; this is the only place a photograph still runs behind the type,
-          which is what makes it read as the closing frame.
-
-          Scrim heaviest at the top, holding a plateau under the copy, then
-          releasing downward so the photograph resolves in the lower third.
-          That release is what stops closing and footer reading as one
-          undifferentiated dark mass, which is the risk the brief's one
-          permitted adjacent dark pair carries.
-
-          `parallax` is load-bearing, not decorative: .prlx both earns the
-          scroll drift and excludes this plate from the generic `.ph img`
-          settle pass, which would otherwise slam a full-bleed background from
-          scale 1.16 to 1 on entry. */}
+      {/* The page closes on a photograph behind the type: scrim heaviest at the
+          top, releasing downward so closing and footer don't read as one dark
+          mass. `parallax` is load-bearing: .prlx keeps this plate out of the
+          generic `.ph img` settle pass. The tagline matches the brand lockup
+          ("It begins with you."), per L11 / V3-05. */}
       <section id="close" className="dark">
         <div className="bg ph">
-          <Plate photo={PHOTOS.close} parallax />
+          <Plate photo={{ src: asset(p.photo), alt: p.photoAlt }} parallax />
         </div>
         <div className="fg">
-          <span className="lb rv">D’Life</span>
+          <span className="lb rv">{p.eyebrow}</span>
           <h2 className="rv">
-            A clearer future can begin with <i>one conversation.</i>
+            <Rich text={p.heading} />
           </h2>
-          {/* L11 / V3-05, RESOLVED 6 Sep 2026 by the brand artwork itself.
-              This line read "Let it begin with you." for three review rounds
-              while the transcript asked for "Let it begins with you" — which
-              is ungrammatical, so it was kept and the question left open.
-
-              The logo bundle settles it. The client's own lockup sets the
-              tagline as "IT BEGINS WITH YOU", which is neither of the two
-              versions being argued over: the transcript was a garbled record
-              of the real brand line, not a request for a broken imperative.
-
-              So the page now says what the logo says. The header carries that
-              lockup and the loading curtain spells the tagline out, and a
-              page whose slogan disagrees with the mark above it is the one
-              outcome worth avoiding. Match the artwork if it ever changes. */}
-          <div className="sub rv">It begins with you.</div>
+          <div className="sub rv">{p.sub}</div>
           <div className="acts rv">
             <a className="pill" data-wa={WA.conversation} href="#">
-              <span>Speak with an Advisor</span>
+              <span>{p.primaryCta}</span>
             </a>
             <a className="pill ghost" href="#path">
-              <span>Find your path</span>
+              <span>{p.secondaryCta}</span>
             </a>
           </div>
         </div>

@@ -5,7 +5,9 @@
  * not pick up Next's basePath, so it is applied here. Empty in local dev and
  * on any root-served host — including the production domain.
  */
-export const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
+export const asset = (path: string) =>
+  // Uploaded photos (Talous CMS's library) are absolute URLs and are used as they are.
+  /^https?:\/\//.test(path) ? path : `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
 
 /**
  * Site-relative links need the same treatment for the same reason: the export
