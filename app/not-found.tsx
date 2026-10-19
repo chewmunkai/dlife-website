@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Shell from "../components/v2/Shell";
 import { Hero } from "../components/v2/blocks";
-import { ROUTES } from "../lib/routes";
+import { ROUTES, SOLUTIONS_INDEX } from "../lib/routes";
 import { link } from "../lib/asset";
 
 /* ============================================================
@@ -37,7 +37,7 @@ export default function NotFound() {
             <a className="pill" href={link(ROUTES.home.path)}>
               <span>Go to the homepage</span>
             </a>
-            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+            <a className="pill ghost" href={link(SOLUTIONS_INDEX)}>
               <span>See what we help with</span>
             </a>
             <a className="pill ghost" href={link(ROUTES.contact.path)}>

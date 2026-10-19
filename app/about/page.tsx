@@ -237,8 +237,8 @@ export default function Page() {
           position: "50% 22%",
         }}
       >
-        {/* 6 Oct 2026: the client's own words, with the dashes taken out at
-            their request. */}
+        {/* The client's own words. 13 Oct 2026, client: the em dashes come out
+            again, punctuated as the 6 Oct version was (comma, comma, colon). */}
         <p>
           Sharon has built her career around two commitments: providing families with trusted financial solutions and
           transforming people into capable professionals and leaders.
@@ -278,8 +278,8 @@ export default function Page() {
           alt: "Rachel Cheang, co-founder of D’Life",
         }}
       >
-        {/* 6 Oct 2026: the client's own words, with the dashes taken out at
-            their request. */}
+        {/* The client's own words. 13 Oct 2026, client: the em dashes come out
+            again, punctuated as the 6 Oct version was (comma, comma, colon). */}
         <p>
           Rachel has been part of D’Life’s journey from the early years, not only as Sharon’s sister, but as a trusted
           partner who has grown alongside her through different seasons of the business.
@@ -306,12 +306,23 @@ export default function Page() {
         tone="light"
         label="Recognition"
         title="Professional record"
+        /* 11 Oct 2026, client mockup: the table beside the photograph, and
+           the photograph hung from the top of the band, level with the label. */
+        className="split-shot--top"
       >
         <p className="dl-lede">
           A reflection of Sharon’s key professional milestones, achievements and contributions throughout her 27-year
           career.
         </p>
-        <Checks items={RECOGNITION} />
+        {/* 11 Oct 2026, client, twice. First: the two columns did not line up
+            — six entries of one to four lines, split into two lists, put every
+            rule at a different height on each side. A single column fixed the
+            rules and was the wrong answer: "suppose to be 2 x 3 not 1 x 6".
+            `aligned` keeps two columns and makes them one table, so each pair
+            shares a row. A full-width table under the photograph was the next
+            wrong answer; the client's mockup keeps it beside the photograph,
+            01–03 down the left and 04–06 down the right. */}
+        <Checks items={RECOGNITION} aligned />
       </SplitShot>
 
       {/* The figures were a loose stack under a lede. Held on a contained sand
@@ -347,30 +358,48 @@ export default function Page() {
            mockup. The 3 and 34 managers are the figures the 6 Sep audit took
            out as impossible inside 29 advisors; the client now frames them
            against "80 direct and indirect" Life Planners, and indirect is
-           what makes the arithmetic possible. Still theirs to verify — the
-           source line below says so. ⚠️ The year row reads 2022 here and 2002
-           on the Recognition list for the same MDA honour. */
+           what makes the arithmetic possible. Still theirs to verify.
+           ⚠️ The year row reads 2022 here and 2002 on the Recognition list
+           for the same MDA honour.
+
+           11 Oct 2026, client: the source line ("Figures as at August 2026
+           … Pending client verification.") is removed at their request. The
+           page no longer qualifies these figures anywhere, so their accuracy
+           now rests on the client's confirmation alone. */
         lede="The part of the work Sharon is proudest of is not her own production. It is the advisors who came through the practice and went on to run teams of their own, a number of them from corporate careers in other industries."
-        photo={{ src: "/media/img/team-gathering.jpg", alt: "The D’Life advisory team together at an agency gathering", ratio: "1800 / 1158" }}
+        /* 11 Oct 2026, client: the team in front of the D'Life wall replaces
+           team-gathering.jpg. 4:3, and the plate takes its ratio. */
+        photo={{ src: "/media/img/about-advisors-dlife.jpg", alt: "The D’Life team together in front of the D’Life wall at the office", ratio: "4 / 3" }}
+        /* 11 Oct 2026: the mockup's fourth row, the one with no figure. It is
+           a statement about the team, not a measure of it, and as a row it
+           left an empty numeral cell in the middle of the ledger. It sits
+           under the team's photograph instead. The breaks after each comma are
+           setting, not copy.
+           12 Oct 2026, client: each line opens on a capital "High" and the
+           "and" goes, so the three lines start on one word and align. */
+        say={
+          <>
+            Established a professional advisory team characterized by{" "}
+            <strong>
+              High growth,
+              <br />
+              High culture,
+              <br />
+              High impact.
+            </strong>
+          </>
+        }
         figures={[
           { fig: "3", copy: <>Mentored <strong>3 top-tier senior agency managers.</strong></> },
           { fig: "34", copy: <>Developed over <strong>34</strong> young and passionate managers.</> },
           { fig: "80", copy: <>Led a team of <strong>80</strong> direct and indirect AIA Life Planners.</> },
-          {
-            fig: "",
-            copy: (
-              <>
-                Established a professional advisory team characterized by{" "}
-                <strong>high growth, high culture, and high impact.</strong>
-              </>
-            ),
-          },
           /* Two set lines, as the mockup has them. A no-break space was not
              enough: the browser still breaks after an en dash. */
-          { fig: <>2022<br />– 2025</>, word: true, copy: "Consistently achieved Million Dollar Agency (MDA) and Million Dollar Direct Team (MDD)." },
+          /* 11 Oct 2026: the break moves to after the dash, where a range
+             breaks, now the figures are set flush left. */
+          { fig: <>2022 –<br />2025</>, word: true, copy: "Consistently achieved Million Dollar Agency (MDA) and Million Dollar Direct Team (MDD)." },
           { fig: <>MDRT<br />Builder</>, word: true, copy: "Developing and empowering advisors to achieve professional excellence and MDRT standards." },
         ]}
-        source="Figures as at August 2026, from D’Life’s own performance record. Pending client verification."
       />
 
       {/* A08 (client, 31 Aug 2026): the six-card "The Team" directory is

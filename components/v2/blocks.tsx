@@ -530,22 +530,19 @@ export function Record({
   hint,
   photo,
   figures,
-  source,
 }: {
   label?: string;
   title: ReactNode;
   lede?: ReactNode;
-  /** The framing sentence. Ignored when `photo` is given. */
+  /** The framing sentence. Sits under the photograph when both are given. */
   say?: ReactNode;
   /** Small print under the framing sentence, e.g. a verification note. */
   hint?: ReactNode;
-  /** Fills the left half instead of the framing sentence. */
+  /** Heads the left half, at its own shape. */
   photo?: Photo;
   /** `fig` may be a word ("MDRT Builder") or a range; set `word` for those
    *  and they take a smaller size, as the client's 6 Oct 2026 mockup does. */
   figures: ReadonlyArray<{ fig: ReactNode; copy: ReactNode; word?: boolean }>;
-  /** Where the figures come from and when. Printed under them, small. */
-  source?: ReactNode;
 }) {
   return (
     <section className="band light">
@@ -553,16 +550,22 @@ export function Record({
       <h2>{title}</h2>
       {lede && <p className="dl-lede">{lede}</p>}
       <div className="record">
-        {photo ? (
-          <div className="shot ph" style={frameOf(photo)}>
-            <Img photo={photo} />
-          </div>
-        ) : (
-          <div className="say">
-            {say && <p>{say}</p>}
-            {hint && <p className="hint">{hint}</p>}
-          </div>
-        )}
+        {/* 11 Oct 2026: the photograph and the framing sentence share the left
+            half rather than one replacing the other. A 1.55 photograph alone
+            filled half the height of six rows and left the rest bare sand. */}
+        <div className="side">
+          {photo && (
+            <div className="shot ph" style={frameOf(photo)}>
+              <Img photo={photo} />
+            </div>
+          )}
+          {(say || hint) && (
+            <div className="say">
+              {say && <p>{say}</p>}
+              {hint && <p className="hint">{hint}</p>}
+            </div>
+          )}
+        </div>
         {/* Back to hairlined rows at the client's request (Sep 2026), after
             one round as three side-by-side cells. Cells, not rows, is why the
             numeral and its description are siblings rather than nested: the
@@ -575,11 +578,16 @@ export function Record({
           {figures.map((f, i) => (
             <Fragment key={i}>
               <b className={f.word ? "wd" : undefined}>{f.fig}</b>
-              <span>{f.copy}</span>
+              {/* The inner span is load-bearing. The cell is a flex box so it
+                  can centre its copy and still stretch to draw the rule, and
+                  every child of a flex box is its own item: copy carrying a
+                  <strong> split into columns and lost the space beside it. */}
+              <span>
+                <span>{f.copy}</span>
+              </span>
             </Fragment>
           ))}
         </div>
-        {source && <p className="record__src">{source}</p>}
       </div>
     </section>
   );
@@ -1065,8 +1073,39 @@ export function SplitShot({
  * `<li>`s — so a two-column ledger has to be split into two lists or it
  * renders as one column beside an empty one. Numbering runs continuously
  * across the split, as the design does: 01–04 then 05–08.
+ *
+ * `aligned` sets the two columns as one table instead: a single list on a
+ * two-column grid that fills column by column, so numbering still runs down
+ * the left column and then the right (01–03, 04–06) while each pair side by
+ * side shares a row and its rules. The two-list form lets each column keep
+ * its own rhythm, which is right for short entries and wrong for long ones —
+ * entries of one to four lines put every rule at a different height on each
+ * side. The last entry in each column is marked so it can close its column
+ * with a rule of its own (styles/amendments.css §40a).
  */
-export function Checks({ items, columns = 2 }: { items: ReadonlyArray<ReactNode>; columns?: 1 | 2 }) {
+export function Checks({
+  items,
+  columns = 2,
+  aligned = false,
+}: {
+  items: ReadonlyArray<ReactNode>;
+  columns?: 1 | 2;
+  aligned?: boolean;
+}) {
+  if (aligned) {
+    const rows = Math.ceil(items.length / 2);
+    return (
+      <ul className="checks checks--table" style={{ ["--rows" as string]: rows }}>
+        {items.map((item, i) => (
+          <li key={i} className={i === rows - 1 || i === items.length - 1 ? "end" : undefined}>
+            <b>{String(i + 1).padStart(2, "0")}</b>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   const lists =
     columns === 1 ? [items] : [items.slice(0, Math.ceil(items.length / 2)), items.slice(Math.ceil(items.length / 2))];
 
@@ -1085,21 +1124,6 @@ export function Checks({ items, columns = 2 }: { items: ReadonlyArray<ReactNode>
             );
           })}
         </ul>
-      ))}
-    </div>
-  );
-}
-
-/** Steps as a timeline on a copper line. */
-export function Rail({ steps }: { steps: ReadonlyArray<{ title: string; copy: ReactNode }> }) {
-  return (
-    <div className={`rail${steps.length === 3 ? " rail--3" : ""}`}>
-      {steps.map((s, i) => (
-        <div key={s.title}>
-          <b>{String(i + 1).padStart(2, "0")}</b>
-          <h3>{s.title}</h3>
-          <p>{s.copy}</p>
-        </div>
       ))}
     </div>
   );
@@ -1163,13 +1187,27 @@ export function StoriesPreview({
 
 /** Quotation carried on a photograph. Without one, the plain variant. */
 export function Said({ photo, quote, cite }: { photo?: Photo; quote: ReactNode; cite?: string }) {
+  /* A photograph that declares its `ratio` is set beside the quote at its own
+     shape rather than behind it. The full-bleed band is a 2.2 frame on a
+     desktop: it takes 40% off the height of a 4:3 group photograph and puts
+     the quote over the faces on its left (styles/amendments.css §40c). */
+  const split = Boolean(photo?.ratio);
   return (
     /* A04: `cite` is optional now. Without one this is a quote-style section
        divider carrying copy the page already owns — which is the whole point.
        An attribution here would have to be invented, and the brief forbids
        exactly that. With one, nothing about the block changed. */
-    <section className={`${photo ? "said ph" : "said said--plain"}${cite ? "" : " said--divider"}`}>
-      {photo && <Img photo={photo} />}
+    <section
+      className={`${photo ? `said ph${split ? " said--split" : ""}` : "said said--plain"}${cite ? "" : " said--divider"}`}
+    >
+      {photo &&
+        (split ? (
+          <div className="shot" style={frameOf(photo)}>
+            <Img photo={photo} />
+          </div>
+        ) : (
+          <Img photo={photo} />
+        ))}
       <figure>
         <div className="r" />
         <blockquote>{quote}</blockquote>

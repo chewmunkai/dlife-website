@@ -3,7 +3,7 @@ import Shell from "../../components/v2/Shell";
 import Ask from "../../components/v2/Ask";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero, Bar, Band, Ideas, ClosingCard } from "../../components/v2/blocks";
-import { ROUTES } from "../../lib/routes";
+import { ROUTES, SOLUTIONS_INDEX } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
@@ -113,10 +113,16 @@ export default function Page() {
         label="Existing policyholders"
         title="Need clarity on your current coverage?"
         lede="Understand the protection you already have, and review it with greater confidence. Wherever you bought it, and with no obligation to change anything."
+        /* 11 Oct 2026, client: their photograph replaces eps-hero-clarity.jpg.
+           Supplied at 1.78; cut to 4:3 at source (x 241-1496 of 1672), which
+           keeps both people with about 25px to spare on each side. Matted
+           rather than covered because that spare is not enough at 1280, where
+           the headline box stretches the plate to 1.28 and a cover would take
+           23px off each edge. */
         photo={{
-          src: "/media/img/eps-hero-clarity.jpg",
-          alt: "A client and an advisor reading the same policy schedule together",
-          position: "50% 45%",
+          src: "/media/img/eps-hero-advisor.jpg",
+          alt: "An advisor talking a client through his policy schedule at a table",
+          fit: "contain",
         }}
         actions={
           <a className="pill" href={clarity}>
@@ -251,7 +257,7 @@ export default function Page() {
             <a className="pill sand" href={clarity}>
               <span>Get clarity on my coverage</span>
             </a>
-            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+            <a className="pill ghost" href={link(SOLUTIONS_INDEX)}>
               <span>Explore protection &amp; planning</span>
             </a>
           </>

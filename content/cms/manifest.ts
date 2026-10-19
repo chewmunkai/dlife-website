@@ -31,7 +31,7 @@ import {
 const HIDDEN = { type: "toggle", label: "Hide this section on the site" } as const;
 
 export const MANIFEST = {
-  version: "dlife-2026-10-19.4",
+  version: "dlife-2026-10-20.1",
   blocks: {
     // The general-purpose kit for pages built in the CMS (docs/08 in talous-cms).
     ...KIT_BLOCKS,
@@ -260,6 +260,13 @@ export const MANIFEST = {
     { src: "/media/img/youth-session.jpg", alt: "Attendees seated at a D’Life Youth Community session" },
     { src: "/media/img/youth-resources.jpg", alt: "Hands raised during a workshop session" },
     { src: "/media/img/dva-forum.jpg", alt: "A DVA forum in session" },
+    // 12 Oct 2026: the life-need cards and the Policy panel use the pages' own hero photographs.
+    { src: "/media/img/solutions/protecting-family/family-meal.jpg", alt: "Three generations of a family sharing a meal at home" },
+    { src: "/media/img/solutions/protecting-income/need-income-malaysia.jpg", alt: "An advisor going through the household’s figures with a couple" },
+    { src: "/media/img/solutions/medical-health/family-doctor-consultation.jpg", alt: "Two family members in consultation with a doctor" },
+    { src: "/media/img/solutions/planning-for-your-future/advisor-planning.jpg", alt: "An advisor and a young man starting a plan together at a table" },
+    { src: "/media/img/solutions/wealth-legacy/family-photos.jpg", alt: "A family looking through photographs and albums together" },
+    { src: "/media/img/eps-hero-advisor.jpg", alt: "An advisor talking a client through his policy schedule at a table" },
   ],
   seo: { titleMax: 70, descriptionMax: 170 },
   // New CMS pages can't take these addresses: they belong to pages built in code.

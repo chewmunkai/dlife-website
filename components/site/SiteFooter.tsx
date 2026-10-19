@@ -1,5 +1,5 @@
 import { FOOTER_NAV, LEGAL_NAV } from "../../lib/routes";
-import { ADDRESS_LINE, CONTACT, HOURS, SOCIALS, WA, WA_DISPLAY, telHref } from "../../lib/contact";
+import { ADDRESS_LINE, CONTACT, HOURS, SEGAMAT_LINE, SOCIALS, WA, WA_DISPLAY, telHref } from "../../lib/contact";
 import { link } from "../../lib/asset";
 import Logo from "./Logo";
 
@@ -50,9 +50,10 @@ export function SiteFooter() {
                 <span>{WA_DISPLAY}</span>
                 <em aria-hidden="true">→</em>
               </a>
+              {/* 12 Oct 2026: the same-day reply line went with its twin on the
+                  Contact page, at the client's request. */}
               <p className="hint">
-                {HOURS.days}, {HOURS.office}. Most messages get a reply the same day, and no one will chase you
-                afterwards.
+                {HOURS.days}, {HOURS.office}.
               </p>
             </li>
             {/* L02 kept the landline here under its own label. T09 (14 Sep)
@@ -75,7 +76,6 @@ export function SiteFooter() {
                 <span>{CONTACT.phoneAfterHours}</span>
                 <em aria-hidden="true">→</em>
               </a>
-              <p className="hint">{HOURS.after}. A voice line — WhatsApp does not reach it.</p>
             </li>
             <li>
               <span className="k">Email</span>
@@ -86,16 +86,11 @@ export function SiteFooter() {
               <p className="hint">For anything that needs a longer answer, or a document attached.</p>
             </li>
             <li>
-              <span className="k">Office</span>
-              {/* Confirmed by the client, 6 Sep 2026. */}
+              <span className="k">Offices</span>
+              {/* Kuala Lumpur confirmed by the client 6 Sep 2026; Segamat added
+                  12 Oct 2026, when "visits by appointment" was also removed. */}
               <address>{ADDRESS_LINE}</address>
-              <p className="hint">
-                Visits by appointment.{" "}
-                <a data-wa={WA.visit} href="#">
-                  Message us to arrange a time
-                </a>
-                .
-              </p>
+              <address>{SEGAMAT_LINE}</address>
             </li>
             {/* L12: the "Elsewhere" group held three links to "#". Social
                 feeds the website rather than the other way round, so an empty

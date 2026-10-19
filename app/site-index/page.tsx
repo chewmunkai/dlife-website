@@ -47,7 +47,6 @@ export default function Page() {
   const pageCount = ALL_ROUTES.filter((r) => r.path !== route.path && !r.hidden).length;
 
   const solutions: SiteMapRow[] = [
-    { route: ROUTES.solutions, title: "Protection & Planning — hub" },
     ...SOLUTION_SLUGS.map((slug) => ({ route: ROUTES[slug] })),
   ];
 

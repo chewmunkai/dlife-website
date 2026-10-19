@@ -92,6 +92,9 @@ export const TRUST_DEFAULTS = {
   ],
 };
 
+/* 12 Oct 2026, client: each life-need card shows the hero of the page it opens, so the card
+   and the page agree (frames re-cut for these 3:2 photographs in styles/dlife.css, #needs).
+   The Policy and DVA panels changed the same day; see PHOTOS in components/home/sections.tsx. */
 export const NEEDS_DEFAULTS = {
   eyebrow: "What brings you here",
   heading: "Support built around *real life needs*",
@@ -99,36 +102,36 @@ export const NEEDS_DEFAULTS = {
   ctaLabel: "Read more",
   items: [
     {
-      photo: "/media/img/need-family-card.jpg",
-      photoAlt: "Three generations of a family talking around the table after a meal",
+      photo: "/media/img/solutions/protecting-family/family-meal.jpg",
+      photoAlt: "Three generations of a family sharing a meal at home",
       title: "Protecting Your Family",
       copy: "Coverage built around the people who depend on you.",
       href: ROUTES["protecting-your-family"].path,
     },
     {
-      photo: "/media/img/need-income-malaysia.jpg",
-      photoAlt: "A Malaysian couple planning together in their home office",
+      photo: "/media/img/solutions/protecting-income/need-income-malaysia.jpg",
+      photoAlt: "An advisor going through the household’s figures with a couple",
       title: "Protecting Your Income",
       copy: "Keep life steady even when the unexpected happens.",
       href: ROUTES["protecting-your-income"].path,
     },
     {
-      photo: "/media/img/need-health-card.jpg",
-      photoAlt: "Two family members in consultation with a doctor at a clinic",
+      photo: "/media/img/solutions/medical-health/family-doctor-consultation.jpg",
+      photoAlt: "Two family members in consultation with a doctor",
       title: "Medical & Health Preparation",
       copy: "Practical support for health and recovery costs.",
       href: ROUTES["medical-health-preparation"].path,
     },
     {
-      photo: "/media/img/path-career.jpg",
-      photoAlt: "Looking out over the trees, weighing what’s next",
+      photo: "/media/img/solutions/planning-for-your-future/advisor-planning.jpg",
+      photoAlt: "An advisor and a young man starting a plan together at a table",
       title: "Planning for Your Future",
       copy: "Retirement and legacy planning, with confidence.",
       href: ROUTES["planning-for-your-future"].path,
     },
     {
-      photo: "/media/img/need-legacy-card.jpg",
-      photoAlt: "A family looking through old photographs and documents together",
+      photo: "/media/img/solutions/wealth-legacy/family-photos.jpg",
+      photoAlt: "A family looking through photographs and albums together",
       title: "Wealth & Legacy",
       copy: "Growing and protecting what you’ve built.",
       href: ROUTES["wealth-legacy"].path,
@@ -141,8 +144,8 @@ export const POLICY_DEFAULTS = {
   heading: "Need clarity on your *current coverage?*",
   body: "Understand the protection you already have. Speak with our team to review your coverage with greater confidence, and see what next step, if any, makes sense.",
   ctaLabel: "Get guidance on my policy",
-  photo: "/media/img/policy-homepage-review.jpg",
-  photoAlt: "A couple going through a policy they have owned for years with an advisor",
+  photo: "/media/img/eps-hero-advisor.jpg",
+  photoAlt: "An advisor talking a client through his policy schedule at a table",
 };
 
 export const FOUNDER_DEFAULTS = {
@@ -176,8 +179,8 @@ export const DVA_DEFAULTS = {
   heading: "Drive Value Associates (DVA)",
   body: "Built for leaders, a selective circle shaped by shared values and experience.",
   ctaLabel: "Discover DVA",
-  photo: "/media/img/dva-award-night-v2.jpg",
-  photoAlt: "D’Life advisors together at the DVA award night",
+  photo: "/media/img/hero-team-ivory.jpg",
+  photoAlt: "The D’Life team together, all in ivory, around a low table",
 };
 
 export const YOUTH_DEFAULTS = {

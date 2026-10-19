@@ -72,6 +72,13 @@ export type Video = {
      3. add the entry below, following the shape of its neighbours
    ============================================================ */
 export const VIDEOS: Video[] = [
+  /* ORDER (client, 11 Oct 2026): their sequence, advisors then DVA —
+       Alex, Debbie, Sharon Lau, Janice, Ching Yee, Joey, Casie, Hebe, June;
+       then Evelyn, Yee Cher, Kelvin. Their list opens with May Yee, who is
+       excluded from all material (21 Sep 2026) and has no film here, so the
+       sequence starts at their #2. "Inside D'Life Leadership" is not on their
+       list and stays last until they place it. The first three are what
+       FEATURED_VIDEOS shows on the homepage, Careers and Resources. */
   {
     src: asset("/media/video/advisor-alex.mp4"),
     poster: asset("/media/poster/advisor-alex.jpg"),
@@ -93,24 +100,14 @@ export const VIDEOS: Video[] = [
     blurb: "Out of the house before sunrise while her son grew up, and the question that changed that.",
   },
   {
-    src: asset("/media/video/dva-kelvin.mp4"),
-    poster: asset("/media/poster/dva-kelvin.jpg"),
+    src: asset("/media/video/advisor-sharon-lau.mp4"),
+    poster: asset("/media/poster/advisor-sharon-lau.jpg"),
     focus: "50% 50%",
-    title: "No Background, No Talent. How Did I Reach MDRT?",
-    runtime: "1 min 58",
-    category: "Leadership",
-    next: "dva",
-    blurb: "Reaching the Million Dollar Round Table without connections or a head start.",
-  },
-  {
-    src: asset("/media/video/advisor-casie.mp4"),
-    poster: asset("/media/poster/advisor-casie.jpg"),
-    focus: "50% 50%",
-    title: "Sick for Two Years, and the Income Never Stopped",
-    runtime: "1 min 56",
+    title: "Five Years, and I Lost Myself",
+    runtime: "2 min 00",
     category: "Advisor stories",
     next: "careers",
-    blurb: "An ex-marketer’s career change story.",
+    blurb: "A mother who keeps growing is the best example her daughter can have.",
   },
   {
     src: asset("/media/video/advisor-janice.mp4"),
@@ -133,16 +130,6 @@ export const VIDEOS: Video[] = [
     blurb: "From journalist to insurance advisor, and why she would make the move again.",
   },
   {
-    src: asset("/media/video/dva-evelyn.mp4"),
-    poster: asset("/media/poster/dva-evelyn.jpg"),
-    focus: "50% 50%",
-    title: "Can a Couple Build a Business Together?",
-    runtime: "2 min 23",
-    category: "Leadership",
-    next: "dva",
-    blurb: "Working toward the same goal, and getting better at it together.",
-  },
-  {
     src: asset("/media/video/advisor-joey.mp4"),
     poster: asset("/media/poster/advisor-joey.jpg"),
     focus: "50% 50%",
@@ -153,14 +140,14 @@ export const VIDEOS: Video[] = [
     blurb: "Coming back to a career after more than a decade away from one.",
   },
   {
-    src: asset("/media/video/advisor-june.mp4"),
-    poster: asset("/media/poster/advisor-june.jpg"),
+    src: asset("/media/video/advisor-casie.mp4"),
+    poster: asset("/media/poster/advisor-casie.jpg"),
     focus: "50% 50%",
-    title: "How Grief Led Her to a Life That Truly Matters",
-    runtime: "1 min 42",
+    title: "Sick for Two Years, and the Income Never Stopped",
+    runtime: "1 min 56",
     category: "Advisor stories",
     next: "careers",
-    blurb: "One loss, one decision, a whole new life.",
+    blurb: "An ex-marketer’s career change story.",
   },
   {
     src: asset("/media/video/advisor-hebe.mp4"),
@@ -173,14 +160,24 @@ export const VIDEOS: Video[] = [
     blurb: "Alone you go faster. Together you go further.",
   },
   {
-    src: asset("/media/video/advisor-sharon-lau.mp4"),
-    poster: asset("/media/poster/advisor-sharon-lau.jpg"),
+    src: asset("/media/video/advisor-june.mp4"),
+    poster: asset("/media/poster/advisor-june.jpg"),
     focus: "50% 50%",
-    title: "Five Years, and I Lost Myself",
-    runtime: "2 min 00",
+    title: "How Grief Led Her to a Life That Truly Matters",
+    runtime: "1 min 42",
     category: "Advisor stories",
     next: "careers",
-    blurb: "A mother who keeps growing is the best example her daughter can have.",
+    blurb: "One loss, one decision, a whole new life.",
+  },
+  {
+    src: asset("/media/video/dva-evelyn.mp4"),
+    poster: asset("/media/poster/dva-evelyn.jpg"),
+    focus: "50% 50%",
+    title: "Can a Couple Build a Business Together?",
+    runtime: "2 min 23",
+    category: "Leadership",
+    next: "dva",
+    blurb: "Working toward the same goal, and getting better at it together.",
   },
   {
     src: asset("/media/video/dva-yeecher.mp4"),
@@ -191,6 +188,16 @@ export const VIDEOS: Video[] = [
     category: "Leadership",
     next: "dva",
     blurb: "What it took to stop going with the flow and choose a direction.",
+  },
+  {
+    src: asset("/media/video/dva-kelvin.mp4"),
+    poster: asset("/media/poster/dva-kelvin.jpg"),
+    focus: "50% 50%",
+    title: "No Background, No Talent. How Did I Reach MDRT?",
+    runtime: "1 min 58",
+    category: "Leadership",
+    next: "dva",
+    blurb: "Reaching the Million Dollar Round Table without connections or a head start.",
   },
   {
     src: asset("/media/video/dva-workshop.mp4"),

@@ -47,7 +47,9 @@ export function SiteHeader({ path }: { path: string }) {
               <a
                 className="top"
                 href={link(item.href)}
-                aria-current={isCurrent(item.href, path) ? "page" : undefined}
+                aria-current={
+                  isCurrent(item.href, path) || item.children.some((c) => c.href === path) ? "page" : undefined
+                }
               >
                 {item.label}
                 {Caret}

@@ -61,6 +61,12 @@ export const SOLUTION_SLUGS = [
 
 export type SolutionSlug = (typeof SOLUTION_SLUGS)[number];
 
+/* 12 Oct 2026, client: the /solutions hub page is removed. Everything that
+   linked to it now opens the homepage's "What brings you here" section, which
+   lists the same five solutions, each with its own card. The solution pages
+   keep their /solutions/<slug> addresses; their breadcrumb is Home › page. */
+export const SOLUTIONS_INDEX = "/#needs";
+
 export const ROUTES = {
   home: {
     path: "/",
@@ -72,15 +78,6 @@ export const ROUTES = {
     priority: 1,
   },
 
-  solutions: {
-    path: "/solutions",
-    label: "Solutions",
-    title: "Protection & Planning",
-    description:
-      "Family, income, medical, retirement and legacy — explained in plain language, with no obligation to decide anything today.",
-    teaser: "Five areas of protection and planning, explained without jargon.",
-    priority: 0.9,
-  },
   "protecting-your-family": {
     path: "/solutions/protecting-your-family",
     label: "Protecting Your Family",
@@ -88,7 +85,6 @@ export const ROUTES = {
     description:
       "Coverage built around the people who depend on you — what it covers, how much is enough, and how to think about it clearly.",
     teaser: "Coverage built around the people who depend on you.",
-    parent: "/solutions",
     priority: 0.8,
   },
   "protecting-your-income": {
@@ -98,7 +94,6 @@ export const ROUTES = {
     description:
       "If your income stopped for six months, what would change? Income protection explained in plain Malaysian terms.",
     teaser: "Keeping life steady when the unexpected interrupts your earnings.",
-    parent: "/solutions",
     priority: 0.8,
   },
   "medical-health-preparation": {
@@ -108,7 +103,6 @@ export const ROUTES = {
     description:
       "Practical preparation for treatment and recovery costs — how medical cover works in Malaysia, and what to check in what you hold.",
     teaser: "Practical preparation for treatment and recovery costs.",
-    parent: "/solutions",
     priority: 0.8,
   },
   "planning-for-your-future": {
@@ -118,7 +112,6 @@ export const ROUTES = {
     description:
       "Retirement and long-term planning, approached as a series of decisions you could explain to your own family.",
     teaser: "Retirement and long-term planning, at a pace that suits you.",
-    parent: "/solutions",
     priority: 0.8,
   },
   "wealth-legacy": {
@@ -128,7 +121,6 @@ export const ROUTES = {
     description:
       "Growing what you have built and passing it on deliberately — the questions worth answering before the paperwork.",
     teaser: "Growing what you’ve built, and passing it on deliberately.",
-    parent: "/solutions",
     priority: 0.8,
   },
   /* Withheld. See the note on SOLUTION_SLUGS: `hidden` keeps it out of the
@@ -141,7 +133,6 @@ export const ROUTES = {
     description:
       "Employee protection and business continuity support for Malaysian companies, sized to the team you actually have.",
     teaser: "Employee protection and continuity cover for Malaysian businesses.",
-    parent: "/solutions",
     priority: 0.6,
   },
 
@@ -319,7 +310,7 @@ export type NavItem = { label: string; href: string; children?: Array<{ label: s
 export const PRIMARY_NAV: NavItem[] = [
   {
     label: "Solutions",
-    href: ROUTES.solutions.path,
+    href: SOLUTIONS_INDEX,
     children: [
       ...LIFE_NEEDS.map((r) => ({ label: r.label, href: r.path })),
     ],

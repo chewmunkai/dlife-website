@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero, Band, ClosingCard, Events, StoriesPreview } from "../../components/v2/blocks";
-import { ROUTES } from "../../lib/routes";
-import { asset, link } from "../../lib/asset";
+import { ROUTES, SOLUTIONS_INDEX } from "../../lib/routes";
+import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { ROUTABLE_ARTICLES } from "../../content/articles";
+import { ArticleGrid, ArticleLead } from "../../components/v2/articles";
 import { FEATURED_VIDEOS } from "../../content/videos";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
@@ -55,21 +56,25 @@ const EVENTS = [
     when: "Regular",
     where: "Klang Valley",
     title: "Learning forums",
-    photo: { src: "/media/img/youth-resources.jpg", alt: "A learning forum with invited practitioners" },
+    /* 11 Oct 2026, client: their photographs for this card and the two below.
+       All three are 4:3, the card's own shape, so nobody is cropped. The
+       pickleball shot was 2000x1876 and is cut to 4:3 at source through bare
+       wall above the banner and bare floor below the signs. */
+    photo: { src: "/media/img/learning-forum.jpg", alt: "A D’Life learning forum group together in a lounge" },
     copy: "Knowledge sharing with industry experts and experienced professionals, covering advisory practice, business and personal development.",
   },
   {
     when: "Through the year",
     where: "Campus & community venues",
     title: "Youth leadership programmes",
-    photo: { src: "/media/img/youth-session.jpg", alt: "A youth leadership session" },
+    photo: { src: "/media/img/youth-leadership-cafe.jpg", alt: "Youth leadership programme members together at a café session" },
     copy: "Sessions for students, fresh graduates and young professionals across health, wealth and leadership.",
   },
   {
     when: "Several a year",
     where: "Various",
     title: "Charity & community projects",
-    photo: { src: "/media/img/community-gathering.jpg", alt: "Members at a community project" },
+    photo: { src: "/media/img/charity-pickleball.jpg", alt: "The D’Life team with the podium signs at the St. John Pickle Cup" },
     copy: "Service initiatives that members contribute to across the year, run through DVA and the Youth Community.",
   },
 ];
@@ -98,8 +103,12 @@ export default function Page() {
            only photograph in the folder that is unmistakably one. 1.77, so the
            plate takes its ratio and nobody is cropped. */
         photo={{
-          src: "/media/img/dva-award-night.jpg",
-          alt: "D’Life advisors together at the agency award night",
+          /* 12 Oct 2026, client: the corrected edit, its screen reading "DVA
+             AWARD NIGHT" where this one read "DVL". The same file as the
+             homepage DVA panel and the same 1.78 shape, so the mat below is
+             unchanged. */
+          src: "/media/img/dva-award-night-v2.jpg",
+          alt: "D’Life advisors together at the DVA award night",
           /* 21 Sep 2026, client: "articles and event photo hero is not same
              size — find a way to fix it without cutting ppl off."
 
@@ -120,36 +129,16 @@ export default function Page() {
         }}
       />
 
-      {/* Driven by content/articles.ts. Restored 6 Sep 2026: the template is
-          back, written as a template rather than as filler and labelled as one
-          on every surface. Publishing a real record replaces it. */}
+      {/* Driven by content/articles.ts. 12 Oct 2026, client: the listing was
+          one card stranded in a three-column grid. The newest article is now
+          set wide, and anything older follows in the grid below it. */}
       {ROUTABLE_ARTICLES.length > 0 && (
-      <Band label="Reading" title="Articles">
-        <div className="arts">
-          {ROUTABLE_ARTICLES.map((a) => (
-            <a className="art" href={link(`/articles/${a.slug}`)} key={a.slug}>
-              <div className="ph">
-                {a.photo ? (
-                  <img src={asset(a.photo.src)} alt={a.photo.alt} />
-                ) : (
-                  <div className="slot-empty">
-                    Lead image
-                    <em>{a.template ? "Template" : "To be supplied"}</em>
-                  </div>
-                )}
-              </div>
-              <div className="body">
-                <div className="meta">
-                  <span>{a.template ? "Template" : a.category}</span>
-                  <em>{a.read}</em>
-                </div>
-                <h3>{a.title}</h3>
-                <p>{a.blurb}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </Band>
+        <Band label="Reading" title="Articles">
+          <div className="arts">
+            <ArticleLead a={ROUTABLE_ARTICLES[0]} />
+            {ROUTABLE_ARTICLES.length > 1 && <ArticleGrid items={ROUTABLE_ARTICLES.slice(1)} />}
+          </div>
+        </Band>
       )}
 
       <Band label="Events" title="What runs across the year">
@@ -190,7 +179,7 @@ export default function Page() {
             <a className="pill sand" href={waHref(WA.question)}>
               <span>Ask a question</span>
             </a>
-            <a className="pill ghost" href={link(ROUTES.solutions.path)}>
+            <a className="pill ghost" href={link(SOLUTIONS_INDEX)}>
               <span>Explore protection &amp; planning</span>
             </a>
           </>

@@ -190,7 +190,14 @@ export default function Page() {
 
           6 Oct 2026, client: the award-night group replaces it, the same file
           as the homepage DVA panel. Also 1.78, with a man hard against each
-          edge, so the mat stays for the same reason. */}
+          edge, so the mat stays for the same reason.
+
+          11 Oct 2026, client: the dinner group replaces it on this hero only;
+          the homepage DVA panel keeps the award night. This one is 4:3, the
+          plate's own shape, so `contain` and `cover` draw the same picture
+          today. The mat stays as insurance: a man and a woman stand against
+          the two edges, and if the headline box ever grows the plate past
+          4:3, a cover would cut them where a mat only adds a band. */}
       <Hero
         route={route}
         tone="ink"
@@ -211,8 +218,8 @@ export default function Page() {
         }
         lede="A selective circle of financial advisors, shaped by shared values and experience. Founded by Sharon Cheang."
         photo={{
-          src: "/media/img/dva-award-night-v2.jpg",
-          alt: "D’Life advisors together at the DVA award night",
+          src: "/media/img/dva-hero-dinner.jpg",
+          alt: "DVA members together around a banquet table at a dinner",
           fit: "contain",
         }}
         actions={

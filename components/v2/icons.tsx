@@ -23,7 +23,12 @@ export type IconKey =
   | "growth"
   | "people"
   | "gauge"
-  | "swap";
+  | "swap"
+  /* Contact channels, for the footer's contact links (12 Oct 2026). */
+  | "whatsapp"
+  | "phone"
+  | "moon"
+  | "mail";
 
 const P = ({ d }: { d: string }) => <path d={d} />;
 
@@ -88,6 +93,27 @@ const SHAPES: Record<IconKey, ReactNode> = {
     <>
       <P d="M4.2 9.2h13.2M14.2 6l3.2 3.2-3.2 3.2" />
       <P d="M19.8 15.4H6.6M9.8 12.2 6.6 15.4l3.2 3.2" />
+    </>
+  ),
+  /* WhatsApp: the speech bubble with its tail at the lower left, and a
+     handset inside, drawn as outlines so it sits with the rest of the set. */
+  whatsapp: (
+    <>
+      <P d="M12 3.6a8.4 8.4 0 0 0-7.2 12.7L3.6 20.4l4.2-1.1A8.4 8.4 0 1 0 12 3.6z" />
+      <P d="M9.4 8.3c.3-.3.8-.3 1 0l.8 1.4c.2.3.1.6-.1.8l-.5.5a5.4 5.4 0 0 0 2.4 2.4l.5-.5c.2-.2.5-.3.8-.1l1.4.8c.3.2.3.7 0 1l-.5.5c-.6.6-1.6.7-2.4.3a8.4 8.4 0 0 1-3.9-3.9c-.4-.8-.3-1.8.3-2.4z" />
+    </>
+  ),
+  /* A voice call: the handset. */
+  phone: (
+    <P d="M7.1 3.8h2.4l1.3 3.7-1.7 1.1a10.6 10.6 0 0 0 6.3 6.3l1.1-1.7 3.7 1.3v2.4a1.8 1.8 0 0 1-1.9 1.8A15 15 0 0 1 5.3 5.7a1.8 1.8 0 0 1 1.8-1.9z" />
+  ),
+  /* After hours: evenings and weekends. */
+  moon: <P d="M19.6 14.3A7.9 7.9 0 0 1 9.7 4.4a7.9 7.9 0 1 0 9.9 9.9z" />,
+  /* Email. */
+  mail: (
+    <>
+      <rect x="3.4" y="5.6" width="17.2" height="12.8" rx="1.6" />
+      <P d="m4 7 8 6 8-6" />
     </>
   ),
 };

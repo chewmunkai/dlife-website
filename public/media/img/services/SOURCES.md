@@ -1,5 +1,7 @@
 # Service page photo selections — 7 September 2026
 
+> **11 Oct 2026 — superseded.** The five solution pages now use the client's final set, `public/media/img/solutions/<page>/` (28 images from `dlife-solution-images-final-claude-code.zip`; slot mapping and rationale in `content/service-photos.ts`). Every generated scene except `generated/hospital-access.jpg` (Medical card 03, which the set does not cover) was removed once nothing referenced it, as was `img/future-05-start.jpg`. `shared-meal.jpg` is a Drive original, no longer on a page, and kept. The notes below describe the previous arrangement.
+
 ## Latest sizing revision
 
 This revision supersedes the earlier slot choices below. Family 03 and 04 and Future 05 now use purpose-made landscape scenes instead of portrait Drive images. Wealth 03–05 use the improved `legacy-*-v2.png` scenes. Prompts: [PROMPTS-v2.md](generated/PROMPTS-v2.md). All service moment cards use the existing 16:10 frame with edge-to-edge cover fitting; generated subjects remain visible. Drive originals are no longer used in these card positions. Full-photo fitting remains on the family/future hero images.

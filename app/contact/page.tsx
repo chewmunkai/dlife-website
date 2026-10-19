@@ -4,7 +4,7 @@ import Lead from "../../components/v2/Lead";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero } from "../../components/v2/blocks";
 import { ROUTES } from "../../lib/routes";
-import { CONTACT, HOURS, WA, WA_DISPLAY, telE164, telHref, waHref } from "../../lib/contact";
+import { CONTACT, HOURS, SEGAMAT, WA, WA_DISPLAY, telE164, telHref, waHref } from "../../lib/contact";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.contact);
@@ -52,8 +52,10 @@ export default function Page() {
            folder. A small group around a table, which is what asking someone for
            advice actually looks like, rather than a lineup of the whole practice. */
         photo={{
-          src: "/media/img/contact-conversation.jpg",
-          alt: "Someone explaining what they need while an advisor listens",
+          /* 12 Oct 2026, client: two women talking it through at a table.
+             4:3, which is the hero frame's own shape at desktop. */
+          src: "/media/img/contact-hero-conversation.jpg",
+          alt: "Two women talking over coffee at a wooden table, one explaining while the other listens",
         }}
       />
 
@@ -68,8 +70,11 @@ export default function Page() {
             </p>
 
             <dl className="reach__list">
+              {/* 12 Oct 2026, client: the notes under the office, WhatsApp,
+                  after-hours and hours rows are removed, and the Segamat
+                  office joins as a second address. */}
               <div>
-                <dt>Office</dt>
+                <dt>Kuala Lumpur</dt>
                 <dd>
                   <address>
                     {CONTACT.street}
@@ -78,14 +83,24 @@ export default function Page() {
                     <br />
                     {CONTACT.postcode} {CONTACT.city}
                   </address>
-                  <em>Visits by appointment.</em>
+                </dd>
+              </div>
+              <div>
+                <dt>Segamat</dt>
+                <dd>
+                  <address>
+                    {SEGAMAT.street}
+                    <br />
+                    {SEGAMAT.street2}
+                    <br />
+                    {SEGAMAT.postcode} {SEGAMAT.city}, {SEGAMAT.region}
+                  </address>
                 </dd>
               </div>
               <div>
                 <dt>WhatsApp</dt>
                 <dd>
                   <a href={waHref(WA.conversation)}>{WA_DISPLAY}</a>
-                  <em>The quickest route. Opens with a first message already written.</em>
                 </dd>
               </div>
               {/* T09: this built its href as `+603` + the number minus its
@@ -104,7 +119,6 @@ export default function Page() {
                 <dt>After hours</dt>
                 <dd>
                   <a href={telHref(CONTACT.phoneAfterHours)}>{CONTACT.phoneAfterHours}</a>
-                  <em>{HOURS.after}. A voice line — WhatsApp does not reach it.</em>
                 </dd>
               </div>
               <div>
@@ -117,7 +131,6 @@ export default function Page() {
                 <dt>Hours</dt>
                 <dd>
                   {HOURS.days}, {HOURS.office}
-                  <em>Messages sent on a working day usually get a reply the same day.</em>
                 </dd>
               </div>
             </dl>

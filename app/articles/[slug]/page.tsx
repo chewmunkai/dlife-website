@@ -4,10 +4,12 @@ import Shell from "../../../components/v2/Shell";
 import JsonLd from "../../../components/site/JsonLd";
 import { Band, ClosingCard } from "../../../components/v2/blocks";
 import { PREVIEW_ARTICLES, type Article } from "../../../content/articles";
+import { anchorOf, ArticleGrid, headingsOf, shownDate } from "../../../components/v2/articles";
 import { ROUTES } from "../../../lib/routes";
 import { asset, link } from "../../../lib/asset";
 import { WA, waHref } from "../../../lib/contact";
 import { SITE } from "../../../lib/site";
+import { notFound } from "next/navigation";
 
 /* ============================================================
    Article page.
@@ -56,20 +58,16 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-/** The published date, written the way the site writes dates elsewhere. */
-const shown = (iso: string) =>
-  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
 function Body({ blocks }: { blocks: Article["body"] }) {
   return (
-    <div className="dl-prose art-body">
+    <div className="dl-prose art-copy">
       {blocks.map((b, i) => {
-        if ("h" in b) return <h2 key={i}>{b.h}</h2>;
+        if ("h" in b)
+          return (
+            <h2 key={i} id={anchorOf(b.h)}>
+              {b.h}
+            </h2>
+          );
         if ("list" in b)
           return (
             <ul key={i}>
@@ -91,46 +89,45 @@ function Body({ blocks }: { blocks: Article["body"] }) {
   );
 }
 
+/** "In this article": the section headings, as anchors. */
+function Contents({ heads }: { heads: string[] }) {
+  return (
+    <ol>
+      {heads.map((h) => (
+        <li key={h}>
+          <a href={`#${anchorOf(h)}`}>{h}</a>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export default function Page({ params }: { params: { slug: string } }) {
   const a = bySlug(params.slug);
-  if (!a) return null;
+  /* A slug that is not an article is a 404, not an empty page. Matters now
+     the template has a real article in its place: /articles/template is gone. */
+  if (!a) notFound();
+  const heads = headingsOf(a.body);
+  /* A contents list earns its place from three sections up. */
+  const toc = heads.length >= 3;
+  const more = PREVIEW_ARTICLES.filter((x) => x.slug !== a.slug).slice(0, 3);
 
   return (
     <Shell>
-      <section className="band light art-head">
-        <nav className="dl-crumbs" aria-label="Breadcrumb">
-          <ol>
-            <li>
-              <a href={link("/")}>Home</a>
-              <em>/</em>
-            </li>
-            <li>
-              <a href={link(ROUTES.resources.path)}>{ROUTES.resources.label}</a>
-              <em>/</em>
-            </li>
-            <li>
-              <span aria-current="page">{a.title}</span>
-            </li>
-          </ol>
-        </nav>
-        <p className="lbl">{a.template ? "Article template" : a.category}</p>
-        <h1>{a.title}</h1>
-        <p className="dl-lede">{a.blurb}</p>
-        <p className="art-meta">
-          <span>{shown(a.date)}</span>
-          <em>·</em>
-          <span>{a.read}</span>
-          {!a.template && (
-            <>
-              <em>·</em>
-              <span>{a.category}</span>
-            </>
-          )}
-        </p>
-
-        <div className="art-plate ph">
+      {/* 12 Oct 2026, client: "fix the structure … it's a little messy", with
+          equadtech.com's newsroom as the reference. Its article opens on one
+          dark banner, picture and title together, and reads in a single
+          centred column; this does the same. The picture bleeds in from the
+          right and the title sits on the ink to its left, so no face is ever
+          under the type (the client's standing rule). */}
+      <section className="art-hero dark">
+        <div className="art-hero__ph">
           {a.photo ? (
-            <img src={asset(a.photo.src)} alt={a.photo.alt} />
+            <img
+              src={asset(a.photo.src)}
+              alt={a.photo.alt}
+              style={a.photo.position ? { objectPosition: a.photo.position } : undefined}
+            />
           ) : (
             <div className="slot-empty">
               Lead image
@@ -138,9 +135,30 @@ export default function Page({ params }: { params: { slug: string } }) {
             </div>
           )}
         </div>
+        <div className="art-hero__in">
+          <nav className="dl-crumbs" aria-label="Breadcrumb">
+            <ol>
+              <li>
+                <a href={link("/")}>Home</a>
+                <em>/</em>
+              </li>
+              <li>
+                <a href={link(ROUTES.resources.path)}>{ROUTES.resources.label}</a>
+              </li>
+            </ol>
+          </nav>
+          <p className="lbl">{a.template ? "Article template" : a.category}</p>
+          <h1>{a.title}</h1>
+          <p className="art-hero__blurb">{a.blurb}</p>
+          <p className="art-meta">
+            <span>{shownDate(a.date)}</span>
+            <em>·</em>
+            <span>{a.read}</span>
+          </p>
+        </div>
       </section>
 
-      <Band>
+      <section className="band light art-main">
         {a.template && (
           <div className="dl-notice" role="note">
             <strong>This is the article template.</strong>
@@ -150,8 +168,41 @@ export default function Page({ params }: { params: { slug: string } }) {
             </p>
           </div>
         )}
-        <Body blocks={a.body} />
-      </Band>
+        <div className={toc ? "art-layout" : "art-layout art-layout--solo"}>
+          {toc && (
+            <aside className="art-toc" aria-label="In this article">
+              <p className="lbl">In this article</p>
+              <Contents heads={heads} />
+            </aside>
+          )}
+          <article className="art-body">
+            {toc && (
+              <details className="art-toc-m">
+                <summary>
+                  In this article <em>{heads.length} sections</em>
+                </summary>
+                <Contents heads={heads} />
+              </details>
+            )}
+            <Body blocks={a.body} />
+            <footer className="art-end">
+              <span>
+                Published {shownDate(a.date)}
+                {!a.template && <> · {a.category}</>}
+              </span>
+              <a href={link(ROUTES.resources.path)}>
+                <i aria-hidden="true">←</i> All articles
+              </a>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      {more.length > 0 && (
+        <Band label="Keep reading" title="More from D’Life">
+          <ArticleGrid items={more} />
+        </Band>
+      )}
 
       <ClosingCard
         title="Would rather just ask someone?"
