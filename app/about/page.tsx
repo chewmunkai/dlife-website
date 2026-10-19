@@ -237,8 +237,8 @@ export default function Page() {
           position: "50% 22%",
         }}
       >
-        {/* 11 Oct 2026: the client's own words, verbatim, em dashes included.
-            They were taken out on 6 Oct; the client's latest copy has them. */}
+        {/* The client's own words. 13 Oct 2026, client: the em dashes come out
+            again, punctuated as the 6 Oct version was (comma, comma, colon). */}
         <p>
           Sharon has built her career around two commitments: providing families with trusted financial solutions and
           transforming people into capable professionals and leaders.
@@ -255,7 +255,7 @@ export default function Page() {
         </p>
         <p>
           Her mentoring philosophy centres on mindset, personal growth, leadership, financial well-being and quality of
-          life — developing individuals to become confident professionals, financially empowered individuals and
+          life, developing individuals to become confident professionals, financially empowered individuals and
           purposeful leaders, while building a sustainable and well-balanced life.
         </p>
       </Founder>
@@ -278,10 +278,10 @@ export default function Page() {
           alt: "Rachel Cheang, co-founder of D’Life",
         }}
       >
-        {/* 11 Oct 2026: the client's own words, verbatim, em dashes included.
-            They were taken out on 6 Oct; the client's latest copy has them. */}
+        {/* The client's own words. 13 Oct 2026, client: the em dashes come out
+            again, punctuated as the 6 Oct version was (comma, comma, colon). */}
         <p>
-          Rachel has been part of D’Life’s journey from the early years — not only as Sharon’s sister, but as a trusted
+          Rachel has been part of D’Life’s journey from the early years, not only as Sharon’s sister, but as a trusted
           partner who has grown alongside her through different seasons of the business.
         </p>
         <p>
@@ -294,7 +294,7 @@ export default function Page() {
         </p>
         <p>
           Her leadership is grounded in professional excellence, personal growth and people development. Together, the
-          sisters bring different strengths but share one purpose — developing people, nurturing leaders and building a
+          sisters bring different strengths but share one purpose: developing people, nurturing leaders and building a
           legacy that continues beyond themselves.
         </p>
       </Founder>

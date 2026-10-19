@@ -73,12 +73,14 @@ const replacements: Record<string, { hero?: Photo; moments: Record<number, Photo
        people, not D'Life clients or advisers: never describe them as
        photographs. Cards 01 and 02 are 4:3 in a 16:10 frame, so 17% of the
        height goes; the positions keep it to the table and the ceiling,
-       checked with masks. 03–05 are 3:2 and lose 3% top and bottom. */
+       checked with masks. 03 and 05 are 3:2 and lose 3% top and bottom.
+       13 Oct 2026, client: 02 and 04 replaced with new versions (4:3 again,
+       masked the same way; 04's piles stay whole at 40%). */
     moments: {
       1: sol("protecting-income/income-01-fixed-costs", "An advisor going through a couple’s monthly bills and repayments with them at their dining table", { position: "50% 20%" }),
-      2: sol("protecting-income/income-02-savings", "A couple at the dining table working out how long their savings would last", { position: "50% 25%" }),
+      2: sol("protecting-income/income-02-savings-figures", "A couple at the dining table going through their figures to see how long their savings would last", { position: "50% 20%" }),
       3: sol("protecting-income/income-03-one-income-night", "A couple at the table late at night with one payslip between them, their daughter asleep in the next room"),
-      4: sol("protecting-income/income-04-protect-first", "A couple and their young daughter on the living-room floor, sorting papers into what to keep and what can wait"),
+      4: sol("protecting-income/income-04-protect-first-floor", "A couple and their young daughter on the living-room floor, sorting papers into what to keep and what can wait", { position: "50% 40%" }),
       5: sol("protecting-income/income-05-asking-family", "A man in his parked car at dusk, looking toward his parents’ house before going in"),
     },
     /* The package also supplies closing-family-table.jpg for this page's
