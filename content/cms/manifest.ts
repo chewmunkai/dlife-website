@@ -2,6 +2,8 @@ import type { Qa } from "../../components/blocks/Faq";
 import type { HeroProps } from "../../components/home/Hero";
 import { HOME_FAQS } from "../home";
 import { ICON_NAMES } from "../../components/home/icons";
+import { ALL_ROUTES } from "../../lib/routes";
+import { KIT_BLOCKS, LANDING_STARTER } from "./kit-manifest";
 import {
   LINK_OPTIONS,
   PATH_DEFAULTS,
@@ -29,8 +31,10 @@ import {
 const HIDDEN = { type: "toggle", label: "Hide this section on the site" } as const;
 
 export const MANIFEST = {
-  version: "dlife-2026-10-19.3",
+  version: "dlife-2026-10-19.4",
   blocks: {
+    // The general-purpose kit for pages built in the CMS (docs/08 in talous-cms).
+    ...KIT_BLOCKS,
     Hero: {
       label: "Home hero",
       fields: {
@@ -227,6 +231,8 @@ export const MANIFEST = {
   templates: {
     // Each section exactly once; staff can reorder and hide them. The hero can't be hidden (it is the page's h1).
     home: { fixed: ["Hero", "Path", "Trust", "Needs", "Policy", "Founder", "Stories", "Careers", "Dva", "Youth", "Faq", "Close"], anyOrder: true },
+    // Pages staff and clients create in the CMS: sections at the top, the kit inside them.
+    landing: { label: "Landing page", creatable: true, allowed: ["Section"], starter: LANDING_STARTER },
   },
   // The photographs a field may use. Alt text is the default description; editors can override it.
   media: [
@@ -256,13 +262,16 @@ export const MANIFEST = {
     { src: "/media/img/dva-forum.jpg", alt: "A DVA forum in session" },
   ],
   seo: { titleMax: 70, descriptionMax: 170 },
+  // New CMS pages can't take these addresses: they belong to pages built in code.
+  reservedSlugs: [...new Set(ALL_ROUTES.map((r) => r.path.split("/")[1]).filter(Boolean)), "studio", "api", "media", "_next"],
 } as const;
 
 export type ManifestBlock = { label?: string; locked?: boolean; fields: Record<string, ManifestField> };
-export type ManifestTemplate = { fixed?: readonly string[]; anyOrder?: boolean; allowed?: readonly string[] };
+export type ManifestTemplate = { fixed?: readonly string[]; anyOrder?: boolean; allowed?: readonly string[]; label?: string; creatable?: boolean };
 
 export type ManifestField =
-  | { type: "text" | "textarea"; label?: string; required?: boolean; max?: number }
+  | { type: "text" | "textarea"; label?: string; required?: boolean; max?: number; pattern?: string; patternHint?: string }
+  | { type: "slot"; label?: string; allow?: readonly string[]; max?: number }
   | { type: "select"; label?: string; required?: boolean; options: readonly string[] }
   | { type: "toggle"; label?: string }
   | { type: "image"; label?: string; required?: boolean }

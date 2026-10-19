@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Talous CMS kit blocks (components/kit/blocks.tsx).
+
+   Built only from the site's tokens: the --s-* scheme variables (so
+   .dark / .sand tones recolour everything inside a section), the type scale
+   (--dl-section-title, --dl-section-body…), --dl-pad and --dl-sec-y. Nothing
+   here hard-codes a brand colour, so a section reads like the rest of D'Life.
+   Scoped under .dlife .tk-*, so it can't reach the bespoke sections.
+   ========================================================================== */
+
+.dlife .tk-section {
+  background: var(--s-bg);
+  color: var(--s-body);
+  padding: var(--dl-sec-y) var(--dl-pad);
+}
+.dlife .tk-section.tk-sp-compact { padding-block: calc(var(--dl-sec-y) * 0.55); }
+.dlife .tk-section.tk-sp-spacious { padding-block: calc(var(--dl-sec-y) * 1.45); }
+.dlife .tk-section .tk-inner { margin: 0 auto; max-width: 1180px; }
+.dlife .tk-section.tk-w-narrow .tk-inner { max-width: 760px; }
+.dlife .tk-section.tk-w-wide .tk-inner { max-width: 1440px; }
+.dlife .tk-section.tk-w-full .tk-inner { max-width: none; }
+.dlife .tk-al-center { text-align: center; }
+.dlife .tk-al-left { text-align: left; }
+.dlife .tk-al-right { text-align: right; }
+
+/* Vertical rhythm between blocks inside a section or column. */
+.dlife .tk-flow { display: flex; flex-direction: column; gap: clamp(16px, 2vh, 24px); }
+.dlife .tk-flow > * { margin: 0; }
+
+/* Columns: preset ratios; stacked under 760px, optionally in reverse. */
+.dlife .tk-cols { display: grid; gap: clamp(20px, 3vw, 48px); }
+.dlife .tk-cols.tk-gap-small { gap: clamp(12px, 1.6vw, 24px); }
+.dlife .tk-cols.tk-gap-large { gap: clamp(32px, 5vw, 80px); }
+.dlife .tk-cols.tk-l-1-1 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.dlife .tk-cols.tk-l-1-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+.dlife .tk-cols.tk-l-2-1 { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.dlife .tk-cols.tk-l-1-1-1 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dlife .tk-cols.tk-l-1-1-1-1 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.dlife .tk-cols.tk-va-center { align-items: center; }
+.dlife .tk-cols.tk-va-bottom { align-items: end; }
+.dlife .tk-cols.tk-va-top { align-items: start; }
+@media (max-width: 980px) {
+  .dlife .tk-cols.tk-l-1-1-1-1 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .dlife .tk-cols[class*="tk-l-"] { grid-template-columns: minmax(0, 1fr); }
+  .dlife .tk-cols.tk-m-reverse > .tk-col:first-child { order: 2; }
+}
+
+/* Headings step through the site's own scale. */
+.dlife .tk-heading .lb { display: inline-flex; margin-bottom: 14px; color: var(--s-label); }
+.dlife .tk-heading h2,
+.dlife .tk-heading h3 { font-family: var(--dl-disp); color: var(--s-heading); font-weight: 600; line-height: 1.12; margin: 0; }
+.dlife .tk-heading h2 i,
+.dlife .tk-heading h3 i { font-weight: 500; }
+.dlife .tk-heading.tk-size-s h2, .dlife .tk-heading.tk-size-s h3 { font-size: var(--dl-card-title); }
+.dlife .tk-heading.tk-size-m h2, .dlife .tk-heading.tk-size-m h3 { font-size: clamp(26px, 2.4vw, 36px); }
+.dlife .tk-heading.tk-size-l h2, .dlife .tk-heading.tk-size-l h3 { font-size: var(--dl-section-title); }
+.dlife .tk-heading.tk-size-xl h2, .dlife .tk-heading.tk-size-xl h3 { font-size: clamp(38px, 4.4vw, 64px); line-height: 1.06; }
+
+.dlife .tk-text { font-size: var(--dl-section-body); line-height: 1.65; color: var(--s-body); max-width: 72ch; }
+.dlife .tk-al-center.tk-text, .dlife .tk-al-center .tk-text { margin-inline: auto; }
+.dlife .tk-text.tk-text-l { font-size: var(--dl-section-sub); }
+.dlife .tk-text p, .dlife .tk-text ul { margin: 0 0 0.9em; }
+.dlife .tk-text > :last-child { margin-bottom: 0; }
+.dlife .tk-text ul { padding-left: 1.2em; }
+.dlife .tk-text a, .dlife .tk-accordion a { color: var(--s-accent); text-decoration: underline; text-underline-offset: 3px; }
+.dlife .tk-text b { color: var(--s-strong); font-weight: 600; }
+
+.dlife .tk-image { margin: 0; }
+.dlife .tk-frame { position: relative; overflow: hidden; border-radius: var(--dl-r-plate); background: var(--s-plate); }
+.dlife .tk-frame img { display: block; width: 100%; height: auto; }
+.dlife .tk-frame img.tk-cover { height: 100%; object-fit: cover; }
+.dlife .tk-image figcaption, .dlife .tk-video figcaption { margin-top: 10px; font-size: 14px; color: var(--s-muted); }
+.dlife .tk-empty {
+  display: grid; place-items: center; min-height: 160px; height: 100%;
+  border: 1px dashed var(--s-line); color: var(--s-quiet); font-size: 14px;
+}
+.dlife .tk-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.dlife .tk-button.tk-al-center { text-align: center; }
+.dlife .tk-button.tk-al-right { text-align: right; }
+
+.dlife .tk-spacer.tk-sp-s { height: 12px; }
+.dlife .tk-spacer.tk-sp-m { height: 28px; }
+.dlife .tk-spacer.tk-sp-l { height: 56px; }
+.dlife .tk-spacer.tk-sp-xl { height: 96px; }
+
+.dlife .tk-divider { border: 0; border-top: 1px solid var(--s-line); width: 100%; margin: 0; }
+.dlife .tk-divider.tk-dw-short { width: 72px; border-top-color: var(--s-rule); }
+.dlife .tk-al-center .tk-divider.tk-dw-short { margin-inline: auto; }
+
+.dlife .tk-iconlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.dlife .tk-iconlist.tk-inline { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+.dlife .tk-al-center .tk-iconlist.tk-inline { justify-content: center; }
+.dlife .tk-iconlist li { display: flex; gap: 12px; align-items: flex-start; color: var(--s-body); }
+.dlife .tk-iconlist svg { width: 22px; height: 22px; flex: none; color: var(--s-accent); margin-top: 2px; }
+
+.dlife .tk-accordion details { border-top: 1px solid var(--s-line); }
+.dlife .tk-accordion details:last-child { border-bottom: 1px solid var(--s-line); }
+.dlife .tk-accordion summary {
+  cursor: pointer; list-style: none; padding: 18px 0; font-family: var(--dl-disp);
+  font-size: var(--dl-card-title); color: var(--s-heading); display: flex; justify-content: space-between; gap: 16px;
+}
+.dlife .tk-accordion summary::-webkit-details-marker { display: none; }
+.dlife .tk-accordion summary::after { content: "+"; color: var(--s-accent); flex: none; }
+.dlife .tk-accordion details[open] summary::after { content: "–"; }
+.dlife .tk-accordion .tk-a { padding: 0 0 18px; color: var(--s-body); line-height: 1.65; }
+.dlife .tk-accordion .tk-a p { margin: 0 0 0.8em; }
+
+.dlife .tk-quote { margin: 0; }
+.dlife .tk-quote blockquote { margin: 0; border-left: 1px solid var(--s-rule); padding-left: 24px; }
+.dlife .tk-quote blockquote p { font-family: var(--dl-disp); font-style: italic; font-size: var(--dl-section-sub); color: var(--s-heading); margin: 0; line-height: 1.45; }
+.dlife .tk-quote figcaption { display: flex; gap: 12px; align-items: center; margin-top: 16px; padding-left: 24px; }
+.dlife .tk-quote figcaption img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.dlife .tk-quote figcaption b { display: block; color: var(--s-strong); font-weight: 600; }
+.dlife .tk-quote figcaption em { display: block; font-style: normal; color: var(--s-muted); font-size: 14px; }
+
+.dlife .tk-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; }
+.dlife .tk-stats b { display: block; font-family: var(--dl-disp); font-size: clamp(30px, 3vw, 44px); color: var(--s-heading); font-weight: 600; }
+.dlife .tk-stats span { color: var(--s-muted); }
+
+/* Device visibility. */
+@media (max-width: 760px) { .dlife .tk-desktop-only { display: none !important; } }
+@media (min-width: 761px) { .dlife .tk-mobile-only { display: none !important; } }

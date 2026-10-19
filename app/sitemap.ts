@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { ALL_ROUTES } from "../lib/routes";
 import { abs } from "../lib/seo";
+import { listPublished } from "../lib/talous";
 
 /**
  * Generated from the route map, so a page added to lib/routes.ts is in the
@@ -13,11 +14,19 @@ import { abs } from "../lib/seo";
  */
 const LASTMOD = "2026-09-15";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return ALL_ROUTES.filter((r) => !r.utility && !r.hidden).map((r) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const coded = ALL_ROUTES.filter((r) => !r.utility && !r.hidden).map((r) => ({
     url: abs(r.path),
     lastModified: LASTMOD,
     changeFrequency: "monthly" as const,
     priority: r.priority,
   }));
+  // Pages built in Talous CMS, dated by their last publish (which is when they really changed).
+  const cms = (await listPublished()).map((p) => ({
+    url: abs(`/${p.slug}`),
+    lastModified: p.publishedAt ? p.publishedAt.slice(0, 10) : LASTMOD,
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  }));
+  return [...coded, ...cms];
 }

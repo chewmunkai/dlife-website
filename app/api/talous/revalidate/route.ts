@@ -13,6 +13,9 @@ export async function POST(req: NextRequest) {
   const path = typeof body?.path === "string" && body.path.startsWith("/") ? body.path : null;
   if (!path) return NextResponse.json({ error: "path required" }, { status: 400 });
   revalidateTag(`talous:${path === "/" ? "home" : path.slice(1)}`);
+  // A publish or unpublish can add or remove a CMS page: refresh the list and the sitemap too.
+  revalidateTag("talous:pages");
   revalidatePath(path);
+  revalidatePath("/sitemap.xml");
   return NextResponse.json({ revalidated: path });
 }

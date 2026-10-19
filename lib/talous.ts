@@ -9,7 +9,8 @@ import { HERO_DEFAULTS, FAQ_DEFAULTS, HOME_DOCUMENT } from "../content/cms/manif
  */
 
 type Block = { type: string; props: Record<string, unknown> & { id: string } };
-type Published = { versionId: string; n: number; content: { content: Block[] }; seo: { title?: string; description?: string } };
+type Published = { versionId: string; n: number; title?: string; content: { root?: { props?: Record<string, unknown> }; content: Block[] }; seo: { title?: string; description?: string } };
+export type PublishedPage = Published;
 
 const CMS = process.env.TALOUS_CMS_URL;
 const PROJECT = process.env.TALOUS_PROJECT_ID;
@@ -64,4 +65,19 @@ export function homeFromPublished(p: Published | null): { blocks: Block[]; faq: 
     ? { label: String(faqProps.label ?? FAQ_DEFAULTS.label), items: ((faqProps.items as Qa[] | undefined) ?? FAQ_DEFAULTS.items).map(({ q, a }) => ({ q, a })) }
     : FAQ_DEFAULTS;
   return { blocks: withDefaults, faq, seo: p?.seo ?? {} };
+}
+
+/** Pages built in the CMS (everything except the homepage), for the sitemap and static builds. */
+export async function listPublished(): Promise<{ slug: string; title: string; publishedAt: string | null }[]> {
+  if (!CMS || !PROJECT) return [];
+  try {
+    const url = new URL("/api/public/pages", CMS);
+    url.searchParams.set("project", PROJECT);
+    const res = await fetch(url, { next: { tags: ["talous:pages"] }, signal: AbortSignal.timeout(5000) });
+    if (!res.ok) return [];
+    const rows = (await res.json()) as { slug: string; title: string; publishedAt: string | null }[];
+    return rows.filter((r) => r.slug !== "home");
+  } catch {
+    return [];
+  }
 }

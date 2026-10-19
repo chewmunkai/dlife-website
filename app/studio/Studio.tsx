@@ -6,10 +6,12 @@ import "@puckeditor/core/no-external.css";
 import "../../styles/dlife.css";
 import "../../styles/blocks.css";
 import "../../styles/pages.css";
+import "../../styles/kit.css";
 import "./studio.css";
 import { Puck, useGetPuck, type Config, type Data, type Field } from "@puckeditor/core";
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from "react";
 import { HOME_SECTIONS } from "../../components/home/sections";
+import { KIT } from "../../components/kit/blocks";
 import type { HeroProps } from "../../components/home/Hero";
 import type { Qa } from "../../components/blocks/Faq";
 import type { ManifestBlock, ManifestField, ManifestTemplate } from "../../content/cms/manifest";
@@ -32,6 +34,7 @@ type Status = { tone: "info" | "ok" | "err"; text: string; errors?: string[] } |
 
 /* How each block type renders. A block in the manifest without a renderer here shows a placeholder. */
 const RENDERERS: Record<string, ComponentType<Record<string, unknown>>> = {
+  ...(KIT as unknown as Record<string, ComponentType<Record<string, unknown>>>),
   ...(HOME_SECTIONS as unknown as Record<string, ComponentType<Record<string, unknown>>>),
   Hero: (p) => <HOME_SECTIONS.Hero {...(p as unknown as HeroProps)} />,
   // Half-typed new questions are skipped in the preview rather than rendered empty.
@@ -51,6 +54,8 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
       return { type: "select", label, options: f.options.map((o) => ({ label: o[0].toUpperCase() + o.slice(1), value: o })) };
     case "toggle":
       return { type: "radio", label, options: [{ label: "Shown", value: false }, { label: "Hidden", value: true }] };
+    case "slot":
+      return { type: "slot", label, ...(f.allow ? { allow: [...f.allow] } : {}) };
     case "list":
       return {
         type: "array",
@@ -62,7 +67,7 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
   }
 }
 
-function buildConfig(manifest: Manifest): Config {
+function buildConfig(manifest: Manifest, templateName: string | null): Config {
   const components: Config["components"] = {};
   for (const [type, def] of Object.entries(manifest.blocks)) {
     const Render = RENDERERS[type];
@@ -85,8 +90,18 @@ function buildConfig(manifest: Manifest): Config {
         : () => <div className="studio-missing">No preview for “{type}”.</div>,
     };
   }
+  // The Blocks drawer, grouped like Elementor's panel. Homepage sections only appear on the homepage.
+  const has = (names: string[]) => names.filter((n) => n in components);
+  const categories = {
+    layout: { title: "Layout", components: has(["Section", "Columns", "Spacer", "Divider"]) },
+    basic: { title: "Basic", components: has(["Heading", "Text", "Button", "IconList"]) },
+    media: { title: "Media", components: has(["Image", "Video"]) },
+    content: { title: "Content", components: has(["Accordion", "Quote", "Stats"]) },
+    homepage: { title: "Homepage sections", components: has(Object.keys(HOME_SECTIONS)), visible: templateName === "home", defaultExpanded: false },
+  };
   return {
     components,
+    categories,
     // No page-level fields: SEO is edited in the CMS, not here.
     root: { fields: {}, render: ({ children }: { children: React.ReactNode }) => <div className="dlife" data-studio>{children}</div> },
   };
@@ -214,7 +229,10 @@ export default function Studio() {
     [api, baseId, loaded?.manifest, setDirty, tell],
   );
 
-  const config = useMemo(() => (loaded?.manifest ? buildConfig(loaded.manifest) : null), [loaded?.manifest]);
+  const config = useMemo(
+    () => (loaded?.manifest ? buildConfig(loaded.manifest, loaded.page.template) : null),
+    [loaded?.manifest, loaded?.page.template],
+  );
   const tpl = loaded?.page.template ? loaded.manifest?.templates[loaded.page.template] : undefined;
 
   if (!loaded || !config) return <StatusBar status={status ?? { tone: "info", text: "Loading…" }} />;

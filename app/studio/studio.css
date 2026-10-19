@@ -76,3 +76,11 @@
   color: #fff;
   pointer-events: none;
 }
+
+/* Device-only blocks stay visible in the editor (so they can be found and edited),
+   marked with a dashed outline; the live site hides them per device. */
+[data-studio] .tk-desktop-only,
+[data-studio] .tk-mobile-only { display: revert !important; outline: 1px dashed rgba(156, 90, 55, 0.6); outline-offset: 4px; }
+/* Empty containers get room to drop into. */
+[data-studio] .tk-col { min-height: 48px; }
+[data-studio] .tk-section .tk-inner { min-height: 64px; }
