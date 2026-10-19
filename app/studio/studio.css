@@ -47,7 +47,7 @@
 /* Sections staff can see but not edit yet: a quiet tag in the corner. */
 [data-studio] .studio-locked { position: relative; }
 [data-studio] .studio-locked::after {
-  content: "Not editable yet";
+  content: "Words & photos not editable yet";
   position: absolute;
   top: 12px;
   right: 12px;
@@ -56,6 +56,23 @@
   padding: 6px 10px;
   border-radius: 999px;
   background: rgba(27, 29, 28, 0.78);
+  color: #fff;
+  pointer-events: none;
+}
+
+/* Hidden on the live site: faded in the editor so it can still be found and shown again. */
+[data-studio] .studio-hidden { position: relative; }
+[data-studio] .studio-hidden > * { opacity: 0.35; }
+[data-studio] .studio-hidden::before {
+  content: "Hidden on the site";
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 6;
+  font: 600 12px/1 system-ui, sans-serif;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #a1261b;
   color: #fff;
   pointer-events: none;
 }

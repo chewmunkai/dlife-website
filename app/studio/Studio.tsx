@@ -1,6 +1,8 @@
 "use client";
 
-import "@puckeditor/core/puck.css";
+// no-external: the default puck.css @imports Inter from rsms.me, and if that host is blocked or down
+// the whole editor fails to load. The system font is fine for editor chrome.
+import "@puckeditor/core/no-external.css";
 import "../../styles/dlife.css";
 import "../../styles/blocks.css";
 import "../../styles/pages.css";
@@ -10,7 +12,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType }
 import { HOME_SECTIONS } from "../../components/home/sections";
 import type { HeroProps } from "../../components/home/Hero";
 import type { Qa } from "../../components/blocks/Faq";
-import type { ManifestBlock, ManifestField } from "../../content/cms/manifest";
+import type { ManifestBlock, ManifestField, ManifestTemplate } from "../../content/cms/manifest";
 
 /*
  * The visual editor Talous CMS frames. It renders this site's real components,
@@ -22,7 +24,7 @@ import type { ManifestBlock, ManifestField } from "../../content/cms/manifest";
 type Manifest = {
   version: string;
   blocks: Record<string, ManifestBlock>;
-  templates: Record<string, { fixed?: string[]; allowed?: string[] }>;
+  templates: Record<string, ManifestTemplate>;
   media: { src: string; alt: string }[];
 };
 type Loaded = { page: { id: string; title: string; template: string | null }; draft: { id: string; n: number; content: Data } | null; manifest: Manifest | null };
@@ -45,6 +47,10 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
       return { type: "textarea", label };
     case "image":
       return { type: "select", label, options: media.map((m) => ({ label: m.src.split("/").pop() ?? m.src, value: m.src })) };
+    case "select":
+      return { type: "select", label, options: f.options.map((o) => ({ label: o[0].toUpperCase() + o.slice(1), value: o })) };
+    case "toggle":
+      return { type: "radio", label, options: [{ label: "Shown", value: false }, { label: "Hidden", value: true }] };
     case "list":
       return {
         type: "array",
@@ -61,16 +67,21 @@ function buildConfig(manifest: Manifest): Config {
   for (const [type, def] of Object.entries(manifest.blocks)) {
     const Render = RENDERERS[type];
     components[type] = {
-      label: def.locked ? `${def.label ?? type} · not editable yet` : def.label ?? type,
+      label: def.locked ? `${def.label ?? type} · layout only` : def.label ?? type,
       fields: Object.fromEntries(Object.entries(def.fields).map(([k, f]) => [k, toPuckField(f, k, manifest.media)])),
       render: Render
-        ? def.locked
-          ? (props) => (
-              <div className="studio-locked">
+        ? (props) => {
+            // Hidden sections stay in the editor, faded and tagged, so they can be shown again.
+            const hidden = (props as Record<string, unknown>).hidden === true;
+            const cls = [def.locked && "studio-locked", hidden && "studio-hidden"].filter(Boolean).join(" ");
+            return cls ? (
+              <div className={cls}>
                 <Render {...props} />
               </div>
-            )
-          : (props) => <Render {...props} />
+            ) : (
+              <Render {...props} />
+            );
+          }
         : () => <div className="studio-missing">No preview for “{type}”.</div>,
     };
   }
@@ -167,7 +178,7 @@ export default function Studio() {
   );
 
   const config = useMemo(() => (loaded?.manifest ? buildConfig(loaded.manifest) : null), [loaded?.manifest]);
-  const fixed = loaded?.page.template ? loaded.manifest?.templates[loaded.page.template]?.fixed : undefined;
+  const tpl = loaded?.page.template ? loaded.manifest?.templates[loaded.page.template] : undefined;
 
   if (!loaded || !config) return <StatusBar status={status ?? { tone: "info", text: "Loading…" }} />;
   if (!loaded.draft) return <StatusBar status={{ tone: "err", text: "This page has no content in the CMS yet." }} />;
@@ -187,7 +198,8 @@ export default function Studio() {
         onChange={() => setDirty(true)}
         onPublish={save}
         headerTitle={loaded.page.title}
-        permissions={fixed ? { drag: false, duplicate: false, delete: false, insert: false } : undefined}
+        // Fixed pages: sections can't be added, removed or duplicated; any-order pages can be dragged.
+        permissions={tpl?.fixed ? { drag: !!tpl.anyOrder, duplicate: false, delete: false, insert: false } : undefined}
         overrides={{ headerActions: () => <SaveButton onSave={save} saving={saving} dirty={dirty} /> }}
       />
     </div>

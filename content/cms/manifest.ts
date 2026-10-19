@@ -12,8 +12,10 @@ import { HOME_FAQS } from "../home";
  * short display lines at 1280px and 375px; past ~40 characters they wrap to
  * three and push the buttons below the photograph on mobile.
  */
+const HIDDEN = { type: "toggle", label: "Hide this section on the site" } as const;
+
 export const MANIFEST = {
-  version: "dlife-2026-09-29.1",
+  version: "dlife-2026-10-19.1",
   blocks: {
     Hero: {
       label: "Home hero",
@@ -26,23 +28,26 @@ export const MANIFEST = {
         secondaryCta: { type: "text", label: "Second button (scrolls to pathways)", required: true, max: 30 },
         photo: { type: "image", label: "Photo", required: true },
         photoAlt: { type: "text", label: "Photo description (alt text)", required: true, max: 160 },
+        photoSide: { type: "select", label: "Photo side (desktop)", options: ["right", "left"] },
       },
     },
-    // Shown in the editor so staff see the whole page; their content isn't editable yet.
-    Path: { label: "Find your path", locked: true, fields: {} },
-    Trust: { label: "Trust figures", locked: true, fields: {} },
-    Needs: { label: "Life needs", locked: true, fields: {} },
-    Policy: { label: "Policy review", locked: true, fields: {} },
-    Founder: { label: "Founders", locked: true, fields: {} },
-    Stories: { label: "Stories (films)", locked: true, fields: {} },
-    Careers: { label: "Careers", locked: true, fields: {} },
-    Dva: { label: "DVA", locked: true, fields: {} },
-    Youth: { label: "Youth Community", locked: true, fields: {} },
-    Close: { label: "Closing", locked: true, fields: {} },
+    // Shown in the editor so staff see the whole page. Their words and pictures aren't editable
+    // yet, but they can be moved, hidden, and (where the design allows) laid out differently.
+    Path: { label: "Find your path", locked: true, fields: { hidden: HIDDEN } },
+    Trust: { label: "Trust figures", locked: true, fields: { hidden: HIDDEN } },
+    Needs: { label: "Life needs", locked: true, fields: { hidden: HIDDEN } },
+    Policy: { label: "Policy review", locked: true, fields: { photoSide: { type: "select", label: "Photo side (desktop)", options: ["right", "left"] }, hidden: HIDDEN } },
+    Founder: { label: "Founders", locked: true, fields: { hidden: HIDDEN } },
+    Stories: { label: "Stories (films)", locked: true, fields: { hidden: HIDDEN } },
+    Careers: { label: "Careers", locked: true, fields: { hidden: HIDDEN } },
+    Dva: { label: "DVA", locked: true, fields: { hidden: HIDDEN } },
+    Youth: { label: "Youth Community", locked: true, fields: { hidden: HIDDEN } },
+    Close: { label: "Closing", locked: true, fields: { hidden: HIDDEN } },
     Faq: {
       label: "FAQ",
       fields: {
         label: { type: "text", label: "Eyebrow", required: true, max: 40 },
+        hidden: HIDDEN,
         items: {
           type: "list",
           label: "Questions",
@@ -58,7 +63,8 @@ export const MANIFEST = {
   },
   templates: {
     // The homepage is a fixed composition: its sections can be edited, not rearranged.
-    home: { fixed: ["Hero", "Path", "Trust", "Needs", "Policy", "Founder", "Stories", "Careers", "Dva", "Youth", "Faq", "Close"] },
+    // Each section exactly once; staff can reorder and hide them. The hero can't be hidden (it is the page's h1).
+    home: { fixed: ["Hero", "Path", "Trust", "Needs", "Policy", "Founder", "Stories", "Careers", "Dva", "Youth", "Faq", "Close"], anyOrder: true },
   },
   // The photographs a field may use. Alt text is the default description; editors can override it.
   media: [
@@ -81,9 +87,12 @@ export const MANIFEST = {
 } as const;
 
 export type ManifestBlock = { label?: string; locked?: boolean; fields: Record<string, ManifestField> };
+export type ManifestTemplate = { fixed?: readonly string[]; anyOrder?: boolean; allowed?: readonly string[] };
 
 export type ManifestField =
   | { type: "text" | "textarea"; label?: string; required?: boolean; max?: number }
+  | { type: "select"; label?: string; required?: boolean; options: readonly string[] }
+  | { type: "toggle"; label?: string }
   | { type: "image"; label?: string; required?: boolean }
   | { type: "list"; label?: string; min?: number; max?: number; item: Record<string, ManifestField> };
 

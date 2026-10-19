@@ -440,11 +440,11 @@ export function NeedsSection() {
   );
 }
 
-export function PolicySection() {
+export function PolicySection({ photoSide }: { photoSide?: string }) {
   return (
     <>
 
-      <section id="policy" className="sand">
+      <section id="policy" className="sand" data-photo={photoSide === "left" ? "left" : undefined}>
         <div className="tx">
           <span className="lb rv">
             Existing policyholders

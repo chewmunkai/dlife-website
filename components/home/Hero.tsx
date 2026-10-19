@@ -18,13 +18,15 @@ export type HeroProps = {
   secondaryCta: string;
   photo: string;
   photoAlt: string;
+  /** Desktop only: which side the photograph sits on. Stacked layouts are unchanged. */
+  photoSide?: string;
 };
 
-export default function Hero({ label, headline, headlineItalic, lede, primaryCta, secondaryCta, photo, photoAlt }: HeroProps) {
+export default function Hero({ label, headline, headlineItalic, lede, primaryCta, secondaryCta, photo, photoAlt, photoSide }: HeroProps) {
   return (
     /* Split hero, per the client's reference: the copy on the beige page
        ground at the left, the photograph held at the very right edge. */
-    <section id="hero">
+    <section id="hero" data-photo={photoSide === "left" ? "left" : undefined}>
       <div className="fg">
         <span className="lb rv">{label}</span>
         <h1>

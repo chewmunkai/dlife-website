@@ -644,3 +644,43 @@
   .dlife #hd { padding-inline: 24px; }
   .dlife #hd .nav { gap: clamp(6px, .8vw, 12px); }
 }
+
+/* ---- Layout choices exposed in Talous CMS (photo side) ----
+   Desktop only. Both sections stack below their own breakpoints exactly as
+   before, so a choice can never change the phone layout. Each mirror flips
+   every side-specific value of the default, not just the column order. */
+
+/* Hero, photograph on the left. Mirrors: the column ratio, the section's inset
+   (the plate bleeds to the left edge instead of the right), the plate's
+   negative margin under the copy, the copy's gutter, and the left-to-right
+   feather (dlife.css #hero .bg::after; every stop stays a calc of
+   --hero-blend, per the warning there). */
+@media (min-width: 901px) {
+  .dlife #hero[data-photo="left"] {
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
+    padding: var(--dl-hd) var(--dl-pad) 0 0;
+  }
+  .dlife #hero[data-photo="left"] .bg {
+    order: -1;
+    margin-left: 0;
+    margin-right: calc(var(--hero-blend) * -1);
+  }
+  .dlife #hero[data-photo="left"] .fg {
+    padding-right: 0;
+    padding-left: clamp(14px, 2vw, 34px);
+  }
+  .dlife #hero[data-photo="left"] .bg::after {
+    background:
+      linear-gradient(to left,
+        rgba(246, 241, 232, .70) 0,
+        rgba(246, 241, 232, .34) calc(var(--hero-blend) * .45),
+        rgba(246, 241, 232, .12) calc(var(--hero-blend) * .75),
+        rgba(246, 241, 232, 0) var(--hero-blend)),
+      linear-gradient(to top, var(--dl-ivory) 0, rgba(246, 241, 232, 0) 9%);
+  }
+}
+
+/* Policy review, photograph on the left. Two equal columns, so only the order flips. */
+@media (min-width: 1081px) {
+  .dlife #policy[data-photo="left"] .ph { order: -1; }
+}

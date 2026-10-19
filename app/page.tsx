@@ -24,7 +24,7 @@ export default async function Page() {
       <DLife blocks={blocks} />
       {/* Built from the same array the accordion renders, so the answers a
           search engine reads cannot drift from the ones on screen. */}
-      <JsonLd data={faqLd(faq.items)} />
+      {faq && <JsonLd data={faqLd(faq.items)} />}
     </SiteShell>
   );
 }

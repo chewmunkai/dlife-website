@@ -21,7 +21,9 @@ export default function DLife({ blocks }: { blocks: HomeBlock[] }) {
     <>
       {blocks.map((b) => {
         const Section = SECTIONS[b.type];
-        return Section ? <Section key={b.props.id} {...b.props} /> : null;
+        // Hidden sections keep their place and content in the CMS; they just don't render.
+        if (!Section || b.props.hidden === true) return null;
+        return <Section key={b.props.id} {...b.props} />;
       })}
     </>
   );

@@ -39,7 +39,7 @@ export async function getPublished(slug: string): Promise<Published | null> {
  * have (an older version, or the CMS unreachable) goes back in at its
  * approved position, so the live page can never lose a section.
  */
-export function homeFromPublished(p: Published | null): { blocks: Block[]; faq: { label: string; items: Qa[] }; seo: Published["seo"] } {
+export function homeFromPublished(p: Published | null): { blocks: Block[]; faq: { label: string; items: Qa[] } | null; seo: Published["seo"] } {
   const defaults = HOME_DOCUMENT.content as Block[];
   const blocks: Block[] = (p?.content.content ?? []).filter((b) => defaults.some((d) => d.type === b.type));
   defaults.forEach((d, i) => {
@@ -57,7 +57,10 @@ export function homeFromPublished(p: Published | null): { blocks: Block[]; faq: 
   });
   const withDefaults = blocks.map((b) => (b.type === "Hero" ? { ...b, props: { ...HERO_DEFAULTS, ...b.props } } : b));
   const faqProps = withDefaults.find((b) => b.type === "Faq")?.props;
-  const faq = faqProps
+  // A hidden FAQ isn't on the page, so it mustn't be in the structured data either.
+  const faq = faqProps?.hidden === true
+    ? null
+    : faqProps
     ? { label: String(faqProps.label ?? FAQ_DEFAULTS.label), items: ((faqProps.items as Qa[] | undefined) ?? FAQ_DEFAULTS.items).map(({ q, a }) => ({ q, a })) }
     : FAQ_DEFAULTS;
   return { blocks: withDefaults, faq, seo: p?.seo ?? {} };
