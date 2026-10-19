@@ -43,6 +43,14 @@ jobs:
         run: npm run build
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # The preview shows what's published in Talous CMS; if the CMS can't be
+          # reached it falls back to the text that ships in the repo.
+          TALOUS_CMS_URL: https://cms.edgepoint.work
+          TALOUS_PROJECT_ID: 74f71b1c-e725-4579-bb3d-563f35f56ac6
+
+      - name: Leave out the server-only parts
+        # The editor and the CMS's endpoints only work on the server copy on talos.
+        run: rm -rf out/studio.html out/studio.txt out/api out/_none.html out/_none.txt
 
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -32,9 +32,15 @@ const config = {
 
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
+// Page files may only export what Next.js expects, so this stays private.
+const NO_PAGES = "_none";
+
 export async function generateStaticParams() {
-  // Only used by the static export; the server build renders on demand.
-  return (await listPublished()).map((p) => ({ slug: p.slug }));
+  // Only used by the static export; the server build renders on demand. The export refuses a
+  // dynamic route with no params at all, which is the normal state before any CMS page is
+  // published, so it gets one placeholder that renders the 404 page.
+  const pages = (await listPublished()).map((p) => ({ slug: p.slug }));
+  return pages.length ? pages : [{ slug: NO_PAGES }];
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -54,7 +60,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function CmsPage({ params }: { params: { slug: string } }) {
-  if (!SLUG.test(params.slug)) notFound();
+  if (!SLUG.test(params.slug) || params.slug === NO_PAGES) notFound();
   const page = await getPublished(params.slug);
   if (!page) notFound();
   return (

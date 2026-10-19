@@ -14,6 +14,11 @@ export type PublishedPage = Published;
 
 const CMS = process.env.TALOUS_CMS_URL;
 const PROJECT = process.env.TALOUS_PROJECT_ID;
+// A plain-files build (cPanel, GitHub Pages) bakes in whatever the CMS returns at build time.
+const STATIC = Boolean(process.env.PAGES_BASE_PATH || process.env.STATIC_EXPORT);
+// Set for the live cPanel build: a CMS failure fails the build, so the site keeps its last
+// upload instead of being replaced with the repo's built-in text.
+const REQUIRED = process.env.TALOUS_REQUIRE === "1";
 
 export async function getPublished(slug: string): Promise<Published | null> {
   if (!CMS || !PROJECT) return null;
@@ -27,10 +32,11 @@ export async function getPublished(slug: string): Promise<Published | null> {
     if (!res.ok) throw new Error(`CMS answered ${res.status}`);
     return (await res.json()) as Published;
   } catch (e) {
+    if (REQUIRED) throw new Error(`Talous CMS didn't return "${slug}": ${(e as Error).message}`);
     console.warn(`[talous] using built-in content for "${slug}":`, (e as Error).message);
-    // The CMS is configured but unreachable: render per request rather than caching the fallback,
-    // so the page picks up published content as soon as the CMS is back.
-    noStore();
+    // The CMS is configured but unreachable: on a server, render per request rather than caching
+    // the fallback, so the page picks up published content as soon as the CMS is back.
+    if (!STATIC) noStore();
     return null;
   }
 }
@@ -74,10 +80,11 @@ export async function listPublished(): Promise<{ slug: string; title: string; pu
     const url = new URL("/api/public/pages", CMS);
     url.searchParams.set("project", PROJECT);
     const res = await fetch(url, { next: { tags: ["talous:pages"] }, signal: AbortSignal.timeout(5000) });
-    if (!res.ok) return [];
+    if (!res.ok) throw new Error(`CMS answered ${res.status}`);
     const rows = (await res.json()) as { slug: string; title: string; publishedAt: string | null }[];
     return rows.filter((r) => r.slug !== "home");
-  } catch {
+  } catch (e) {
+    if (REQUIRED) throw new Error(`Talous CMS didn't list its pages: ${(e as Error).message}`);
     return [];
   }
 }

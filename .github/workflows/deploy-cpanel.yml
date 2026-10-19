@@ -1,0 +1,79 @@
+name: Deploy to dlife.com.my
+
+# Builds the site as plain files, with the content published in Talous CMS, and
+# uploads it to the cPanel server's public_html over FTPS. Runs on every push to
+# main, and whenever someone publishes in the CMS (the CMS starts this workflow:
+# projects.publish_hook in talous-cms). pages.yml keeps the GitHub Pages preview.
+# Client decision, 12 Oct 2026: full launch; the domain updates on every change.
+#
+# Needs three repository secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD (a
+# deploy-only FTP account whose home is public_html). Until they exist the
+# build still runs, so a broken build shows, but nothing is uploaded.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time, never cancelled halfway through an upload. GitHub keeps
+# at most one run waiting, so a burst of publishes ends in one build with all of them.
+concurrency:
+  group: cpanel
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      STATIC_EXPORT: "1"
+      TALOUS_CMS_URL: https://cms.edgepoint.work
+      TALOUS_PROJECT_ID: 74f71b1c-e725-4579-bb3d-563f35f56ac6
+      # If the CMS can't be read, fail: the domain keeps its last upload rather than
+      # getting the repo's built-in text in place of what was published.
+      TALOUS_REQUIRE: "1"
+      HAS_FTP: ${{ secrets.FTP_SERVER != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check the CMS is answering
+        run: curl -fsS --retry 3 --retry-delay 10 -o /dev/null "$TALOUS_CMS_URL/api/public/pages?project=$TALOUS_PROJECT_ID&slug=home"
+
+      # No PAGES_BASE_PATH: the site builds at the domain root, as production,
+      # so canonical URLs, the sitemap and robots point at https://dlife.com.my
+      # and search engines are allowed in.
+      - name: Build static export
+        run: npm run build
+
+      - name: Prepare the upload
+        run: |
+          # The editor and the CMS's endpoints only work on the server copy on talos.
+          rm -rf out/studio.html out/studio.txt out/api out/_none.html out/_none.txt
+          cp deploy/cpanel/.htaccess out/.htaccess
+
+      # Uploads only what changed since the last run (it keeps a state file on
+      # the server). The first run sends everything, about 260 MB.
+      - name: Upload to public_html
+        if: env.HAS_FTP == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./out/
+          server-dir: ./
+
+      - name: Not uploaded
+        if: env.HAS_FTP != 'true'
+        run: echo "::notice::Built, but not uploaded — the FTP_SERVER, FTP_USERNAME and FTP_PASSWORD secrets aren't set yet."
