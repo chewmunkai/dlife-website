@@ -3,6 +3,11 @@ import type { Qa } from "../components/blocks/Faq";
 import { HERO_DEFAULTS, FAQ_DEFAULTS, HOME_DOCUMENT } from "../content/cms/manifest";
 import { filmsFromContent } from "../content/cms/films";
 import { VIDEOS, type Video } from "../content/videos";
+import { ALL_ROUTES } from "./routes";
+
+// The site's own pages (coded routes, now edited in the CMS too), by CMS slug: "about",
+// "solutions/protecting-your-family"… They have their routes; they aren't CMS-built pages.
+const SITE_PAGE_SLUGS = new Set(ALL_ROUTES.map((r) => r.path.replace(/^\//, "")).filter(Boolean));
 
 /*
  * Reads published content from Talous CMS. The site never depends on the CMS
@@ -82,6 +87,36 @@ export function homeFromPublished(p: Published | null): { blocks: Block[]; faq: 
   return { blocks: withDefaults, faq, seo: p?.seo ?? {} };
 }
 
+/**
+ * A page's sections, in published order (content/cms/define.ts): any section the CMS doesn't have
+ * goes back in at its approved position, sections the page no longer has are dropped, and each
+ * keeps its own defaults underneath (the section components merge them).
+ */
+export function sectionsFromPublished(p: Published | null, defaults: Block[]): Block[] {
+  // Each published section over its own defaults (same id, else the first of its type), so a
+  // field added to the site later shows its built-in copy until someone edits it.
+  const blocks: Block[] = (p?.content.content ?? [])
+    .map((b) => {
+      const d = defaults.find((x) => x.props.id === b.props.id) ?? defaults.find((x) => x.type === b.type);
+      return d ? { ...b, props: { ...d.props, ...b.props } } : null;
+    })
+    .filter((b): b is Block => !!b);
+  const onlyOne = (type: string) => defaults.filter((x) => x.type === type).length === 1;
+  defaults.forEach((d, i) => {
+    if (blocks.some((b) => b.props.id === d.props.id || (onlyOne(d.type) && b.type === d.type))) return;
+    let at = 0;
+    for (const prev of defaults.slice(0, i).reverse()) {
+      const j = blocks.findIndex((b) => b.type === prev.type);
+      if (j >= 0) {
+        at = j + 1;
+        break;
+      }
+    }
+    blocks.splice(at, 0, d);
+  });
+  return blocks;
+}
+
 /** Pages built in the CMS (everything except the homepage), for the sitemap and static builds. */
 export async function listPublished(): Promise<{ slug: string; title: string; publishedAt: string | null; noindex?: boolean }[]> {
   if (!CMS || !PROJECT) return [];
@@ -91,7 +126,8 @@ export async function listPublished(): Promise<{ slug: string; title: string; pu
     const res = await fetch(url, { next: { tags: ["talous:pages"] }, signal: AbortSignal.timeout(5000) });
     if (!res.ok) throw new Error(`CMS answered ${res.status}`);
     const rows = (await res.json()) as { slug: string; title: string; publishedAt: string | null; noindex?: boolean }[];
-    return rows.filter((r) => r.slug !== "home");
+    // The site's own pages are in the CMS too now; only pages built in the CMS are listed here.
+    return rows.filter((r) => r.slug !== "home" && !SITE_PAGE_SLUGS.has(r.slug));
   } catch (e) {
     if (REQUIRED) throw new Error(`Talous CMS didn't list its pages: ${(e as Error).message}`);
     return [];

@@ -24,6 +24,21 @@ import type { Qa } from "../../components/blocks/Faq";
 import type { ManifestBlock, ManifestField, ManifestTemplate } from "../../content/cms/manifest";
 import { MediaPicker, UploadContext, posterOf, type MediaItem, type Uploader } from "./MediaPicker";
 import { FilmLibraryPreview, LibrariesContext, useLibraryFilms } from "./FilmLibraryPreview";
+import { PAGE_SECTIONS } from "../../components/pages";
+import { ALL_ROUTES, type Route } from "../../lib/routes";
+import { createContext, useContext } from "react";
+
+/** The page being edited's route (breadcrumbs, links), for the inner pages' sections. */
+const PageRouteContext = createContext<Route | undefined>(undefined);
+
+/** An inner-page section with what the live page passes every section: its route and the films. */
+function withPageContext(C: ComponentType<Record<string, unknown>>) {
+  return function InPage(p: Record<string, unknown>) {
+    const route = useContext(PageRouteContext);
+    const films = useLibraryFilms();
+    return <C {...p} route={route} films={films} />;
+  };
+}
 
 /*
  * The visual editor Talous CMS frames. It renders this site's real components,
@@ -48,7 +63,7 @@ type Manifest = {
   media: MediaItem[];
 };
 type Loaded = {
-  page: { id: string; title: string; template: string | null };
+  page: { id: string; slug: string; title: string; template: string | null };
   draft: { id: string; n: number; content: Data } | null;
   manifest: Manifest | null;
   libraries?: Record<string, unknown>;
@@ -64,6 +79,7 @@ type Status = { tone: "info" | "ok" | "err"; text: string; errors?: string[] } |
 /* How each block type renders. A block in the manifest without a renderer here shows a placeholder. */
 const RENDERERS: Record<string, ComponentType<Record<string, unknown>>> = {
   ...(KIT as unknown as Record<string, ComponentType<Record<string, unknown>>>),
+  ...Object.fromEntries(Object.entries(PAGE_SECTIONS).map(([type, C]) => [type, withPageContext(C)])),
   ...(HOME_SECTIONS as unknown as Record<string, ComponentType<Record<string, unknown>>>),
   Hero: (p) => <HOME_SECTIONS.Hero {...(p as unknown as HeroProps)} />,
   FilmLibrary: (p) => <FilmLibraryPreview films={p.films as never} />,
@@ -155,7 +171,21 @@ function buildConfig(manifest: Manifest, templateName: string | null): Config {
     components,
     categories,
     // No page-level fields: SEO is edited in the CMS, not here.
-    root: { fields: {}, render: ({ children }: { children: React.ReactNode }) => <div className="dlife" data-studio>{children}</div> },
+    // Each page in the wrapper its own shell gives it: the homepage's .dlife root, or the inner
+    // pages' .wrap/main (their stylesheets go into the canvas only: DsStyles below).
+    root: {
+      fields: {},
+      render: ({ children }: { children: React.ReactNode }) =>
+        manifest.templates[templateName ?? ""]?.design === "ds" ? (
+          <div className="wrap" data-studio data-ds>
+            <main id="main">{children}</main>
+          </div>
+        ) : (
+          <div className="dlife" data-studio>
+            {children}
+          </div>
+        ),
+    },
   };
 }
 
@@ -393,6 +423,7 @@ export default function Studio() {
       // A fixed page (the homepage) takes no new blocks, so the drawer says what it can do instead
       // of offering blocks that won't drop.
       ...(tpl?.fixed ? { drawer: () => <FixedPageNote anyOrder={!!tpl.anyOrder} /> } : {}),
+      ...(tpl?.design === "ds" ? { iframe: ({ children, document }: { children: React.ReactNode; document?: Document }) => <DsStyles doc={document}>{children}</DsStyles> } : {}),
     }),
     [cmsOrigin, changed, tpl],
   );
@@ -413,6 +444,7 @@ export default function Studio() {
         </div>
       )}
       <StatusBar status={status} />
+      <PageRouteContext.Provider value={ALL_ROUTES.find((r) => r.path === `/${loaded.page.slug}`) ?? ALL_ROUTES[0]}>
       <LibrariesContext.Provider value={loaded.libraries ?? {}}>
       <UploadContext.Provider value={uploader}>
       <Puck
@@ -428,8 +460,22 @@ export default function Studio() {
       />
       </UploadContext.Provider>
       </LibrariesContext.Provider>
+      </PageRouteContext.Provider>
     </div>
   );
+}
+
+/** Loads the inner pages' stylesheets into the canvas iframe only (app/studio/ds.css). */
+function DsStyles({ doc, children }: { doc?: Document; children: React.ReactNode }) {
+  useEffect(() => {
+    if (!doc || doc.getElementById("talous-ds-css")) return;
+    const link = doc.createElement("link");
+    link.id = "talous-ds-css";
+    link.rel = "stylesheet";
+    link.href = "/studio/ds.css";
+    doc.head.appendChild(link);
+  }, [doc]);
+  return <>{children}</>;
 }
 
 function FixedPageNote({ anyOrder }: { anyOrder: boolean }) {

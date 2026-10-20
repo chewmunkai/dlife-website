@@ -50,7 +50,7 @@ jobs:
 
       - name: Leave out the server-only parts
         # The editor and the CMS's endpoints only work on the server copy on talos.
-        run: rm -rf out/studio.html out/studio.txt out/api out/_none.html out/_none.txt
+        run: rm -rf out/studio out/studio.html out/studio.txt out/api out/_none.html out/_none.txt
 
       - uses: actions/upload-pages-artifact@v3
         with:

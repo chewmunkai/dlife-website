@@ -5,6 +5,7 @@ import { ICON_NAMES } from "../../components/home/icons";
 import { ALL_ROUTES, ROUTES } from "../../lib/routes";
 import { KIT_BLOCKS, LANDING_STARTER } from "./kit-manifest";
 import { FILM_LIBRARY_BLOCK, FILM_MEDIA, FILMS_DOCUMENT } from "./films";
+import { PAGE_BLOCKS, PAGE_MEDIA, PAGE_TEMPLATES } from "./pages";
 import {
   LINK_OPTIONS,
   PATH_DEFAULTS,
@@ -31,11 +32,19 @@ import {
  */
 const HIDDEN = { type: "toggle", label: "Hide this section on the site" } as const;
 
+/** One entry per file: the homepage's own description wins over a later page's. */
+function firstOfEach<T extends { src: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  return items.filter((m) => !seen.has(m.src) && (seen.add(m.src), true));
+}
+
 export const MANIFEST = {
-  version: "dlife-2026-10-20.4",
+  version: "dlife-2026-10-20.5",
   blocks: {
     // The site-wide film list (content/cms/films.ts): a library page, not a section of one.
     FilmLibrary: FILM_LIBRARY_BLOCK,
+    // The inner pages' sections (content/cms/pages).
+    ...PAGE_BLOCKS,
     // The general-purpose kit for pages built in the CMS (docs/08 in talous-cms).
     ...KIT_BLOCKS,
     Hero: {
@@ -238,9 +247,10 @@ export const MANIFEST = {
     landing: { label: "Landing page", creatable: true, allowed: ["Section"], starter: LANDING_STARTER },
     // Not a web page: the films every page that shows films reads from.
     films: { label: "Film library", fixed: ["FilmLibrary"], library: true },
+    ...PAGE_TEMPLATES,
   },
   // The photographs a field may use. Alt text is the default description; editors can override it.
-  media: [
+  media: firstOfEach([
     { src: "/media/img/hero-team-ivory.jpg", alt: "The D’Life team together" },
     { src: "/media/img/dva-award-night-v2.jpg", alt: "D’Life advisors together at the DVA award night" },
     { src: "/media/img/youth-resources-v2.jpg", alt: "A presenter leading a workshop, participants seated around tables" },
@@ -265,6 +275,8 @@ export const MANIFEST = {
     { src: "/media/img/dva-forum.jpg", alt: "A DVA forum in session" },
     // The thirteen films and their posters (content/videos.ts).
     ...FILM_MEDIA,
+    // Photos the inner pages use that the homepage doesn't (deduplicated below).
+    ...PAGE_MEDIA,
     // 12 Oct 2026: the life-need cards and the Policy panel use the pages' own hero photographs.
     { src: "/media/img/solutions/protecting-family/family-meal.jpg", alt: "Three generations of a family sharing a meal at home" },
     { src: "/media/img/solutions/protecting-income/need-income-malaysia.jpg", alt: "An advisor going through the household’s figures with a couple" },
@@ -272,7 +284,7 @@ export const MANIFEST = {
     { src: "/media/img/solutions/planning-for-your-future/advisor-planning.jpg", alt: "An advisor and a young man starting a plan together at a table" },
     { src: "/media/img/solutions/wealth-legacy/family-photos.jpg", alt: "A family looking through photographs and albums together" },
     { src: "/media/img/eps-hero-advisor.jpg", alt: "An advisor talking a client through his policy schedule at a table" },
-  ],
+  ]),
   seo: {
     titleMax: 70,
     descriptionMax: 170,
@@ -284,7 +296,16 @@ export const MANIFEST = {
 } as const;
 
 export type ManifestBlock = { label?: string; locked?: boolean; fields: Record<string, ManifestField> };
-export type ManifestTemplate = { fixed?: readonly string[]; anyOrder?: boolean; allowed?: readonly string[]; label?: string; creatable?: boolean };
+export type ManifestTemplate = {
+  fixed?: readonly string[];
+  anyOrder?: boolean;
+  allowed?: readonly string[];
+  label?: string;
+  creatable?: boolean;
+  library?: boolean;
+  /** "ds": the inner pages' design system (components/v2/Shell.tsx); otherwise the homepage's. */
+  design?: "ds";
+};
 
 export type ManifestField =
   | { type: "text" | "textarea"; label?: string; required?: boolean; max?: number; pattern?: string; patternHint?: string }

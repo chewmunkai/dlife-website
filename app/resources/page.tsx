@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero, Band, ClosingCard, Events, StoriesPreview } from "../../components/v2/blocks";
-import { ROUTES, SOLUTIONS_INDEX } from "../../lib/routes";
-import { link } from "../../lib/asset";
-import { WA, waHref } from "../../lib/contact";
-import { ROUTABLE_ARTICLES } from "../../content/articles";
-import { ArticleGrid, ArticleLead } from "../../components/v2/articles";
-import { getFilms } from "../../lib/talous";
-import { pageMeta, breadcrumbLd } from "../../lib/seo";
+import { Sections } from "../../components/cms/Sections";
+import { PAGE_SECTIONS } from "../../components/pages";
+import { RESOURCES_PAGE } from "../../content/cms/pages/resources";
+import { getFilms, getPublished, sectionsFromPublished } from "../../lib/talous";
+import { ROUTES } from "../../lib/routes";
+import { pageMeta, breadcrumbLd, withCmsSeo } from "../../lib/seo";
 
-export const metadata: Metadata = pageMeta(ROUTES.resources);
+export async function generateMetadata(): Promise<Metadata> {
+  return withCmsSeo(pageMeta(ROUTES.resources), (await getPublished("resources"))?.seo ?? {});
+}
 
 /* ============================================================
    Articles & Events.
@@ -30,163 +30,15 @@ export const metadata: Metadata = pageMeta(ROUTES.resources);
    not there.
    ============================================================ */
 
-const EVENTS = [
-  {
-    when: "Monthly",
-    where: "Klang Valley",
-    title: "Growth Circle",
-    photo: { src: "/media/img/dva-forum.jpg", alt: "Members in a Growth Circle session" },
-    copy: "One of D’Life’s signature development platforms. A regular gathering where members reflect on progress, share experience, discuss what is not working and learn from each other.",
-  },
-  {
-    when: "Through the year",
-    where: "Klang Valley",
-    title: "Leadership development workshops",
-    photo: { src: "/media/img/team-office.jpg", alt: "A leadership development workshop" },
-    copy: "Interactive sessions on strategic thinking, decision-making, emotional intelligence, coaching and applying leadership in practice.",
-  },
-  {
-    when: "Regular",
-    where: "Klang Valley",
-    title: "Financial planning seminars",
-    photo: { src: "/media/img/youth-workshop.jpg", alt: "An open session on planning fundamentals" },
-    copy: "Open sessions on protection and planning fundamentals, run as education rather than as a sales presentation.",
-  },
-  {
-    when: "Regular",
-    where: "Klang Valley",
-    title: "Learning forums",
-    /* 11 Oct 2026, client: their photographs for this card and the two below.
-       All three are 4:3, the card's own shape, so nobody is cropped. The
-       pickleball shot was 2000x1876 and is cut to 4:3 at source through bare
-       wall above the banner and bare floor below the signs. */
-    photo: { src: "/media/img/learning-forum.jpg", alt: "A D’Life learning forum group together in a lounge" },
-    copy: "Knowledge sharing with industry experts and experienced professionals, covering advisory practice, business and personal development.",
-  },
-  {
-    when: "Through the year",
-    where: "Campus & community venues",
-    title: "Youth leadership programmes",
-    photo: { src: "/media/img/youth-leadership-cafe.jpg", alt: "Youth leadership programme members together at a café session" },
-    copy: "Sessions for students, fresh graduates and young professionals across health, wealth and leadership.",
-  },
-  {
-    when: "Several a year",
-    where: "Various",
-    title: "Charity & community projects",
-    photo: { src: "/media/img/charity-pickleball.jpg", alt: "The D’Life team with the podium signs at the St. John Pickle Cup" },
-    copy: "Service initiatives that members contribute to across the year, run through DVA and the Youth Community.",
-  },
-];
-
 export default async function Page() {
-  const featured = (await getFilms()).slice(0, 3);
   const route = ROUTES.resources;
-  const events = waHref(WA.event);
-
+  // Sections and copy from Talous CMS; content/cms/pages/resources.ts holds today's as defaults
+  // (the events moved there from this file). The films preview shows the Film library's first three.
+  const blocks = sectionsFromPublished(await getPublished("resources"), RESOURCES_PAGE.content);
+  const films = await getFilms();
   return (
     <Shell>
-      <Hero
-        route={route}
-        label="Articles & events"
-        title="Reading and what’s coming up"
-        lede="Writing worth your time, and the sessions that run across the D’Life community through the year."
-        /* Round 22, client: a new hero here. It was dva-workshop.jpg, which is a
-           0.80 portrait — it needed the plate turned portrait to stop it cutting
-           the seated participants out, and a tall plate is the wrong shape for
-           a page hero. This photograph is landscape, it is an actual D'Life
-           gathering rather than a workshop seen over people's heads, and it was
-           the one image in the library used nowhere else on the site. */
-        /* Round 22, and no longer interim. The client pointed out the Drive folder
-           opens as a public link in a browser even though the connector cannot list
-           it, which is how this arrived. A page called "Reading and what's coming
-           up" wants an actual event, and this is the agency's award night — the
-           only photograph in the folder that is unmistakably one. 1.77, so the
-           plate takes its ratio and nobody is cropped. */
-        photo={{
-          /* 12 Oct 2026, client: the corrected edit, its screen reading "DVA
-             AWARD NIGHT" where this one read "DVL". The same file as the
-             homepage DVA panel and the same 1.78 shape, so the mat below is
-             unchanged. */
-          src: "/media/img/dva-award-night-v2.jpg",
-          alt: "D’Life advisors together at the DVA award night",
-          /* 21 Sep 2026, client: "articles and event photo hero is not same
-             size — find a way to fix it without cutting ppl off."
-
-             The plate is now 4:3 like every other hero, and the photograph is
-             MATTED inside it rather than cropped to it. Both are true at once,
-             which a crop cannot manage here: this is a 1.766 group shot with a
-             man in a burgundy jacket hard against the left edge and another
-             man against the right, so the 24.5% a 4:3 cover would take removes
-             them both — the symmetrical loss that no object-position can save,
-             and exactly what the client's standing rule forbids: "NEVER crop
-             out someone ... or DON'T use it."
-
-             `fit: "contain"` paints the letterbox in --s-plate, which on a
-             dark section is a translucent deep green, so the bars read as an
-             inset mat rather than a gap. The same treatment carries the DVA
-             team photograph, which is 1.78 and has the same problem. */
-          fit: "contain",
-        }}
-      />
-
-      {/* Driven by content/articles.ts. 12 Oct 2026, client: the listing was
-          one card stranded in a three-column grid. The newest article is now
-          set wide, and anything older follows in the grid below it. */}
-      {ROUTABLE_ARTICLES.length > 0 && (
-        <Band label="Reading" title="Articles">
-          <div className="arts">
-            <ArticleLead a={ROUTABLE_ARTICLES[0]} />
-            {ROUTABLE_ARTICLES.length > 1 && <ArticleGrid items={ROUTABLE_ARTICLES.slice(1)} />}
-          </div>
-        </Band>
-      )}
-
-      <Band label="Events" title="What runs across the year">
-        <div className="dl-prose" style={{ marginTop: 20 }}>
-          <p>
-            D’Life and <a href={link(ROUTES.dva.path)}>DVA</a> run a programme of workshops, forums and community
-            sessions through the year, alongside the <a href={link(ROUTES.youth.path)}>Youth Community</a>. Dates go out
-            to members ahead of time. Ask us and we will let you know what is next.
-          </p>
-        </div>
-        <Events items={EVENTS} href={events} />
-      </Band>
-
-      {/* L08 (client review, 6 Sep 2026): the advisor films were reachable
-          from this page only through a footer link. They are the closest
-          thing the site has to published content while the article library is
-          empty, so they belong in the main column — the same preview block
-          Careers already uses, off the same three real records. */}
-      <StoriesPreview
-        label="Watch"
-        title="Advisors, in their own words"
-        lede="Short films on what the work actually looks like. Each one plays on the Stories page, with sound."
-        items={featured.map((v) => ({
-          poster: v.poster,
-          focus: v.focus,
-          title: v.title,
-          runtime: v.runtime,
-        }))}
-        href={ROUTES.stories.path}
-        cta="Watch all the stories"
-      />
-
-      <ClosingCard
-        title="Would rather just ask someone?"
-        lede="Reading is a fine place to start, but most questions are quicker to answer in a conversation."
-        actions={
-          <>
-            <a className="pill sand" href={waHref(WA.question)}>
-              <span>Ask a question</span>
-            </a>
-            <a className="pill ghost" href={link(SOLUTIONS_INDEX)}>
-              <span>Explore protection &amp; planning</span>
-            </a>
-          </>
-        }
-      />
-
+      <Sections blocks={blocks} registry={PAGE_SECTIONS} context={{ route, films }} />
       <JsonLd data={breadcrumbLd(route)} />
     </Shell>
   );

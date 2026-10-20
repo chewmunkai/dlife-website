@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import Shell from "../../components/v2/Shell";
-import Lead from "../../components/v2/Lead";
 import JsonLd from "../../components/site/JsonLd";
-import { Hero } from "../../components/v2/blocks";
+import { Sections } from "../../components/cms/Sections";
+import { PAGE_SECTIONS } from "../../components/pages";
+import { CONTACT_PAGE } from "../../content/cms/pages/contact";
+import { getPublished, sectionsFromPublished } from "../../lib/talous";
 import { ROUTES } from "../../lib/routes";
-import { CONTACT, HOURS, SEGAMAT, WA, WA_DISPLAY, telE164, telHref, waHref } from "../../lib/contact";
-import { pageMeta, breadcrumbLd } from "../../lib/seo";
+import { CONTACT, HOURS, telE164 } from "../../lib/contact";
+import { pageMeta, breadcrumbLd, withCmsSeo } from "../../lib/seo";
 
-export const metadata: Metadata = pageMeta(ROUTES.contact);
+export async function generateMetadata(): Promise<Metadata> {
+  return withCmsSeo(pageMeta(ROUTES.contact), (await getPublished("contact"))?.seo ?? {});
+}
 
 /* ============================================================
    Contact.
@@ -35,114 +39,14 @@ export const metadata: Metadata = pageMeta(ROUTES.contact);
    disclosures and complaints pages tell people to write to.
    ============================================================ */
 
-export default function Page() {
+export default async function Page() {
   const route = ROUTES.contact;
+  // Sections and copy from Talous CMS; content/cms/pages/contact.ts holds today's as defaults.
+  const blocks = sectionsFromPublished(await getPublished("contact"), CONTACT_PAGE.content);
 
   return (
     <Shell>
-      <Hero
-        route={route}
-        label="Contact"
-        title="Tell us what you need"
-        lede="A few lines is enough to start. We will read it, work out who should answer, and come back to you."
-        /* Round 22, and the fourth photograph this page has carried: a stock still
-           of one man, then team-office.jpg, then team-gathering.jpg, all turned
-           down. This one is new — sourced from the client's public Drive folder in
-           the browser, since the Drive connector cannot read inside a shared
-           folder. A small group around a table, which is what asking someone for
-           advice actually looks like, rather than a lineup of the whole practice. */
-        photo={{
-          /* 12 Oct 2026, client: two women talking it through at a table.
-             4:3, which is the hero frame's own shape at desktop. */
-          src: "/media/img/contact-hero-conversation.jpg",
-          alt: "Two women talking over coffee at a wooden table, one explaining while the other listens",
-        }}
-      />
-
-      <section className="band light">
-        <div className="reach">
-          <div className="reach__info">
-            <p className="lbl">Where to find us</p>
-            <h2>D’Life Sdn Bhd</h2>
-            <p className="dl-lede">
-              A Malaysian financial advisory and insurance agency, based in the Klang Valley and working with clients
-              across the country.
-            </p>
-
-            <dl className="reach__list">
-              {/* 12 Oct 2026, client: the notes under the office, WhatsApp,
-                  after-hours and hours rows are removed, and the Segamat
-                  office joins as a second address. */}
-              <div>
-                <dt>Kuala Lumpur</dt>
-                <dd>
-                  <address>
-                    {CONTACT.street}
-                    <br />
-                    {CONTACT.street2}
-                    <br />
-                    {CONTACT.postcode} {CONTACT.city}
-                  </address>
-                </dd>
-              </div>
-              <div>
-                <dt>Segamat</dt>
-                <dd>
-                  <address>
-                    {SEGAMAT.street}
-                    <br />
-                    {SEGAMAT.street2}
-                    <br />
-                    {SEGAMAT.postcode} {SEGAMAT.city}, {SEGAMAT.region}
-                  </address>
-                </dd>
-              </div>
-              <div>
-                <dt>WhatsApp</dt>
-                <dd>
-                  <a href={waHref(WA.conversation)}>{WA_DISPLAY}</a>
-                </dd>
-              </div>
-              {/* T09: this built its href as `+603` + the number minus its
-                  first two digits — correct for the 03 landline it was written
-                  against, and wrong the moment the number became an 016
-                  mobile. telHref does the trunk-0 swap for any Malaysian
-                  number, so the bug cannot come back with the next change. */}
-              <div>
-                <dt>Telephone</dt>
-                <dd>
-                  <a href={telHref(CONTACT.phone)}>{CONTACT.phone}</a>
-                  <em>Takes a call or a WhatsApp message.</em>
-                </dd>
-              </div>
-              <div>
-                <dt>After hours</dt>
-                <dd>
-                  <a href={telHref(CONTACT.phoneAfterHours)}>{CONTACT.phoneAfterHours}</a>
-                </dd>
-              </div>
-              <div>
-                <dt>Email</dt>
-                <dd>
-                  <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
-                </dd>
-              </div>
-              <div>
-                <dt>Hours</dt>
-                <dd>
-                  {HOURS.days}, {HOURS.office}
-                </dd>
-              </div>
-            </dl>
-          </div>
-
-          <div className="reach__form">
-            <p className="lbl">Send an enquiry</p>
-            <h2>Or leave it here</h2>
-            <Lead />
-          </div>
-        </div>
-      </section>
+      <Sections blocks={blocks} registry={PAGE_SECTIONS} context={{ route }} />
 
       <JsonLd data={breadcrumbLd(route)} />
       {/* A real PostalAddress now: the client confirmed the office on
