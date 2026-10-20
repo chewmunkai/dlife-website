@@ -88,3 +88,14 @@
 /* The guide shown in place of the blocks drawer on fixed pages (the homepage). */
 .studio-note { padding: 16px; font: 14px/1.5 system-ui, sans-serif; color: #333; }
 .studio-note p { margin: 0 0 12px; }
+
+/* ---------- Inside the CMS's Wix-like shell (20 Oct 2026) ---------- */
+/* Poppins for the editor chrome, like the CMS around it. The page keeps the site's fonts. */
+.studio { --puck-font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif; }
+/* The CMS's icon rail opens Add and Layers and its top bar sets the preview size, so Puck's
+   own rail and size buttons would only duplicate them. */
+.studio [class*="_PuckLayout-nav_"],
+.studio [class*="_PuckCanvas-controls_"] { display: none !important; }
+/* The settings panel when nothing is selected. */
+.studio-empty { display: grid; gap: 6px; padding: 24px 16px; text-align: center; color: #687385; font: 13px/1.5 "Poppins", system-ui, sans-serif; }
+.studio-empty b { color: #1f2a37; font-weight: 600; font-size: 14px; }

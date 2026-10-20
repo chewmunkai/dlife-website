@@ -2,7 +2,7 @@ import type { Qa } from "../../components/blocks/Faq";
 import type { HeroProps } from "../../components/home/Hero";
 import { HOME_FAQS } from "../home";
 import { ICON_NAMES } from "../../components/home/icons";
-import { ALL_ROUTES } from "../../lib/routes";
+import { ALL_ROUTES, ROUTES } from "../../lib/routes";
 import { KIT_BLOCKS, LANDING_STARTER } from "./kit-manifest";
 import {
   LINK_OPTIONS,
@@ -31,7 +31,7 @@ import {
 const HIDDEN = { type: "toggle", label: "Hide this section on the site" } as const;
 
 export const MANIFEST = {
-  version: "dlife-2026-10-20.2",
+  version: "dlife-2026-10-20.3",
   blocks: {
     // The general-purpose kit for pages built in the CMS (docs/08 in talous-cms).
     ...KIT_BLOCKS,
@@ -266,7 +266,12 @@ export const MANIFEST = {
     { src: "/media/img/solutions/wealth-legacy/family-photos.jpg", alt: "A family looking through photographs and albums together" },
     { src: "/media/img/eps-hero-advisor.jpg", alt: "An advisor talking a client through his policy schedule at a table" },
   ],
-  seo: { titleMax: 70, descriptionMax: 170 },
+  seo: {
+    titleMax: 70,
+    descriptionMax: 170,
+    // What the homepage shows when its CMS settings are empty (app/page.tsx), for the CMS's Google preview.
+    defaults: { home: { title: "D’Life · Real Support. Beyond the Policy.", description: ROUTES.home.description } },
+  },
   // New CMS pages can't take these addresses: they belong to pages built in code.
   reservedSlugs: [...new Set(ALL_ROUTES.map((r) => r.path.split("/")[1]).filter(Boolean)), "studio", "api", "media", "_next"],
 } as const;

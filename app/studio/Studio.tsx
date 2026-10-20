@@ -8,7 +8,11 @@ import "../../styles/blocks.css";
 import "../../styles/pages.css";
 import "../../styles/kit.css";
 import "./studio.css";
-import { Puck, useGetPuck, type Config, type Data, type Field } from "@puckeditor/core";
+// The editor chrome uses Poppins, like Talous CMS around it; the page itself keeps the site's fonts.
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import { Puck, createUsePuck, useGetPuck, type Config, type Data, type Field } from "@puckeditor/core";
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from "react";
 import { HOME_SECTIONS } from "../../components/home/sections";
 import { KIT } from "../../components/kit/blocks";
@@ -21,7 +25,15 @@ import type { ManifestBlock, ManifestField, ManifestTemplate } from "../../conte
  * loads the page's draft from the CMS and saves back to it, authorised by the
  * short-lived ticket in the URL fragment. It holds no secrets: the CMS checks
  * the ticket and validates every save.
+ *
+ * The CMS draws the editor's chrome (top bar, icon rail) and drives this frame by
+ * postMessage: which side panel is open (Add = "blocks", Layers = "outline"), undo/redo,
+ * the preview width and preview mode. This frame reports back whether it can undo/redo
+ * and its save state. Changes save themselves a moment after the last edit.
  */
+
+const usePuck = createUsePuck();
+const AUTOSAVE_MS = 1500;
 
 type Manifest = {
   version: string;
@@ -62,7 +74,9 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
         label,
         arrayFields: Object.fromEntries(Object.entries(f.item).map(([k, sub]) => [k, toPuckField(sub, k, media)])),
         defaultItemProps: Object.fromEntries(Object.keys(f.item).map((k) => [k, ""])),
-        getItemSummary: (item: Record<string, unknown>, i?: number) => String(Object.values(item).find((v) => typeof v === "string" && v) ?? `Item ${(i ?? 0) + 1}`),
+        // Each item is named by its first piece of text (a title, question…), never its internal id.
+        getItemSummary: (item: Record<string, unknown>, i?: number) =>
+          String(Object.entries(item).find(([k, v]) => k !== "id" && typeof v === "string" && v && !v.startsWith("/"))?.[1] ?? `Item ${(i ?? 0) + 1}`).slice(0, 60),
       } as Field;
   }
 }
@@ -140,7 +154,8 @@ export default function Studio() {
   const [loaded, setLoaded] = useState<Loaded | null>(null);
   // Remounts the editor only when the CMS changed the draft (AI edit, restore), never after our own save.
   const [mount, setMount] = useState(0);
-  const [baseId, setBaseId] = useState<string | null>(null);
+  // A ref, not state: an autosave that starts right after another must see the new base.
+  const baseId = useRef<string | null>(null);
   const [status, setStatus] = useState<Status>(null);
   const [dirty, setDirtyState] = useState(false);
   const [pendingReload, setPendingReload] = useState(false);
@@ -167,7 +182,8 @@ export default function Studio() {
       if (next.draft && next.manifest) next.draft.content = withToggleDefaults(next.draft.content, next.manifest);
       setLoaded(next);
       setMount((m) => m + 1);
-      setBaseId(next.draft?.id ?? null);
+      baseId.current = next.draft?.id ?? null;
+      lastSaved.current = null;
       setDirty(false);
       setPendingReload(false);
       setStatus(null);
@@ -197,43 +213,116 @@ export default function Studio() {
     return () => window.removeEventListener("message", onMessage);
   }, [cmsOrigin, load]);
 
-  const save = useCallback(
-    async (data: Data, dispatch?: (action: { type: "setData"; data: Data }) => void) => {
-      if (!api || !ticket.current) return;
-      setSaving(true);
-      setStatus({ tone: "info", text: "Saving…" });
-      try {
-        const res = await fetch(api, {
-          method: "PUT",
-          headers: { authorization: `Bearer ${ticket.current}`, "content-type": "application/json" },
-          body: JSON.stringify({ baseVersionId: baseId, content: data }),
-        });
-        const body = await res.json();
-        if (!res.ok) return setStatus({ tone: "err", text: body.error ?? `Save failed (${res.status}).`, errors: body.errors });
-        setBaseId(body.id);
-        // Take the saved copy (it has the ids the CMS gave new list items) without remounting,
-        // so the selection and scroll position survive the save.
-        if (dispatch && body.content && loaded?.manifest) {
+  // Every edit bumps `seq`; a save only marks the page clean if nothing changed while it ran.
+  const seq = useRef(0);
+  const savingRef = useRef(false);
+  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const getPuckRef = useRef<ReturnType<typeof useGetPuck> | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  // The page as last saved (or loaded), so a "change" that ends where it started saves nothing.
+  const lastSaved = useRef<string | null>(null);
+
+  const save = useCallback(async () => {
+    const getPuck = getPuckRef.current;
+    if (!api || !ticket.current || !getPuck) return;
+    if (savingRef.current) return void (timer.current = setTimeout(() => save(), AUTOSAVE_MS));
+    const { appState, dispatch } = getPuck();
+    const startedAt = seq.current;
+    const json = JSON.stringify(appState.data);
+    if (lastSaved.current === null) lastSaved.current = json;
+    if (json === lastSaved.current) {
+      setDirty(false);
+      return;
+    }
+    savingRef.current = true;
+    setSaving(true);
+    try {
+      const res = await fetch(api, {
+        method: "PUT",
+        headers: { authorization: `Bearer ${ticket.current}`, "content-type": "application/json" },
+        body: JSON.stringify({ baseVersionId: baseId.current, content: appState.data }),
+      });
+      const body = await res.json();
+      if (!res.ok) {
+        setSaveError(body.error ?? `Save failed (${res.status}).`);
+        return setStatus({ tone: "err", text: body.error ?? `Save failed (${res.status}).`, errors: body.errors });
+      }
+      baseId.current = body.id;
+      lastSaved.current = json;
+      setSaveError(null);
+      setStatus(null);
+      if (seq.current === startedAt) {
+        // Take the saved copy (it has the ids the CMS gave new list items) without remounting, so
+        // the selection and scroll position survive. Skipped if there were edits during the save.
+        if (body.content && loaded?.manifest) {
           ignoreChange.current = true;
-          dispatch({ type: "setData", data: withToggleDefaults(body.content, loaded.manifest) });
+          (dispatch as (a: { type: "setData"; data: Data }) => void)({ type: "setData", data: withToggleDefaults(body.content, loaded.manifest) });
         }
         setDirty(false);
-        setStatus({ tone: "ok", text: `Saved as draft v${body.n}. Publish it from the panel on the right.` });
-        tell({ type: "talous:saved", versionId: body.id });
-      } catch {
-        setStatus({ tone: "err", text: "Couldn't reach Talous CMS. Nothing was saved." });
-      } finally {
-        setSaving(false);
-      }
-    },
-    [api, baseId, loaded?.manifest, setDirty, tell],
+      } else timer.current = setTimeout(() => save(), AUTOSAVE_MS);
+      tell({ type: "talous:saved", versionId: body.id });
+    } catch {
+      setSaveError("Couldn't reach Talous CMS.");
+      setStatus({ tone: "err", text: "Couldn't reach Talous CMS. Your edits are still here; it will try again on the next change." });
+    } finally {
+      savingRef.current = false;
+      setSaving(false);
+    }
+  }, [api, loaded?.manifest, setDirty, tell]);
+
+  const changed = useCallback(() => {
+    if (ignoreChange.current) {
+      ignoreChange.current = false;
+      return;
+    }
+    seq.current++;
+    if (!dirtyRef.current) setDirty(true);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => save(), AUTOSAVE_MS);
+  }, [save, setDirty]);
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  const tpl = loaded?.page.template ? loaded.manifest?.templates[loaded.page.template] : undefined;
+
+  // What the CMS's top bar shows: undo/redo availability (from inside Puck) and the save state.
+  const [historyFlags, setHistoryFlags] = useState({ canUndo: false, canRedo: false });
+  useEffect(() => {
+    tell({ type: "talous:state", ...historyFlags, saving, dirty, error: saveError });
+  }, [tell, historyFlags, saving, dirty, saveError]);
+
+  // Stable, so Puck keeps one Bridge mounted rather than a new one on every render.
+  const overrides = useMemo(
+    () => ({
+      // The CMS's top bar replaces Puck's header; the Bridge keeps the two in step instead.
+      header: () => (
+        <Bridge
+          cmsOrigin={cmsOrigin}
+          getPuckRef={getPuckRef}
+          onData={changed}
+          onHistory={setHistoryFlags}
+          onReady={(json) => (lastSaved.current = json)}
+        />
+      ),
+      fields: ({ children, itemSelector }: { children: React.ReactNode; itemSelector?: unknown }) =>
+        itemSelector ? (
+          <>{children}</>
+        ) : (
+          <div className="studio-empty">
+            <b>Click anything on the page to edit it.</b>
+            <span>Its words, photos and options appear here.</span>
+          </div>
+        ),
+      // A fixed page (the homepage) takes no new blocks, so the drawer says what it can do instead
+      // of offering blocks that won't drop.
+      ...(tpl?.fixed ? { drawer: () => <FixedPageNote anyOrder={!!tpl.anyOrder} /> } : {}),
+    }),
+    [cmsOrigin, changed, tpl],
   );
 
   const config = useMemo(
     () => (loaded?.manifest ? buildConfig(loaded.manifest, loaded.page.template) : null),
     [loaded?.manifest, loaded?.page.template],
   );
-  const tpl = loaded?.page.template ? loaded.manifest?.templates[loaded.page.template] : undefined;
 
   if (!loaded || !config) return <StatusBar status={status ?? { tone: "info", text: "Loading…" }} />;
   if (!loaded.draft) return <StatusBar status={{ tone: "err", text: "This page has no content in the CMS yet." }} />;
@@ -250,23 +339,12 @@ export default function Studio() {
         key={mount}
         config={config}
         data={loaded.draft.content}
-        onChange={() => {
-          if (ignoreChange.current) {
-            ignoreChange.current = false;
-            return;
-          }
-          if (!dirtyRef.current) setDirty(true);
-        }}
-        onPublish={(d) => save(d)}
         headerTitle={loaded.page.title}
+        // Side panels open from the CMS's icon rail; the canvas starts full width.
+        ui={{ leftSideBarVisible: false }}
         // Fixed pages: sections can't be added, removed or duplicated; any-order pages can be dragged.
         permissions={tpl?.fixed ? { drag: !!tpl.anyOrder, duplicate: false, delete: false, insert: false } : undefined}
-        overrides={{
-          headerActions: () => <SaveButton onSave={save} saving={saving} dirty={dirty} />,
-          // A fixed page (the homepage) takes no new blocks, so the drawer says what it can do instead
-          // of offering blocks that won't drop.
-          ...(tpl?.fixed ? { drawer: () => <FixedPageNote anyOrder={!!tpl.anyOrder} /> } : {}),
-        }}
+        overrides={overrides}
       />
     </div>
   );
@@ -279,34 +357,64 @@ function FixedPageNote({ anyOrder }: { anyOrder: boolean }) {
         <b>This page keeps its approved sections.</b>
       </p>
       <p>Click any section on the page to change its words and photos in the panel on the right.</p>
-      {anyOrder && <p>To move a section up or down, drag it in <b>Outline</b> (the layers icon on the left) or by its handle on the page. To take one off the page without losing it, select it and switch on “Hide this section on the site”.</p>}
-      <p>To build with new blocks (headings, text, photos, buttons…), create a page with <b>New page</b> in the CMS.</p>
+      {anyOrder && <p>To move a section up or down, drag it in <b>Layers</b> (on the left) or by its handle on the page. To take one off the page without losing it, select it and switch on “Hide this section on the site”.</p>}
+      <p>To build with new blocks (headings, text, photos, buttons…), add a page: <b>Pages → Add a page</b>.</p>
     </div>
   );
 }
 
-function SaveButton({
-  onSave,
-  saving,
-  dirty,
+/**
+ * Lives inside Puck (as its header, which the CMS's top bar replaces) so it can reach the editor:
+ * applies the CMS's commands and reports undo/redo and save state back.
+ */
+function Bridge({
+  cmsOrigin,
+  getPuckRef,
+  onData,
+  onHistory,
+  onReady,
 }: {
-  onSave: (d: Data, dispatch: (action: { type: "setData"; data: Data }) => void) => void;
-  saving: boolean;
-  dirty: boolean;
+  cmsOrigin: string | null;
+  getPuckRef: { current: ReturnType<typeof useGetPuck> | null };
+  onData: () => void;
+  onHistory: (flags: { canUndo: boolean; canRedo: boolean }) => void;
+  onReady: (json: string) => void;
 }) {
   const getPuck = useGetPuck();
-  return (
-    <button
-      className="studio-save"
-      disabled={saving || !dirty}
-      onClick={() => {
-        const puck = getPuck();
-        onSave(puck.appState.data, puck.dispatch as (action: { type: "setData"; data: Data }) => void);
-      }}
-    >
-      {saving ? "Saving…" : dirty ? "Save draft" : "Saved"}
-    </button>
-  );
+  getPuckRef.current = getPuck;
+  // Every change to the page counts as an edit, including undo and redo (Puck's onChange
+  // doesn't fire for those), so the draft always matches what's on screen.
+  const data = usePuck((s) => s.appState.data);
+  const firstData = useRef(true);
+  useEffect(() => {
+    if (firstData.current) {
+      firstData.current = false;
+      onReady(JSON.stringify(data));
+      return;
+    }
+    onData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+  const canUndo = usePuck((s) => s.history.hasPast);
+  const canRedo = usePuck((s) => s.history.hasFuture);
+  useEffect(() => onHistory({ canUndo: !!canUndo, canRedo: !!canRedo }), [onHistory, canUndo, canRedo]);
+
+  useEffect(() => {
+    if (!cmsOrigin) return;
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== cmsOrigin) return;
+      const d = e.data ?? {};
+      const { appState, dispatch, history } = getPuck();
+      const setUi = (ui: Record<string, unknown>) => (dispatch as (a: { type: "setUi"; ui: Record<string, unknown> }) => void)({ type: "setUi", ui });
+      if (d.type === "talous:panel") setUi({ leftSideBarVisible: !!d.panel, ...(d.panel ? { plugin: { current: d.panel } } : {}) });
+      if (d.type === "talous:history") (d.dir === "back" ? history.back : history.forward)();
+      if (d.type === "talous:viewport") setUi({ viewports: { ...appState.ui.viewports, current: { width: d.width === "100%" ? "100%" : Number(d.width), height: "auto" } } });
+      if (d.type === "talous:preview") setUi({ previewMode: d.on ? "interactive" : "edit", rightSideBarVisible: !d.on, ...(d.on ? { leftSideBarVisible: false, itemSelector: null } : {}) });
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [cmsOrigin, getPuck]);
+  return null;
 }
 
 function StatusBar({ status }: { status: Status }) {

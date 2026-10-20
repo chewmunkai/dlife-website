@@ -12,6 +12,7 @@
     "prebuild": "node scripts/check-media.mjs"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.3.0",
     "@puckeditor/core": "^0.23.0",
     "gsap": "^3.12.5",
     "next": "14.2.35",
