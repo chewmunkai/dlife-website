@@ -6,6 +6,9 @@ import "@puckeditor/core/no-external.css";
 import "../../styles/dlife.css";
 import "../../styles/blocks.css";
 import "../../styles/pages.css";
+// The Careers rows (and the Careers page) bring their own sheet; without it the four answers
+// render open and on top of each other.
+import "../../styles/growth.css";
 import "../../styles/kit.css";
 import "./studio.css";
 // The editor chrome uses Poppins, like Talous CMS around it; the page itself keeps the site's fonts.
