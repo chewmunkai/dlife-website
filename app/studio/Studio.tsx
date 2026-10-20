@@ -116,7 +116,10 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
     case "select":
       return { type: "select", label, options: f.options.map((o) => ({ label: o[0].toUpperCase() + o.slice(1), value: o })) };
     case "toggle":
-      return { type: "radio", label, options: [{ label: "Shown", value: false }, { label: "Hidden", value: true }] };
+      // "Hide this section" reads as shown/hidden; every other switch is a plain yes or no.
+      return key === "hidden"
+        ? { type: "radio", label, options: [{ label: "Shown", value: false }, { label: "Hidden", value: true }] }
+        : { type: "radio", label, options: [{ label: "Yes", value: true }, { label: "No", value: false }] };
     case "slot":
       return { type: "slot", label, ...(f.allow ? { allow: [...f.allow] } : {}) };
     case "list":
@@ -124,7 +127,8 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
         type: "array",
         label,
         arrayFields: Object.fromEntries(Object.entries(f.item).map(([k, sub]) => [k, toPuckField(sub, k, media)])),
-        defaultItemProps: Object.fromEntries(Object.keys(f.item).map((k) => [k, ""])),
+        // A new item starts empty; an on/off field starts off (the CMS refuses "" for one).
+        defaultItemProps: Object.fromEntries(Object.entries(f.item).map(([k, sub]) => [k, sub.type === "toggle" ? false : ""])),
         // Each item is named by its first text field in the manifest's order (a title, a question…),
         // never by its id: stored items come back with their keys in another order.
         getItemSummary: (item: Record<string, unknown>, i?: number) => {

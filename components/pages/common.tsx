@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Band, Bar, ClosingCard, Hero, Ideas, StoriesPreview, type CardLayout, type Tone } from "../v2/blocks";
+import { Band, Bar, ClosingCard, Hero, IdeaCards, Ideas, StoriesPreview, type CardLayout, type Tone } from "../v2/blocks";
 import Ask from "../v2/Ask";
 import type { IconKey } from "../v2/icons";
 import StoryReel from "../v2/StoryReel";
@@ -57,6 +57,7 @@ export function PageHero({
   companion,
   companionAlt,
   companionPosition,
+  companionFit,
   actions,
   tone,
   panel,
@@ -73,6 +74,7 @@ export function PageHero({
   companion?: string;
   companionAlt?: string;
   companionPosition?: string;
+  companionFit?: string;
   actions?: Action[];
   tone?: string;
   panel?: string;
@@ -81,10 +83,23 @@ export function PageHero({
     <Hero
       route={route!}
       label={label ?? ""}
-      title={<Rich text={title} />}
+      title={
+        // A line break in the title is a real one: each line is its own span (DVA's two lines).
+        title?.includes("\n") ? (
+          <>
+            {title.split("\n").map((l, i) => (
+              <span key={i} className="dl-line">
+                <Rich text={l} />
+              </span>
+            ))}
+          </>
+        ) : (
+          <Rich text={title} />
+        )
+      }
       lede={lede || undefined}
       photo={photo ? { src: photo, alt: photoAlt ?? "", position: photoPosition || undefined, ratio: photoRatio || undefined, fit: photoFit === "contain" ? "contain" : undefined } : undefined}
-      companionPhoto={companion ? { src: companion, alt: companionAlt ?? "", position: companionPosition || undefined } : undefined}
+      companionPhoto={companion ? { src: companion, alt: companionAlt ?? "", position: companionPosition || undefined, fit: companionFit === "contain" ? "contain" : undefined } : undefined}
       actions={actions?.length ? <Actions items={actions} /> : undefined}
       tone={(tone as Tone) || undefined}
       panel={(panel as "light" | "green") || undefined}
@@ -223,4 +238,22 @@ export function PageFaq({ label, title, faqs, actions }: Common & { label?: stri
 export function faqsOf(blocks: { type: string; props: Record<string, unknown> }[]) {
   const b = blocks.find((x) => x.type === "PageFaq" && x.props.hidden !== true);
   return ((b?.props.faqs as { q?: string; a?: string }[] | undefined) ?? []).map((f) => ({ q: f.q ?? "", a: f.a ?? "" }));
+}
+
+/** A band of numbered cards (Careers' "What an advisor actually does"). */
+export function PageCardsBand({
+  tone,
+  label,
+  title,
+  lede,
+  cards,
+  columns,
+}: Common & { tone?: string; label?: string; title?: string; lede?: string; cards?: { id?: string; term?: string; copy?: string; icon?: string }[]; columns?: string }) {
+  const list = cards ?? [];
+  const icons = list.some((c) => c.icon) ? (list.map((c) => c.icon || "shield") as IconKey[]) : undefined;
+  return (
+    <Band tone={(tone as Tone) || undefined} label={label || undefined} title={title ? <Rich text={title} /> : undefined} lede={lede || undefined}>
+      <IdeaCards columns={columns === "3" ? 3 : 4} items={list.map((c) => ({ term: c.term ?? "", copy: c.copy ?? "" }))} icons={icons} />
+    </Band>
+  );
 }

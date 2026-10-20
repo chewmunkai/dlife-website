@@ -6,10 +6,10 @@ import { ICON_KEYS, PILL_STYLES } from "../../../components/pages/common";
  * Written out rather than inferred, so the same section edits the same way on every page.
  */
 
-const TONES = ["light", "sand", "dark", "ink"] as const;
+export const TONES = ["light", "sand", "dark", "ink"] as const;
 
 // Where a button can go. Plain words in the hint, because this is typed by hand.
-const HREF = {
+export const HREF = {
   type: "text",
   label: "Goes to",
   pattern: "(\\/[\\w\\-\\/#?=&.]*|#[\\w-]+|wa:\\w+|tel:\\+?[\\d ]+|mailto:\\S+|https:\\/\\/\\S+)",
@@ -32,7 +32,7 @@ export const COMMON_BLOCKS = {
     label: "Page hero",
     fields: {
       label: { type: "text", label: "Small label above the title", max: 60 },
-      title: { type: "text", label: "Title (*words* in stars become italic)", max: 120 },
+      title: { type: "textarea", label: "Title (*words* in stars become italic; a new line starts a new line)", max: 120 },
       lede: { type: "textarea", label: "Intro", max: 400 },
       photo: { type: "image", label: "Photo" },
       photoAlt: { type: "text", label: "Photo description (alt text)", max: 300 },
@@ -42,6 +42,7 @@ export const COMMON_BLOCKS = {
       companion: { type: "image", label: "Second photo beside it (optional)" },
       companionAlt: { type: "text", label: "Second photo description (alt text)", max: 300 },
       companionPosition: { type: "text", label: "Second photo focus (optional)", max: 20 },
+      companionFit: { type: "select", label: "Second photo fit", options: ["cover", "contain"] },
       actions: ACTIONS_FIELD,
       tone: { type: "select", label: "Colour", options: TONES },
       panel: { type: "select", label: "Text panel", options: ["light", "green"] },
@@ -94,6 +95,23 @@ export const COMMON_BLOCKS = {
       layout: { type: "select", label: "Layout", options: ["grid", "fill", "rail"] },
       autoRotate: { type: "toggle", label: "Rail turns by itself" },
       railLabel: { type: "text", label: "What the cards are, for screen readers (rail only)", max: 40 },
+      hidden: HIDE_FIELD,
+    },
+  },
+  PageCardsBand: {
+    label: "Numbered cards",
+    fields: {
+      label: { type: "text", label: "Small label", max: 60 },
+      title: { type: "text", label: "Heading", max: 160 },
+      lede: { type: "textarea", label: "Intro", max: 400 },
+      cards: {
+        type: "list",
+        label: "Cards",
+        max: 12,
+        item: { term: { type: "text", label: "Card title", max: 80 }, copy: { type: "textarea", label: "Card text", max: 400 }, icon: { type: "select", label: "Icon", options: ICON_KEYS } },
+      },
+      columns: { type: "select", label: "Cards per row", options: ["3", "4"] },
+      tone: { type: "select", label: "Colour", options: TONES },
       hidden: HIDE_FIELD,
     },
   },

@@ -39,7 +39,7 @@ function firstOfEach<T extends { src: string }>(items: T[]): T[] {
 }
 
 export const MANIFEST = {
-  version: "dlife-2026-10-20.5",
+  version: "dlife-2026-10-20.6",
   blocks: {
     // The site-wide film list (content/cms/films.ts): a library page, not a section of one.
     FilmLibrary: FILM_LIBRARY_BLOCK,

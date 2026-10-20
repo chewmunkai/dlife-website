@@ -106,7 +106,9 @@ export function sectionsFromPublished(p: Published | null, defaults: Block[]): B
     if (blocks.some((b) => b.props.id === d.props.id || (onlyOne(d.type) && b.type === d.type))) return;
     let at = 0;
     for (const prev of defaults.slice(0, i).reverse()) {
-      const j = blocks.findIndex((b) => b.type === prev.type);
+      // After the section it follows: by id, else the last of its type (a page can hold two).
+      let j = blocks.findIndex((b) => b.props.id === prev.props.id);
+      for (let k = blocks.length - 1; j < 0 && k >= 0; k--) if (blocks[k].type === prev.type) j = k;
       if (j >= 0) {
         at = j + 1;
         break;

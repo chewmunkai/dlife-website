@@ -45,8 +45,8 @@ export type SolutionE2 = {
   /** `photo` omitted renders the plain variant — the same quote, no photograph. */
   said: { photo?: Photo; quote: string; cite: string };
   qa: { label: string; title: string };
-  /* `photo` removed 15 Sep 2026. The live template, components/v2/SolutionPage
-     .tsx, renders <ClosingCard> without one — the band's ground is
+  /* `photo` removed 15 Sep 2026. The live template (app/solutions/[slug]/page.tsx,
+     content/cms/pages/solutions.ts) renders <ClosingCard> without one — the band's ground is
      CLOSING_PHOTO in components/v2/blocks.tsx — and the only other reader was
      the orphaned E2 base, deleted in the September audit. All six records were
      naming hero.jpg, a photograph the client has since rejected, on a field no
