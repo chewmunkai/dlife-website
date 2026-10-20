@@ -34,6 +34,12 @@ const nextConfig = {
   ...(staticExport
     ? {}
     : {
+        // Photos and videos uploaded in Talous CMS: the server copy (test site, editor) asks the
+        // CMS, which points to storage. The static live build downloads its own copies instead.
+        async rewrites() {
+          const cms = process.env.TALOUS_CMS_URL;
+          return cms ? [{ source: "/media/uploads/:file", destination: `${cms}/api/public/uploads/:file` }] : [];
+        },
         async headers() {
           return [
             {

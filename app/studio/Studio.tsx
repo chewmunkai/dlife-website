@@ -22,6 +22,7 @@ import { KIT } from "../../components/kit/blocks";
 import type { HeroProps } from "../../components/home/Hero";
 import type { Qa } from "../../components/blocks/Faq";
 import type { ManifestBlock, ManifestField, ManifestTemplate } from "../../content/cms/manifest";
+import { MediaPicker, UploadContext, posterOf, type MediaItem, type Uploader } from "./MediaPicker";
 
 /*
  * The visual editor Talous CMS frames. It renders this site's real components,
@@ -42,7 +43,8 @@ type Manifest = {
   version: string;
   blocks: Record<string, ManifestBlock>;
   templates: Record<string, ManifestTemplate>;
-  media: { src: string; alt: string }[];
+  // The site's own photos plus anything uploaded in Talous CMS (with a thumbnail).
+  media: MediaItem[];
 };
 type Loaded = { page: { id: string; title: string; template: string | null }; draft: { id: string; n: number; content: Data } | null; manifest: Manifest | null };
 type Status = { tone: "info" | "ok" | "err"; text: string; errors?: string[] } | null;
@@ -64,7 +66,14 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
     case "textarea":
       return { type: "textarea", label };
     case "image":
-      return { type: "select", label, options: media.map((m) => ({ label: m.src.split("/").pop() ?? m.src, value: m.src })) };
+      // Thumbnails and a picture grid, not a list of file names.
+      return {
+        type: "custom",
+        label,
+        render: ({ value, onChange }: { value: string | undefined; onChange: (v: string) => void }) => (
+          <MediaPicker value={value} onChange={onChange} media={media} label={label} />
+        ),
+      } as Field;
     case "select":
       return { type: "select", label, options: f.options.map((o) => ({ label: o[0].toUpperCase() + o.slice(1), value: o })) };
     case "toggle":
@@ -211,6 +220,8 @@ export default function Studio() {
     const onMessage = (e: MessageEvent) => {
       if (e.origin !== cmsOrigin) return;
       if (e.data?.type === "talous:ticket" && typeof e.data.ticket === "string") ticket.current = e.data.ticket;
+      // Uploaded in the CMS's Photos panel: offer them in every picker straight away.
+      if (e.data?.type === "talous:media" && Array.isArray(e.data.items)) setUploaded((u) => [...(e.data.items as MediaItem[]), ...u]);
       if (e.data?.type === "talous:reload") {
         if (dirtyRef.current) setPendingReload(true);
         else load();
@@ -291,6 +302,40 @@ export default function Studio() {
 
   const tpl = loaded?.page.template ? loaded.manifest?.templates[loaded.page.template] : undefined;
 
+  // Uploads from the photo picker go straight to the CMS's library, then join every picker.
+  const [uploaded, setUploaded] = useState<MediaItem[]>([]);
+  const uploader = useMemo<Uploader | null>(
+    () =>
+      cms && pageId
+        ? {
+            extra: uploaded,
+            upload: async (files, kind) => {
+              const done: MediaItem[] = [];
+              const errors: string[] = [];
+              for (const file of files) {
+                const form = new FormData();
+                form.append("file", file);
+                if (kind === "video") {
+                  const poster = await posterOf(file);
+                  if (poster) form.append("poster", poster);
+                }
+                try {
+                  const res = await fetch(`${cms}/api/studio/media/${pageId}`, { method: "POST", headers: { authorization: `Bearer ${ticket.current}` }, body: form });
+                  const body = await res.json().catch(() => ({}));
+                  done.push(...((body.uploaded ?? []) as MediaItem[]));
+                  errors.push(...((body.errors ?? (res.ok ? [] : [body.error ?? `Upload failed (${res.status}).`])) as string[]));
+                } catch {
+                  errors.push(`${file.name}: couldn't reach Talous CMS.`);
+                }
+              }
+              if (done.length) setUploaded((u) => [...done, ...u]);
+              return { uploaded: done, errors };
+            },
+          }
+        : null,
+    [cms, pageId, uploaded],
+  );
+
   // What the CMS's top bar shows: undo/redo availability (from inside Puck) and the save state.
   const [historyFlags, setHistoryFlags] = useState({ canUndo: false, canRedo: false });
   useEffect(() => {
@@ -342,6 +387,7 @@ export default function Studio() {
         </div>
       )}
       <StatusBar status={status} />
+      <UploadContext.Provider value={uploader}>
       <Puck
         key={mount}
         config={config}
@@ -353,6 +399,7 @@ export default function Studio() {
         permissions={tpl?.fixed ? { drag: !!tpl.anyOrder, duplicate: false, delete: false, insert: false } : undefined}
         overrides={overrides}
       />
+      </UploadContext.Provider>
     </div>
   );
 }
