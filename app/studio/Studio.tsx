@@ -121,6 +121,12 @@ function buildConfig(manifest: Manifest, templateName: string | null): Config {
   };
 }
 
+// Read once per page load, at module level: a render React throws away (while a stylesheet or
+// chunk loads) would otherwise have already removed the ticket from the address bar, and the
+// retry would find none: "Open this editor from Talous CMS" (seen live, 20 Oct 2026).
+let launchOnce: ReturnType<typeof readLaunch> | null = null;
+const launchParams = () => (launchOnce ??= readLaunch());
+
 function readLaunch() {
   const q = new URLSearchParams(window.location.search);
   const ticket = new URLSearchParams(window.location.hash.slice(1)).get("ticket");
@@ -143,11 +149,9 @@ function withToggleDefaults(content: Data, manifest: Manifest): Data {
 }
 
 export default function Studio() {
-  const launch = useRef<ReturnType<typeof readLaunch>>();
-  launch.current ??= readLaunch();
-  const { cms, pageId } = launch.current;
+  const { cms, pageId, ticket: launchTicket } = launchParams();
   // The CMS refreshes the ticket while the page is open, so long sessions keep saving.
-  const ticket = useRef(launch.current.ticket);
+  const ticket = useRef(launchTicket);
   const cmsOrigin = cms ? new URL(cms).origin : null;
   const tell = useCallback((msg: Record<string, unknown>) => cmsOrigin && window.parent.postMessage(msg, cmsOrigin), [cmsOrigin]);
 
