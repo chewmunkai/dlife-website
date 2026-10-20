@@ -146,3 +146,7 @@
 .flib-text b { font-size: 13px; color: #1f2a37; }
 .flib-text em { color: #c62a2a; font-style: normal; }
 .flib li.incomplete .flib-card { outline: 2px dashed #e0a0a0; }
+
+/* The footer has no ground of its own: on the site it shows the page body's ink behind it. In
+   the editor it sits inside <main>, which is ivory, so it takes the ink itself. */
+[data-studio] .ft2 { background: var(--dl-ink); }
