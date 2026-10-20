@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import { CONTACT, WA, waHref } from "../../lib/contact";
-import { submitForm, TRAP_NAME, TRAP_STYLE } from "../../lib/forms";
+import { submitForm, TRAP_INPUT, TRAP_NAME, TRAP_STYLE } from "../../lib/forms";
 import { link } from "../../lib/asset";
 
 /* ============================================================
@@ -94,7 +94,7 @@ export default function Lead({ consent }: { consent?: string }) {
         <strong>Thank you — that reached us.</strong>
         <p>
           We will read it, work out who should answer, and come back to you. Messages sent on a working day usually get
-          a reply the same day. A confirmation is on its way to {answers.email}.
+          a reply the same day.
         </p>
       </div>
     );
@@ -121,7 +121,7 @@ export default function Lead({ consent }: { consent?: string }) {
     <form className="lead" onSubmit={onSubmit} noValidate={false}>
       {/* Hidden from people (and screen readers); bots fill it, and the Sheet drops those. */}
       <div style={TRAP_STYLE} aria-hidden="true">
-        <input type="text" name={TRAP_NAME} tabIndex={-1} autoComplete="off" value={trap} onChange={(e) => setTrap(e.target.value)} />
+        <input type="text" name={TRAP_INPUT} tabIndex={-1} autoComplete="off" value={trap} onChange={(e) => setTrap(e.target.value)} />
       </div>
       <label className="lead__f">
         <span>Your name</span>

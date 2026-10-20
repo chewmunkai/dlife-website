@@ -2,8 +2,8 @@
 
 The site's three forms (Contact enquiry, Youth Community sign-up, homepage sign-up) post to a
 Google Apps Script on D'Life's **"Dlife Website"** Sheet. Each submission becomes a row on its
-**Enquiries** tab, an email to `dlifesbgroup@gmail.com` (replying to it answers the visitor), and
-a confirmation email to the visitor (replying to that reaches D'Life).
+**Enquiries** tab and an email to `dlifesbgroup@gmail.com`; replying to the email answers the
+visitor. Visitors see a thank-you on the page; they aren't emailed (client, 20 Oct 2026).
 
 ## Setting it up (once)
 
@@ -27,12 +27,10 @@ version → Deploy**. The URL stays the same, so the site needs no change.
 
 ## Limits
 
-- Gmail lets a script send 100 emails a day, and each submission sends two (the team's and the
-  visitor's): about 50 submissions a day with emails. The script also stops at 30 an hour, so a
-  flood can't use them up. Rows are written before the emails, so a lead is never lost to the
+- Gmail lets a script send 100 emails a day; the script also stops at 60 submissions an hour, so
+  a flood can't use them up. Rows are written before the email, so a lead is never lost to the
   email limit.
-- The visitor's confirmation is fixed wording and never repeats what they typed, because anyone
-  can type a stranger's address into a form.
-- The URL is public (it's in the website's code). The script checks every field, drops
-  submissions from bots that fill the hidden `website` field, and writes text that looks like a
-  formula as plain text.
+- The URL is public (it's in the website's code). The script checks every field, and writes
+  text that looks like a formula as plain text. A submission with the hidden `website` field
+  filled (bots fill every field) is kept but marked "(possible spam)" and emails nobody; it isn't
+  dropped, because a browser's autofill can fill it for a real person.

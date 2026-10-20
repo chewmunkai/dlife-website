@@ -16,7 +16,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
    old one. There is one number on this site and it lives there — including
    the TODO that says it is still a placeholder. */
 import { WA_NUMBER } from "./contact";
-import { FORMS_WIRED, submitForm, TRAP_NAME } from "./forms";
+import { FORMS_WIRED, submitForm, TRAP_INPUT, TRAP_NAME } from "./forms";
 
 export function initDLife(root: HTMLElement): () => void {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -484,7 +484,7 @@ export function initDLife(root: HTMLElement): () => void {
       }
 
       const email = (form.querySelector("input[type=email]") as HTMLInputElement | null)?.value ?? "";
-      const trap = (form.querySelector(`input[name=${TRAP_NAME}]`) as HTMLInputElement | null)?.value ?? "";
+      const trap = (form.querySelector(`input[name=${TRAP_INPUT}]`) as HTMLInputElement | null)?.value ?? "";
       const button = form.querySelector("button");
       if (button) button.setAttribute("disabled", "true");
       void submitForm("home-signup", { email, [TRAP_NAME]: trap }).then((result) => {

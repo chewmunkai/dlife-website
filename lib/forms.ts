@@ -11,8 +11,8 @@
 
    Connected 20 Oct 2026 to a Google Apps Script on D'Life's "Dlife Website"
    Sheet (deploy/google-sheet/, with how to change it): each submission is a
-   row on its Enquiries tab, an email to dlifesbgroup@gmail.com, and a
-   fixed-wording confirmation email to the visitor.
+   row on its Enquiries tab and an email to dlifesbgroup@gmail.com. The
+   visitor gets the on-screen thank-you, not an email (client, 20 Oct 2026).
 
    ⚠️ The consent lines beside the forms are our wording, pending the
    client's confirmation, and the privacy page they link to is still a draft
@@ -30,8 +30,12 @@ export const FORMS_WIRED = FORM_ENDPOINT.length > 0;
 
 export type FormResult = "unsent" | "sent" | "failed";
 
-/** A field people never see and bots fill in; a submission with it filled is dropped. */
+/** A field people never see and bots fill in. Sent as `website`; the Sheet keeps such a
+ *  submission marked "possible spam" and emails nobody. The input itself is named so that
+ *  browser autofill leaves it alone: named "website", Chrome filled it from a person's saved
+ *  details and their real enquiry was set aside as a bot's (20 Oct 2026). */
 export const TRAP_NAME = "website";
+export const TRAP_INPUT = "dl-hp";
 export const TRAP_STYLE = { position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" } as const;
 
 export async function submitForm(form: string, answers: Record<string, unknown>): Promise<FormResult> {

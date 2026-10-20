@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CONTACT } from "../../lib/contact";
-import { submitForm, TRAP_NAME, TRAP_STYLE, type FormResult } from "../../lib/forms";
+import { submitForm, TRAP_INPUT, TRAP_NAME, TRAP_STYLE, type FormResult } from "../../lib/forms";
 
 /* ============================================================
    Stay in the loop — deliberately unwired.
@@ -34,7 +34,7 @@ export default function Signup({ align = "flex-start", consent }: { align?: "fle
   if (state === "sent") {
     return (
       <p className="signup-said" role="status">
-        Thank you — you’re on the list. A confirmation is on its way to {email}.
+        Thank you — you’re on the list. We’ll be in touch with the next Youth Community update.
       </p>
     );
   }
@@ -50,7 +50,7 @@ export default function Signup({ align = "flex-start", consent }: { align?: "fle
       }}
     >
       <div style={TRAP_STYLE} aria-hidden="true">
-        <input type="text" name={TRAP_NAME} tabIndex={-1} autoComplete="off" value={trap} onChange={(ev) => setTrap(ev.target.value)} />
+        <input type="text" name={TRAP_INPUT} tabIndex={-1} autoComplete="off" value={trap} onChange={(ev) => setTrap(ev.target.value)} />
       </div>
       <label className="dl-loop__field">
         <span>Email address</span>
