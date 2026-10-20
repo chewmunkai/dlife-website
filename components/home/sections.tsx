@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, type ReactNode } from "react";
+import { TRAP_NAME, TRAP_STYLE } from "../../lib/forms";
 import { asset, link } from "../../lib/asset";
 import { ROUTES } from "../../lib/routes";
 import Growth from "../v2/Growth";
@@ -705,9 +706,11 @@ export function YouthSection(props: Partial<typeof YOUTH_DEFAULTS>) {
           </div>
           <div>
             <span className="k">By email</span>
-            {/* Front end only: no endpoint is wired, so on submit the form is
-                replaced by an inline acknowledgement. */}
+            {/* Posts to D'Life's Sheet (lib/forms.ts); lib/dlife.ts handles the submit. */}
             <form data-dl-signup="Thanks — we’ll be in touch with the next Youth Community update.">
+              <div style={TRAP_STYLE} aria-hidden="true">
+                <input type="text" name={TRAP_NAME} tabIndex={-1} autoComplete="off" />
+              </div>
               <input type="email" placeholder="Your email" required aria-label="Your email" />
               <button className="pill" type="submit">
                 <span>Sign Up</span>

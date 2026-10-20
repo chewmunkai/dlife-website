@@ -16,7 +16,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
    old one. There is one number on this site and it lives there — including
    the TODO that says it is still a placeholder. */
 import { WA_NUMBER } from "./contact";
-import { FORMS_WIRED, submitForm } from "./forms";
+import { FORMS_WIRED, submitForm, TRAP_NAME } from "./forms";
 
 export function initDLife(root: HTMLElement): () => void {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -458,8 +458,7 @@ export function initDLife(root: HTMLElement): () => void {
   });
 
   /* ---------- "Stay in the Loop" signup ----------
-     Front end only — no endpoint is wired and the consent wording is still
-     pending, so the form acknowledges inline rather than implying storage.
+     Posts to D'Life's Sheet (lib/forms.ts) and says what actually happened.
      Attribute-bound like the accordion, and the acknowledgement travels with
      the form in `data-dl-signup` so each instance can answer in its own words. */
   $$("[data-dl-signup]").forEach((form) => {
@@ -485,9 +484,10 @@ export function initDLife(root: HTMLElement): () => void {
       }
 
       const email = (form.querySelector("input[type=email]") as HTMLInputElement | null)?.value ?? "";
+      const trap = (form.querySelector(`input[name=${TRAP_NAME}]`) as HTMLInputElement | null)?.value ?? "";
       const button = form.querySelector("button");
       if (button) button.setAttribute("disabled", "true");
-      void submitForm("home-signup", { email }).then((result) => {
+      void submitForm("home-signup", { email, [TRAP_NAME]: trap }).then((result) => {
         if (result === "sent") {
           say((form as HTMLElement).dataset.dlSignup || "Thanks — we’ll be in touch.");
         } else {

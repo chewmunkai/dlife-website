@@ -287,10 +287,10 @@ export function PageEvents({ anchor, label, title, lede, events, cta, ctaHref }:
 }
 
 /** The "stay in the loop" card with the sign-up form (Youth Community). */
-export function PageSignup({ anchor, label, title, lede }: { anchor?: string; label?: string; title?: string; lede?: string }) {
+export function PageSignup({ anchor, label, title, lede, consent }: { anchor?: string; label?: string; title?: string; lede?: string; consent?: string }) {
   return (
     <LoopCard id={anchor || undefined} label={label ?? ""} title={<Rich text={title} />} lede={lede || undefined}>
-      <Signup />
+      <Signup consent={consent} />
     </LoopCard>
   );
 }

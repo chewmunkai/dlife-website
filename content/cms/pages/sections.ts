@@ -228,7 +228,7 @@ export const SECTION_BLOCKS = {
   },
   PageSignup: {
     label: "Sign-up card",
-    description: "The form itself isn't connected to a mailing list yet: on submit it says so and points to WhatsApp and email.",
-    fields: { label: LABEL, title: HEADING, lede: INTRO, anchor: ANCHOR, hidden: HIDE_FIELD },
+    description: "Each sign-up is added to D’Life’s Google Sheet and emailed to the team.",
+    fields: { label: LABEL, title: HEADING, lede: INTRO, consent: { type: "textarea", label: "Consent line under the form", max: 200 }, anchor: ANCHOR, hidden: HIDE_FIELD },
   },
 } as const;

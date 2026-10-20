@@ -2,39 +2,22 @@
 
 import { useId, useState } from "react";
 import { CONTACT, WA, waHref } from "../../lib/contact";
-import { submitForm } from "../../lib/forms";
+import { submitForm, TRAP_NAME, TRAP_STYLE } from "../../lib/forms";
+import { link } from "../../lib/asset";
 
 /* ============================================================
    The enquiry form.
 
-   ⚠️ NOT CONNECTED YET, and that is deliberate. Read this before wiring it.
+   Connected 20 Oct 2026: it posts to the Google Apps Script on D'Life's
+   "Dlife Website" Sheet (lib/forms.ts, deploy/google-sheet/), which adds a
+   row and emails the team. It still never reports a send that didn't happen:
+   "sent" is only what the script itself confirms. A failure shows an error
+   and puts the form back with everything the visitor typed still in it.
 
-   The site is a static export: there is no server of our own, so there is no
-   endpoint this can post to until someone chooses one. A form that appears to
-   send and silently discards the message is worse than no form at all.
-
-   So the form has two modes, and which one it is in depends on exactly one
-   thing — whether NEXT_PUBLIC_FORM_ENDPOINT is set at build time:
-
-     · unset (today) — submitting says plainly that nothing was sent, and
-       hands over the two routes that do work. No fake success, ever.
-     · set — the answers are POSTed there as JSON. A non-2xx reply or a
-       network failure shows an error and puts the form back, with everything
-       the visitor typed still in it. A failure is never dressed as a success.
-
-   TO CONNECT IT, someone needs to supply:
-
-     1. A form endpoint that accepts a JSON POST and takes no secret in the
-        browser. Formspree, Netlify Forms, Basin and a Google Apps Script web
-        app all qualify; anything needing an API key does not, because this
-        bundle is public. Set it as NEXT_PUBLIC_FORM_ENDPOINT.
-     2. The destination inbox behind it.
-     3. The PDPA consent wording. The privacy page still carries a
-        [TO BE CONFIRMED] marker where it belongs, and Malaysian PDPA applies
-        to everything this form collects.
-
-   All three are client decisions. Until they land, this is honest rather than
-   broken, and nothing here provisions or pays for a service.
+   The consent line under the button is a CMS field (Contact page, "Where to
+   find us"). ⚠️ The wording is ours, pending the client's confirmation, and
+   the privacy page it links to is still a draft with [TO BE CONFIRMED]
+   markers. Malaysian PDPA applies to everything this form collects.
 
    The subject list is the same routing vocabulary as lib/contact.ts' prefills,
    minus Corporate Solutions, which is withheld (2026-08).
@@ -74,8 +57,9 @@ type Answers = {
 
 const EMPTY: Answers = { name: "", email: "", phone: "", subject: SUBJECTS[0], subjectOther: "", message: "" };
 
-export default function Lead() {
+export default function Lead({ consent }: { consent?: string }) {
   const [answers, setAnswers] = useState<Answers>(EMPTY);
+  const [trap, setTrap] = useState("");
   const [state, setState] = useState<"editing" | "sending" | "unsent" | "sent" | "failed">("editing");
   const uid = useId();
   const otherId = `${uid}-other`;
@@ -128,12 +112,17 @@ export default function Lead() {
       await submitForm("contact", {
         ...answers,
         subjectOther: isOther ? answers.subjectOther.trim() : "",
+        [TRAP_NAME]: trap,
       }),
     );
   };
 
   return (
     <form className="lead" onSubmit={onSubmit} noValidate={false}>
+      {/* Hidden from people (and screen readers); bots fill it, and the Sheet drops those. */}
+      <div style={TRAP_STYLE} aria-hidden="true">
+        <input type="text" name={TRAP_NAME} tabIndex={-1} autoComplete="off" value={trap} onChange={(e) => setTrap(e.target.value)} />
+      </div>
       <label className="lead__f">
         <span>Your name</span>
         <input
@@ -255,6 +244,11 @@ export default function Lead() {
         <button className="pill" type="submit" disabled={state === "sending"}>
           <span>{state === "sending" ? "Sending…" : "Send enquiry"}</span>
         </button>
+        {consent && (
+          <p className="lead__fine">
+            {consent} <a href={link("/privacy")}>Privacy Policy</a>
+          </p>
+        )}
       </div>
     </form>
   );

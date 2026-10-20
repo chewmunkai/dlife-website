@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CONTACT } from "../../lib/contact";
-import { submitForm, type FormResult } from "../../lib/forms";
+import { submitForm, TRAP_NAME, TRAP_STYLE, type FormResult } from "../../lib/forms";
 
 /* ============================================================
    Stay in the loop — deliberately unwired.
@@ -17,8 +17,9 @@ import { submitForm, type FormResult } from "../../lib/forms";
    carries a [TO BE CONFIRMED] marker where that wording belongs.
    ============================================================ */
 
-export default function Signup({ align = "flex-start" }: { align?: "flex-start" | "center" }) {
+export default function Signup({ align = "flex-start", consent }: { align?: "flex-start" | "center"; consent?: string }) {
   const [email, setEmail] = useState("");
+  const [trap, setTrap] = useState("");
   const [state, setState] = useState<"editing" | "sending" | FormResult>("editing");
 
   /* L04: three states, and none of them lies. */
@@ -45,9 +46,12 @@ export default function Signup({ align = "flex-start" }: { align?: "flex-start" 
       onSubmit={async (e) => {
         e.preventDefault();
         setState("sending");
-        setState(await submitForm("youth-signup", { email }));
+        setState(await submitForm("youth-signup", { email, [TRAP_NAME]: trap }));
       }}
     >
+      <div style={TRAP_STYLE} aria-hidden="true">
+        <input type="text" name={TRAP_NAME} tabIndex={-1} autoComplete="off" value={trap} onChange={(ev) => setTrap(ev.target.value)} />
+      </div>
       <label className="dl-loop__field">
         <span>Email address</span>
         <input
@@ -63,6 +67,7 @@ export default function Signup({ align = "flex-start" }: { align?: "flex-start" 
       <button className="pill" type="submit" disabled={state === "sending"}>
         <span>{state === "sending" ? "Sending…" : "Keep me posted"}</span>
       </button>
+      {consent && <p className="signup-fine">{consent}</p>}
       {state === "failed" && (
         <p className="signup-said" role="alert">
           That didn’t send. Nothing was stored — try again, or email {CONTACT.email} and we’ll add you by hand.

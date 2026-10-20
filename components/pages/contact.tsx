@@ -14,10 +14,12 @@ export function ContactReach({
   telephone,
   telephoneNote,
   afterHours,
+  afterHoursNote,
   email,
   hours,
   formLabel,
   formHeading,
+  consent,
 }: Record<string, string | undefined>) {
   return (
     <section className="band light">
@@ -62,13 +64,19 @@ export function ContactReach({
               <dt>{telephone}</dt>
               <dd>
                 <a href={telHref(CONTACT.phone)}>{CONTACT.phone}</a>
-                {telephoneNote && <em>{telephoneNote}</em>}
+                {/* When each number answers, from lib/contact.ts (the footer reads the same). */}
+                <em>
+                  {HOURS.days}, {HOURS.office}.{telephoneNote ? ` ${telephoneNote}` : ""}
+                </em>
               </dd>
             </div>
             <div>
               <dt>{afterHours}</dt>
               <dd>
                 <a href={telHref(CONTACT.phoneAfterHours)}>{CONTACT.phoneAfterHours}</a>
+                <em>
+                  {HOURS.after}.{afterHoursNote ? ` ${afterHoursNote}` : ""}
+                </em>
               </dd>
             </div>
             <div>
@@ -89,7 +97,7 @@ export function ContactReach({
         <div className="reach__form">
           <p className="lbl">{formLabel}</p>
           <h2>{formHeading}</h2>
-          <Lead />
+          <Lead consent={consent} />
         </div>
       </div>
     </section>

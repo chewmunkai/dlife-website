@@ -35,8 +35,8 @@ export async function generateMetadata(): Promise<Metadata> {
    WhatsApp Business number is issued. It reaches a person, which the old
    012-345 6789 did not, but it is not the agency's.
 
-   ⚠️ hello@dlife.com.my is unconfirmed, and it is the address the privacy,
-   disclosures and complaints pages tell people to write to.
+   The email is D'Life's own inbox (client, 20 Oct 2026), and the enquiry
+   form below delivers there and to their Google Sheet (lib/forms.ts).
    ============================================================ */
 
 export default async function Page() {

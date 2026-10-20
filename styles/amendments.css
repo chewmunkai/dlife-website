@@ -1102,6 +1102,8 @@
 .wrap .loop .form .pill:hover { background: var(--dl-teal); }
 .wrap .loop .signup-said { color: var(--dl-ivory); }
 .wrap .loop .signup-said a { color: var(--dl-sand); }
+/* The consent line under the sign-up form: small print, on the card's dark ground. */
+.wrap .loop .signup-fine { margin: 10px 0 0; flex-basis: 100%; font-size: var(--dl-caption); line-height: 1.55; color: rgba(246, 241, 232, .72); }
 @media (max-width: 820px) {
   .wrap .loop { grid-template-columns: minmax(0, 1fr); gap: clamp(22px, 3vh, 32px); align-items: start; }
   .wrap .loop h2, .wrap .loop .say .dl-lede { max-width: none; }

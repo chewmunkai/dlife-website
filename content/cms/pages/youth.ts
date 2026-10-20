@@ -195,7 +195,8 @@ export const YOUTH_PAGE = pageDocument([
     anchor: "loop",
     label: "Stay in the loop",
     title: "Hear about the next session",
-    lede: "Occasional updates on events, workshops and resources. Nothing is sold to you, and you can stop them at any time."
+    lede: "Occasional updates on events, workshops and resources. Nothing is sold to you, and you can stop them at any time.",
+    consent: "By signing up you agree to receive Youth Community updates. Unsubscribe anytime."
   }],
   ["PageFaq", {
     label: "Common questions",

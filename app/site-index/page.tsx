@@ -153,8 +153,8 @@ export default function Page() {
               The office address is confirmed. The numbers are now D’Life’s own (client, 14 Sep 2026):
               <code>016-236 2286</code> in office hours, which is also the site’s WhatsApp route, and{" "}
               <code>016-661 6083</code> after 5:30pm and at weekends. The <code>03-9766 1205</code> landline and the
-              personal mobile that stood in for WhatsApp are both off the site. <code>hello@dlife.com.my</code> is
-              still unconfirmed — which matters, because three legal pages tell people to write to it.
+              personal mobile that stood in for WhatsApp are both off the site. The email is D’Life’s own,{" "}
+              <code>dlifesbgroup@gmail.com</code> (client, 20 Oct 2026).
             </li>
             <li>
               No form endpoint is configured, so the enquiry form says outright that nothing was sent. WhatsApp and

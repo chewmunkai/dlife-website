@@ -30,18 +30,17 @@ export const WA_NUMBER = "60162362286";
  * replaced on 14 Sep 2026 — the 03-9766 1205 landline came off the site
  * entirely rather than sitting alongside the two mobiles.
  *
- * ⚠️ The email is still the prototype's. hello@dlife.com.my has not been
- * confirmed as a mailbox anyone reads, and it is the address the privacy,
- * disclosures and complaints pages tell people to write to. Confirm it or
- * replace it before launch.
+ * The email is D'Life's own inbox (client, 20 Oct 2026); the prototype's
+ * hello@dlife.com.my never existed. The privacy and complaints pages tell
+ * people to write to it, and the website's forms are delivered there too
+ * (lib/forms.ts).
  */
 export const CONTACT = {
   /** Office hours. Also the site’s WhatsApp route — see WA_NUMBER above. */
   phone: "016-236 2286",
   /** After 5:30pm and at weekends. A voice line; WhatsApp does not reach it. */
   phoneAfterHours: "016-661 6083",
-  /** ⚠️ TODO(launch): unconfirmed. */
-  email: "hello@dlife.com.my",
+  email: "dlifesbgroup@gmail.com",
   street: "P-5-2, Level 2, Pusat Bandar",
   street2: "Jalan Jalil Utama 2, Bukit Jalil",
   postcode: "57000",
