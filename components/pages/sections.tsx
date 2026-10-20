@@ -214,10 +214,10 @@ export function PageRecord({
   );
 }
 
-/** Photo cards linking onward (About's careers and stories cards). */
-export function PageLinkCards({ label, title, columns, overlay, items }: { label?: string; title?: string; columns?: string; overlay?: boolean; items?: Item[] }) {
+/** Cards linking onward, with or without photos (About's careers and stories, the legal pages). */
+export function PageLinkCards({ tone, label, title, columns, overlay, items }: { tone?: string; label?: string; title?: string; columns?: string; overlay?: boolean; items?: Item[] }) {
   return (
-    <Band label={label || undefined} title={title ? <Rich text={title} /> : undefined}>
+    <Band tone={(tone as Tone) || undefined} label={label || undefined} title={title ? <Rich text={title} /> : undefined}>
       <Cards
         columns={(Number(columns) || 2) as 2 | 3 | 4}
         overlay={!!overlay}
