@@ -24,6 +24,8 @@ import type { Qa } from "../../components/blocks/Faq";
 import type { ManifestBlock, ManifestField, ManifestTemplate } from "../../content/cms/manifest";
 import { MediaPicker, UploadContext, posterOf, type MediaItem, type Uploader } from "./MediaPicker";
 import { FilmLibraryPreview, LibrariesContext, useLibraryFilms } from "./FilmLibraryPreview";
+import { V2Footer, V2Header } from "../../components/v2/chrome";
+import { menuFrom } from "../../content/cms/menu";
 import { PAGE_SECTIONS } from "../../components/pages";
 import { ALL_ROUTES, type Route } from "../../lib/routes";
 import { createContext, useContext } from "react";
@@ -83,6 +85,19 @@ const RENDERERS: Record<string, ComponentType<Record<string, unknown>>> = {
   ...(HOME_SECTIONS as unknown as Record<string, ComponentType<Record<string, unknown>>>),
   Hero: (p) => <HOME_SECTIONS.Hero {...(p as unknown as HeroProps)} />,
   FilmLibrary: (p) => <FilmLibraryPreview films={p.films as never} />,
+  // The menu as the bar draws it (dropdowns open on hover), and what the full-screen menu adds.
+  SiteMenu: (p) => {
+    const menu = menuFrom([{ type: "SiteMenu", props: p }]);
+    return (
+      <>
+        <V2Header menu={menu} />
+        <div className="studio-note">
+          <b>Full-screen menu (phones):</b> the items above in order, then “{menu.menuNote}” {menu.menuLinks.map((l) => `· ${l.label} `)}
+        </div>
+      </>
+    );
+  },
+  SiteFooter: (p) => <V2Footer footer={menuFrom([{ type: "SiteFooter", props: p }]).footer} />,
   // The reel previews the film library as it is now, not the built-in three.
   Stories: (p) => <StoriesWithLibrary {...p} />,
   // Half-typed new questions are skipped in the preview rather than rendered empty.

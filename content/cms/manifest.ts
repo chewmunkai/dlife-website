@@ -6,6 +6,7 @@ import { ALL_ROUTES, ROUTES } from "../../lib/routes";
 import { KIT_BLOCKS, LANDING_STARTER } from "./kit-manifest";
 import { FILM_LIBRARY_BLOCK, FILM_MEDIA, FILMS_DOCUMENT } from "./films";
 import { PAGE_BLOCKS, PAGE_MEDIA, PAGE_TEMPLATES } from "./pages";
+import { MENU_BLOCKS } from "./menu";
 import {
   LINK_OPTIONS,
   PATH_DEFAULTS,
@@ -39,10 +40,12 @@ function firstOfEach<T extends { src: string }>(items: T[]): T[] {
 }
 
 export const MANIFEST = {
-  version: "dlife-2026-10-20.8",
+  version: "dlife-2026-10-20.9",
   blocks: {
     // The site-wide film list (content/cms/films.ts): a library page, not a section of one.
     FilmLibrary: FILM_LIBRARY_BLOCK,
+    // The menu and footer every page shows (content/cms/menu.ts): a library page too.
+    ...(MENU_BLOCKS as unknown as Record<string, ManifestBlock>),
     // The inner pages' sections (content/cms/pages).
     ...PAGE_BLOCKS,
     // The general-purpose kit for pages built in the CMS (docs/08 in talous-cms).
@@ -247,6 +250,7 @@ export const MANIFEST = {
     landing: { label: "Landing page", creatable: true, allowed: ["Section"], starter: LANDING_STARTER },
     // Not a web page: the films every page that shows films reads from.
     films: { label: "Film library", fixed: ["FilmLibrary"], library: true },
+    menu: { label: "Menu & footer", fixed: ["SiteMenu", "SiteFooter"], library: true, design: "ds" },
     ...PAGE_TEMPLATES,
   },
   // The photographs a field may use. Alt text is the default description; editors can override it.

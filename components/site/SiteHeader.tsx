@@ -1,10 +1,10 @@
-import { ROUTES } from "../../lib/routes";
 /* The homepage shares the ported pages' navigation model so the bar carries
    the same seven pillars in the same order everywhere. lib/routes' PRIMARY_NAV
    held the older five-pillar architecture, with About buried under Community
    and no Articles & Events. Only the data is shared: the markup and styling
    here are the approved homepage chrome. */
-import { NAV, OVERLAY_NAV } from "../v2/nav";
+import type { Menu } from "../../content/cms/menu";
+import { hrefOf } from "../pages/common";
 import { WA } from "../../lib/contact";
 import { link } from "../../lib/asset";
 import Logo from "./Logo";
@@ -30,7 +30,12 @@ const isCurrent = (href: string, path: string) =>
  * guide asks for "fewer clicks, cleaner path", and a roving-tabindex menubar
  * would add a keyboard model where a list of links needs none.
  */
-export function SiteHeader({ path }: { path: string }) {
+/** A WhatsApp topic ("wa:career") is wired by the motion engine from `data-wa`, like every
+ *  WhatsApp link on this shell; anything else is a plain link. */
+const go = (href: string) =>
+  href.startsWith("wa:") ? { "data-wa": WA[href.slice(3) as keyof typeof WA] ?? WA.conversation, href: "#" } : { href: hrefOf(href) };
+
+export function SiteHeader({ path, menu }: { path: string; menu: Menu }) {
   return (
     <header id="hd">
       {/* Both cuts ship; the ground decides which is visible. The link owns
@@ -41,7 +46,7 @@ export function SiteHeader({ path }: { path: string }) {
         <Logo alt="" />
       </a>
       <nav className="nav" aria-label="Primary">
-        {NAV.map((item) =>
+        {menu.nav.map((item) =>
           item.children ? (
             <div className="grp" key={item.label}>
               <a
@@ -79,8 +84,8 @@ export function SiteHeader({ path }: { path: string }) {
         )}
       </nav>
       <div className="rt">
-        <a className="pill" data-wa={WA.advisor} href="#">
-          <span>Speak with an Advisor</span>
+        <a className="pill" {...go(menu.cta.href)}>
+          <span>{menu.cta.label}</span>
         </a>
         <button className="burger" id="burger" aria-label="Menu" aria-controls="menu" aria-expanded={false}>
           <span id="mlabel">Menu</span>
@@ -96,11 +101,11 @@ export function SiteHeader({ path }: { path: string }) {
  * pillars as the bar — below the nav's breakpoint it is the only navigation,
  * so it cannot be a reduced set.
  */
-export function SiteMenu({ path }: { path: string }) {
+export function SiteMenu({ path, menu }: { path: string; menu: Menu }) {
   return (
     <nav id="menu" aria-hidden="true">
       <div className="big">
-        {OVERLAY_NAV.map((item, i) => (
+        {menu.nav.map((item, i) => (
           <a
             href={link(item.href)}
             key={item.href}
@@ -112,17 +117,15 @@ export function SiteMenu({ path }: { path: string }) {
         ))}
       </div>
       <div className="side">
-        <p>
-          Whether you are protecting a family, reviewing a policy or exploring a career, a conversation is the right
-          place to start.
-        </p>
+        <p>{menu.menuNote}</p>
         <div className="c">
-          <a data-wa={WA.advisor} href="#">
-            Message an Advisor on WhatsApp
-          </a>
-          <a href={link(ROUTES.contact.path)}>Ask a Question</a>
+          {menu.menuLinks.map((l) => (
+            <a key={l.href + l.label} {...go(l.href)}>
+              {l.label}
+            </a>
+          ))}
         </div>
-        <span className="lb">D’Life · Financial Advisory</span>
+        <span className="lb">{menu.menuTag}</span>
       </div>
     </nav>
   );

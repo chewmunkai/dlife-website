@@ -1,4 +1,4 @@
-import { FOOTER_NAV, LEGAL_NAV } from "../../lib/routes";
+import type { Menu } from "../../content/cms/menu";
 import { ADDRESS_LINE, CONTACT, HOURS, SEGAMAT_LINE, SOCIALS, WA, WA_DISPLAY, telHref } from "../../lib/contact";
 import { link } from "../../lib/asset";
 import Logo from "./Logo";
@@ -11,7 +11,7 @@ import Logo from "./Logo";
  * primary action, so nothing here is a copper `.pill`: this band is utility,
  * not conversion.
  */
-export function SiteFooter() {
+export function SiteFooter({ footer }: { footer: Menu["footer"] }) {
   return (
     <footer id="ft" className="dark charcoal">
       <div className="mast rv">
@@ -112,7 +112,7 @@ export function SiteFooter() {
         </div>
 
         <nav className="dirs rv" aria-label="Site directory">
-          {FOOTER_NAV.map((group) => (
+          {footer.dirs.map((group) => (
             <div key={group.heading}>
               <h3 className="k">{group.heading}</h3>
               <ul>
@@ -139,17 +139,15 @@ export function SiteFooter() {
           invented in its place — the answer, when it lands, comes back here as
           real copy. */}
       <div className="fine">
-        <p className="note">
-          D’Life Sdn Bhd is a financial advisory and insurance agency operating in Malaysia. Anything you read here
-          is general information, not personal advice. It does not take your circumstances into account. A
-          recommendation only follows a conversation, a needs assessment and the relevant product disclosure documents.
-        </p>
+        <p className="note">{footer.note}</p>
       </div>
 
       <div className="base">
-        <span>© 2026 D’Life Sdn Bhd. All rights reserved.</span>
+        <span>
+          © {new Date().getFullYear()} {footer.company}. All rights reserved.
+        </span>
         <div className="lx">
-          {LEGAL_NAV.map((l) => (
+          {footer.legal.map((l) => (
             <a href={link(l.href)} key={l.href}>
               {l.label}
             </a>
