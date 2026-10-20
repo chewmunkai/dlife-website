@@ -94,7 +94,7 @@ export default function Lead({ consent }: { consent?: string }) {
         <strong>Thank you — that reached us.</strong>
         <p>
           We will read it, work out who should answer, and come back to you. Messages sent on a working day usually get
-          a reply the same day.
+          a reply the same day. A confirmation is on its way to {answers.email}.
         </p>
       </div>
     );

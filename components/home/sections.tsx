@@ -707,7 +707,7 @@ export function YouthSection(props: Partial<typeof YOUTH_DEFAULTS>) {
           <div>
             <span className="k">By email</span>
             {/* Posts to D'Life's Sheet (lib/forms.ts); lib/dlife.ts handles the submit. */}
-            <form data-dl-signup="Thanks — we’ll be in touch with the next Youth Community update.">
+            <form data-dl-signup="Thanks — you’re on the list. A confirmation is on its way to your inbox.">
               <div style={TRAP_STYLE} aria-hidden="true">
                 <input type="text" name={TRAP_NAME} tabIndex={-1} autoComplete="off" />
               </div>

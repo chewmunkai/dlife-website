@@ -34,7 +34,7 @@ export default function Signup({ align = "flex-start", consent }: { align?: "fle
   if (state === "sent") {
     return (
       <p className="signup-said" role="status">
-        Thank you — you’re on the list. We’ll be in touch with the next Youth Community update.
+        Thank you — you’re on the list. A confirmation is on its way to {email}.
       </p>
     );
   }

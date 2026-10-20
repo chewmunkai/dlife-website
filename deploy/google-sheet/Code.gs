@@ -1,7 +1,7 @@
 /**
- * D'Life website forms: each one becomes a row in this Sheet ("Dlife Website") and an email to
- * the team. The site's three forms post here (lib/forms.ts): the Contact enquiry, the Youth
- * Community sign-up and the homepage sign-up.
+ * D'Life website forms: each one becomes a row in this Sheet ("Dlife Website"), an email to the
+ * team, and a confirmation email to the visitor. The site's three forms post here
+ * (lib/forms.ts): the Contact enquiry, the Youth Community sign-up and the homepage sign-up.
  *
  * Lives in the Sheet's Extensions → Apps Script, deployed as a web app (Execute as: Me, Who has
  * access: Anyone). See README.md beside this file. The URL is public, so everything a visitor
@@ -11,8 +11,33 @@ const NOTIFY = "dlifesbgroup@gmail.com";
 const TAB = "Enquiries";
 const HEADERS = ["Received", "Form", "Name", "Email", "Phone", "Subject", "Message", "Page"];
 const FORMS = { contact: "Contact enquiry", "youth-signup": "Youth Community sign-up", "home-signup": "Homepage sign-up" };
-// Gmail sends 100 emails a day from a script; a flood stops here rather than using them up.
-const PER_HOUR = 60;
+// Gmail sends 100 emails a day from a script, two per submission (the team's and the visitor's);
+// a flood stops here rather than using them up.
+const PER_HOUR = 30;
+
+/* What the visitor is sent. Fixed wording, never anything they typed: anyone can put a
+   stranger's address in a form, and an email that repeated their text would let them use
+   D'Life's Gmail to send it. */
+const CONFIRM = {
+  contact: {
+    subject: "We’ve received your message · D’Life",
+    body: [
+      "Thank you for getting in touch with D’Life.",
+      "",
+      "Your message has reached us. We’ll read it, work out who should answer, and come back to you, usually the same working day (Monday to Friday, 9:00am – 5:30pm).",
+      "",
+      "If it’s urgent, WhatsApp or call us on 016-236 2286 during office hours, or 016-661 6083 after hours.",
+    ],
+  },
+  signup: {
+    subject: "You’re on the list · D’Life Youth Community",
+    body: [
+      "Thank you for signing up for D’Life Youth Community updates.",
+      "",
+      "We’ll email you about upcoming sessions, workshops and events. Nothing is sold to you, and if you’d rather not hear from us, reply to this email and we’ll take you off the list.",
+    ],
+  },
+};
 
 function doPost(e) {
   let d;
@@ -63,7 +88,29 @@ function doPost(e) {
       ].join("\n"),
     });
   } catch (err) {
-    console.error("Email not sent: " + err);
+    console.error("Email to the team not sent: " + err);
+  }
+
+  // The visitor's confirmation. Replies go to D'Life, whichever account sends it.
+  const c = d.form === "contact" ? CONFIRM.contact : CONFIRM.signup;
+  try {
+    MailApp.sendEmail({
+      to: email,
+      name: "D’Life",
+      replyTo: NOTIFY,
+      subject: c.subject,
+      body: c.body
+        .concat([
+          "",
+          "D’Life Sdn Bhd",
+          "https://dlife.com.my",
+          "",
+          "You’re receiving this because this address was entered on a form at dlife.com.my. If that wasn’t you, you can ignore this email.",
+        ])
+        .join("\n"),
+    });
+  } catch (err) {
+    console.error("Confirmation not sent: " + err);
   }
   return reply(true);
 }
