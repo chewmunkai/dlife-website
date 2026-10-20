@@ -62,6 +62,39 @@ export function pageMeta(route: Route, extra?: Partial<Metadata>): Metadata {
   };
 }
 
+/** Page settings from Talous CMS (empty = keep the page's own). */
+export type CmsSeo = { title?: string; description?: string; ogTitle?: string; ogDescription?: string; ogImage?: string; noindex?: string };
+
+/**
+ * Lays the CMS's page settings over a page's built-in metadata: search title and
+ * description, the link-preview title, description and image, and "hide from search
+ * engines". `title` is the value for <title> (the homepage passes { absolute }).
+ */
+export function withCmsSeo(base: Metadata, seo: CmsSeo, title?: Metadata["title"]): Metadata {
+  const description = seo.description || undefined;
+  const shareTitle = seo.ogTitle || seo.title || undefined;
+  const shareDescription = seo.ogDescription || description;
+  const image = seo.ogImage ? { url: abs(seo.ogImage), alt: "" } : undefined;
+  return {
+    ...base,
+    ...(title ? { title } : {}),
+    ...(description ? { description } : {}),
+    openGraph: {
+      ...base.openGraph,
+      ...(shareTitle ? { title: shareTitle } : {}),
+      ...(shareDescription ? { description: shareDescription } : {}),
+      ...(image ? { images: [image] } : {}),
+    },
+    twitter: {
+      ...base.twitter,
+      ...(shareTitle ? { title: shareTitle } : {}),
+      ...(shareDescription ? { description: shareDescription } : {}),
+      ...(image ? { images: [image.url] } : {}),
+    },
+    ...(seo.noindex === "1" ? { robots: { index: false, follow: true } } : {}),
+  };
+}
+
 /* ---------- structured data ----------
    Nothing unverified goes in here. The direction guide §13 lists years of
    experience, awards, MDRT evidence, testimonials, photography, contact

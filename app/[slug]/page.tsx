@@ -6,7 +6,8 @@ import SiteShell from "../../components/site/SiteShell";
 import { KIT } from "../../components/kit/blocks";
 import { KIT_BLOCKS } from "../../content/cms/kit-manifest";
 import { getPublished, listPublished } from "../../lib/talous";
-import { SITE } from "../../lib/site";
+import { SITE, isPreview } from "../../lib/site";
+import { OG_IMAGE, withCmsSeo } from "../../lib/seo";
 import "../../styles/kit.css";
 
 /*
@@ -48,15 +49,19 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const page = await getPublished(params.slug);
   if (!page) return {};
   const title = page.seo.title || page.title || params.slug;
-  const description = page.seo.description || undefined;
   const url = `${SITE}/${params.slug}`;
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { type: "website", siteName: "D’Life", locale: "en_MY", url, title, description },
-    twitter: { card: "summary_large_image", title, description },
-  };
+  // The same defaults as the pages built in code (share image, preview noindex), then the
+  // page settings from the CMS on top.
+  return withCmsSeo(
+    {
+      title,
+      alternates: { canonical: url },
+      openGraph: { type: "website", siteName: "D’Life", locale: "en_MY", url, title, images: [OG_IMAGE] },
+      twitter: { card: "summary_large_image", title, images: [OG_IMAGE.url] },
+      robots: isPreview ? { index: false, follow: true } : { index: true, follow: true },
+    },
+    page.seo,
+  );
 }
 
 export default async function CmsPage({ params }: { params: { slug: string } }) {

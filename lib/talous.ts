@@ -9,7 +9,14 @@ import { HERO_DEFAULTS, FAQ_DEFAULTS, HOME_DOCUMENT } from "../content/cms/manif
  */
 
 type Block = { type: string; props: Record<string, unknown> & { id: string } };
-type Published = { versionId: string; n: number; title?: string; content: { root?: { props?: Record<string, unknown> }; content: Block[] }; seo: { title?: string; description?: string } };
+type Published = {
+  versionId: string;
+  n: number;
+  title?: string;
+  content: { root?: { props?: Record<string, unknown> }; content: Block[] };
+  // Page settings: search title/description, link-preview overrides, "hide from search engines".
+  seo: { title?: string; description?: string; ogTitle?: string; ogDescription?: string; ogImage?: string; noindex?: string };
+};
 export type PublishedPage = Published;
 
 const CMS = process.env.TALOUS_CMS_URL;
@@ -74,14 +81,14 @@ export function homeFromPublished(p: Published | null): { blocks: Block[]; faq: 
 }
 
 /** Pages built in the CMS (everything except the homepage), for the sitemap and static builds. */
-export async function listPublished(): Promise<{ slug: string; title: string; publishedAt: string | null }[]> {
+export async function listPublished(): Promise<{ slug: string; title: string; publishedAt: string | null; noindex?: boolean }[]> {
   if (!CMS || !PROJECT) return [];
   try {
     const url = new URL("/api/public/pages", CMS);
     url.searchParams.set("project", PROJECT);
     const res = await fetch(url, { next: { tags: ["talous:pages"] }, signal: AbortSignal.timeout(5000) });
     if (!res.ok) throw new Error(`CMS answered ${res.status}`);
-    const rows = (await res.json()) as { slug: string; title: string; publishedAt: string | null }[];
+    const rows = (await res.json()) as { slug: string; title: string; publishedAt: string | null; noindex?: boolean }[];
     return rows.filter((r) => r.slug !== "home");
   } catch (e) {
     if (REQUIRED) throw new Error(`Talous CMS didn't list its pages: ${(e as Error).message}`);

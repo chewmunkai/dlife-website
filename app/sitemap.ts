@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { ALL_ROUTES } from "../lib/routes";
 import { abs } from "../lib/seo";
 import { listPublished } from "../lib/talous";
+import { ARTICLES } from "../content/articles";
 
 /**
  * Generated from the route map, so a page added to lib/routes.ts is in the
@@ -21,12 +22,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "monthly" as const,
     priority: r.priority,
   }));
+  // Published guides (the noindex placeholder template never is one), dated by publication.
+  const articles = ARTICLES.filter((a) => !a.template).map((a) => ({
+    url: abs(`/articles/${a.slug}`),
+    lastModified: a.date,
+    changeFrequency: "yearly" as const,
+    priority: 0.6,
+  }));
   // Pages built in Talous CMS, dated by their last publish (which is when they really changed).
-  const cms = (await listPublished()).map((p) => ({
+  // Pages set to "hide from search engines" in the CMS stay out of it.
+  const cms = (await listPublished()).filter((p) => !p.noindex).map((p) => ({
     url: abs(`/${p.slug}`),
     lastModified: p.publishedAt ? p.publishedAt.slice(0, 10) : LASTMOD,
     changeFrequency: "monthly" as const,
     priority: 0.5,
   }));
-  return [...coded, ...cms];
+  return [...coded, ...articles, ...cms];
 }

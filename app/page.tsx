@@ -3,7 +3,7 @@ import DLife from "../components/DLife";
 import SiteShell from "../components/site/SiteShell";
 import JsonLd from "../components/site/JsonLd";
 import { ROUTES } from "../lib/routes";
-import { pageMeta, faqLd } from "../lib/seo";
+import { pageMeta, faqLd, withCmsSeo } from "../lib/seo";
 import { getPublished, homeFromPublished } from "../lib/talous";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -13,16 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
     // template, which would read "Real Support. Beyond the Policy. · D’Life".
     title: { absolute: seo.title || "D’Life · Real Support. Beyond the Policy." },
   });
-  if (!seo.title && !seo.description) return base;
-  // Text set in Talous CMS reaches the share previews too, not just the search snippet.
-  const title = seo.title || undefined;
-  const description = seo.description || undefined;
-  return {
-    ...base,
-    ...(description ? { description } : {}),
-    openGraph: { ...base.openGraph, ...(title ? { title } : {}), ...(description ? { description } : {}) },
-    twitter: { ...base.twitter, ...(title ? { title } : {}), ...(description ? { description } : {}) },
-  };
+  // Page settings set in Talous CMS reach search results and link previews alike.
+  return withCmsSeo(base, seo);
 }
 
 export default async function Page() {
