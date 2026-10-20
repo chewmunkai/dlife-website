@@ -4,6 +4,7 @@ import { HOME_FAQS } from "../home";
 import { ICON_NAMES } from "../../components/home/icons";
 import { ALL_ROUTES, ROUTES } from "../../lib/routes";
 import { KIT_BLOCKS, LANDING_STARTER } from "./kit-manifest";
+import { FILM_LIBRARY_BLOCK, FILM_MEDIA, FILMS_DOCUMENT } from "./films";
 import {
   LINK_OPTIONS,
   PATH_DEFAULTS,
@@ -31,8 +32,10 @@ import {
 const HIDDEN = { type: "toggle", label: "Hide this section on the site" } as const;
 
 export const MANIFEST = {
-  version: "dlife-2026-10-20.3",
+  version: "dlife-2026-10-20.4",
   blocks: {
+    // The site-wide film list (content/cms/films.ts): a library page, not a section of one.
+    FilmLibrary: FILM_LIBRARY_BLOCK,
     // The general-purpose kit for pages built in the CMS (docs/08 in talous-cms).
     ...KIT_BLOCKS,
     Hero: {
@@ -233,6 +236,8 @@ export const MANIFEST = {
     home: { fixed: ["Hero", "Path", "Trust", "Needs", "Policy", "Founder", "Stories", "Careers", "Dva", "Youth", "Faq", "Close"], anyOrder: true },
     // Pages staff and clients create in the CMS: sections at the top, the kit inside them.
     landing: { label: "Landing page", creatable: true, allowed: ["Section"], starter: LANDING_STARTER },
+    // Not a web page: the films every page that shows films reads from.
+    films: { label: "Film library", fixed: ["FilmLibrary"], library: true },
   },
   // The photographs a field may use. Alt text is the default description; editors can override it.
   media: [
@@ -258,6 +263,8 @@ export const MANIFEST = {
     { src: "/media/img/youth-session.jpg", alt: "Attendees seated at a D’Life Youth Community session" },
     { src: "/media/img/youth-resources.jpg", alt: "Hands raised during a workshop session" },
     { src: "/media/img/dva-forum.jpg", alt: "A DVA forum in session" },
+    // The thirteen films and their posters (content/videos.ts).
+    ...FILM_MEDIA,
     // 12 Oct 2026: the life-need cards and the Policy panel use the pages' own hero photographs.
     { src: "/media/img/solutions/protecting-family/family-meal.jpg", alt: "Three generations of a family sharing a meal at home" },
     { src: "/media/img/solutions/protecting-income/need-income-malaysia.jpg", alt: "An advisor going through the household’s figures with a couple" },
@@ -285,6 +292,7 @@ export type ManifestField =
   | { type: "select"; label?: string; required?: boolean; options: readonly string[] }
   | { type: "toggle"; label?: string }
   | { type: "image"; label?: string; required?: boolean }
+  | { type: "video"; label?: string; required?: boolean }
   | { type: "list"; label?: string; min?: number; max?: number; item: Record<string, ManifestField> };
 
 /* ---------- the homepage as it ships today, as a CMS document ---------- */
@@ -325,3 +333,6 @@ export const HOME_DOCUMENT: { root: { props: Record<string, never> }; content: {
     block("Close", CLOSE_DEFAULTS),
   ],
 };
+
+/** The film library as it ships, for the CMS to import on its first sync. */
+export { FILMS_DOCUMENT };

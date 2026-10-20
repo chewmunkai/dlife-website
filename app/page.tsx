@@ -4,7 +4,7 @@ import SiteShell from "../components/site/SiteShell";
 import JsonLd from "../components/site/JsonLd";
 import { ROUTES } from "../lib/routes";
 import { pageMeta, faqLd, withCmsSeo } from "../lib/seo";
-import { getPublished, homeFromPublished } from "../lib/talous";
+import { getFilms, getPublished, homeFromPublished } from "../lib/talous";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = homeFromPublished(await getPublished("home"));
@@ -19,7 +19,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   // Published content from Talous CMS, or the repo's own content when the CMS is not configured or unreachable.
-  const { blocks, faq } = homeFromPublished(await getPublished("home"));
+  const { blocks: sections, faq } = homeFromPublished(await getPublished("home"));
+  // The reel features the first three films of the CMS's film library.
+  const featured = (await getFilms()).slice(0, 3);
+  const blocks = sections.map((b) => (b.type === "Stories" ? { ...b, props: { ...b.props, films: featured } } : b));
   return (
     <SiteShell path={ROUTES.home.path} loader>
       <DLife blocks={blocks} />

@@ -67,7 +67,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function CmsPage({ params }: { params: { slug: string } }) {
   if (!SLUG.test(params.slug) || params.slug === NO_PAGES) notFound();
   const page = await getPublished(params.slug);
-  if (!page) notFound();
+  // Only pages built from the kit are web pages; library content (the film list…) isn't one.
+  if (!page || !page.content.content.every((b) => b.type in KIT)) notFound();
   return (
     <SiteShell path={`/${params.slug}`}>
       <Render config={config} data={page.content as never} />

@@ -7,7 +7,7 @@ import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
 import { ROUTABLE_ARTICLES } from "../../content/articles";
 import { ArticleGrid, ArticleLead } from "../../components/v2/articles";
-import { FEATURED_VIDEOS } from "../../content/videos";
+import { getFilms } from "../../lib/talous";
 import { pageMeta, breadcrumbLd } from "../../lib/seo";
 
 export const metadata: Metadata = pageMeta(ROUTES.resources);
@@ -79,7 +79,8 @@ const EVENTS = [
   },
 ];
 
-export default function Page() {
+export default async function Page() {
+  const featured = (await getFilms()).slice(0, 3);
   const route = ROUTES.resources;
   const events = waHref(WA.event);
 
@@ -161,7 +162,7 @@ export default function Page() {
         label="Watch"
         title="Advisors, in their own words"
         lede="Short films on what the work actually looks like. Each one plays on the Stories page, with sound."
-        items={FEATURED_VIDEOS.map((v) => ({
+        items={featured.map((v) => ({
           poster: v.poster,
           focus: v.focus,
           title: v.title,

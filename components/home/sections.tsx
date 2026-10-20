@@ -6,7 +6,7 @@ import { ROUTES } from "../../lib/routes";
 import Growth from "../v2/Growth";
 import { GROWTH } from "../../content/growth";
 import { WA } from "../../lib/contact";
-import { FEATURED_VIDEOS as VIDEOS } from "../../content/videos";
+import { FEATURED_VIDEOS, type Video } from "../../content/videos";
 import Faq, { type Qa } from "../blocks/Faq";
 import Hero, { type HeroProps } from "./Hero";
 import { Icon } from "./icons";
@@ -339,8 +339,10 @@ export function FounderSection(props: Partial<typeof FOUNDER_DEFAULTS>) {
   );
 }
 
-export function StoriesSection(props: Partial<typeof STORIES_DEFAULTS>) {
+export function StoriesSection(props: Partial<typeof STORIES_DEFAULTS> & { films?: Video[] }) {
   const p = { ...STORIES_DEFAULTS, ...props };
+  // The first three films of the CMS's film library (app/page.tsx), or the built-in three.
+  const VIDEOS = props.films ?? FEATURED_VIDEOS;
   /* ---------- featured videos (correction report, video activation) ----------
      One centre card is active and larger than the side previews. When the
      section first enters view the active card starts playing muted, because
@@ -456,6 +458,8 @@ export function StoriesSection(props: Partial<typeof STORIES_DEFAULTS>) {
   };
 
 
+  // Every film removed from the library: no reel rather than an empty one.
+  if (!VIDEOS.length) return null;
   return (
     <>
 

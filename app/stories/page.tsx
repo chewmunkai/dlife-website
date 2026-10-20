@@ -3,7 +3,7 @@ import Shell from "../../components/v2/Shell";
 import StoryReel from "../../components/v2/StoryReel";
 import JsonLd from "../../components/site/JsonLd";
 import { Hero, Band, ClosingCard } from "../../components/v2/blocks";
-import { VIDEOS } from "../../content/videos";
+import { getFilms } from "../../lib/talous";
 import { ROUTES } from "../../lib/routes";
 import { link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
@@ -30,7 +30,8 @@ export const metadata: Metadata = pageMeta(ROUTES.stories);
    ============================================================ */
 
 
-export default function Page() {
+export default async function Page() {
+  const films = await getFilms();
   const route = ROUTES.stories;
 
   return (
@@ -56,7 +57,7 @@ export default function Page() {
           neighbours either side, and previous / play-pause / next under it
           with the sound control in the film's own corner. It renders whatever
           content/videos.ts holds, so 5 films or 12 need no change here. */}
-      <StoryReel items={VIDEOS} />
+      <StoryReel items={films} />
 
       {/* ⚠️ THE OPENING SECTION FOLLOWS THE SAME PATTERN ON ALL FIVE PAGES.
           Round 19, client: "every page's beginning section is changed to be

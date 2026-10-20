@@ -1,6 +1,8 @@
 import { unstable_noStore as noStore } from "next/cache";
 import type { Qa } from "../components/blocks/Faq";
 import { HERO_DEFAULTS, FAQ_DEFAULTS, HOME_DOCUMENT } from "../content/cms/manifest";
+import { filmsFromContent } from "../content/cms/films";
+import { VIDEOS, type Video } from "../content/videos";
 
 /*
  * Reads published content from Talous CMS. The site never depends on the CMS
@@ -94,4 +96,13 @@ export async function listPublished(): Promise<{ slug: string; title: string; pu
     if (REQUIRED) throw new Error(`Talous CMS didn't list its pages: ${(e as Error).message}`);
     return [];
   }
+}
+
+/**
+ * The film library from the CMS (content/cms/films.ts), in its order: all of it for the Stories
+ * page, the first three wherever films are featured. The built-in list when the CMS doesn't have
+ * one yet or can't be reached (and the build doesn't require it).
+ */
+export async function getFilms(): Promise<Video[]> {
+  return filmsFromContent((await getPublished("films"))?.content) ?? VIDEOS;
 }

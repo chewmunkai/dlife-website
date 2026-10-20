@@ -23,6 +23,7 @@ import type { HeroProps } from "../../components/home/Hero";
 import type { Qa } from "../../components/blocks/Faq";
 import type { ManifestBlock, ManifestField, ManifestTemplate } from "../../content/cms/manifest";
 import { MediaPicker, UploadContext, posterOf, type MediaItem, type Uploader } from "./MediaPicker";
+import { FilmLibraryPreview, LibrariesContext, useLibraryFilms } from "./FilmLibraryPreview";
 
 /*
  * The visual editor Talous CMS frames. It renders this site's real components,
@@ -46,7 +47,18 @@ type Manifest = {
   // The site's own photos plus anything uploaded in Talous CMS (with a thumbnail).
   media: MediaItem[];
 };
-type Loaded = { page: { id: string; title: string; template: string | null }; draft: { id: string; n: number; content: Data } | null; manifest: Manifest | null };
+type Loaded = {
+  page: { id: string; title: string; template: string | null };
+  draft: { id: string; n: number; content: Data } | null;
+  manifest: Manifest | null;
+  libraries?: Record<string, unknown>;
+};
+
+function StoriesWithLibrary(p: Record<string, unknown>) {
+  const films = useLibraryFilms();
+  const Stories = HOME_SECTIONS.Stories as unknown as ComponentType<Record<string, unknown>>;
+  return <Stories {...p} films={films ? films.slice(0, 3) : undefined} />;
+}
 type Status = { tone: "info" | "ok" | "err"; text: string; errors?: string[] } | null;
 
 /* How each block type renders. A block in the manifest without a renderer here shows a placeholder. */
@@ -54,6 +66,9 @@ const RENDERERS: Record<string, ComponentType<Record<string, unknown>>> = {
   ...(KIT as unknown as Record<string, ComponentType<Record<string, unknown>>>),
   ...(HOME_SECTIONS as unknown as Record<string, ComponentType<Record<string, unknown>>>),
   Hero: (p) => <HOME_SECTIONS.Hero {...(p as unknown as HeroProps)} />,
+  FilmLibrary: (p) => <FilmLibraryPreview films={p.films as never} />,
+  // The reel previews the film library as it is now, not the built-in three.
+  Stories: (p) => <StoriesWithLibrary {...p} />,
   // Half-typed new questions are skipped in the preview rather than rendered empty.
   Faq: (p) => <HOME_SECTIONS.Faq items={((p.items as Qa[] | undefined) ?? []).filter((i) => i && (i.q || i.a))} label={String(p.label ?? "")} />,
 };
@@ -74,6 +89,14 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
           <MediaPicker value={value} onChange={onChange} media={media} label={label} />
         ),
       } as Field;
+    case "video":
+      return {
+        type: "custom",
+        label,
+        render: ({ value, onChange }: { value: string | undefined; onChange: (v: string) => void }) => (
+          <MediaPicker value={value} onChange={onChange} media={media} label={label} kind="video" />
+        ),
+      } as Field;
     case "select":
       return { type: "select", label, options: f.options.map((o) => ({ label: o[0].toUpperCase() + o.slice(1), value: o })) };
     case "toggle":
@@ -86,9 +109,12 @@ function toPuckField(f: ManifestField, key: string, media: Manifest["media"]): F
         label,
         arrayFields: Object.fromEntries(Object.entries(f.item).map(([k, sub]) => [k, toPuckField(sub, k, media)])),
         defaultItemProps: Object.fromEntries(Object.keys(f.item).map((k) => [k, ""])),
-        // Each item is named by its first piece of text (a title, question…), never its internal id.
-        getItemSummary: (item: Record<string, unknown>, i?: number) =>
-          String(Object.entries(item).find(([k, v]) => k !== "id" && typeof v === "string" && v && !v.startsWith("/"))?.[1] ?? `Item ${(i ?? 0) + 1}`).slice(0, 60),
+        // Each item is named by its first text field in the manifest's order (a title, a question…),
+        // never by its id: stored items come back with their keys in another order.
+        getItemSummary: (item: Record<string, unknown>, i?: number) => {
+          const key = Object.entries(f.item).find(([k, sub]) => (sub.type === "text" || sub.type === "textarea") && typeof item[k] === "string" && item[k])?.[0];
+          return String(key ? item[key] : `Item ${(i ?? 0) + 1}`).slice(0, 60);
+        },
       } as Field;
   }
 }
@@ -387,6 +413,7 @@ export default function Studio() {
         </div>
       )}
       <StatusBar status={status} />
+      <LibrariesContext.Provider value={loaded.libraries ?? {}}>
       <UploadContext.Provider value={uploader}>
       <Puck
         key={mount}
@@ -400,6 +427,7 @@ export default function Studio() {
         overrides={overrides}
       />
       </UploadContext.Provider>
+      </LibrariesContext.Provider>
     </div>
   );
 }

@@ -8,7 +8,7 @@ import type { IconKey } from "../../components/v2/icons";
 import { ROUTES } from "../../lib/routes";
 import { asset, link } from "../../lib/asset";
 import { WA, waHref } from "../../lib/contact";
-import { FEATURED_VIDEOS } from "../../content/videos";
+import { getFilms } from "../../lib/talous";
 import { GROWTH } from "../../content/growth";
 import { pageMeta, breadcrumbLd, faqLd } from "../../lib/seo";
 
@@ -135,7 +135,8 @@ const FAQS = [
   },
 ];
 
-export default function Page() {
+export default async function Page() {
+  const featured = (await getFilms()).slice(0, 3);
   const route = ROUTES.careers;
   const career = waHref(WA.career);
 
@@ -257,7 +258,7 @@ export default function Page() {
         label="Advisor stories"
         title="Hear it from our Team"
         lede="Three of them talking about the work: what an ordinary week contains, and what made them stay."
-        items={FEATURED_VIDEOS.map((v) => ({
+        items={featured.map((v) => ({
           poster: v.poster,
           focus: v.focus,
           title: v.title,
