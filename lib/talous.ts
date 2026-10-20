@@ -129,7 +129,8 @@ export async function listPublished(): Promise<{ slug: string; title: string; pu
     if (!res.ok) throw new Error(`CMS answered ${res.status}`);
     const rows = (await res.json()) as { slug: string; title: string; publishedAt: string | null; noindex?: boolean }[];
     // The site's own pages are in the CMS too now; only pages built in the CMS are listed here.
-    return rows.filter((r) => r.slug !== "home" && !SITE_PAGE_SLUGS.has(r.slug));
+    // Nested slugs (articles/…) have their own routes.
+    return rows.filter((r) => r.slug !== "home" && !SITE_PAGE_SLUGS.has(r.slug) && !r.slug.includes("/"));
   } catch (e) {
     if (REQUIRED) throw new Error(`Talous CMS didn't list its pages: ${(e as Error).message}`);
     return [];

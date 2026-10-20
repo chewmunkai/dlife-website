@@ -23,6 +23,7 @@ import {
 } from "./sections";
 import { PageMoments, PageSaid, PageStepsPanel } from "./solution";
 import { LegalBody } from "./legal";
+import { ArticleMain, ArticleMore } from "./article";
 
 /** Every inner-page section Talous CMS can place, by block type (content/cms/pages/index.ts). */
 export const PAGE_SECTIONS = {
@@ -61,4 +62,6 @@ export const PAGE_SECTIONS = {
   PageStepsPanel,
   PageSaid,
   LegalBody,
+  ArticleMain,
+  ArticleMore,
 } as unknown as Record<string, ComponentType<Record<string, unknown>>>;

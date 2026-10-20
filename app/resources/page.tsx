@@ -5,6 +5,7 @@ import { Sections } from "../../components/cms/Sections";
 import { PAGE_SECTIONS } from "../../components/pages";
 import { RESOURCES_PAGE } from "../../content/cms/pages/resources";
 import { getFilms, getPublished, sectionsFromPublished } from "../../lib/talous";
+import { getArticles } from "../../lib/articles";
 import { ROUTES } from "../../lib/routes";
 import { pageMeta, breadcrumbLd, withCmsSeo } from "../../lib/seo";
 
@@ -35,10 +36,10 @@ export default async function Page() {
   // Sections and copy from Talous CMS; content/cms/pages/resources.ts holds today's as defaults
   // (the events moved there from this file). The films preview shows the Film library's first three.
   const blocks = sectionsFromPublished(await getPublished("resources"), RESOURCES_PAGE.content);
-  const films = await getFilms();
+  const [films, articles] = await Promise.all([getFilms(), getArticles()]);
   return (
     <Shell>
-      <Sections blocks={blocks} registry={PAGE_SECTIONS} context={{ route, films }} />
+      <Sections blocks={blocks} registry={PAGE_SECTIONS} context={{ route, films, articles }} />
       <JsonLd data={breadcrumbLd(route)} />
     </Shell>
   );

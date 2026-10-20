@@ -1,6 +1,6 @@
 import { Band, Events } from "../v2/blocks";
 import { ArticleGrid, ArticleLead } from "../v2/articles";
-import { ROUTABLE_ARTICLES } from "../../content/articles";
+import { ROUTABLE_ARTICLES, type Article } from "../../content/articles";
 import { Rich } from "../home/rich";
 import { Markdown } from "../kit/md";
 import { hrefOf } from "./common";
@@ -8,13 +8,15 @@ import { hrefOf } from "./common";
 /* /resources sections (content/cms/pages/resources.ts). */
 
 /** The article listing: driven by content/articles.ts, newest set wide, older ones in a grid. */
-export function ResourcesArticles({ label, title }: { label?: string; title?: string }) {
-  if (ROUTABLE_ARTICLES.length === 0) return null;
+export function ResourcesArticles({ label, title, articles }: { label?: string; title?: string; articles?: Article[] }) {
+  // The page passes the articles as published in the CMS; the editor shows the file's.
+  const list = articles ?? ROUTABLE_ARTICLES;
+  if (list.length === 0) return null;
   return (
     <Band label={label || undefined} title={title ? <Rich text={title} /> : undefined}>
       <div className="arts">
-        <ArticleLead a={ROUTABLE_ARTICLES[0]} />
-        {ROUTABLE_ARTICLES.length > 1 && <ArticleGrid items={ROUTABLE_ARTICLES.slice(1)} />}
+        <ArticleLead a={list[0]} />
+        {list.length > 1 && <ArticleGrid items={list.slice(1)} />}
       </div>
     </Band>
   );
