@@ -31,7 +31,7 @@ import {
 const HIDDEN = { type: "toggle", label: "Hide this section on the site" } as const;
 
 export const MANIFEST = {
-  version: "dlife-2026-10-20.1",
+  version: "dlife-2026-10-20.2",
   blocks: {
     // The general-purpose kit for pages built in the CMS (docs/08 in talous-cms).
     ...KIT_BLOCKS,
@@ -237,7 +237,6 @@ export const MANIFEST = {
   // The photographs a field may use. Alt text is the default description; editors can override it.
   media: [
     { src: "/media/img/hero-team-ivory.jpg", alt: "The D’Life team together" },
-    { src: "/media/img/hero-team.jpg", alt: "The D’Life team together (2025 photo)" },
     { src: "/media/img/dva-award-night-v2.jpg", alt: "D’Life advisors together at the DVA award night" },
     { src: "/media/img/youth-resources-v2.jpg", alt: "A presenter leading a workshop, participants seated around tables" },
     { src: "/media/img/dva-team.jpg", alt: "The D’Life advisory team" },
@@ -252,7 +251,6 @@ export const MANIFEST = {
     { src: "/media/img/need-planning.jpg", alt: "Planning at a laptop at the kitchen table" },
     { src: "/media/img/policy-homepage-review.jpg", alt: "A couple going through a policy they have owned for years with an advisor" },
     { src: "/media/img/close-conversation.jpg", alt: "An advisor mid-conversation across a café table" },
-    { src: "/media/img/contact-conversation.jpg", alt: "An advisor in conversation with a client" },
     { src: "/media/img/path-career.jpg", alt: "Looking out over the trees, weighing what’s next" },
     { src: "/media/img/need-legacy-card.jpg", alt: "A family looking through old photographs and documents together" },
     { src: "/media/img/founder-sharon.jpg", alt: "Sharon Cheang, founder of D’Life" },

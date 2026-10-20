@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "dev:mock": "NEXT_PUBLIC_FORM_ENDPOINT=http://localhost:4555/submit next dev -p 3100"
+    "dev:mock": "NEXT_PUBLIC_FORM_ENDPOINT=http://localhost:4555/submit next dev -p 3100",
+    "prebuild": "node scripts/check-media.mjs"
   },
   "dependencies": {
     "@puckeditor/core": "^0.23.0",

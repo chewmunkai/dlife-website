@@ -261,8 +261,26 @@ export default function Studio() {
         headerTitle={loaded.page.title}
         // Fixed pages: sections can't be added, removed or duplicated; any-order pages can be dragged.
         permissions={tpl?.fixed ? { drag: !!tpl.anyOrder, duplicate: false, delete: false, insert: false } : undefined}
-        overrides={{ headerActions: () => <SaveButton onSave={save} saving={saving} dirty={dirty} /> }}
+        overrides={{
+          headerActions: () => <SaveButton onSave={save} saving={saving} dirty={dirty} />,
+          // A fixed page (the homepage) takes no new blocks, so the drawer says what it can do instead
+          // of offering blocks that won't drop.
+          ...(tpl?.fixed ? { drawer: () => <FixedPageNote anyOrder={!!tpl.anyOrder} /> } : {}),
+        }}
       />
+    </div>
+  );
+}
+
+function FixedPageNote({ anyOrder }: { anyOrder: boolean }) {
+  return (
+    <div className="studio-note">
+      <p>
+        <b>This page keeps its approved sections.</b>
+      </p>
+      <p>Click any section on the page to change its words and photos in the panel on the right.</p>
+      {anyOrder && <p>To move a section up or down, drag it in <b>Outline</b> (the layers icon on the left) or by its handle on the page. To take one off the page without losing it, select it and switch on “Hide this section on the site”.</p>}
+      <p>To build with new blocks (headings, text, photos, buttons…), create a page with <b>New page</b> in the CMS.</p>
     </div>
   );
 }
